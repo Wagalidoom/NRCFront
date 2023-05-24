@@ -1,5 +1,7 @@
 import Button from "../../../../common/button";
 import {BannerV1Wrapper} from "./Banner.style";
+import { ethers } from 'ethers';
+
 import { FaWallet } from "react-icons/fa";
 
 import banner from "../../../../assets/images/banner.gif";
