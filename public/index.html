@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <meta name="description" content="Deflationary collection of 10.000 PFP NFTs for #ENSDomains" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+  <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+  <title>Number Runner Club</title>
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root" ></div>
+  <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+</body>
+<script>
+  $(document).scroll(function () {
+    const banner = document.getElementById('banner');
+    const bannerHeight = banner.offsetHeight;
+    if ((navigator.userAgent.match(/iPhone/i)
+      || navigator.userAgent.match(/webOS/i)
+      || navigator.userAgent.match(/Android/i)
+      || navigator.userAgent.match(/iPad/i)
+      || navigator.userAgent.match(/iPod/i)
+      || navigator.userAgent.match(/BlackBerry/i)
+      || navigator.userAgent.match(/Windows Phone/i)) && window.innerWidth <= 600 ) {
+        const scrollPosition = window.pageYOffset;
+        const visibleBannerHeight = bannerHeight - scrollPosition;
+         /**
+        * Banner Mobile
+        */
+        if (visibleBannerHeight <= 60) {
+          banner.style.visibility = 'hidden';
+          document.getElementById('bannerMobile').style.visibility = 'visible'
+        } else {
+          banner.style.visibility ="visible"
+          document.getElementById('bannerMobile').style.visibility = 'hidden'
+        }
+        /**
+        * Logo
+        */
+        if (window.pageYOffset >= 40 && window.pageYOffset <= 120 && document.getElementById('logoImg')) {
+          const width = 80 - (window.pageYOffset - 50)
+            if(width >= 60   && width <= 80){
+              document.getElementById('logoImg').style.width = width + "px";
+            }
+          }
+          else if (window.pageYOffset < 60 && document.getElementById('logoImg')) {
+          document.getElementById('logoImg').style.width = "80px";
+        }
+          /**
+        * Text and filter
+        */
+        if (document.getElementById('bannerName') && document.getElementById('name') && document.getElementById('name').getBoundingClientRect().bottom < 60) {
+          document.getElementById('bannerName').style.visibility = 'visible';
+        } else if (document.getElementById('bannerName')) {
+          document.getElementById('bannerName').style.visibility = 'hidden';
+          document.getElementById('bannerMobile').childNodes[0].style.filter = 'none';
+        }
+        /**
+           * Menu
+           */
+        if (document.getElementById('scroll-nav') && document.getElementById('scroll-nav').getBoundingClientRect().top <= 56 && document.getElementById('scroll-nav').style.position !== 'fixed') {
+          document.getElementById('scroll-nav').style.position = "fixed";
+          document.getElementById('scroll-nav').style.zIndex = "3";
+          document.getElementById('scroll-nav').style.top = "55px";
+        }
+        else if (document.getElementById('navbar') && document.getElementById('navbar').getBoundingClientRect().top >= 56) {
+          document.getElementById('scroll-nav').style.position = "relative";
+          document.getElementById('scroll-nav').style.top = "0px";
+        }
+    }
+      else{
+        if (document.getElementById('scroll-nav') && document.getElementById('scroll-nav').getBoundingClientRect().top <= 0 && document.getElementById('scroll-nav').style.position !== 'fixed') {
+          document.getElementById('scroll-nav').style.position = "fixed";
+          document.getElementById('scroll-nav').style.zIndex = "3";
+          document.getElementById('scroll-nav').style.top = "0px";
+        }
+        else if (document.getElementById('navbar') && document.getElementById('navbar').getBoundingClientRect().bottom >= 60) {
+          document.getElementById('scroll-nav').style.position = "relative";
+          document.getElementById('scroll-nav').style.top = "0px";
+        }
+      }
+  });
+</script>
+</html>
