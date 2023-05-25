@@ -1469,7 +1469,7 @@ const HomeV1 = () => {
                                 </div>
                                 {(listLang === 'EN' || listLang === true || (listLang === 'open' && listLangLast === true) || (listLang === 'open' && listLangLast === 'EN')) &&<div className="description">
                                     <strong>The Smart-Contracts, in detail...</strong><br/><br/>
-                                    Transparency and reliability... These are the key words of the project. To convince yourself of this, you can now consult the smart contract developed for the needs of the Number Runner Club. <br />
+                                    Transparency and reliability... These are the key words of the project. To convince yourself of this, you can now consult the smart contract developed for the needs of the Number Runner Club.<br />
                                     Here you will find all the information about the operation and the internal mechanics of the concept.
                                 </div>}
                                 {(listLang === 'FR' || (listLang === 'open' && listLangLast === 'FR')) &&<div className="description">
