@@ -75,6 +75,8 @@ import ethDark from '../assets/images/ethDark.png';
 import cavalier from "../assets/images/icon/IconCavalier-Blanc.png";
 import iconLink  from "../assets/images/icon/link.png";
 import emojiDoigt from "../assets/images/icon/emojiDoigt.png";
+import { ethers } from 'ethers';
+
 const HomeV1 = () => {
     const [link, changePageLink] = React.useState(true);
     const [linkMarket, changePageLinkMarket] = React.useState(true);
@@ -157,6 +159,24 @@ const HomeV1 = () => {
             changeMobile(v2);
         }
     };
+
+    const loadProvider = async () => {
+        if (!window.ethereum) {
+          window.alert("Please install MetaMask!");
+          return;
+        }
+        let provider;
+        try {
+          provider = new ethers.providers.Web3Provider(window.ethereum);
+          await provider.send("eth_requestAccounts", []);
+        } catch (error) {
+          window.alert("Failed to connect wallet");
+          console.error(error);
+          return;
+        }
+        console.log("Ethereum successfully connected!");
+      }
+
     const openMore = (value,position) =>{ 
         setPosScroll(position)
         setMore(value)
@@ -271,7 +291,7 @@ const HomeV1 = () => {
                                 {currentTheme.theme.name === 'Dark Theme' ? 'Light Theme' :'Dark Theme' }
                             </button>
                         </div>
-                        <button style={currentTheme.theme.name === "Light Theme" ?{color:'white',backgroundColor:'black'} :null} className="bigButton">{link === "profile" ? "Connect" :"Mint"}</button>
+                        <button style={currentTheme.theme.name === "Light Theme" ?{color:'white',backgroundColor:'black'} :null} className="bigButton" onClick={loadProvider}>{link === "profile" ? "Connect" :"Mint"}</button>
                     </div>
                     <div className="description">
                         <div id="name" className="name">
