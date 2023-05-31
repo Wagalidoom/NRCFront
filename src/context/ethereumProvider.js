@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { ethers } from 'ethers';
-import { TESTCONTRACT_ABI } from '../ressources/abi';
+import { NUMBERRUNNERCLUB_ABI } from '../ressources/abi';
 
 // Contexte Ethereum
 const EthereumContext = createContext(null);
@@ -23,8 +23,8 @@ export function EthereumProvider({ children }) {
       console.log(window.ethereum);
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contractAddress = "0xB905640E3a9181751284a2De50C13A04D108DfF7";
-      const contract = new ethers.Contract(contractAddress, TESTCONTRACT_ABI, provider);
+      const contractAddress = "0x4653ab7bccFd9a45a3DA784136Ba3651712e6f48";
+      const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
       
 
       setEthereumState({ provider, contract });

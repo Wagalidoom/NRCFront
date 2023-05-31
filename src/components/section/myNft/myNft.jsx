@@ -65,12 +65,19 @@ export const MyNft = (props) => {
       setIsOpen(false);
     }
   }, [modalOpen]);
+
   useEffect(() => {
-    if (ethereumState.provider && ethereumState.contract) {
-        setCollection([1, 2, 3, 4, 5]);
-        // const address = ethereumState.provider.getSigner().getAddress();
-        // ethereumState.contract.getNftCollection(address).then(setCollection);
-    }
+    if (!ethereumState.provider || !ethereumState.contract) return;
+
+    const fetchData = async () => {
+      const address = await ethereumState.provider.getSigner().getAddress();
+      console.log(address);
+      const userNFTs = await ethereumState.contract.getUserOwnedNFTs(address);
+      setCollection(userNFTs);
+      console.log(userNFTs);
+    };
+
+    fetchData();
   }, [ethereumState]);
   return (
     <MyNftContainer filter={activeButton.filter} market={props.market} sweep={activeButton.sweep} openSelect={open}>
