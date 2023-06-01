@@ -23,9 +23,11 @@ export function EthereumProvider({ children }) {
       console.log(window.ethereum);
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
       const contractAddress = "0x4653ab7bccFd9a45a3DA784136Ba3651712e6f48";
-      const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
-      
+      // const contractProvider = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
+      const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
+
 
       setEthereumState({ provider, contract });
     } catch (error) {
@@ -34,9 +36,18 @@ export function EthereumProvider({ children }) {
     }
   };
 
+  const mintPawn = async () => {
+    if (!ethereumState.provider || !ethereumState.contract) return;
+    console.log("Mint Pawn");
+    const color = await ethereumState.contract.chooseColor(1); // choose black color
+    const mint = await ethereumState.contract.mint(5, {value: ethers.utils.parseEther("0.2")}); // mint a Pawn
+    console.log(color, mint);
+  }
+
   const value = {
     ethereumState,
     connectWallet,
+    mintPawn,
   };
 
   return (

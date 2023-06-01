@@ -76,6 +76,8 @@ import cavalier from "../assets/images/icon/IconCavalier-Blanc.png";
 import iconLink from "../assets/images/icon/link.png";
 import emojiDoigt from "../assets/images/icon/emojiDoigt.png";
 import { useEthereum } from "../context/ethereumProvider";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import NightsStayIcon from "@mui/icons-material/NightsStay";
 
 const HomeV1 = () => {
   const [link, changePageLink] = React.useState(true);
@@ -128,6 +130,7 @@ const HomeV1 = () => {
     }
     faqLink(faq);
   };
+
   const changeTheme = () => {
     if (currentTheme.theme.name === "Light Theme") {
       localStorage.setItem("theme", "Dark Theme");
@@ -154,6 +157,7 @@ const HomeV1 = () => {
   };
 
   const { connectWallet } = useEthereum();
+  const { mintPawn } = useEthereum();
 
   const openMore = (value, position) => {
     setPosScroll(position);
@@ -286,11 +290,16 @@ const HomeV1 = () => {
 
               <div style={{ position: "relative" }}>
                 <button className="smallButton langButton" id="themeButton" onClick={() => changeTheme()}>
-                  {currentTheme.theme.name === "Dark Theme" ? "Light Theme" : "Dark Theme"}
+                  {currentTheme.theme.name === "Dark Theme" ? <WbSunnyIcon /> : <NightsStayIcon />}
                 </button>
               </div>
+              
+                <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black", marginRight: "12px"} : { marginRight: "12px" }} className="bigButton" onClick={mintPawn}>
+                  Mint
+                </button>
+              
               <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black" } : null} className="bigButton" onClick={connectWallet}>
-                {link === "profile" ? "Connect" : "Mint"}
+                Connect
               </button>
             </div>
             <div className="description">
