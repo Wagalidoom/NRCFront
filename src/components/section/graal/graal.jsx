@@ -35,14 +35,6 @@ export const Graal = (props) => {
                     {props.data.mint[1]}
                     </div>
                 </div>
-                <div className="graal-condition">
-                    <div>
-                        <img alt="" src={novalidate} />
-                    </div>
-                    <div >
-                    {props.data.mint[2]}
-                    </div>
-                </div>
             </div>
         </GraalContainer>
     )

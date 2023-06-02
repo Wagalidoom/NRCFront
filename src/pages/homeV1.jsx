@@ -78,6 +78,7 @@ import emojiDoigt from "../assets/images/icon/emojiDoigt.png";
 import { useEthereum } from "../context/ethereumProvider";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
+import { ColorPicker } from "../components/section/colorPicker/ColorPicker";
 
 const HomeV1 = () => {
   const [link, changePageLink] = React.useState(true);
@@ -157,7 +158,7 @@ const HomeV1 = () => {
   };
 
   const { connectWallet } = useEthereum();
-  const { mintPawn } = useEthereum();
+  const { mintPawn, isColorPickerOpen } = useEthereum();
 
   const openMore = (value, position) => {
     setPosScroll(position);
@@ -293,11 +294,11 @@ const HomeV1 = () => {
                   {currentTheme.theme.name === "Dark Theme" ? <WbSunnyIcon /> : <NightsStayIcon />}
                 </button>
               </div>
-              
-                <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black", marginRight: "12px"} : { marginRight: "12px" }} className="bigButton" onClick={mintPawn}>
-                  Mint
-                </button>
-              
+
+              <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black", marginRight: "12px" } : { marginRight: "12px" }} className="bigButton" onClick={mintPawn}>
+                Mint
+              </button>
+              {isColorPickerOpen ? <ColorPicker /> : <div>test</div>}
               <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black" } : null} className="bigButton" onClick={connectWallet}>
                 Connect
               </button>
@@ -2430,13 +2431,13 @@ const HomeV1 = () => {
             {linkProfile === "graal" && (
               <div style={{ marginTop: "30px" }}>
                 <hr style={{ position: "relative", marginBottom: "20px", width: "calc(100% + 32px)", left: "-16px" }} className="separator" />
-                <Graal img={bishop} data={{ supply: 200, name: "The Bishop", mint: ["Have already Stacked an NFT of the collection with an address of 999Club, 10kClub or 100kClub", "Burn 10 counters that you mint or buy on the secondary market.", "Have another address of 999Club, 10kClub or 100kClub palindrome to stack the bishop that the holder will receive."] }} />
+                <Graal img={bishop} data={{ supply: 200, name: "The Bishop", mint: ["Have already Stacked an NFT of the collection with an address of 999Club, 10kClub or 100kClub", "Burn 10 counters that you mint or buy on the secondary market."] }} />
                 <hr className="separator" />
-                <Graal img={knight} data={{ supply: 100, name: "The Knight", mint: ["Have already Stacked an NFT of the collection with an address of 999Club, 10kClub", "Burn 10 counters of the opponent's color bought on the secondary market", "Have another address of 999Club, 10kClub to stack the knight that the holder will receive."] }} />
+                <Graal img={knight} data={{ supply: 100, name: "The Knight", mint: ["Have already Stacked an NFT of the collection with an address of 999Club, 10kClub", "Burn 10 counters of the opponent's color bought on the secondary market"] }} />
                 <hr className="separator" />
-                <Graal img={rook} data={{ supply: 50, name: "The Rook", mint: ["Have already Stacked an NFT of the collection with an address of 999Club, 10kClub", "Burn 15 counters of the opponent's color bought on the secondary market", "Have another address of 999Club, 10kClub palindrome to stack the rook that the holder will receive."] }} />
+                <Graal img={rook} data={{ supply: 50, name: "The Rook", mint: ["Have already Stacked an NFT of the collection with an address of 999Club, 10kClub", "Burn 15 counters of the opponent's color bought on the secondary market"] }} />
                 <hr className="separator" />
-                <Graal img={queen} data={{ supply: 10, name: "The Queen", mint: ["Have already Stacked an NFT from the collection with a 999Club address", "Burn 15 counters of the opponent's color bought on the secondary market", "Have another 999Club address to stack the queen you are going to receive."] }} />
+                <Graal img={queen} data={{ supply: 10, name: "The Queen", mint: ["Have already Stacked an NFT from the collection with a 999Club address", "Burn 15 counters of the opponent's color bought on the secondary market"] }} />
               </div>
             )}
             {linkProfile === "my_nft" && (

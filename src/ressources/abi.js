@@ -266,9 +266,9 @@ export const NUMBERRUNNERCLUB_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint8",
 				"name": "_color",
-				"type": "uint256"
+				"type": "uint8"
 			}
 		],
 		"name": "chooseColor",
@@ -458,6 +458,25 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "getUserColor",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -968,9 +987,9 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"name": "userColor",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint8",
 				"name": "",
-				"type": "uint256"
+				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",

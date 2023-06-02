@@ -7,6 +7,16 @@ const EthereumContext = createContext(null);
 
 // Fournisseur Ethereum
 export function EthereumProvider({ children }) {
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+
+  const chooseColor = async (color) => {
+    if (!ethereumState.contract) return;
+    await ethereumState.contract.chooseColor(color);
+    setIsColorPickerOpen(false);
+    const mint = await ethereumState.contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
+    console.log(mint);
+  };
+
   const [ethereumState, setEthereumState] = useState({
     provider: null,
     contract: null,
@@ -20,16 +30,15 @@ export function EthereumProvider({ children }) {
     }
 
     try {
-      console.log(window.ethereum);
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contractAddress = "0x4653ab7bccFd9a45a3DA784136Ba3651712e6f48";
       // const contractProvider = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
       const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
-
-
       setEthereumState({ provider, contract });
+      console.log(window.ethereum);
+      console.log("Wallet Connected !");
     } catch (error) {
       window.alert("Failed to connect wallet");
       console.error(error);
@@ -39,15 +48,24 @@ export function EthereumProvider({ children }) {
   const mintPawn = async () => {
     if (!ethereumState.provider || !ethereumState.contract) return;
     console.log("Mint Pawn");
-    const color = await ethereumState.contract.chooseColor(1); // choose black color
-    const mint = await ethereumState.contract.mint(5, {value: ethers.utils.parseEther("0.2")}); // mint a Pawn
-    console.log(color, mint);
+    const address = await ethereumState.provider.getSigner().getAddress();
+    const hasColorChosen = await ethereumState.contract.getUserColor(address);
+    if (hasColorChosen === 0) {
+      setIsColorPickerOpen(true);
+      console.log("display choose color component");
+      // await ethereumState.contract.chooseColor(color); // choose color
+    }
+    else {
+      const mint = await ethereumState.contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
+      console.log(mint);
+    }
   }
 
   const value = {
     ethereumState,
     connectWallet,
     mintPawn,
+    isColorPickerOpen,
   };
 
   return (
