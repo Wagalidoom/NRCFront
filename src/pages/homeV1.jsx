@@ -298,7 +298,7 @@ const HomeV1 = () => {
               <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black", marginRight: "12px" } : { marginRight: "12px" }} className="bigButton" onClick={mintPawn}>
                 Mint
               </button>
-              {isColorPickerOpen ? <ColorPicker /> : <div>test</div>}
+              {isColorPickerOpen ? <ColorPicker /> : null}
               <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black" } : null} className="bigButton" onClick={connectWallet}>
                 Connect
               </button>
