@@ -78,6 +78,7 @@ import emojiDoigt from "../assets/images/icon/emojiDoigt.png";
 import { useEthereum } from "../context/ethereumProvider";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
+import { ConnectWallet } from "@thirdweb-dev/react";
 import { ColorPicker } from "../components/section/colorPicker/ColorPicker";
 
 const HomeV1 = () => {
@@ -813,8 +814,8 @@ const HomeV1 = () => {
                             Los futuros poseedores tendrán que cumplir determinadas condiciones o realizar determinadas acciones para tener derecho a los distintos niveles de escasez de las NFT de la colección.
                             <br />
                             <br />
-                            Cada NFT de Number Runner Club V1 puede delegar su nombre de dominio de Ethereum Name Service (ENS) del 999Club, 10kClub o 100kClub y recibir recompensas que se redistribuirán en Ethereum (ETH). // à modifier
-                          </div>
+                            Cada Number Runner Club V1 NFT le permite conservar su nombre de dominio 999Club, 10kClub o 100kClub Ethereum Name Service (ENS) y recibir recompensas redistribuidas en Ethereum (ETH).
+                            </div>
                         )}
                       </div>
                     </div>
@@ -849,7 +850,7 @@ const HomeV1 = () => {
                         )}
                         {(listLang === "ES" || (listLang === "open" && listLangLast === "ES")) && (
                           <div className="description">
-                            Estas recompensas permanecen bloqueadas en el contrato inteligente del Number Runner Club V1 y solo se pueden recuperar en 3 casos específicos :<br /> // à modifier - Vender su NFT
+                            Cada NFT de la colección acumula en smart-contract del Number Runner Club V1 que sólo se puede recuperar en 3 casos concretos :<br />- Vender su NFT
                             <br />
                             - Quemar su NFT
                             <br />- O esperar a que la colección alcance los 999 NFTs restantes en circulación
@@ -906,13 +907,16 @@ const HomeV1 = () => {
                             Cada poseedor tendrá tres opciones :<br />
                             - Mantener sus recompensas en Ethereum (ETH)
                             <br />
+                            - Renovar un nombre de dominio numérico una vez al año, durante un máximo de 1 año. 
+                            <br />
                             - Comprar uno o más NFT de la colección si la cantidad de sus premios lo permite
                             <br />- Comprar uno o más nombres de dominio en números si la cantidad de sus recompensas lo permite <sup>1</sup>
                             <br />
                             <br />
-                            <sup>1</sup> <i>Estas cifras permanecen en el bote del tenedor. Dicho poseedor puede recuperar su(s) número(s) si vende, quema o cuando se alcanza el tope de los 999 NFT en circulación. El impuesto retenido se fijará en el valor de la cifra en el momento en que el poseedor la adquirió.</i>
+                            <sup>1</sup> <i>Estos números permanecen en el gatito del titular. Los titulares pueden recuperar su(s) número(s) si venden, queman o cuando alcanzan los 999 NFT en circulación.
+                            Se deduce un impuesto del 16% del precio de compra en el momento de la transacción. El titular puede recuperarlos si posee uno de los 999 NFT que quedan en circulación.</i>
                             <br />
-                            <br /> // à terminer
+                            <br />
                           </div>
                         )}
                       </div>
@@ -930,7 +934,7 @@ const HomeV1 = () => {
                         </div>
                         {(listLang === "EN" || listLang === true || (listLang === "open" && listLangLast === true) || (listLang === "open" && listLangLast === "EN")) && <div className="description">In addition to individual rewards, a general prize pool will be reserved for the holders of the remaining 999 NFTs of Number Runner Club V1. The prize pool will be equally redistributed among the 999 NFT.</div>}
                         {(listLang === "FR" || (listLang === "open" && listLangLast === "FR")) && <div className="description">En plus des récompenses individuelles, une cagnotte générale sera réservée aux holders des 999 NFT restant du Number Runner Club V1. Cette dernière sera redistribué équitablement entre les 999 NFT.</div>}
-                        {(listLang === "ES" || (listLang === "open" && listLangLast === "ES")) && <div className="description">Además de las recompensas individuales, se reservará un premio general para los 999 NFT restantes del Number Runner Club V1. // à modifier holders + redistribué équitablement</div>}
+                        {(listLang === "ES" || (listLang === "open" && listLangLast === "ES")) && <div className="description">Además de las recompensas individuales, se reservará una bolsa de premios general para los titulares de los 999 NFT restantes del Club de Corredores Numerarios V1. Este se redistribuirá equitativamente entre los 999 NFT.</div>}
                       </div>
                     </div>
                     <div className="flex flexMargin">
@@ -1451,7 +1455,11 @@ const HomeV1 = () => {
                         <br />
                         - Quemar 10 fichas que tendrá mint o comprado en el mercado secundario.
                         <br />
-                        - Tener otra dirección del 999Club, 10kClub o 100kClub palíndromo para apilar el loco que el poseedor recibirá.
+                        <br />
+                        <strong>"¿Cómo se apila un loco?</strong>
+                        <br />
+                        <br />
+                        Disponga de un nombre de dominio del palíndromo 999Club, 10kClub o 100kClub para apilar el loco.
                         <br />
                         <br />
                         El loco recibe 10% de las tarifas de transacción.
@@ -1940,8 +1948,8 @@ const HomeV1 = () => {
                         <br />
                         <sup>4</sup>{" "}
                         <i>
-                          La collection est terminé est vous n'êtes pas dans ces clubs? Ne vous inquietez pas <br />
-                          Vous pouvez swaper le domaine stacker dans votre NFT pour -pourcentage/somme fixe/ rien?-
+                          La collection est terminé est vous n'êtes pas dans ces clubs? <br />
+                          Ne vous inquiétez pas vous aurez 7 jours pour swaper votre domaine du 100k par un domaine du 999Club ou du 10Kclub pour votre NFT
                         </i>
                       </div>
                     )}
@@ -1952,9 +1960,8 @@ const HomeV1 = () => {
                         <br />
                         <sup>4</sup>{" "}
                         <i>
-                          Dos posibilidades para los poseedores del 100Kclub de tener acceso al premio :<br />
-                          - Comprar un número del 10Kclub con su premio personal
-                          <br />- Hold un dígito del 10Kclub o 999club en el camino
+                        ¿Se ha acabado la recaudación y no perteneces a uno de estos clubes? <br />
+                        No te preocupes, tendrás 7 días para cambiar tu dominio 100k por un dominio 999Club o 10Kclub por tu NFT.
                         </i>{" "}
                         // à compléter
                       </div>

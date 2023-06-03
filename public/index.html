@@ -25,9 +25,10 @@
     -->
   <title>Number Runner Club</title>
 </head>
+
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root" ></div>
+  <div id="root"></div>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -42,71 +43,74 @@
 <script>
   $(document).scroll(function () {
     const banner = document.getElementById('banner');
-    const bannerHeight = banner.offsetHeight;
+    if (banner) {
+      const bannerHeight = banner.offsetHeight;
+    }
     if ((navigator.userAgent.match(/iPhone/i)
       || navigator.userAgent.match(/webOS/i)
       || navigator.userAgent.match(/Android/i)
       || navigator.userAgent.match(/iPad/i)
       || navigator.userAgent.match(/iPod/i)
       || navigator.userAgent.match(/BlackBerry/i)
-      || navigator.userAgent.match(/Windows Phone/i)) && window.innerWidth <= 600 ) {
-        const scrollPosition = window.pageYOffset;
-        const visibleBannerHeight = bannerHeight - scrollPosition;
-         /**
-        * Banner Mobile
-        */
-        if (visibleBannerHeight <= 60) {
-          banner.style.visibility = 'hidden';
-          document.getElementById('bannerMobile').style.visibility = 'visible'
-        } else {
-          banner.style.visibility ="visible"
-          document.getElementById('bannerMobile').style.visibility = 'hidden'
-        }
-        /**
-        * Logo
-        */
-        if (window.pageYOffset >= 40 && window.pageYOffset <= 120 && document.getElementById('logoImg')) {
-          const width = 80 - (window.pageYOffset - 50)
-            if(width >= 60   && width <= 80){
-              document.getElementById('logoImg').style.width = width + "px";
-            }
-          }
-          else if (window.pageYOffset < 60 && document.getElementById('logoImg')) {
-          document.getElementById('logoImg').style.width = "80px";
-        }
-          /**
-        * Text and filter
-        */
-        if (document.getElementById('bannerName') && document.getElementById('name') && document.getElementById('name').getBoundingClientRect().bottom < 60) {
-          document.getElementById('bannerName').style.visibility = 'visible';
-        } else if (document.getElementById('bannerName')) {
-          document.getElementById('bannerName').style.visibility = 'hidden';
-          document.getElementById('bannerMobile').childNodes[0].style.filter = 'none';
-        }
-        /**
-           * Menu
-           */
-        if (document.getElementById('scroll-nav') && document.getElementById('scroll-nav').getBoundingClientRect().top <= 56 && document.getElementById('scroll-nav').style.position !== 'fixed') {
-          document.getElementById('scroll-nav').style.position = "fixed";
-          document.getElementById('scroll-nav').style.zIndex = "3";
-          document.getElementById('scroll-nav').style.top = "55px";
-        }
-        else if (document.getElementById('navbar') && document.getElementById('navbar').getBoundingClientRect().top >= 56) {
-          document.getElementById('scroll-nav').style.position = "relative";
-          document.getElementById('scroll-nav').style.top = "0px";
-        }
-    }
-      else{
-        if (document.getElementById('scroll-nav') && document.getElementById('scroll-nav').getBoundingClientRect().top <= 0 && document.getElementById('scroll-nav').style.position !== 'fixed') {
-          document.getElementById('scroll-nav').style.position = "fixed";
-          document.getElementById('scroll-nav').style.zIndex = "3";
-          document.getElementById('scroll-nav').style.top = "0px";
-        }
-        else if (document.getElementById('navbar') && document.getElementById('navbar').getBoundingClientRect().bottom >= 60) {
-          document.getElementById('scroll-nav').style.position = "relative";
-          document.getElementById('scroll-nav').style.top = "0px";
+      || navigator.userAgent.match(/Windows Phone/i)) && window.innerWidth <= 600) {
+      const scrollPosition = window.pageYOffset;
+      const visibleBannerHeight = bannerHeight - scrollPosition;
+      /**
+     * Banner Mobile
+     */
+      if (visibleBannerHeight <= 60) {
+        banner.style.visibility = 'hidden';
+        document.getElementById('bannerMobile').style.visibility = 'visible'
+      } else {
+        banner.style.visibility = "visible"
+        document.getElementById('bannerMobile').style.visibility = 'hidden'
+      }
+      /**
+      * Logo
+      */
+      if (window.pageYOffset >= 40 && window.pageYOffset <= 120 && document.getElementById('logoImg')) {
+        const width = 80 - (window.pageYOffset - 50)
+        if (width >= 60 && width <= 80) {
+          document.getElementById('logoImg').style.width = width + "px";
         }
       }
+      else if (window.pageYOffset < 60 && document.getElementById('logoImg')) {
+        document.getElementById('logoImg').style.width = "80px";
+      }
+      /**
+    * Text and filter
+    */
+      if (document.getElementById('bannerName') && document.getElementById('name') && document.getElementById('name').getBoundingClientRect().bottom < 60) {
+        document.getElementById('bannerName').style.visibility = 'visible';
+      } else if (document.getElementById('bannerName')) {
+        document.getElementById('bannerName').style.visibility = 'hidden';
+        document.getElementById('bannerMobile').childNodes[0].style.filter = 'none';
+      }
+      /**
+         * Menu
+         */
+      if (document.getElementById('scroll-nav') && document.getElementById('scroll-nav').getBoundingClientRect().top <= 56 && document.getElementById('scroll-nav').style.position !== 'fixed') {
+        document.getElementById('scroll-nav').style.position = "fixed";
+        document.getElementById('scroll-nav').style.zIndex = "3";
+        document.getElementById('scroll-nav').style.top = "55px";
+      }
+      else if (document.getElementById('navbar') && document.getElementById('navbar').getBoundingClientRect().top >= 56) {
+        document.getElementById('scroll-nav').style.position = "relative";
+        document.getElementById('scroll-nav').style.top = "0px";
+      }
+    }
+    else {
+      if (document.getElementById('scroll-nav') && document.getElementById('scroll-nav').getBoundingClientRect().top <= 0 && document.getElementById('scroll-nav').style.position !== 'fixed') {
+        document.getElementById('scroll-nav').style.position = "fixed";
+        document.getElementById('scroll-nav').style.zIndex = "3";
+        document.getElementById('scroll-nav').style.top = "0px";
+      }
+      else if (document.getElementById('navbar') && document.getElementById('navbar').getBoundingClientRect().bottom >= 60) {
+        document.getElementById('scroll-nav').style.position = "relative";
+        document.getElementById('scroll-nav').style.top = "0px";
+      }
+    }
   });
 </script>
+
 </html>
