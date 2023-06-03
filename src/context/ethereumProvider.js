@@ -2,10 +2,8 @@ import { createContext, useContext, useState } from 'react';
 import { ethers } from 'ethers';
 import { NUMBERRUNNERCLUB_ABI } from '../ressources/abi';
 
-// Contexte Ethereum
 const EthereumContext = createContext(null);
 
-// Fournisseur Ethereum
 export function EthereumProvider({ children }) {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
@@ -14,7 +12,6 @@ export function EthereumProvider({ children }) {
     await ethereumState.contract.chooseColor(color);
     setIsColorPickerOpen(false);
     const mint = await ethereumState.contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
-    console.log(mint);
   };
 
   const [ethereumState, setEthereumState] = useState({
@@ -22,7 +19,6 @@ export function EthereumProvider({ children }) {
     contract: null,
   });
 
-  // Connexion du portefeuille
   const connectWallet = async () => {
     if (!window.ethereum) {
       window.alert("Please install MetaMask!");
@@ -53,7 +49,6 @@ export function EthereumProvider({ children }) {
     if (hasColorChosen === 0) {
       setIsColorPickerOpen(true);
       console.log("display choose color component");
-      // await ethereumState.contract.chooseColor(color); // choose color
     }
     else {
       const mint = await ethereumState.contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
@@ -65,6 +60,7 @@ export function EthereumProvider({ children }) {
     ethereumState,
     connectWallet,
     mintPawn,
+    chooseColor,
     isColorPickerOpen,
   };
 
