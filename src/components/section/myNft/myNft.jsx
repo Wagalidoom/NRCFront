@@ -15,6 +15,7 @@ import ensvision from "../../../assets/images/icon/ensvision.png";
 import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
 import { useEthereum } from "../../../context/ethereumProvider";
+import { getNftType, nftTypeToString } from "../../../helper";
 
 export const MyNft = (props) => {
   const currentTheme = useContext(ThemeContext);
@@ -151,8 +152,8 @@ export const MyNft = (props) => {
             <img alt="" src={props.img} />
             <ToolBar market={props.market} open={modalOpen === index + 1 && isOpen ? true : false}>
               <div>
-                <p>Number Runner #1234</p>
-                <p>Pow</p>
+                <p>Number Runner #{element.toString()}</p>
+                <p>{nftTypeToString(getNftType(element.toString()))}</p>
               </div>
               <button className="buy-action">Buy</button>
               <div className="price">
