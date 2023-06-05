@@ -7,12 +7,25 @@ const EthereumContext = createContext(null);
 export function EthereumProvider({ children }) {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
-  const chooseColor = async (color) => {
+  const chooseColor = async (_color) => {
     if (!ethereumState.contract) return;
-    await ethereumState.contract.chooseColor(color);
+    try {
+    await ethereumState.contract.chooseColor(_color);
     setIsColorPickerOpen(false);
     const mint = await ethereumState.contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
+    console.log(mint);}
+    catch (error) {
+      console.log(error)
+    }
   };
+
+  const chooseBlackColor = async () => {
+    await chooseColor(1);
+  }
+
+  const chooseWhiteColor = async () => {
+    await chooseColor(2);
+  }
 
   const [ethereumState, setEthereumState] = useState({
     provider: null,
@@ -60,8 +73,10 @@ export function EthereumProvider({ children }) {
     ethereumState,
     connectWallet,
     mintPawn,
-    chooseColor,
+    chooseBlackColor,
+    chooseWhiteColor,
     isColorPickerOpen,
+    setIsColorPickerOpen
   };
 
   return (

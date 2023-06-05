@@ -78,8 +78,10 @@ import emojiDoigt from "../assets/images/icon/emojiDoigt.png";
 import { useEthereum } from "../context/ethereumProvider";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectWallet, Web3Button, useAddress } from "@thirdweb-dev/react";
 import { ColorPicker } from "../components/section/colorPicker/ColorPicker";
+import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
+import { ethers } from 'ethers';
 
 const HomeV1 = () => {
   const [link, changePageLink] = React.useState(true);
@@ -96,6 +98,7 @@ const HomeV1 = () => {
   const [posScroll, setPosScroll] = React.useState({ pos: 0, back: false });
   const langRef = React.useRef(null);
   const scrollRef = React.useRef(null);
+  const address = useAddress();
   const changePage = (link) => {
     changePageLink(link);
     if (link === "market") {
@@ -159,7 +162,7 @@ const HomeV1 = () => {
   };
 
   const { connectWallet } = useEthereum();
-  const { mintPawn, isColorPickerOpen } = useEthereum();
+  const { mintPawn, isColorPickerOpen, setIsColorPickerOpen } = useEthereum();
 
   const openMore = (value, position) => {
     setPosScroll(position);
@@ -295,11 +298,29 @@ const HomeV1 = () => {
                   {currentTheme.theme.name === "Dark Theme" ? <WbSunnyIcon /> : <NightsStayIcon />}
                 </button>
               </div>
+              {/* <Web3Button
+      contractAddress="0xE0245C35171C8665AeeaAc7BB8A63BBDe341E468"
+      contractAbi={NUMBERRUNNERCLUB_ABI}
+      action={async (contract) => {
+        const hasColorChosen = await contract.getUserColor(address);
+        if (hasColorChosen === 0) {
+          setIsColorPickerOpen(true);
+          console.log("display choose color component");
+        }
+        else {
+          const mint = await contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
+          console.log(mint);
+        }
+      }}
+    >
+      Mint
+    </Web3Button> */}
 
               <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black", marginRight: "12px" } : { marginRight: "12px" }} className="bigButton" onClick={mintPawn}>
                 Mint
               </button>
               {isColorPickerOpen ? <ColorPicker /> : null}
+              {/* <ConnectWallet style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black" } : null} className="bigButton" btnTitle="Connect"></ConnectWallet> */}
               <button style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black" } : null} className="bigButton" onClick={connectWallet}>
                 Connect
               </button>

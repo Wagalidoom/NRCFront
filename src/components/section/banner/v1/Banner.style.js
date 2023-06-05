@@ -7,7 +7,7 @@ display:flex !important;
 align-items:center !important;
 display:inline-block !important;
 span{
-  font-weight:${props => props.active ? "700": "500"};
+  font-weight:${props => props.active ? "700" : "500"};
 }
 `
 
@@ -199,7 +199,7 @@ overflow:hidden;
   .logoImg {
     width: 100px;
     border-radius: 50%;
-    background-color: ${props => props.theme.name === 'Dark Theme' ?'rgb(21,32,43)' : 'white' };
+    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(21,32,43)' : 'white'};
     position:absolute;
     bottom:0px;
     left:50%;
@@ -280,7 +280,8 @@ overflow:hidden;
     display: flex;
   }
   .bigButton {
-    min-width: 80px;
+    min-width: 80px !important;
+    width: 80px;
     background-color: rgb(239, 243, 244);
     border-radius: 9999px;
     font-size: 14px;
@@ -288,6 +289,15 @@ overflow:hidden;
     font-weight: 700;
     border:none;
   }
+  .tw-connected-wallet > div:nth-child(1) {
+    display: none !important;
+}
+.tw-connected-wallet > img {
+    display: none !important;
+}
+.tw-connected-wallet > div > div {
+  display: none !important;
+}
   .smallButton {
     position:relative;
     z-index:0;
@@ -300,7 +310,7 @@ overflow:hidden;
     font-size: 14px;
     line-height: 20px;
     text-align: center;   
-    color: ${props =>   props.theme.colors.text };  
+    color: ${props => props.theme.colors.text};  
     box-sizing: border-box;
     font-weight: 700;
   }
