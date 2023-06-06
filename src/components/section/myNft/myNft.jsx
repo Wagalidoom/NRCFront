@@ -26,7 +26,7 @@ export const MyNft = (props) => {
   const selectRef = useRef(null);
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
-  const { ethereumState } = useEthereum();
+  const { ethereumState, burn, stack } = useEthereum();
   const [collection, setCollection] = useState([]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
@@ -56,9 +56,6 @@ export const MyNft = (props) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  const optionAction = (action) => {
-    console.log(action);
-  };
   useEffect(() => {
     if (modalOpen > 0) {
       setIsOpen(true);
@@ -165,13 +162,13 @@ export const MyNft = (props) => {
               {modalOpen === index + 1 && isOpen && (
                 <div ref={modalRef} className="modal-option">
                   <ul>
-                    <li className="option" onClick={() => optionAction("stacker")}>
+                    <li className="option" onClick={() => stack(element)}>
                       Stacker
                     </li>
-                    <li className="option" onClick={() => optionAction("sell")}>
+                    <li className="option" onClick={() => console.log("sell")}>
                       Sell
                     </li>
-                    <li className="option" onClick={() => optionAction("burn")}>
+                    <li className="option" onClick={() => burn(element)}>
                       Burn
                     </li>
                   </ul>

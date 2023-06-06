@@ -10,10 +10,11 @@ export function EthereumProvider({ children }) {
   const chooseColor = async (_color) => {
     if (!ethereumState.contract) return;
     try {
-    await ethereumState.contract.chooseColor(_color);
-    setIsColorPickerOpen(false);
-    const mint = await ethereumState.contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
-    console.log(mint);}
+      await ethereumState.contract.chooseColor(_color);
+      setIsColorPickerOpen(false);
+      const mint = await ethereumState.contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
+      console.log(mint);
+    }
     catch (error) {
       console.log(error)
     }
@@ -25,6 +26,16 @@ export function EthereumProvider({ children }) {
 
   const chooseWhiteColor = async () => {
     await chooseColor(2);
+  }
+
+  const stack = async (_id) => {
+    if (!ethereumState.contract) return;
+    await ethereumState.contract._stake(_id);
+  }
+
+  const burn = async (_id) => {
+    if (!ethereumState.contract) return;
+    await ethereumState.contract.burn(_id);
   }
 
   const [ethereumState, setEthereumState] = useState({
@@ -76,7 +87,9 @@ export function EthereumProvider({ children }) {
     chooseBlackColor,
     chooseWhiteColor,
     isColorPickerOpen,
-    setIsColorPickerOpen
+    setIsColorPickerOpen,
+    burn,
+    stack
   };
 
   return (
