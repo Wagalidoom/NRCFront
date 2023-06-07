@@ -258,7 +258,7 @@ export const NUMBERRUNNERCLUB_ABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "burnNFT",
+		"name": "burn",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -582,6 +582,25 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "isStacked",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{

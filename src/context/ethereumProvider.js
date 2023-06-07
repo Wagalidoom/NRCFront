@@ -30,11 +30,12 @@ export function EthereumProvider({ children }) {
 
   const stack = async (_id) => {
     if (!ethereumState.contract) return;
-    await ethereumState.contract._stake(_id);
+    await ethereumState.contract._stake(_id, "123.eth");
   }
 
   const burn = async (_id) => {
     if (!ethereumState.contract) return;
+    console.log(_id);
     await ethereumState.contract.burn(_id);
   }
 
@@ -53,7 +54,7 @@ export function EthereumProvider({ children }) {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contractAddress = "0xE0245C35171C8665AeeaAc7BB8A63BBDe341E468";
+      const contractAddress = "0x46aD1731c9540ffc6aA5C61e51d7E5E562B4E807";
       // const contractProvider = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
       const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
       setEthereumState({ provider, contract });

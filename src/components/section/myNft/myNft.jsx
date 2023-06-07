@@ -65,7 +65,10 @@ export const MyNft = (props) => {
   }, [modalOpen]);
 
   useEffect(() => {
-    if (!ethereumState.provider || !ethereumState.contract) return;
+    if (!ethereumState.provider || !ethereumState.contract) {
+      setCollection([]);
+      return;
+    }
 
     const fetchData = async () => {
       const address = await ethereumState.provider.getSigner().getAddress();
