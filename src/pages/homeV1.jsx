@@ -819,7 +819,7 @@ const HomeV1 = () => {
                             Future holders will have to meet certain conditions or perform certain actions in order to qualify for the different levels of rarity of the NFTs in the collection.
                             <br />
                             <br />
-                            Each NFT of the Number Runner Club V1 allows you to protect your domain name from the Ethereum Name Service (ENS) of the 999Club, 10kClub or 100kClub and thus receive rewards redistributed in Ethereum (ETH).
+                            Each Number Runner Club V1 NFT allows you to preserve your 999Club, 10kClub or 100kClub Ethereum Name Service (ENS) domain name and receive rewards redistributed in Ethereum (ETH).
                           </div>
                         )}
                         {(listLang === "FR" || (listLang === "open" && listLangLast === "FR")) && (
@@ -827,7 +827,7 @@ const HomeV1 = () => {
                             Les futurs détenteurs devront remplir certaines conditions ou effectuer certaines actions pour pouvoir prétendre aux différents niveaux de rareté des NFTs de la collection.
                             <br />
                             <br />
-                            Chaque NFT du Number Runner Club V1 permet de protéger son nom de domaine d’Ethereum Name Service (ENS) du 999Club, 10kClub ou 100kClub et ainsi recevoir des récompenses redistribuées en Ethereum (ETH).
+                            Chaque NFT du Number Runner Club V1 permet de préserver son nom de domaine d'Ethereum Name Service (ENS) du 999Club, 10kClub ou 100kClub et ainsi recevoir des récompenses redistribuées en Ethereum (ETH).
                           </div>
                         )}
                         {(listLang === "ES" || (listLang === "open" && listLangLast === "ES")) && (
@@ -853,7 +853,7 @@ const HomeV1 = () => {
                         </div>
                         {(listLang === "EN" || listLang === true || (listLang === "open" && listLangLast === true) || (listLang === "open" && listLangLast === "EN")) && (
                           <div className="description">
-                            Every NFT of the collection generates rewards on the Number Runner Club V1 smart contract that can only be claimed in 3 specific cases :<br />
+                            Each NFT from the collection generates rewards on the Number Runner Club V1 smart contract that can only be claimed in 3 specific cases :<br />
                             - Sell your NFT.
                             <br />
                             - Burn his NFT.
@@ -892,51 +892,40 @@ const HomeV1 = () => {
                         </div>
                         {(listLang === "EN" || listLang === true || (listLang === "open" && listLangLast === true) || (listLang === "open" && listLangLast === "EN")) && (
                           <div className="description">
-                            Each holder will have three choices:
+                            Each holder will have four choices:
+                            <br />- Keep your rewards in Ethereum (ETH)
+                            <br />- Renew a domain name once a year, for a maximum of 1 year.
+                            <br />- Buy one or more NFTs from the collection if the amount of its rewards allows it. <sup>1</sup>
+                            <br />- Buy one or more digits domain names if the amount of your rewards allows it. <sup>2</sup>
                             <br />
-                            - Keep your rewards in Ethereum (ETH)
-                            <br />
-                            - Renew the domain name in digits for a year
-                            <br />
-                            - Buy one or more NFTs from the collection if the amount of its rewards allows it
-                            <br />- Buy one or more domain names in numbers if the amount of your rewards allows <sup>1</sup>
-                            <br />
-                            <br />
-                            <sup>1</sup> <i>These figures remain in the holder's purse. Such holder may recover his or her number(s) if he sells, burns or when the cape of 999 NFTs in circulation is reached. A tax of 16% of domain name's buying price is applied at the transaction. If the holder sell or burn his NFT, the tax is redistributed to holders, if not it's refund.</i>
-                            <br />
+                            <br /><sup>1</sup> <i>These digits domain names remain in the holder's prize. Such holder may recover his or her number(s) if he sells, burns or when the cape of 999 NFTs in circulation is reached.</i>
+                            <br /><sup>2</sup> <i> A 16% tax of the buying price is applied at the transaction. The holder may be refunded if he owns one of the last 999 NFTs from the collection.</i>
                             <br />
                           </div>
                         )}
                         {(listLang === "FR" || (listLang === "open" && listLangLast === "FR")) && (
                           <div className="description">
-                            Chaque détenteur aura trois choix :<br />
-                            - Conserver ses récompenses en Ethereum (ETH)
+                            Chaque détenteur aura quatre choix :
+                            <br />- Conserver ses récompenses en Ethereum (ETH)
+                            <br />- Renouveler un nom de domaine en chiffre une fois par an, sur une durée de 1 an maximum.
+                            <br />- Acheter un ou plusieurs NFT de la collection si le montant de ses récompenses le permet. <sup>1</sup>
+                            <br />- Acheter un ou plusieurs noms de domaines en chiffres si le montant de ses récompenses le permet <sup>2</sup>
                             <br />
-                            - Renouveler un nom de domaine en chiffre sur une durée de 1 an
-                            <br />
-                            - Acheter un ou plusieurs NFT de la collection si le montant de ses récompenses le permet
-                            <br />- Acheter un ou plusieurs noms de domaines en chiffres si le montant de ses récompenses le permet <sup>1</sup>
-                            <br />
-                            <br />
-                            <sup>1</sup> <i>Ces chiffres restent dans la cagnotte du détenteur. Ledit détenteur peut récupérer son ou ses chiffres s'il vend, burn ou lorsque le cap des 999 NFTs en circulation est atteint. Une taxe de 16% du prix d'achat est retenue au moment de la transaction. Si le détenteur vend ou burn le NFT, alors la taxe est redistribuée aux holders, sinon elle lui est remboursé</i>
-                            <br />
+                            <br /><sup>1</sup> <i>Ces chiffres restent dans la cagnotte du détenteur. Ledit détenteur peut récupérer son ou ses chiffres s'il vend, burn ou lorsque le cap des 999 NFTs en circulation est atteint.</i>
+                            <br /><sup>2</sup> <i>Une taxe de 16% du prix d'achat est retenue au moment de la transaction. Le détenteur pourra les récupérer s'il détient un des 999 NFTs restant en circulation.</i>
                             <br />
                           </div>
                         )}
                         {(listLang === "ES" || (listLang === "open" && listLangLast === "ES")) && (
                           <div className="description">
-                            Cada poseedor tendrá tres opciones :<br />
-                            - Mantener sus recompensas en Ethereum (ETH)
+                            Cada poseedor tendrá cuatro opciones :
+                            <br />- Mantener sus recompensas en Ethereum (ETH)
+                            <br />- Renovar un nombre de dominio numérico una vez al año, durante un máximo de 1 año. 
+                            <br />- Compre uno o varios nombres de dominio numéricos si el importe de sus recompensas se lo permite. <sup>1</sup> 
+                            <br />- Compre uno o varios NFT de la colección si el importe de sus recompensas se lo permite. <sup>2</sup>
                             <br />
-                            - Renovar un nombre de dominio numérico una vez al año, durante un máximo de 1 año. 
-                            <br />
-                            - Comprar uno o más NFT de la colección si la cantidad de sus premios lo permite
-                            <br />- Comprar uno o más nombres de dominio en números si la cantidad de sus recompensas lo permite <sup>1</sup>
-                            <br />
-                            <br />
-                            <sup>1</sup> <i>Estos números permanecen en el gatito del titular. Los titulares pueden recuperar su(s) número(s) si venden, queman o cuando alcanzan los 999 NFT en circulación.
-                            Se deduce un impuesto del 16% del precio de compra en el momento de la transacción. El titular puede recuperarlos si posee uno de los 999 NFT que quedan en circulación.</i>
-                            <br />
+                            <br /><sup>1</sup> <i>Estos números permanecen en el gatito del titular. Los titulares pueden recuperar su(s) número(s) si venden, queman o cuando alcanzan los 999 NFT en circulación.</i>
+                            <br /><sup>2</sup> <i>Se deduce un impuesto del 16% del precio de compra en el momento de la transacción. El titular puede recuperarlos si posee uno de los 999 NFT que quedan en circulación.</i>
                             <br />
                           </div>
                         )}
@@ -1477,7 +1466,7 @@ const HomeV1 = () => {
                         - Quemar 10 fichas que tendrá mint o comprado en el mercado secundario.
                         <br />
                         <br />
-                        <strong>"¿Cómo se apila un loco?</strong>
+                        <strong>¿Cómo se apila un loco?</strong>
                         <br />
                         <br />
                         Disponga de un nombre de dominio del palíndromo 999Club, 10kClub o 100kClub para apilar el loco.
@@ -1956,8 +1945,8 @@ const HomeV1 = () => {
                         <br />
                         <sup>4</sup>{" "}
                         <i>
-                          The collection has ended and you're not in these clubs? Don't worry <br />
-                          You can swap the domain stacked in your nft for -pourcentage/somme fixe/ rien?-
+                          The collection has ended and you're not in these clubs?<br />
+                          Don't worry, you still can swap the 100k domain of your NFT for a 999Club or 10Kclub within the next 7 days.
                           <br />
                         </i>
                       </div>
@@ -1970,7 +1959,7 @@ const HomeV1 = () => {
                         <sup>4</sup>{" "}
                         <i>
                           La collection est terminé est vous n'êtes pas dans ces clubs? <br />
-                          Ne vous inquiétez pas vous aurez 7 jours pour swaper votre domaine du 100k par un domaine du 999Club ou du 10Kclub pour votre NFT
+                          Ne vous inquiétez pas vous aurez 7 jours pour swaper votre domaine du 100k par un domaine du 999Club ou du 10Kclub pour votre NFT.
                         </i>
                       </div>
                     )}
@@ -2021,21 +2010,21 @@ const HomeV1 = () => {
                       <div className="description">
                         <strong>Is the collection sold out?</strong> <br />
                         <br />
-                        The aftermarket is a new opportunity to reap the benefits of the project. Acquire a pawn, a bishop, a knight, a rook, a queen or, better yet, a king. And become a member of the Number Runner Club to stack your number!
+                        The aftermarket is a new opportunity to reap the benefits of the project. Acquire a pawn, a bishop, a knight, a rook, a queen or, even better, a king. And become a member of the Number Runner Club to protect your number!
                       </div>
                     )}
                     {(listLang === "FR" || (listLang === "open" && listLangLast === "FR")) && (
                       <div className="description">
                         <strong>La collection est sold out?</strong> <br />
                         <br />
-                        Le marché secondaire est une nouvelle chance de profiter des avantages du projet. Faites l'acquisition d'un pion, d'un fou, d'une tour, d'une reine ou, mieux encore, d'un roi. Et devenez un des membres du Number Runner Club pour stacker votre chiffre !
+                        Le marché secondaire est une nouvelle chance de profiter des avantages du projet. Faites l'acquisition d'un pion, d'un fou, d'une tour, d'une reine ou, mieux encore, d'un roi. Et devenez un des membres du Number Runner Club pour préserver votre chiffre !
                       </div>
                     )}
                     {(listLang === "ES" || (listLang === "open" && listLangLast === "ES")) && (
                       <div className="description">
                         <strong>¿La colección está agotada?</strong> <br />
                         <br />
-                        El mercado secundario es una nueva oportunidad para aprovechar los beneficios del proyecto. Consigue un peón, un loco, una torre, una reina o, mejor aún, un rey. ¡Y conviértete en miembro del Club Number Runner para apilar tu número!
+                        El mercado secundario es una nueva oportunidad para aprovechar los beneficios del proyecto. Compra un peón, un alfil, una torre, una reina o, mejor aún, un rey. Y hazte miembro del Club del Corredor Numérico para conservar tu número!
                       </div>
                     )}
                     <div className="contentBanner">
