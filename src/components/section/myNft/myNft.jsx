@@ -147,6 +147,7 @@ export const MyNft = (props) => {
         )}
       </div>
       <div className="container-nft">
+        {collection.length === 0 ? <div style={{width: "100%", display: "flex", justifyContent: "center"}}>No NFT to be shown</div> : null}
         {collection.map((element, index) => (
           <div className="myNft" key={index}>
             <img alt="" src={props.img} />

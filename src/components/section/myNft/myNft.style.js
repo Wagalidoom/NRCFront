@@ -190,6 +190,7 @@ p{
 
 }
 .container-nft{
+    min-height: 250px;
     width:100%;
     display:flex;
     flex-wrap:wrap;
