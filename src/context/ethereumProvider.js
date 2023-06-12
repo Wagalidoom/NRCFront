@@ -30,7 +30,14 @@ export function EthereumProvider({ children }) {
 
   const stack = async (_id) => {
     if (!ethereumState.contract) return;
-    await ethereumState.contract._stake(_id, "123.eth");
+    await ethereumState.contract.approve(ethereumState.contract.address, _id);
+    console.log(ethers.utils.formatBytes32String("121.eth"));
+    try {
+      let tx = await ethereumState.contract._stake(ethers.utils.formatBytes32String("121.eth"), _id);
+      console.log(tx.transactionHash);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const burn = async (_id) => {
@@ -54,12 +61,13 @@ export function EthereumProvider({ children }) {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contractAddress = "0xf453B7652232fa9d08C57e2172a424428Ba220AC";
+      const contractAddress = "0x7C6342EcD16fd8F00F3781dbf087B4Da2cf244a4";
       // const contractProvider = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
       const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
       setEthereumState({ provider, contract });
       console.log(window.ethereum);
       console.log("Wallet Connected !");
+      console.log(ethers.utils.formatBytes32String("12721.eth"));
     } catch (error) {
       window.alert("Failed to connect wallet");
       console.error(error);

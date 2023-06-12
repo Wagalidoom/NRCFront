@@ -12,6 +12,8 @@ export const GraalContainer = styled.div`
   }
   .graal-img{
     width:30%;
+    display:flex;
+    flex-direction:column;
   }
   .graal-title{
     text-align:center;
@@ -66,11 +68,6 @@ export const GraalContainer = styled.div`
   }
   @media screen and (max-width:600px){
     justify-content:start;
-    .graal-img{
-        position:absolute;
-        top:50%;
-        transform:translateY(-50%);
-    }
     .graal-desc{
         margin-left:calc(30% + 15px)
     }
