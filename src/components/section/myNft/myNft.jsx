@@ -26,7 +26,7 @@ export const MyNft = (props) => {
   const selectRef = useRef(null);
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
-  const { ethereumState, burn, stack } = useEthereum();
+  const { ethereumState, burn, stack, checkIfStacked } = useEthereum();
   const [collection, setCollection] = useState([]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
@@ -72,14 +72,19 @@ export const MyNft = (props) => {
 
     const fetchData = async () => {
       const address = await ethereumState.provider.getSigner().getAddress();
-      console.log(address);
       const userNFTs = await ethereumState.contract.getUserOwnedNFTs(address);
-      setCollection(userNFTs);
-      console.log(userNFTs);
-    };
+      const nftsWithStackedStatus = await Promise.all(
+        userNFTs.map(async (nft) => {
+          const isStacked = await checkIfStacked(nft);
+          return { id: nft, isStacked: isStacked };
+        })
+      );
+
+      setCollection(nftsWithStackedStatus);
+  };
 
     fetchData();
-  }, [ethereumState]);
+  }, [ethereumState, checkIfStacked]);
   return (
     <MyNftContainer filter={activeButton.filter} market={props.market} sweep={activeButton.sweep} openSelect={open}>
       <div className="filter-group">
@@ -151,10 +156,11 @@ export const MyNft = (props) => {
         {collection.map((element, index) => (
           <div className="myNft" key={index}>
             <img alt="" src={props.img} />
+            {element.isStacked ? <p>STACKED</p> : null}
             <ToolBar market={props.market} open={modalOpen === index + 1 && isOpen ? true : false}>
               <div>
-                <p>Number Runner #{element.toString()}</p>
-                <p>{nftTypeToString(getNftType(element.toString()))}</p>
+                <p>Number Runner #{element.id.toString()}</p>
+                <p>{nftTypeToString(getNftType(element.id.toString()))}</p>
               </div>
               <button className="buy-action">Buy</button>
               <div className="price">
@@ -166,13 +172,13 @@ export const MyNft = (props) => {
               {modalOpen === index + 1 && isOpen && (
                 <div ref={modalRef} className="modal-option">
                   <ul>
-                    <li className="option" onClick={() => stack(element)}>
+                    <li className="option" onClick={() => stack(element.id)}>
                       Stacker
                     </li>
                     <li className="option" onClick={() => console.log("sell")}>
                       Sell
                     </li>
-                    <li className="option" onClick={() => burn(element)}>
+                    <li className="option" onClick={() => burn(element.id)}>
                       Burn
                     </li>
                   </ul>

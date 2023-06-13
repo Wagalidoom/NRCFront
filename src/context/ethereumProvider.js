@@ -28,16 +28,23 @@ export function EthereumProvider({ children }) {
     await chooseColor(2);
   }
 
-  const stack = async (_id) => {
-    if (!ethereumState.contract) return;
-    await ethereumState.contract.approve(ethereumState.contract.address, _id);
-    console.log(ethers.utils.formatBytes32String("121.eth"));
+  const checkIfStacked = async (_id) => {
+    if (!ethereumState.contract) return false;
     try {
-      let tx = await ethereumState.contract._stake(ethers.utils.formatBytes32String("121.eth"), _id);
-      console.log(tx.transactionHash);
+      const result = await ethereumState.contract.isStacked(_id);
+      return result;
     } catch (error) {
       console.error(error);
     }
+    return false;
+  };
+
+  const stack = async (_id) => {
+    if (!ethereumState.contract) return;
+    await ethereumState.contract.approve(ethereumState.contract.address, _id);
+    let tx = await ethereumState.contract._stake(ethers.utils.formatBytes32String("121.eth"), _id);
+    console.log(tx);
+
   }
 
   const burn = async (_id) => {
@@ -61,13 +68,11 @@ export function EthereumProvider({ children }) {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contractAddress = "0x7C6342EcD16fd8F00F3781dbf087B4Da2cf244a4";
-      // const contractProvider = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
+      const contractAddress = "0xC76B2C5a5d2B983D7F8a84394fb1F76C451D2D77";
       const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
       setEthereumState({ provider, contract });
       console.log(window.ethereum);
       console.log("Wallet Connected !");
-      console.log(ethers.utils.formatBytes32String("12721.eth"));
     } catch (error) {
       window.alert("Failed to connect wallet");
       console.error(error);
@@ -75,6 +80,7 @@ export function EthereumProvider({ children }) {
   };
 
   const mintPawn = async () => {
+    console.log(ethereumState);
     if (!ethereumState.provider || !ethereumState.contract) return;
     console.log("Mint Pawn");
     const address = await ethereumState.provider.getSigner().getAddress();
@@ -98,7 +104,8 @@ export function EthereumProvider({ children }) {
     isColorPickerOpen,
     setIsColorPickerOpen,
     burn,
-    stack
+    stack,
+    checkIfStacked
   };
 
   return (
