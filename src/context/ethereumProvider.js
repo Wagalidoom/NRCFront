@@ -75,7 +75,7 @@ export function EthereumProvider({ children }) {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contractAddress = "0x2299ee6C0Df03EDE03AcEACfBecD6f18D3B6a5ef";
+      const contractAddress = "0xc00b43211AC4576C2c09A952C43938D5cF445c5A";
       const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
       setEthereumState({ provider, contract });
       console.log(window.ethereum);
@@ -97,7 +97,7 @@ export function EthereumProvider({ children }) {
       console.log("display choose color component");
     }
     else {
-      const mint = await ethereumState.contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
+      const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
       console.log(mint);
     }
   }

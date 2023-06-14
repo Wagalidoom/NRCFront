@@ -180,37 +180,6 @@ export const NUMBERRUNNERCLUB_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "bytes32",
-				"name": "node",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "stack",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "unstack",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "to",
 				"type": "address"
@@ -308,25 +277,6 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"name": "claimPrizePool",
 		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "collection",
-		"outputs": [
-			{
-				"internalType": "enum NumberRunnerClub.Piece",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -440,6 +390,25 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getIsStacked",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "nftId",
 				"type": "uint256"
 			}
@@ -453,6 +422,48 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "i",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "j",
+				"type": "uint256"
+			}
+		],
+		"name": "getTotalSharePerToken",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalSharePerTokenSize",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -564,8 +575,32 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"inputs": [
 			{
 				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "isNodeUsed",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
 				"name": "name",
 				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "length",
+				"type": "uint256"
 			}
 		],
 		"name": "isPalindrome",
@@ -577,25 +612,6 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "getIsStacked",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -623,6 +639,11 @@ export const NUMBERRUNNERCLUB_ABI = [
 				"internalType": "uint8",
 				"name": "_pieceType",
 				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_stackedPiece",
+				"type": "uint256"
 			}
 		],
 		"name": "mint",
@@ -884,6 +905,31 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "spawnKings",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "node",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "stack",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "bytes4",
@@ -984,8 +1030,14 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "updateEpoch",
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "unstack",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -1036,30 +1088,6 @@ export const NUMBERRUNNERCLUB_ABI = [
 	{
 		"inputs": [],
 		"name": "userStacked",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "userStackedNFTs",
 		"outputs": [
 			{
 				"internalType": "uint256",
