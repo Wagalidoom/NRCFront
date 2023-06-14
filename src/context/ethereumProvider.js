@@ -31,7 +31,7 @@ export function EthereumProvider({ children }) {
   const checkIfStacked = async (_id) => {
     if (!ethereumState.contract) return false;
     try {
-      const result = await ethereumState.contract.isStacked(_id);
+      const result = await ethereumState.contract.getIsStacked(_id);
       return result;
     } catch (error) {
       console.error(error);
@@ -42,7 +42,14 @@ export function EthereumProvider({ children }) {
   const stack = async (_id) => {
     if (!ethereumState.contract) return;
     await ethereumState.contract.approve(ethereumState.contract.address, _id);
-    let tx = await ethereumState.contract._stake(ethers.utils.formatBytes32String("121.eth"), _id);
+    let tx = await ethereumState.contract.stack(ethers.utils.formatBytes32String("121.eth"), _id);
+    console.log(tx);
+
+  }
+
+  const unstack = async (_id) => {
+    if (!ethereumState.contract) return;
+    let tx = await ethereumState.contract.unstack(_id);
     console.log(tx);
 
   }
@@ -68,7 +75,7 @@ export function EthereumProvider({ children }) {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contractAddress = "0xC76B2C5a5d2B983D7F8a84394fb1F76C451D2D77";
+      const contractAddress = "0x2299ee6C0Df03EDE03AcEACfBecD6f18D3B6a5ef";
       const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
       setEthereumState({ provider, contract });
       console.log(window.ethereum);
@@ -105,6 +112,7 @@ export function EthereumProvider({ children }) {
     setIsColorPickerOpen,
     burn,
     stack,
+    unstack,
     checkIfStacked
   };
 

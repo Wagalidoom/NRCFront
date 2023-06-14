@@ -190,7 +190,7 @@ export const NUMBERRUNNERCLUB_ABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "_stake",
+		"name": "stack",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -198,17 +198,12 @@ export const NUMBERRUNNERCLUB_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "bytes32",
-				"name": "node",
-				"type": "bytes32"
-			},
-			{
 				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
 			}
 		],
-		"name": "_unstake",
+		"name": "unstack",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -592,7 +587,7 @@ export const NUMBERRUNNERCLUB_ABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "isStacked",
+		"name": "getIsStacked",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -611,7 +606,7 @@ export const NUMBERRUNNERCLUB_ABI = [
 				"type": "uint256"
 			}
 		],
-		"name": "isStaked",
+		"name": "isStacked",
 		"outputs": [
 			{
 				"internalType": "bool",
