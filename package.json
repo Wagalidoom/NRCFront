@@ -38,6 +38,7 @@
     },
     "devDependencies": {
         "assert": "^2.0.0",
+        "ethereum-multicall": "^2.17.0",
         "react-scripts": "^5.0.1",
         "stream": "^0.0.2"
     },

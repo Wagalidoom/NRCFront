@@ -6,14 +6,14 @@ import React from 'react';
 import { EthereumProvider } from "../context/ethereumProvider";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import muiTheme from '../assets/styles/muiTheme';
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 export const ThemeContext = React.createContext(null)
 function App() {
     const [theme, setTheme] = React.useState(localStorage.getItem('theme') && localStorage.getItem('theme') === 'Light Theme' ? lightTheme : darkTheme)
     return (
         <ThirdwebProvider activeChain="localhost">
             <ThemeContext.Provider value={{ theme, setTheme }}>
-                <ThemeProvider theme={muiTheme}>
+                <MuiThemeProvider theme={muiTheme}>
                     <StyledThemeProvider theme={theme}>
                         <EthereumProvider>
                             <Routes>
