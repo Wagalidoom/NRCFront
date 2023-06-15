@@ -84,7 +84,7 @@ overflow:hidden;
   .content {
     max-width: 600px;
     margin: auto;
-    border-top: 1px solid ${props => props.theme.colors.border} ;
+    border-top: 1px solid ${props => props.theme.colors.border};
     border-left: 1px solid ${props => props.theme.colors.border};
     border-right: 1px solid ${props => props.theme.colors.border};
     position: relative;
