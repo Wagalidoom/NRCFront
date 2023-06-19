@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { ethers } from 'ethers';
-// import { Multicall, ContractCallResults, ContractCallContext } from 'ethereum-multicall';
+import { Multicall, ContractCallResults, ContractCallContext } from 'ethereum-multicall';
 import { NUMBERRUNNERCLUB_ABI } from '../ressources/abi';
 
 const EthereumContext = createContext(null);
@@ -37,15 +37,15 @@ export function EthereumProvider({ children }) {
       throw new Error('Contract is not defined');
     }
 
-    // const multicall = new MultiCall(ethereumState.provider, ethereumState.contract.address);
+    const multicall = new Multicall({ ethersProvider: ethereumState.provider, tryAggregate: false });
 
     for (let i = 0; i < mintCount; i++) {
-      // multicall.call('mint', 5, "0x0", { value: ethers.utils.parseEther("0.2") });
+      multicall.call('mint', 5, "0x0", { value: ethers.utils.parseEther("0.2") });
     }
 
     try {
-      // const responses = await multicall.execute();
-      // console.log(responses);
+      const responses = await multicall.execute();
+      console.log(responses);
     } catch (error) {
       console.error(error);
     }
@@ -99,7 +99,7 @@ export function EthereumProvider({ children }) {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contractAddress = "0x1e090e2350ed5D7021E7C8a0d0ecc044e7Cc12A6";
+      const contractAddress = "0x95c714bcF4609A75fC2853619B3842932bE16bbF";
       const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
       setEthereumState({ provider, contract });
       console.log(window.ethereum);
