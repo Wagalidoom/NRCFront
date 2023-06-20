@@ -99,7 +99,7 @@ export function EthereumProvider({ children }) {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contractAddress = "0x95c714bcF4609A75fC2853619B3842932bE16bbF";
+      const contractAddress = "0x9EC46f0322Fd3C141fC1e077650F2049d3b7C9Eb";
       const contract = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, signer);
       setEthereumState({ provider, contract });
       console.log(window.ethereum);
