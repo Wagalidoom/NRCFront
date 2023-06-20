@@ -1,4 +1,4 @@
-export const NUMBERRUNNERCLUB_ABI = [
+[
 	{
 		"inputs": [
 			{
