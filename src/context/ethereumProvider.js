@@ -9,7 +9,7 @@ import Axios from "axios";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.4";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.6";
 const EthereumContext = createContext(null);
 
 export function EthereumProvider({ children }) {
@@ -159,6 +159,9 @@ export function EthereumProvider({ children }) {
     } else {
       setIsMintOpen(true);
       // const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
+      // const list = await ethereumState.contract.listNFT(363,  ethers.utils.parseEther("69.6970")); // mint a Pawn
+      // const unlist = await ethereumState.contract.unlistNFT(363); // mint a Pawn
+
       console.log(hasColorChosen[0]);
     }
   };

@@ -80,13 +80,20 @@ export const MyNft = (props) => {
 
     const fetchData = async () => {
       const address = ethereumState.wallet;
-      let query = `
-    {
-      nfts(where: {owner: "${address}"}) {
-        id
-      }
-    }
-        `;
+      let query = props.market ? `
+            {
+              nfts(where: {listed: true}) {
+                id
+              }
+            }
+          `:
+          `
+            {
+              nfts(where: {owner: "${address}"}) {
+                id
+              }
+            }
+          ` ;
 
       let userOwnedNfts;
 
@@ -104,6 +111,9 @@ export const MyNft = (props) => {
 
     fetchData();
   }, [ethereumState]);
+
+  
+
   return (
     <MyNftContainer
       filter={activeButton.filter}
