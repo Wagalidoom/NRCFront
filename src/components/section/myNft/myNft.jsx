@@ -14,19 +14,23 @@ import searchLight from "../../../assets/images/icon/loupeLight.png";
 import ensvision from "../../../assets/images/icon/ensvision.png";
 import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
-import { useEthereum } from "../../../context/ethereumProvider";
+import { NRCsubgraph, useEthereum } from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
+import Axios from "axios";
 
 export const MyNft = (props) => {
   const currentTheme = useContext(ThemeContext);
   const [modalOpen, setModalOpen] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState({ filter: false, sweep: false });
+  const [activeButton, setActiveButton] = useState({
+    filter: false,
+    sweep: false,
+  });
   const modalRef = useRef(null);
   const selectRef = useRef(null);
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
-  const { ethereumState, burn, stack, unstack, checkIfStacked } = useEthereum();
+  const { ethereumState, burn, stack, unstack } = useEthereum();
   const [collection, setCollection] = useState([]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
@@ -44,7 +48,11 @@ export const MyNft = (props) => {
       return prevIsOpen;
     });
     setOpen((prevOpen) => {
-      if (prevOpen && selectRef.current && !selectRef.current.contains(event.target)) {
+      if (
+        prevOpen &&
+        selectRef.current &&
+        !selectRef.current.contains(event.target)
+      ) {
         return false;
       }
       return prevOpen;
@@ -71,22 +79,38 @@ export const MyNft = (props) => {
     }
 
     const fetchData = async () => {
-      const address = await ethereumState.provider.getSigner().getAddress();
-      const userNFTs = await ethereumState.contract.getUserOwnedNFTs(address);
-      const nftsWithStackedStatus = await Promise.all(
-        userNFTs.map(async (nft) => {
-          const isStacked = await checkIfStacked(nft);
-          return { id: nft, isStacked: isStacked };
-        })
-      );
+      const address = ethereumState.wallet;
+      let query = `
+    {
+      nfts(where: {owner: "${address}"}) {
+        id
+      }
+    }
+        `;
 
-      setCollection(nftsWithStackedStatus);
-  };
+      let userOwnedNfts;
+
+      try {
+        await Axios.post(NRCsubgraph, { query: query }).then((result) => {
+          userOwnedNfts = Object.values(result.data.data);
+          console.log(userOwnedNfts);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      setCollection(userOwnedNfts[0]);
+    };
 
     fetchData();
-  }, [ethereumState, checkIfStacked]);
+  }, [ethereumState]);
   return (
-    <MyNftContainer filter={activeButton.filter} market={props.market} sweep={activeButton.sweep} openSelect={open}>
+    <MyNftContainer
+      filter={activeButton.filter}
+      market={props.market}
+      sweep={activeButton.sweep}
+      openSelect={open}
+    >
       <div className="filter-group">
         <div className="filter-search">
           {!props.market && (
@@ -96,13 +120,27 @@ export const MyNft = (props) => {
                   <img src={ensvision} alt="" />
                 </a>
               </button>
-              <button className="button filter" onClick={() => setActiveButton({ ...activeButton, filter: activeButton.filter ? false : true })}>
-                <img src={props.theme === "Light Theme" ? filterDark : filterLight} alt="" />
+              <button
+                className="button filter"
+                onClick={() =>
+                  setActiveButton({
+                    ...activeButton,
+                    filter: activeButton.filter ? false : true,
+                  })
+                }
+              >
+                <img
+                  src={props.theme === "Light Theme" ? filterDark : filterLight}
+                  alt=""
+                />
               </button>
             </div>
           )}
           <div className="search-contenair">
-            <img src={props.theme === "Dark Theme" ? searchDark : searchLight} alt="" />
+            <img
+              src={props.theme === "Dark Theme" ? searchDark : searchLight}
+              alt=""
+            />
             <input type="text" placeholder="search..." />
           </div>
         </div>
@@ -114,18 +152,50 @@ export const MyNft = (props) => {
                   <img src={ensvision} alt="" />
                 </a>
               </button>
-              <button className="button filter" onClick={() => setActiveButton({ ...activeButton, filter: activeButton.filter ? false : true })}>
-                <img src={props.theme === "Light Theme" ? filterDark : filterLight} alt="" />
+              <button
+                className="button filter"
+                onClick={() =>
+                  setActiveButton({
+                    ...activeButton,
+                    filter: activeButton.filter ? false : true,
+                  })
+                }
+              >
+                <img
+                  src={props.theme === "Light Theme" ? filterDark : filterLight}
+                  alt=""
+                />
               </button>
-              <button className="button sweep" onClick={() => setActiveButton({ ...activeButton, sweep: activeButton.sweep ? false : true })}>
-                <img src={props.theme === "Light Theme" ? sweepDark : sweepLight} alt="" />
+              <button
+                className="button sweep"
+                onClick={() =>
+                  setActiveButton({
+                    ...activeButton,
+                    sweep: activeButton.sweep ? false : true,
+                  })
+                }
+              >
+                <img
+                  src={props.theme === "Light Theme" ? sweepDark : sweepLight}
+                  alt=""
+                />
               </button>
             </div>
-            <div ref={selectRef} className="filter-select" onClick={() => setOpen(open ? false : true)}>
+            <div
+              ref={selectRef}
+              className="filter-select"
+              onClick={() => setOpen(open ? false : true)}
+            >
               <div className="visible">
                 <span className="filter-selection">{selected}</span>
                 <div className="icon">
-                  <img style={{ width: "15px" }} src={props.theme === "Dark Theme" ? arrowDownLight : arrowDown} alt="" />
+                  <img
+                    style={{ width: "15px" }}
+                    src={
+                      props.theme === "Dark Theme" ? arrowDownLight : arrowDown
+                    }
+                    alt=""
+                  />
                 </div>
               </div>
               <div className="filter-option">
@@ -152,31 +222,60 @@ export const MyNft = (props) => {
         )}
       </div>
       <div className="container-nft">
-        {collection.length === 0 ? <div style={{width: "100%", display: "flex", justifyContent: "center"}}>No NFT to be shown</div> : null}
+        {collection.length === 0 ? (
+          <div
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          >
+            No NFT to be shown
+          </div>
+        ) : null}
         {collection.map((element, index) => (
           <div className="myNft" key={index}>
             <img alt="" src={props.img} />
             {element.isStacked ? <p>STACKED</p> : null}
-            <ToolBar market={props.market} open={modalOpen === index + 1 && isOpen ? true : false}>
+            <ToolBar
+              market={props.market}
+              open={modalOpen === index + 1 && isOpen ? true : false}
+            >
               <div>
                 <p>Number Runner #{element.id.toString()}</p>
                 <p>{nftTypeToString(getNftType(element.id.toString()))}</p>
               </div>
               <button className="buy-action">Buy</button>
               <div className="price">
-                <img alt="" className="leftText" src={props.theme === "Dark Theme" ? eth : ethDark} /> <span>1.19</span>
+                <img
+                  alt=""
+                  className="leftText"
+                  src={props.theme === "Dark Theme" ? eth : ethDark}
+                />{" "}
+                <span>1.19</span>
               </div>
               <button className="modal-button">
-                <img alt="" onClick={(e) => openModal(e, index + 1)} src={currentTheme.theme.name === "Dark Theme" ? DotLight : DotDark} />
+                <img
+                  alt=""
+                  onClick={(e) => openModal(e, index + 1)}
+                  src={
+                    currentTheme.theme.name === "Dark Theme"
+                      ? DotLight
+                      : DotDark
+                  }
+                />
               </button>
               {modalOpen === index + 1 && isOpen && (
                 <div ref={modalRef} className="modal-option">
                   <ul>
-                    {element.isStacked ? <li className="option" onClick={() => unstack(element.id)}>
-                      Unstacker
-                    </li> : <li className="option" onClick={() => stack(element.id)}>
-                      Stacker
-                    </li>}
+                    {element.isStacked ? (
+                      <li
+                        className="option"
+                        onClick={() => unstack(element.id)}
+                      >
+                        Unstacker
+                      </li>
+                    ) : (
+                      <li className="option" onClick={() => stack(element.id)}>
+                        Stacker
+                      </li>
+                    )}
                     <li className="option" onClick={() => console.log("sell")}>
                       Sell
                     </li>

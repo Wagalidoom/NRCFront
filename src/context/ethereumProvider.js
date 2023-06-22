@@ -5,11 +5,11 @@ import {
   ContractCallResults,
   ContractCallContext,
 } from "ethereum-multicall";
-import Axios from 'axios';
+import Axios from "axios";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 
-const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.3";
+export const NRCsubgraph =
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.4";
 const EthereumContext = createContext(null);
 
 export function EthereumProvider({ children }) {
@@ -100,6 +100,7 @@ export function EthereumProvider({ children }) {
   const [ethereumState, setEthereumState] = useState({
     provider: null,
     contract: null,
+    wallet: null,
   });
 
   const connectWallet = async () => {
@@ -111,15 +112,15 @@ export function EthereumProvider({ children }) {
     try {
       await window.ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
+      const signer = await provider.getSigner();
+      const wallet = await signer.getAddress();
       const contractAddress = "0x56DFe0ca7c483aB7211699826d0216A47B3D351e";
       const contract = new ethers.Contract(
         contractAddress,
         NUMBERRUNNERCLUB_ABI,
         signer
       );
-      setEthereumState({ provider, contract });
-      console.log(window.ethereum);
+      setEthereumState({ provider, contract, wallet });
       console.log("Wallet Connected !");
     } catch (error) {
       window.alert("Failed to connect wallet");
@@ -131,7 +132,7 @@ export function EthereumProvider({ children }) {
     console.log(ethereumState);
     if (!ethereumState.provider || !ethereumState.contract) return;
     console.log("Mint Pawn");
-    const address = await ethereumState.provider.getSigner().getAddress();
+    const address = ethereumState.wallet;
     let query = `
     {
       colorChooseds(where: { user: "${address}" }) {
@@ -144,13 +145,11 @@ export function EthereumProvider({ children }) {
       }
     }
         `;
-        let hasColorChosen;
+    let hasColorChosen;
     try {
-      await Axios.post(NRCsubgraph, { query: query }).then(
-        (result) => {
-          hasColorChosen = Object.values(result.data.data);
-        }
-      );
+      await Axios.post(NRCsubgraph, { query: query }).then((result) => {
+        hasColorChosen = Object.values(result.data.data);
+      });
     } catch (error) {
       console.log(error);
     }
