@@ -193,7 +193,7 @@ const HomeV1 = () => {
   };
 
   const { connectWallet } = useEthereum();
-  const { mintPawn, isColorPickerOpen, isMintOpen } = useEthereum();
+  const { mintPawn, isColorPickerOpen, isMintOpen, getTotalMinted } = useEthereum();
 
   const openMore = (value, position) => {
     setPosScroll(position);
@@ -627,7 +627,7 @@ const HomeV1 = () => {
                       currentTheme.theme.name === "Dark Theme" ? eth : ethDark
                     }
                   />
-                  <span className="textWhite">250</span> Mint{" "}
+                  <span className="textWhite">{getTotalMinted}</span> Mint{" "}
                   <span className="textWhite leftText">
                     <img
                       alt=""

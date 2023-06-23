@@ -1,10 +1,13 @@
 import { createContext, useContext, useState } from "react";
-import { ethers } from "ethers";
-import Axios from "axios";
+import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
+
+const ETHEREUM_RPC_URL =
+  "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
   "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.12";
+
 const EthereumContext = createContext(null);
 
 export function EthereumProvider({ children }) {
@@ -17,6 +20,13 @@ export function EthereumProvider({ children }) {
     contract: null,
     wallet: null,
   });
+  const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
+  const contractAddress = "0xf64203ab6f93Cd61551Ba7aDB8bDC81b5027D08d";
+  const generalContract = new ethers.Contract(
+    contractAddress,
+    NUMBERRUNNERCLUB_ABI,
+    generalProvider
+  );
 
   const chooseColor = async (_color) => {
     if (!ethereumState.contract) return;
@@ -100,7 +110,10 @@ export function EthereumProvider({ children }) {
     if (!ethereumState.contract) return;
     console.log(price);
     await ethereumState.contract.approve(ethereumState.contract.address, _id);
-    await ethereumState.contract.listNFT(_id, ethers.utils.parseEther(price.toString()));
+    await ethereumState.contract.listNFT(
+      _id,
+      ethers.utils.parseEther(price.toString())
+    );
     setSaleId(null);
     setIsPriceSelectorOpen(false);
   };
@@ -114,7 +127,7 @@ export function EthereumProvider({ children }) {
     try {
       await window.ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
       const wallet = await signer.getAddress();
       const contractAddress = "0xf64203ab6f93cd61551ba7adb8bdc81b5027d08d";
       const contract = new ethers.Contract(
@@ -135,44 +148,17 @@ export function EthereumProvider({ children }) {
     if (!ethereumState.provider || !ethereumState.contract) return;
     console.log("Mint Pawn");
     const address = ethereumState.wallet;
-    let query = `
-    {
-      colorChooseds(where: { user: "${address}" }) {
-        id
-        color
-        user
-        blockNumber
-        blockTimestamp
-        transactionHash
-      }
-    }
-        `;
-    let hasColorChosen;
-    try {
-      await Axios.post(NRCsubgraph, { query: query }).then((result) => {
-        hasColorChosen = Object.values(result.data.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    if (hasColorChosen[0].length === 0) {
+    const hasColorChosen = await ethereumState.contract.getUserColor(address);
+    if (hasColorChosen === 0) {
       setIsColorPickerOpen(true);
       console.log("display choose color component");
     } else {
       setIsMintOpen(true);
-      // const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.00002") }); // mint a Pawn
-
-      // const approve = await ethereumState.contract.approve(ethereumState.contract.address, 363);
-      // const list = await ethereumState.contract.listNFT(363,  ethers.utils.parseEther("0.069")); // mint a Pawn
-      // const unlist = await ethereumState.contract.unlistNFT(363); // mint a Pawn
-      // const buy = await ethereumState.contract.buyNFT(364, {value: ethers.utils.parseEther("0.097")});
-      // const unstack = await ethereumState.contract.unstack(363);
-      // console.log(await ethereumState.contract.getReward(365));
-      // console.log(await ethereumState.contract.getReward(363));
-      // console.log(await ethereumState.contract.getReward(364));
-
-      console.log(hasColorChosen[0]);
     }
+  };
+
+  const getTotalMinted = async () => {
+    return await generalContract.getTotalMinted();
   };
 
   const value = {
@@ -192,6 +178,7 @@ export function EthereumProvider({ children }) {
     buy,
     listNFT,
     setPrice,
+    getTotalMinted,
   };
 
   return (
