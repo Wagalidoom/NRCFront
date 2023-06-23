@@ -4,7 +4,7 @@ import Axios from "axios";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.8";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.12";
 const EthereumContext = createContext(null);
 
 export function EthereumProvider({ children }) {
@@ -115,7 +115,7 @@ export function EthereumProvider({ children }) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = await provider.getSigner();
       const wallet = await signer.getAddress();
-      const contractAddress = "0x56DFe0ca7c483aB7211699826d0216A47B3D351e";
+      const contractAddress = "0xf64203ab6f93cd61551ba7adb8bdc81b5027d08d";
       const contract = new ethers.Contract(
         contractAddress,
         NUMBERRUNNERCLUB_ABI,
