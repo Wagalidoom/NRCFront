@@ -30,7 +30,7 @@ export const MyNft = (props) => {
   const selectRef = useRef(null);
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
-  const { ethereumState, burn, stack, unstack } = useEthereum();
+  const { ethereumState, burn, stack, unstack, buy } = useEthereum();
   const [collection, setCollection] = useState([]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
@@ -252,7 +252,7 @@ export const MyNft = (props) => {
                 <p>Number Runner #{element.id.toString()}</p>
                 <p>{nftTypeToString(getNftType(element.id.toString()))}</p>
               </div>
-              <button className="buy-action">Buy</button>
+              <button className="buy-action" onClick={() => buy(element.id.toString(), element.price)} >Buy</button>
               <div className="price">
                 <img
                   alt=""

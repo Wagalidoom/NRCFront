@@ -97,6 +97,12 @@ export function EthereumProvider({ children }) {
     await ethereumState.contract.burn(_id);
   };
 
+  const buy = async (_id, price) => {
+    if (!ethereumState.contract) return;
+    console.log(_id, price);
+    await ethereumState.contract.buyNFT(_id, { value: price });
+  };
+
   const [ethereumState, setEthereumState] = useState({
     provider: null,
     contract: null,
@@ -159,8 +165,17 @@ export function EthereumProvider({ children }) {
     } else {
       setIsMintOpen(true);
       // const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
-      // const list = await ethereumState.contract.listNFT(363,  ethers.utils.parseEther("69.6970")); // mint a Pawn
+      
+      // const approve = await ethereumState.contract.approve(ethereumState.contract.address, 363);
+      // const list = await ethereumState.contract.listNFT(363,  ethers.utils.parseEther("0.069")); // mint a Pawn
       // const unlist = await ethereumState.contract.unlistNFT(363); // mint a Pawn
+      // const buy = await ethereumState.contract.buyNFT(364, {value: ethers.utils.parseEther("0.097")});
+      // const unstack = await ethereumState.contract.unstack(363);
+      console.log(await ethereumState.contract.getReward(365));
+      // console.log(await ethereumState.contract.getReward(363));
+      // console.log(await ethereumState.contract.getReward(364));
+
+
 
       console.log(hasColorChosen[0]);
     }
@@ -178,6 +193,7 @@ export function EthereumProvider({ children }) {
     burn,
     stack,
     unstack,
+    buy,
     checkIfStacked,
   };
 
