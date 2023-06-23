@@ -258,6 +258,23 @@ padding-top:5px;
     padding:6px 16px!important;
     line-height:16px;
 }
+
+.unlist-action{
+    background:red;
+    border:none;
+    border-radius:5px;
+    color:white;
+    display:${props => props.market ?'flex' : 'none'};
+    justify-content:center;
+    align-items:center;
+    position:absolute;
+    bottom:6px;
+    right:10.5px;
+    font-size:16px;
+    cursor:default;
+    padding:6px 16px!important;
+    line-height:16px;
+}
 >div:first-of-type{
     // background:${props => props.market ? 'transparent' : 'red'};
     position:relative;

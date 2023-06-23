@@ -1,4 +1,5 @@
 import { MyNftContainer, ToolBar } from "./myNft.style";
+import { Button } from "@mui/material";
 import DotLight from "../../../assets/images/icon/three-dot-light.svg";
 import DotDark from "../../../assets/images/icon/three-dot-dark.svg";
 import { ThemeContext } from "../../../app/App";
@@ -29,9 +30,10 @@ export const MyNft = (props) => {
   });
   const modalRef = useRef(null);
   const selectRef = useRef(null);
+  const [addressLower, setAddressLower] = useState('');
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
-  const { ethereumState, burn, stack, unstack, buy, isPriceSelectorOpen, setPrice } = useEthereum();
+  const { ethereumState, burn, stack, unstack, unlistNFT, buy, isPriceSelectorOpen, setPrice } = useEthereum();
   const [collection, setCollection] = useState([]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
@@ -81,18 +83,21 @@ export const MyNft = (props) => {
 
     const fetchData = async () => {
       const address = ethereumState.wallet;
+      setAddressLower(address.toLowerCase());
       let query = props.market ? `
             {
               nfts(where: {listed: true}) {
                 id
+                owner
                 price
               }
             }
           `:
           `
             {
-              nfts(where: {owner: "${address}"}) {
+              nfts(where: {owner: "${address}"}) {x
                 id
+                owner
               }
             }
           ` ;
@@ -254,7 +259,6 @@ export const MyNft = (props) => {
                 <p>Number Runner #{element.id.toString()}</p>
                 <p>{nftTypeToString(getNftType(element.id.toString()))}</p>
               </div>
-              <button className="buy-action" onClick={() => buy(element.id.toString(), element.price)} >Buy</button>
               <div className="price">
                 <img
                   alt=""
@@ -262,6 +266,10 @@ export const MyNft = (props) => {
                   src={props.theme === "Dark Theme" ? eth : ethDark}
                 />{" "}
                 <span>{(element.price/10**18).toString()}</span>
+                {console.log(ethereumState.wallet.toLowerCase(), element.owner)}
+                
+                { addressLower === element.owner ?  <Button className="unlist-action" onClick={() => unlistNFT(element.id.toString())}>UNLIST</Button> : <Button className="buy-action" onClick={() => buy(element.id.toString(), element.price)} >Buy</Button>}
+                
               </div>
               <button className="modal-button">
                 <img

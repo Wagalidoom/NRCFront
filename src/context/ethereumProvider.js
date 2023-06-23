@@ -118,6 +118,11 @@ export function EthereumProvider({ children }) {
     setIsPriceSelectorOpen(false);
   };
 
+  const unlistNFT = async (_id) => {
+    if (!ethereumState.contract) return;
+    await ethereumState.contract.unlistNFT(_id);
+  };
+
   const connectWallet = async () => {
     if (!window.ethereum) {
       window.alert("Please install MetaMask!");
@@ -177,6 +182,7 @@ export function EthereumProvider({ children }) {
     unstack,
     buy,
     listNFT,
+    unlistNFT,
     setPrice,
     getTotalMinted,
   };
