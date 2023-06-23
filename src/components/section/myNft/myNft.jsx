@@ -16,6 +16,7 @@ import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
 import { NRCsubgraph, useEthereum } from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
+import { PriceSelector } from "../priceSelector/PriceSelector";
 import Axios from "axios";
 
 export const MyNft = (props) => {
@@ -30,7 +31,7 @@ export const MyNft = (props) => {
   const selectRef = useRef(null);
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
-  const { ethereumState, burn, stack, unstack, buy } = useEthereum();
+  const { ethereumState, burn, stack, unstack, buy, isPriceSelectorOpen, setPrice } = useEthereum();
   const [collection, setCollection] = useState([]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
@@ -233,6 +234,7 @@ export const MyNft = (props) => {
         )}
       </div>
       <div className="container-nft">
+      {isPriceSelectorOpen ? <PriceSelector /> : null}
         {collection.length === 0 ? (
           <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
@@ -287,7 +289,7 @@ export const MyNft = (props) => {
                         Stacker
                       </li>
                     )}
-                    <li className="option" onClick={() => console.log("sell")}>
+                    <li className="option" onClick={() => setPrice(element.id)}>
                       Sell
                     </li>
                     <li className="option" onClick={() => burn(element.id)}>

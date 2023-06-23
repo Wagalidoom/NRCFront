@@ -1,10 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import { ethers } from "ethers";
-import {
-  Multicall,
-  ContractCallResults,
-  ContractCallContext,
-} from "ethereum-multicall";
 import Axios from "axios";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 
@@ -14,7 +9,14 @@ const EthereumContext = createContext(null);
 
 export function EthereumProvider({ children }) {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+  const [isPriceSelectorOpen, setIsPriceSelectorOpen] = useState(false);
+  const [saleId, setSaleId] = useState(0);
   const [isMintOpen, setIsMintOpen] = useState(false);
+  const [ethereumState, setEthereumState] = useState({
+    provider: null,
+    contract: null,
+    wallet: null,
+  });
 
   const chooseColor = async (_color) => {
     if (!ethereumState.contract) return;
@@ -28,6 +30,12 @@ export function EthereumProvider({ children }) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const setPrice = async (_id) => {
+    if (!ethereumState.contract) return;
+    setIsPriceSelectorOpen(true);
+    setSaleId(_id);
   };
 
   const chooseBlackColor = async () => {
@@ -45,20 +53,13 @@ export function EthereumProvider({ children }) {
       throw new Error("Contract is not defined");
     }
 
-    const multicall = new Multicall({
-      ethersProvider: ethereumState.provider,
-      tryAggregate: false,
-    });
-
-    for (let i = 0; i < mintCount; i++) {
-      multicall.call("mint", 5, "0x0", {
+    try {
+      let transactionResponse = await ethereumState.contract.mint(5, "0x0", {
         value: ethers.utils.parseEther("0.2"),
       });
-    }
 
-    try {
-      const responses = await multicall.execute();
-      console.log(responses);
+      let receipt = await transactionResponse.wait();
+      console.log(receipt);
     } catch (error) {
       console.error(error);
     }
@@ -103,11 +104,13 @@ export function EthereumProvider({ children }) {
     await ethereumState.contract.buyNFT(_id, { value: price });
   };
 
-  const [ethereumState, setEthereumState] = useState({
-    provider: null,
-    contract: null,
-    wallet: null,
-  });
+  const listNFT = async (_id, price) => {
+    if (!ethereumState.contract) return;
+    console.log(price);
+    await ethereumState.contract.listNFT(_id, ethers.utils.parseEther(price.toString()));
+    setSaleId(null);
+    setIsPriceSelectorOpen(false);
+  };
 
   const connectWallet = async () => {
     if (!window.ethereum) {
@@ -165,7 +168,7 @@ export function EthereumProvider({ children }) {
     } else {
       setIsMintOpen(true);
       // const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
-      
+
       // const approve = await ethereumState.contract.approve(ethereumState.contract.address, 363);
       // const list = await ethereumState.contract.listNFT(363,  ethers.utils.parseEther("0.069")); // mint a Pawn
       // const unlist = await ethereumState.contract.unlistNFT(363); // mint a Pawn
@@ -174,8 +177,6 @@ export function EthereumProvider({ children }) {
       console.log(await ethereumState.contract.getReward(365));
       // console.log(await ethereumState.contract.getReward(363));
       // console.log(await ethereumState.contract.getReward(364));
-
-
 
       console.log(hasColorChosen[0]);
     }
@@ -188,13 +189,16 @@ export function EthereumProvider({ children }) {
     chooseBlackColor,
     chooseWhiteColor,
     isColorPickerOpen,
+    isPriceSelectorOpen,
     isMintOpen,
+    saleId,
     mint,
     burn,
     stack,
     unstack,
     buy,
-    checkIfStacked,
+    listNFT,
+    setPrice,
   };
 
   return (
