@@ -33,7 +33,7 @@ export const MyNft = (props) => {
   const [addressLower, setAddressLower] = useState('');
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
-  const { ethereumState, burn, stack, unstack, unlist, buy, isPriceSelectorOpen, setPrice } = useEthereum();
+  const { ethereumState, burn, stack, unstack, unlistNFT, buy, isPriceSelectorOpen, setPrice } = useEthereum();
   const [collection, setCollection] = useState([]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
@@ -268,7 +268,7 @@ export const MyNft = (props) => {
                 <span>{(element.price/10**18).toString()}</span>
                 {console.log(ethereumState.wallet.toLowerCase(), element.owner)}
                 
-                { addressLower === element.owner ?  <Button className="unlist-action" onClick={() => unlist(element.id.toString())}>UNLIST</Button> : <Button className="buy-action" onClick={() => buy(element.id.toString(), element.price)} >Buy</Button>}
+                { addressLower === element.owner ?  <Button className="unlist-action" onClick={() => unlistNFT(element.id.toString())}>UNLIST</Button> : <Button className="buy-action" onClick={() => buy(element.id.toString(), element.price)} >Buy</Button>}
                 
               </div>
               <button className="modal-button">
