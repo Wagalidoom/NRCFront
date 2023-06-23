@@ -84,6 +84,7 @@ export const MyNft = (props) => {
             {
               nfts(where: {listed: true}) {
                 id
+                price
               }
             }
           `:
@@ -258,7 +259,7 @@ export const MyNft = (props) => {
                   className="leftText"
                   src={props.theme === "Dark Theme" ? eth : ethDark}
                 />{" "}
-                <span>1.19</span>
+                <span>{(element.price/10**18).toString()}</span>
               </div>
               <button className="modal-button">
                 <img

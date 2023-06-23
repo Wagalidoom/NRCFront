@@ -9,7 +9,7 @@ import Axios from "axios";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.6";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.8";
 const EthereumContext = createContext(null);
 
 export function EthereumProvider({ children }) {
