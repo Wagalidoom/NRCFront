@@ -159,14 +159,14 @@ export function EthereumProvider({ children }) {
       console.log("display choose color component");
     } else {
       setIsMintOpen(true);
-      // const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
+      const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.00002") }); // mint a Pawn
 
       // const approve = await ethereumState.contract.approve(ethereumState.contract.address, 363);
       // const list = await ethereumState.contract.listNFT(363,  ethers.utils.parseEther("0.069")); // mint a Pawn
       // const unlist = await ethereumState.contract.unlistNFT(363); // mint a Pawn
       // const buy = await ethereumState.contract.buyNFT(364, {value: ethers.utils.parseEther("0.097")});
       // const unstack = await ethereumState.contract.unstack(363);
-      console.log(await ethereumState.contract.getReward(365));
+      // console.log(await ethereumState.contract.getReward(365));
       // console.log(await ethereumState.contract.getReward(363));
       // console.log(await ethereumState.contract.getReward(364));
 
