@@ -99,6 +99,7 @@ export function EthereumProvider({ children }) {
   const listNFT = async (_id, price) => {
     if (!ethereumState.contract) return;
     console.log(price);
+    await ethereumState.contract.approve(ethereumState.contract.address, _id);
     await ethereumState.contract.listNFT(_id, ethers.utils.parseEther(price.toString()));
     setSaleId(null);
     setIsPriceSelectorOpen(false);
@@ -159,7 +160,7 @@ export function EthereumProvider({ children }) {
       console.log("display choose color component");
     } else {
       setIsMintOpen(true);
-      const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.00002") }); // mint a Pawn
+      // const mint = await ethereumState.contract.mint(5, "0x0", { value: ethers.utils.parseEther("0.00002") }); // mint a Pawn
 
       // const approve = await ethereumState.contract.approve(ethereumState.contract.address, 363);
       // const list = await ethereumState.contract.listNFT(363,  ethers.utils.parseEther("0.069")); // mint a Pawn
