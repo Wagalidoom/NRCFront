@@ -53,27 +53,19 @@ export function EthereumProvider({ children }) {
       throw new Error("Contract is not defined");
     }
 
-    try {
-      let transactionResponse = await ethereumState.contract.mint(5, "0x0", {
-        value: ethers.utils.parseEther("0.2"),
-      });
+    for (let i = 0; i < mintCount; i++) {
+      try {
+        let transactionResponse = await ethereumState.contract.mint(5, "0x0", {
+          value: ethers.utils.parseEther("0.2"),
+        });
 
-      let receipt = await transactionResponse.wait();
-      console.log(receipt);
-    } catch (error) {
-      console.error(error);
+        // Wait for the transaction to be mined
+        let receipt = await transactionResponse.wait();
+        console.log(receipt);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  };
-
-  const checkIfStacked = async (_id) => {
-    if (!ethereumState.contract) return false;
-    try {
-      const result = await ethereumState.contract.getIsStacked(_id);
-      return result;
-    } catch (error) {
-      console.error(error);
-    }
-    return false;
   };
 
   const stack = async (_id) => {
