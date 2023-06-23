@@ -24,7 +24,7 @@ export function EthereumProvider({ children }) {
       await ethereumState.contract.chooseColor(_color);
       setIsColorPickerOpen(false);
       const mint = await ethereumState.contract.mint(5, "0x0", {
-        value: ethers.utils.parseEther("0.2"),
+        value: ethers.utils.parseEther("0.00002"),
       }); // mint a Pawn
       console.log(mint);
     } catch (error) {
@@ -56,7 +56,7 @@ export function EthereumProvider({ children }) {
     for (let i = 0; i < mintCount; i++) {
       try {
         let transactionResponse = await ethereumState.contract.mint(5, "0x0", {
-          value: ethers.utils.parseEther("0.2"),
+          value: ethers.utils.parseEther("0.00002"),
         });
 
         // Wait for the transaction to be mined
