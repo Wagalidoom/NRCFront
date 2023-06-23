@@ -1,4 +1,5 @@
 import { MyNftContainer, ToolBar } from "./myNft.style";
+import { Button } from "@mui/material";
 import DotLight from "../../../assets/images/icon/three-dot-light.svg";
 import DotDark from "../../../assets/images/icon/three-dot-dark.svg";
 import { ThemeContext } from "../../../app/App";
@@ -254,7 +255,6 @@ export const MyNft = (props) => {
                 <p>Number Runner #{element.id.toString()}</p>
                 <p>{nftTypeToString(getNftType(element.id.toString()))}</p>
               </div>
-              <button className="buy-action" onClick={() => buy(element.id.toString(), element.price)} >Buy</button>
               <div className="price">
                 <img
                   alt=""
@@ -262,6 +262,8 @@ export const MyNft = (props) => {
                   src={props.theme === "Dark Theme" ? eth : ethDark}
                 />{" "}
                 <span>{(element.price/10**18).toString()}</span>
+                
+              <Button className="buy-action" onClick={() => buy(element.id.toString(), element.price)} >Buy</Button>
               </div>
               <button className="modal-button">
                 <img
