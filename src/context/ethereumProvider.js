@@ -163,7 +163,13 @@ export function EthereumProvider({ children }) {
   };
 
   const getTotalMinted = async () => {
-    return await generalContract.getTotalMinted();
+    const total =  await generalContract.getTotalMinted();
+    return total;
+  };
+
+  const getCurrentSupply = async () => {
+    const currentSupply =  await generalContract.getCurrentSupply();
+    return currentSupply;
   };
 
   const value = {
@@ -185,6 +191,7 @@ export function EthereumProvider({ children }) {
     unlistNFT,
     setPrice,
     getTotalMinted,
+    getCurrentSupply,
   };
 
   return (

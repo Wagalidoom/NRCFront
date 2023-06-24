@@ -95,7 +95,7 @@ export const MyNft = (props) => {
           `:
           `
             {
-              nfts(where: {owner: "${address}"}) {x
+              nfts(where: {owner: "${address}"}) {
                 id
                 owner
               }

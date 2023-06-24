@@ -70,7 +70,7 @@ import {
   AboutStyleWrapper,
   SubNavLink,
 } from "../components/section/about/v1/About.style";
-import React from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "../app/App";
 import { lightTheme, darkTheme } from "../assets/styles/themes";
 import { RightSection } from "../components/section/rightSection/rightSection";
@@ -91,24 +91,27 @@ import { ColorPicker } from "../components/section/colorPicker/ColorPicker";
 import { Mint } from "../components/section/mint/Mint";
 
 const HomeV1 = () => {
-  const [link, changePageLink] = React.useState(true);
-  const [linkMarket, changePageLinkMarket] = React.useState(true);
-  const [linkProfile, changePageLinkProfile] = React.useState(true);
-  const [thread, threadLink] = React.useState(true);
-  const [faq, faqLink] = React.useState(true);
-  const [listThemeLast, showListThemeLinkLast] = React.useState(true);
-  const [listLang, showListLangLink] = React.useState(true);
-  const [listLangLast, showListLangLinkLast] = React.useState(true);
-  const [mobile, changeMobile] = React.useState(true);
-  const currentTheme = React.useContext(ThemeContext);
-  const [more, setMore] = React.useState({
+  const [link, changePageLink] = useState(true);
+  const [linkMarket, changePageLinkMarket] = useState(true);
+  const [linkProfile, changePageLinkProfile] = useState(true);
+  const [thread, threadLink] = useState(true);
+  const [faq, faqLink] = useState(true);
+  const [listThemeLast, showListThemeLinkLast] = useState(true);
+  const [listLang, showListLangLink] = useState(true);
+  const [listLangLast, showListLangLinkLast] = useState(true);
+  const [mobile, changeMobile] = useState(true);
+  const currentTheme = useContext(ThemeContext);
+  const { connectWallet, mintPawn, isColorPickerOpen, isMintOpen, getTotalMinted, getCurrentSupply } = useEthereum();
+  const [totalMinted, setTotalMinted] = useState(0);
+  const [currentSupply, setCurrentSupply] = useState(0);
+  const [more, setMore] = useState({
     topHolders: false,
     activity: false,
     page: null,
   });
-  const [posScroll, setPosScroll] = React.useState({ pos: 0, back: false });
-  const langRef = React.useRef(null);
-  const scrollRef = React.useRef(null);
+  const [posScroll, setPosScroll] = useState({ pos: 0, back: false });
+  const langRef = useRef(null);
+  const scrollRef = useRef(null);
   const changePage = (link) => {
     changePageLink(link);
     if (link === "market") {
@@ -118,7 +121,7 @@ const HomeV1 = () => {
       changePageProfile("home");
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       window.innerWidth > 600 &&
       scrollRef.current &&
@@ -141,6 +144,17 @@ const HomeV1 = () => {
   const changePageMarket = (linkMarket) => {
     changePageLinkMarket(linkMarket);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const total = await getTotalMinted();
+      const currentSupply = await getCurrentSupply();
+      setTotalMinted(total.toString());
+      setCurrentSupply(currentSupply.toString());
+    }
+
+    fetchData();
+  }, [getTotalMinted, getCurrentSupply]);
 
   const changePageProfile = (linkProfile) => {
     changePageLinkProfile(linkProfile);
@@ -192,14 +206,11 @@ const HomeV1 = () => {
     }
   };
 
-  const { connectWallet } = useEthereum();
-  const { mintPawn, isColorPickerOpen, isMintOpen, getTotalMinted } = useEthereum();
-
   const openMore = (value, position) => {
     setPosScroll(position);
     setMore(value);
   };
-  React.useEffect(() => {
+  useEffect(() => {
     if (posScroll.back === true) {
       window.scrollTo({ top: posScroll.pos, behavior: "instant" });
       setPosScroll({ ...posScroll, back: false });
@@ -215,13 +226,13 @@ const HomeV1 = () => {
       showListLangLinkLast("open");
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener("click", clickOutside, true);
     return () => {
       document.removeEventListener("click", clickOutside, true);
     };
   });
-  React.useEffect(() => {
+  useEffect(() => {
     if (more.activity || more.topHolders) {
       window.scrollTo({ top: 0, behavior: "instant" });
     }
@@ -627,9 +638,8 @@ const HomeV1 = () => {
                       currentTheme.theme.name === "Dark Theme" ? eth : ethDark
                     }
                   />
-                  <span className="textWhite">{getTotalMinted}</span> Mint{" "}
-                  <span className="textWhite leftText">
-                    <img
+                  <span className="textWhite">{totalMinted}</span> Mint{" "}
+                  <img
                       alt=""
                       className="leftText"
                       style={{ height: "16px", marginBottom: "2px" }}
@@ -637,9 +647,16 @@ const HomeV1 = () => {
                         currentTheme.theme.name === "Dark Theme" ? eth : ethDark
                       }
                     />
-                    101
-                  </span>{" "}
-                  Burn{" "}
+                  <span className="textWhite leftText">{totalMinted - currentSupply}</span> Burn{" "}
+                  <img
+                      alt=""
+                      className="leftText"
+                      style={{ height: "16px", marginBottom: "2px" }}
+                      src={
+                        currentTheme.theme.name === "Dark Theme" ? eth : ethDark
+                      }
+                    />
+                  <span className="textWhite leftText">{currentSupply}</span> Supply{" "}
                 </div>
               </div>
             </div>

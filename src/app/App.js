@@ -11,7 +11,7 @@ export const ThemeContext = React.createContext(null)
 function App() {
     const [theme, setTheme] = React.useState(localStorage.getItem('theme') && localStorage.getItem('theme') === 'Light Theme' ? lightTheme : darkTheme)
     return (
-        <ThirdwebProvider activeChain="localhost">
+        // <ThirdwebProvider activeChain="localhost">
             <ThemeContext.Provider value={{ theme, setTheme }}>
                 <MuiThemeProvider theme={muiTheme}>
                     <StyledThemeProvider theme={theme}>
@@ -23,7 +23,7 @@ function App() {
                     </StyledThemeProvider>
                 </MuiThemeProvider>
             </ThemeContext.Provider>
-        </ThirdwebProvider>
+        // </ThirdwebProvider>
     );
 }
 
