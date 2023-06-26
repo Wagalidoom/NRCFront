@@ -4215,7 +4215,7 @@ const HomeV1 = () => {
                       },
                       {
                         type: "burn",
-                        value: 15,
+                        value: 10,
                         text: "Burn 10 counters that you mint or buy on the secondary market.",
                       },
                     ]

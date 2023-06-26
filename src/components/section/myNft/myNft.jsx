@@ -15,10 +15,15 @@ import searchLight from "../../../assets/images/icon/loupeLight.png";
 import ensvision from "../../../assets/images/icon/ensvision.png";
 import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
-import { NRCsubgraph, useEthereum } from "../../../context/ethereumProvider";
+import {
+  NRCsubgraph,
+  ENSsubgraph,
+  useEthereum,
+} from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
 import { PriceSelector } from "../priceSelector/PriceSelector";
 import Axios from "axios";
+import { EnsSelector } from "../ensSelector/EnsSelector";
 
 export const MyNft = (props) => {
   const currentTheme = useContext(ThemeContext);
@@ -30,11 +35,22 @@ export const MyNft = (props) => {
   });
   const modalRef = useRef(null);
   const selectRef = useRef(null);
-  const [addressLower, setAddressLower] = useState('');
+  const [addressLower, setAddressLower] = useState("");
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
-  const { ethereumState, burn, stack, unstack, unlistNFT, buy, isPriceSelectorOpen, setPrice } = useEthereum();
+  const {
+    ethereumState,
+    burn,
+    unstack,
+    unlistNFT,
+    buy,
+    isPriceSelectorOpen,
+    isEnsSelectorOpen,
+    setPrice,
+    setEns
+  } = useEthereum();
   const [collection, setCollection] = useState([]);
+  const [ensList, setEnsList] = useState([]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
       if (prevModal === current) {
@@ -78,13 +94,15 @@ export const MyNft = (props) => {
   useEffect(() => {
     if (!ethereumState.provider || !ethereumState.contract) {
       setCollection([]);
+      setEnsList([]);
       return;
     }
 
     const fetchData = async () => {
       const address = ethereumState.wallet;
       setAddressLower(address.toLowerCase());
-      let query = props.market ? `
+      let NRCquery = props.market
+        ? `
             {
               nfts(where: {listed: true}) {
                 id
@@ -92,20 +110,20 @@ export const MyNft = (props) => {
                 price
               }
             }
-          `:
           `
+        : `
             {
               nfts(where: {owner: "${address}"}) {
                 id
                 owner
               }
             }
-          ` ;
+          `;
 
       let userOwnedNfts;
 
       try {
-        await Axios.post(NRCsubgraph, { query: query }).then((result) => {
+        await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
           userOwnedNfts = Object.values(result.data.data);
           console.log(userOwnedNfts);
         });
@@ -113,13 +131,31 @@ export const MyNft = (props) => {
         console.log(error);
       }
 
+      let ENSquery = `
+      {
+        domains(where: {registrant: "${address.toLowerCase()}"}) {
+          name
+        }
+      }
+        `;
+
+        let userOwnedENS;
+
+        try {
+          await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
+            userOwnedENS = Object.values(result.data.data);
+            console.log(userOwnedENS);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+
       setCollection(userOwnedNfts[0]);
+      setEnsList(userOwnedENS[0]);
     };
 
     fetchData();
   }, [ethereumState]);
-
-  
 
   return (
     <MyNftContainer
@@ -239,7 +275,8 @@ export const MyNft = (props) => {
         )}
       </div>
       <div className="container-nft">
-      {isPriceSelectorOpen ? <PriceSelector /> : null}
+        {isPriceSelectorOpen ? <PriceSelector /> : null}
+        {isEnsSelectorOpen ? <EnsSelector /> : null}
         {collection.length === 0 ? (
           <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
@@ -265,11 +302,23 @@ export const MyNft = (props) => {
                   className="leftText"
                   src={props.theme === "Dark Theme" ? eth : ethDark}
                 />{" "}
-                <span>{(element.price/10**18).toString()}</span>
+                <span>{(element.price / 10 ** 18).toString()}</span>
                 {console.log(ethereumState.wallet.toLowerCase(), element.owner)}
-                
-                { addressLower === element.owner ?  <Button className="unlist-action" onClick={() => unlistNFT(element.id.toString())}>UNLIST</Button> : <Button className="buy-action" onClick={() => buy(element.id.toString(), element.price)} >Buy</Button>}
-                
+                {addressLower === element.owner ? (
+                  <Button
+                    className="unlist-action"
+                    onClick={() => unlistNFT(element.id.toString())}
+                  >
+                    UNLIST
+                  </Button>
+                ) : (
+                  <Button
+                    className="buy-action"
+                    onClick={() => buy(element.id.toString(), element.price)}
+                  >
+                    Buy
+                  </Button>
+                )}
               </div>
               <button className="modal-button">
                 <img
@@ -293,7 +342,7 @@ export const MyNft = (props) => {
                         Unstacker
                       </li>
                     ) : (
-                      <li className="option" onClick={() => stack(element.id)}>
+                      <li className="option" onClick={() => setEns(element.id, ensList)}>
                         Stacker
                       </li>
                     )}
