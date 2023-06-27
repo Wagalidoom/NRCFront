@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
+const namehash = require("eth-ens-namehash");
 
 const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
@@ -8,12 +9,17 @@ const ETHEREUM_RPC_URL =
 export const NRCsubgraph =
   "https://api.studio.thegraph.com/query/48701/nrctestnet/v0.0.12";
 
+export const ENSsubgraph =
+  "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
+
 const EthereumContext = createContext(null);
 
 export function EthereumProvider({ children }) {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const [isPriceSelectorOpen, setIsPriceSelectorOpen] = useState(false);
-  const [saleId, setSaleId] = useState(0);
+  const [isEnsSelectorOpen, setIsEnsSelectorOpen] = useState(false);
+  const [selectId, setSelectId] = useState(0);
+  const [ensList, setEnsList] = useState("");
   const [isMintOpen, setIsMintOpen] = useState(false);
   const [ethereumState, setEthereumState] = useState({
     provider: null,
@@ -45,7 +51,7 @@ export function EthereumProvider({ children }) {
   const setPrice = async (_id) => {
     if (!ethereumState.contract) return;
     setIsPriceSelectorOpen(true);
-    setSaleId(_id);
+    setSelectId(_id);
   };
 
   const chooseBlackColor = async () => {
@@ -78,13 +84,23 @@ export function EthereumProvider({ children }) {
     }
   };
 
-  const stack = async (_id) => {
+  const setEns = async (_id, _list) => {
+    if (!ethereumState.contract) return;
+    setIsEnsSelectorOpen(true);
+    setEnsList(_list);
+    setSelectId(_id);
+  };
+
+  const stack = async (_ens, _id) => {
     if (!ethereumState.contract) return;
     await ethereumState.contract.approve(ethereumState.contract.address, _id);
+    console.log(_ens, namehash.hash(_ens), _id);
     let tx = await ethereumState.contract.stack(
-      ethers.utils.formatBytes32String("121.eth"),
+      namehash.hash(_ens),
       _id
     );
+    setSelectId(null);
+    setIsEnsSelectorOpen(false);
     console.log(tx);
   };
 
@@ -114,7 +130,7 @@ export function EthereumProvider({ children }) {
       _id,
       ethers.utils.parseEther(price.toString())
     );
-    setSaleId(null);
+    setSelectId(null);
     setIsPriceSelectorOpen(false);
   };
 
@@ -163,12 +179,12 @@ export function EthereumProvider({ children }) {
   };
 
   const getTotalMinted = async () => {
-    const total =  await generalContract.getTotalMinted();
+    const total = await generalContract.getTotalMinted();
     return total;
   };
 
   const getCurrentSupply = async () => {
-    const currentSupply =  await generalContract.getCurrentSupply();
+    const currentSupply = await generalContract.getCurrentSupply();
     return currentSupply;
   };
 
@@ -180,8 +196,10 @@ export function EthereumProvider({ children }) {
     chooseWhiteColor,
     isColorPickerOpen,
     isPriceSelectorOpen,
+    isEnsSelectorOpen,
     isMintOpen,
-    saleId,
+    selectId,
+    ensList,
     mint,
     burn,
     stack,
@@ -190,6 +208,7 @@ export function EthereumProvider({ children }) {
     listNFT,
     unlistNFT,
     setPrice,
+    setEns,
     getTotalMinted,
     getCurrentSupply,
   };
@@ -201,7 +220,6 @@ export function EthereumProvider({ children }) {
   );
 }
 
-// Hook personnalisé pour utiliser le contexte Ethereum
 export function useEthereum() {
   const context = useContext(EthereumContext);
   if (context === undefined) {

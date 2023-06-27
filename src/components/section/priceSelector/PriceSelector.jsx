@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PriceSelectorStyleWrapper } from "./PriceSelector.style";
 
 export const PriceSelector = () => {
-  const { listNFT, saleId } = useEthereum();
+  const { listNFT, selectId } = useEthereum();
   const [price, setPrice] = useState(1);
 
   const handleChange = (newValue) => {
@@ -27,8 +27,7 @@ export const PriceSelector = () => {
           <Button style={{ marginBottom: "20px" }}
             variant="contained"
             onClick={() => {
-              console.log(saleId, price);
-              listNFT(saleId, price);
+              listNFT(selectId, price);
             }}
           >
             accept

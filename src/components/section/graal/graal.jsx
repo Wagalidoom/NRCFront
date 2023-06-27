@@ -14,6 +14,7 @@ export const Graal = (props) => {
     if (!ethereumState.provider || !ethereumState.contract) {
       setEnsName("");
       setBurn(0);
+      setBurnCounter(0);
       return;
     }
 
@@ -21,7 +22,7 @@ export const Graal = (props) => {
       const address = await ethereumState.provider.getSigner().getAddress();
       const burnCount = await ethereumState.contract.getBurnedCount(address);
       const burnCounterCount = await ethereumState.contract.getBurnedCounterCount(address);
-      setBurn(burnCount);
+      setBurn(burnCount.toString());
       setBurnCounter(burnCounterCount);
     };
 
