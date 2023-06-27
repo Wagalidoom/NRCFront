@@ -18,7 +18,7 @@ export const Activity = (props) => {
     // Définition des requêtes
     const GET_NFT_SOLD = `
       {
-        nftpurchaseds(first: 10, orderBy: blockNumber, orderDirection: desc) {
+        nftpurchaseds(first: 6, orderBy: blockNumber, orderDirection: desc) {
           id
           buyer
           seller
@@ -33,7 +33,7 @@ export const Activity = (props) => {
 
     const GET_NFT_LISTED = `
       {
-        nftlisteds(first: 10, orderBy: blockNumber, orderDirection: desc) {
+        nftlisteds(first: 6, orderBy: blockNumber, orderDirection: desc) {
           id
           seller
           tokenId
@@ -93,7 +93,7 @@ export const Activity = (props) => {
         </div>
       </div>
       {nfts.map((nft, index) => (
-        nft.type === filter && (
+       (props.container === "right" || nft.type) && (
           <div className="activity" key={index}>
             <div style={{ display: "flex", justifyContent: "space-around", width: "100%" }}>
               <div className="activity-left">
