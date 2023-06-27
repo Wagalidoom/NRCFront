@@ -63,7 +63,7 @@ width:100%;
 .activity-user > p, .activity-infos-right > p{
     margin-bottom:0px;
     color: ${props => props.theme.colors.text};
-    font-size: 12px;
+    font-size: 13px;
     @media screen and (max-width:400px){
         font-size:12px;
     }

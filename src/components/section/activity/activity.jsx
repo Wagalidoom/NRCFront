@@ -63,7 +63,6 @@ export const Activity = (props) => {
         // Fusionner et trier les NFTs
         const merged = [...nftSold, ...nftListeds];
         const sorted = merged.sort((a, b) => b.blockNumber - a.blockNumber);
-        console.log(sorted);
 
         // Mettre à jour l'état avec les NFTs
         setNfts(sorted);
@@ -93,7 +92,7 @@ export const Activity = (props) => {
         </div>
       </div>
       {nfts.map((nft, index) => (
-       (props.container === "right" || nft.type) && (
+       (props.container === "right" || (!props.container && nft.type === filter)) && (
           <div className="activity" key={index}>
             <div style={{ display: "flex", justifyContent: "space-around", width: "100%" }}>
               <div className="activity-left">
@@ -106,8 +105,8 @@ export const Activity = (props) => {
                 </div>
                 <p>{moment.unix(nft.blockTimestamp).fromNow()}</p>
                 <div className="activity-user">
-                  <p>From: {nft.seller}</p>
-                  {nft.type === "sales" && <p>To: <br></br>{nft.buyer}</p>}
+                    <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>From: {nft.seller}</p>
+                    {nft.type === "sales" && <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>To: {nft.buyer}</p>}
                 </div>
               </div>
               <div className="activity-right">
