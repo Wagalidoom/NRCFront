@@ -97,6 +97,7 @@ export function EthereumProvider({ children }) {
     console.log(_ens, namehash.hash(_ens), _id);
     let tx = await ethereumState.contract.stack(
       namehash.hash(_ens),
+      ethers.utils.formatBytes32String(_ens),
       _id
     );
     setSelectId(null);
