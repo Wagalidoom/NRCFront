@@ -6,13 +6,46 @@ import tirelire from "../../../assets/images/icon/tirelire.png";
 import tirelireDark from "../../../assets/images/icon/tirelireDark.png";
 import eth from "../../../assets/images/eth.png";
 import ethDark from '../../../assets/images/ethDark.png';
-import {useState} from 'react' 
+import React, { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { contractAddress, ETHEREUM_RPC_URL } from "../../../context/ethereumProvider";
+import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
 
 export const KingAuction = (props) => {
     const [checkboxValue, setCheckboxValue] = useState(false)
+    const [deploymentTime, setDeploymentTime] = useState(null);
+    const [price, setPrice] = useState(0);
+    const [test, settest] = useState(0);
+
+    useEffect(() => {
+        const fetchDeploymentTime = async () => {
+
+
+            const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
+            
+            //test
+            const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
+            const balance = await contractInstance.getCurrentPrice(); // Remplacez par votre adresse
+
+            const transaction = await provider.getTransaction("0x74cc3f07e67026023a9516523b6fdd9318cab8482a6a3834db705e07f03c326b");
+            const block = await provider.getBlock(transaction.blockNumber);
+            setDeploymentTime(new Date(block.timestamp * 1000)); 
+
+            setPrice(balance)
+            settest(Date.now());
+
+        }
+
+        fetchDeploymentTime();
+    }, [contractAddress]);
+
+
     const checkboxChange = (e) => {
         setCheckboxValue(checkboxValue ? false : true)
+        console.log(test)
+        console.log(deploymentTime.getTime());
+        console.log(price.toString());
     }
     return (
         <KingAuctionContainer checkbox={checkboxValue}>
