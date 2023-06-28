@@ -9,7 +9,7 @@ import ethBlue from "../../../assets/images/icon/iconeethbleu.png";
 
 export const Activity = (props) => {
   const [filter, setFilter] = useState("sales");
-  const arrayFilters = ["sales", "offers", "burn", "mint"];
+  const arrayFilters = ["sales", "offers", "burns", "mints"];
   // Définir l'état pour les NFTs
   const [nfts, setNfts] = useState([]);
 
@@ -88,8 +88,8 @@ export const Activity = (props) => {
         // Ajouter l'attribut "type" à chaque NFT
         nftSold = nftSold.map(nft => ({ ...nft, type: "sales" }));
         nftListeds = nftListeds.map(nft => ({ ...nft, type: "offers" }));
-        nftMinteds = nftMinteds.map(nft => ({ ...nft, type: "mint" }));
-        nftBurnt = nftBurnt.map(nft => ({ ...nft, type: "burn" }));
+        nftMinteds = nftMinteds.map(nft => ({ ...nft, type: "mints" }));
+        nftBurnt = nftBurnt.map(nft => ({ ...nft, type: "burns" }));
 
         // Fusionner et trier les NFTs
         const merged = [...nftSold, ...nftListeds, ...nftMinteds, ...nftBurnt];
@@ -130,14 +130,14 @@ export const Activity = (props) => {
                 <div className="activity-info">
                   <span>
                     {nft.type === "sales" && <span style={{ color: "#FFFFFF" }}>Sale</span>}
-                    {nft.type === "burn" && <span style={{ color: "#D288A2" }}>Burn</span>}
+                    {nft.type === "burns" && <span style={{ color: "#D288A2" }}>Burn</span>}
                     {nft.type === "offers" && <span style={{ color: "#ADD8E6" }}>Offer</span>}
-                    {nft.type === "mint" && <span style={{ color: "#9cf0ad" }}>Mint</span>}
+                    {nft.type === "mints" && <span style={{ color: "#9cf0ad" }}>Mint</span>}
                   </span>
                 </div>
                 <p>{moment.unix(nft.blockTimestamp).fromNow()}</p>
                 <div className="activity-user">
-                  {(nft.type === "burn" || nft.type === "mint") &&
+                  {(nft.type === "burns" || nft.type === "mints") &&
                     <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Owner: {nft.owner}</p>
                   }
                   {(nft.type === "sales" || nft.type === "offers") &&
@@ -155,7 +155,7 @@ export const Activity = (props) => {
                     <p>Number Runner #{nft.tokenId}</p>
                     <p>
                       Pawn{" "}
-                      {(nft.type !== "burn" && nft.type !== "mint") && (
+                      {(nft.type !== "burns" && nft.type !== "mints") && (
                         <span style={{ position: "absolute", right: "8px" }}>
                           <img className="eth-logo" src={nft.type === "sales" ? ethGreen : ethBlue} alt="" />
                           <span style={{ color: nft.type === "sales" ? "#B3E6B5" : "#ADD8E6" }}>{nft.price / 10 ** 18}</span>
