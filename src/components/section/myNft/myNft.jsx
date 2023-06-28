@@ -150,6 +150,10 @@ export const MyNft = (props) => {
           console.log(error);
         }
 
+        userOwnedNfts[0].map(element => {
+          return { id: element, isStacked: false, ensName: "" };
+        })
+
       setCollection(userOwnedNfts[0]);
       setEnsList(userOwnedENS[0]);
     };
