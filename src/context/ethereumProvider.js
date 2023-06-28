@@ -7,7 +7,7 @@ const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.1.0";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.1.10";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
@@ -27,7 +27,7 @@ export function EthereumProvider({ children }) {
     wallet: null,
   });
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
-  const contractAddress = "0x420583a2fbB3E7a309344c0b07Fd4165901c1189";
+  const contractAddress = "0x1eD6e4C2EE04844c93Ff72C96071CD01285CCd81";
   const generalContract = new ethers.Contract(
     contractAddress,
     NUMBERRUNNERCLUB_ABI,
