@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import moment from "moment-timezone"
 import { CountdownContainer } from "./countdown.style";
-export const Countdown = ({ targetDate }) => {
+export const Countdown = ({ endTime }) => {
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -12,7 +12,8 @@ export const Countdown = ({ targetDate }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             const now = moment().tz("Europe/Paris");
-            const targetDate = moment.tz("2023-05-22T06:24:00", "Europe/Paris"); // format dateTheure (YYYY-MM-DD)T(HH:MM:SS) 
+            const targetDate = moment.utc(endTime).tz("Europe/Paris");
+            console.log(endTime)
             if (now.isAfter(targetDate)) {
                 clearInterval(interval);
                 setCountdown({
@@ -28,12 +29,12 @@ export const Countdown = ({ targetDate }) => {
                 const hours = duration.hours();
                 const minutes = duration.minutes();
                 const seconds = duration.seconds();
-                setCountdown({days, hours, minutes, seconds });
+                setCountdown({days, hours, minutes, seconds});
             }
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [targetDate]);
+    }, [endTime]);
 
     return (
         <CountdownContainer>

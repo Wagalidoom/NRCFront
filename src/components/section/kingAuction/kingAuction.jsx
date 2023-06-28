@@ -11,46 +11,50 @@ import { ethers } from 'ethers';
 import { contractAddress, ETHEREUM_RPC_URL } from "../../../context/ethereumProvider";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
+const MAX_AUCTION_PRICE = ethers.utils.parseUnits('20000', 'ether');
+const MIN_AUCTION_PRICE = ethers.utils.parseUnits('2', 'ether');
 
 export const KingAuction = (props) => {
-    const [checkboxValue, setCheckboxValue] = useState(false)
-    const [deploymentTime, setDeploymentTime] = useState(null);
+    const [endTime, setEndTime] = useState(null);
+    const [currentTime, setCurrentTime] = useState(Date.now());
+    const [checkboxValue, setCheckboxValue] = useState(false);
     const [price, setPrice] = useState(0);
-    const [test, settest] = useState(0);
 
     useEffect(() => {
-        const fetchDeploymentTime = async () => {
-
-
+        const fetchPrice = async () => {
             const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
-            
-            //test
-            const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
-            const balance = await contractInstance.getCurrentPrice(); // Remplacez par votre adresse
-
-            const transaction = await provider.getTransaction("0x74cc3f07e67026023a9516523b6fdd9318cab8482a6a3834db705e07f03c326b");
+            const transaction = await provider.getTransaction("0x7f64df18c74d8dea508d219028ebe9c6b54acb8b581219eb267b94736d738aee");
             const block = await provider.getBlock(transaction.blockNumber);
-            setDeploymentTime(new Date(block.timestamp * 1000)); 
-
-            setPrice(balance)
-            settest(Date.now());
+            setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
+            console.log('ts: ',block.timestamp)
+            const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
+            const priceToPay = await contractInstance.getCurrentPrice(); // Remplacez par votre adresse
+            setPrice(priceToPay)
 
         }
 
-        fetchDeploymentTime();
+        fetchPrice();
     }, [contractAddress]);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+          setCurrentTime(Date.now());
+        }, 1000);
+    
+        return () => {
+          clearInterval(timer);
+        };
+      }, []);
 
 
     const checkboxChange = (e) => {
         setCheckboxValue(checkboxValue ? false : true)
-        console.log(test)
-        console.log(deploymentTime.getTime());
-        console.log(price.toString());
+        console.log(price);
     }
     return (
         <KingAuctionContainer checkbox={checkboxValue}>
                 <div className="countdown-container" >
-                    <Countdown />
+                    <Countdown endTime={endTime} />
                 </div>
             <div className="king-container" >
                 <div className="figure-nft" >
@@ -74,7 +78,8 @@ export const KingAuction = (props) => {
 
                 <div className="king-actions" >
                     <div className="king-price">
-                        <img alt="" className="leftText" src={props.theme === 'Dark Theme' ? eth : ethDark} /> <span>10 000</span>
+                        <img alt="" className="leftText" src={props.theme === 'Dark Theme' ? eth : ethDark} /> <span>{price ? parseFloat(ethers.utils.formatEther(price)).toFixed(2) : 'Loading...'}</span>
+
                     </div>
                     <div className="king-selector">
                         <div className="king-option"style={!checkboxValue ? {borderLeftColor:"#1D9BF0",borderBottomColor:'#1D9BF0',borderTopColor:'#1D9BF0'}:null}>
@@ -91,7 +96,6 @@ export const KingAuction = (props) => {
                 </div>
                 <div className="actions">
                     <button className="action-btn">Buy Now</button>
-                    <button className="action-btn">Bid</button>
                 </div>
 
                 <div className="payment" >

@@ -12,7 +12,7 @@ export const NRCsubgraph =
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x420583a2fbB3E7a309344c0b07Fd4165901c1189";
+export const contractAddress = "0x1eD6e4C2EE04844c93Ff72C96071CD01285CCd81";
 
 const EthereumContext = createContext(null);
 
@@ -29,7 +29,6 @@ export function EthereumProvider({ children }) {
     wallet: null,
   });
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
-  const contractAddress = "0x1eD6e4C2EE04844c93Ff72C96071CD01285CCd81";
   const generalContract = new ethers.Contract(
     contractAddress,
     NUMBERRUNNERCLUB_ABI,
