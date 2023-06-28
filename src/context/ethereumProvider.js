@@ -3,7 +3,7 @@ import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 const namehash = require("eth-ens-namehash");
 
-const ETHEREUM_RPC_URL =
+export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
@@ -11,6 +11,8 @@ export const NRCsubgraph =
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
+
+export const contractAddress = "0x1eD6e4C2EE04844c93Ff72C96071CD01285CCd81";
 
 const EthereumContext = createContext(null);
 
@@ -27,7 +29,6 @@ export function EthereumProvider({ children }) {
     wallet: null,
   });
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
-  const contractAddress = "0x1eD6e4C2EE04844c93Ff72C96071CD01285CCd81";
   const generalContract = new ethers.Contract(
     contractAddress,
     NUMBERRUNNERCLUB_ABI,
