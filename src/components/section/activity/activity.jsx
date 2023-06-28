@@ -9,16 +9,17 @@ import ethBlue from "../../../assets/images/icon/iconeethbleu.png";
 
 export const Activity = (props) => {
   const [filter, setFilter] = useState("sales");
-  const arrayFilters = ["sales", "offers", "burn"];
+  const arrayFilters = ["sales", "offers", "burn", "mint"];
   // Définir l'état pour les NFTs
   const [nfts, setNfts] = useState([]);
 
   // Utiliser useEffect pour charger les données au chargement du composant
   useEffect(() => {
+    const first = 6;
     // Définition des requêtes
     const GET_NFT_SOLD = `
       {
-        nftpurchaseds(first: 6, orderBy: blockNumber, orderDirection: desc) {
+        nftpurchaseds(first: ${first}, orderBy: blockNumber, orderDirection: desc) {
           id
           buyer
           seller
@@ -33,7 +34,7 @@ export const Activity = (props) => {
 
     const GET_NFT_LISTED = `
       {
-        nftlisteds(first: 6, orderBy: blockNumber, orderDirection: desc) {
+        nftlisteds(first: ${first}, orderBy: blockNumber, orderDirection: desc) {
           id
           seller
           tokenId
@@ -44,6 +45,30 @@ export const Activity = (props) => {
         }
       }
     `;
+    const GET_NFT_MINTED = `
+      {
+        nftminteds(first: ${first}, orderBy: blockNumber, orderDirection: desc) {
+          id
+          tokenId
+          blockNumber
+          blockTimestamp
+          transactionHash
+          owner
+        }
+      }
+    `;
+    const GET_NFT_BURNT = `
+      {
+        nftburneds(first: ${first}, orderBy: blockNumber, orderDirection: desc) {
+          id
+          tokenId
+          blockNumber
+          blockTimestamp
+          transactionHash
+          owner
+        }
+      }
+    `;
 
     // Fonction pour obtenir les NFTs
     const fetchNfts = async () => {
@@ -51,17 +76,23 @@ export const Activity = (props) => {
         // Faire les requêtes et obtenir les réponses
         const responseSold = await Axios.post(NRCsubgraph, { query: GET_NFT_SOLD });
         const responseListed = await Axios.post(NRCsubgraph, { query: GET_NFT_LISTED });
+        const responseMinted = await Axios.post(NRCsubgraph, { query: GET_NFT_MINTED });
+        const responseBurnt = await Axios.post(NRCsubgraph, { query: GET_NFT_BURNT });
 
         // Obtenir les données
         let nftSold = responseSold.data.data.nftpurchaseds;
         let nftListeds = responseListed.data.data.nftlisteds;
+        let nftMinteds = responseMinted.data.data.nftminteds;
+        let nftBurnt = responseBurnt.data.data.nftburneds;
 
         // Ajouter l'attribut "type" à chaque NFT
         nftSold = nftSold.map(nft => ({ ...nft, type: "sales" }));
         nftListeds = nftListeds.map(nft => ({ ...nft, type: "offers" }));
+        nftMinteds = nftMinteds.map(nft => ({ ...nft, type: "mint" }));
+        nftBurnt = nftBurnt.map(nft => ({ ...nft, type: "burn" }));
 
         // Fusionner et trier les NFTs
-        const merged = [...nftSold, ...nftListeds];
+        const merged = [...nftSold, ...nftListeds, ...nftMinteds, ...nftBurnt];
         const sorted = merged.sort((a, b) => b.blockNumber - a.blockNumber);
 
         // Mettre à jour l'état avec les NFTs
@@ -73,7 +104,7 @@ export const Activity = (props) => {
     // Appeler la fonction pour obtenir les NFTs
     fetchNfts();
   }, []);
-  
+
   const changeFilter = (value) => {
     if (arrayFilters.includes(value) && filter !== value) {
       setFilter(value);
@@ -92,21 +123,29 @@ export const Activity = (props) => {
         </div>
       </div>
       {nfts.map((nft, index) => (
-       (props.container === "right" || (!props.container && nft.type === filter)) && (
+        (props.container === "right" || (!props.container && nft.type === filter)) && (
           <div className="activity" key={index}>
             <div style={{ display: "flex", justifyContent: "space-around", width: "100%" }}>
               <div className="activity-left">
                 <div className="activity-info">
                   <span>
-                    {nft.type === "sales" && <span style={{ color: "#B3E6B5" }}>Sale</span>}
+                    {nft.type === "sales" && <span style={{ color: "#FFFFFF" }}>Sale</span>}
                     {nft.type === "burn" && <span style={{ color: "#D288A2" }}>Burn</span>}
                     {nft.type === "offers" && <span style={{ color: "#ADD8E6" }}>Offer</span>}
+                    {nft.type === "mint" && <span style={{ color: "#9cf0ad" }}>Mint</span>}
                   </span>
                 </div>
                 <p>{moment.unix(nft.blockTimestamp).fromNow()}</p>
                 <div className="activity-user">
+                  {(nft.type === "burn" || nft.type === "mint") &&
+                    <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Owner: {nft.owner}</p>
+                  }
+                  {(nft.type === "sales" || nft.type === "offers") &&
                     <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>From: {nft.seller}</p>
-                    {nft.type === "sales" && <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>To: {nft.buyer}</p>}
+                  }
+                  {nft.type === "sales" &&
+                    <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>To: {nft.buyer}</p>
+                  }
                 </div>
               </div>
               <div className="activity-right">
@@ -116,12 +155,12 @@ export const Activity = (props) => {
                     <p>Number Runner #{nft.tokenId}</p>
                     <p>
                       Pawn{" "}
-                      {filter !== "burn" && (
+                      {(nft.type !== "burn" && nft.type !== "mint") && (
                         <span style={{ position: "absolute", right: "8px" }}>
                           <img className="eth-logo" src={nft.type === "sales" ? ethGreen : ethBlue} alt="" />
-                          <span style={{ color: nft.type === "sales" ? "#B3E6B5" : "#ADD8E6" }}>{nft.price/10**18}</span>
+                          <span style={{ color: nft.type === "sales" ? "#B3E6B5" : "#ADD8E6" }}>{nft.price / 10 ** 18}</span>
                         </span>
-                      )}{" "}
+                      )}
                     </p>
                   </div>
                 </div>
