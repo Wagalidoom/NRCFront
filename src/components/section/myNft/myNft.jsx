@@ -24,6 +24,8 @@ import { getNftType, nftTypeToString } from "../../../helper";
 import { PriceSelector } from "../priceSelector/PriceSelector";
 import Axios from "axios";
 import { EnsSelector } from "../ensSelector/EnsSelector";
+import zIndex from "@mui/material/styles/zIndex";
+const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
   const currentTheme = useContext(ThemeContext);
@@ -47,7 +49,7 @@ export const MyNft = (props) => {
     isPriceSelectorOpen,
     isEnsSelectorOpen,
     setPrice,
-    setEns
+    setEns,
   } = useEthereum();
   const [collection, setCollection] = useState([]);
   const [ensList, setEnsList] = useState([]);
@@ -83,6 +85,7 @@ export const MyNft = (props) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   useEffect(() => {
     if (modalOpen > 0) {
       setIsOpen(true);
@@ -124,7 +127,7 @@ export const MyNft = (props) => {
 
       try {
         await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
-          userOwnedNfts = Object.values(result.data.data);
+          userOwnedNfts = Object.values(result.data.data)[0];
           console.log(userOwnedNfts);
         });
       } catch (error) {
@@ -139,23 +142,51 @@ export const MyNft = (props) => {
       }
         `;
 
-        let userOwnedENS;
+      let userOwnedENS;
 
-        try {
-          await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
-            userOwnedENS = Object.values(result.data.data);
-            console.log(userOwnedENS);
-          });
-        } catch (error) {
-          console.log(error);
+      try {
+        await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
+          userOwnedENS = Object.values(result.data.data)[0];
+          console.log(userOwnedENS);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      let fetchCollection = [];
+
+      userOwnedNfts.map((element) => {
+        fetchCollection.push({
+          id: Number(element.id),
+          isStacked: false,
+          ensName: "",
+        });
+      });
+
+      const fetchCollectionPromises = userOwnedENS.map(async (element) => {
+        const tokenId = await ethereumState.contract.getTokenIdOfNode(
+          namehash.hash(element.name)
+        );
+        if (tokenId.toNumber() !== 0) {
+          return {
+            id: tokenId.toNumber(),
+            isStacked: true,
+            ensName: element.name,
+          };
         }
+        return null;
+      });
+      
+      const resolvedFetchCollection = await Promise.all(fetchCollectionPromises);
+      
+      fetchCollection.push(...resolvedFetchCollection.filter(Boolean));
+      
+      let sortedCollection = fetchCollection.sort(function (a, b) {
+        return a.id - b.id;
+      });
 
-        userOwnedNfts[0].map(element => {
-          return { id: element, isStacked: false, ensName: "" };
-        })
-
-      setCollection(userOwnedNfts[0]);
-      setEnsList(userOwnedENS[0]);
+      setCollection(fetchCollection);
+      setEnsList(userOwnedENS);
     };
 
     fetchData();
@@ -291,7 +322,7 @@ export const MyNft = (props) => {
         {collection.map((element, index) => (
           <div className="myNft" key={index}>
             <img alt="" src={props.img} />
-            {element.isStacked ? <p>STACKED</p> : null}
+            {/* {element.isStacked ? <p style={{zIndex: 999}}>{element.ensName}</p> : null} */}
             <ToolBar
               market={props.market}
               open={modalOpen === index + 1 && isOpen ? true : false}
@@ -346,7 +377,10 @@ export const MyNft = (props) => {
                         Unstacker
                       </li>
                     ) : (
-                      <li className="option" onClick={() => setEns(element.id, ensList)}>
+                      <li
+                        className="option"
+                        onClick={() => setEns(element.id, ensList)}
+                      >
                         Stacker
                       </li>
                     )}
