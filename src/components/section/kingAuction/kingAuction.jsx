@@ -1,5 +1,5 @@
 import { KingAuctionContainer } from "./kingAuction.style"
-import {Countdown} from '../../countdown/countdown';
+import { Countdown } from '../../countdown/countdown';
 import whiteKing from "../../../assets/images/1.png";
 import blackKing from "../../../assets/images/2.png";
 import tirelire from "../../../assets/images/icon/tirelire.png";
@@ -11,42 +11,57 @@ import { ethers } from 'ethers';
 import { contractAddress, ETHEREUM_RPC_URL, useEthereum } from "../../../context/ethereumProvider";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
-const MAX_AUCTION_PRICE = ethers.utils.parseUnits('20000', 'ether');
-const MIN_AUCTION_PRICE = ethers.utils.parseUnits('2', 'ether');
+const MAX_AUCTION_PRICE = 20000;
+const MIN_AUCTION_PRICE = 2;
 
 export const KingAuction = (props) => {
+    const [calculatedDate, setCalculatedDate] = useState(null);
+    const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
-    const [currentTime, setCurrentTime] = useState(Date.now());
     const [checkboxValue, setCheckboxValue] = useState(false);
     const [price, setPrice] = useState(0);
     const { buyKing } = useEthereum();
+    
+    const [value, setValue] = useState(10);
+
+    const calculateDate = (priceInEth) => {
+        if (startTime) {
+            priceInEth = Number(priceInEth);
+            const auctionFraction = (MAX_AUCTION_PRICE - priceInEth) / (MAX_AUCTION_PRICE - MIN_AUCTION_PRICE);
+            const duration = 30 * 24 * 60 * 60 * 1000; 
+            const auctionTimePassed = auctionFraction * duration;
+            const date = new Date(startTime.getTime() + auctionTimePassed);
+            return date;
+        } else {
+            return null
+        }
+    };
+    
+
+    useEffect(() => {
+        setCalculatedDate(calculateDate(value));
+    }, [value]);
+      
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    };
 
     useEffect(() => {
         const fetchPrice = async () => {
             const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
             const transaction = await provider.getTransaction("0x7f64df18c74d8dea508d219028ebe9c6b54acb8b581219eb267b94736d738aee");
             const block = await provider.getBlock(transaction.blockNumber);
+            setStartTime(new Date(block.timestamp * 1000));
             setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
-            console.log('ts: ',block.timestamp)
+            console.log('ts: ', block.timestamp)
             const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
-            const priceToPay = await contractInstance.getCurrentPrice(); // Remplacez par votre adresse
+            const priceToPay = await contractInstance.getCurrentPrice();
             setPrice(priceToPay)
 
         }
 
         fetchPrice();
     }, [contractAddress]);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-          setCurrentTime(Date.now());
-        }, 1000);
-    
-        return () => {
-          clearInterval(timer);
-        };
-      }, []);
-
 
     const checkboxChange = (e) => {
         // False is white
@@ -55,25 +70,25 @@ export const KingAuction = (props) => {
     }
     return (
         <KingAuctionContainer checkbox={checkboxValue}>
-                <div className="countdown-container" >
-                    <Countdown endTime={endTime} />
-                </div>
+            <div className="countdown-container" >
+                <Countdown endTime={endTime} />
+            </div>
             <div className="king-container" >
                 <div className="figure-nft" >
                     <img alt="" src={whiteKing} />
                     <div className="king-infos" >
-                        <p className='nft-title' style={{fontWeight: "700",fontSize:'14px'}}>Number Runner #1</p>
+                        <p className='nft-title' style={{ fontWeight: "700", fontSize: '14px' }}>Number Runner #1</p>
                         <div>
                             <img alt="" src={props.theme === 'Dark Theme' ? tirelire : tirelireDark} /> <span>10</span>
                         </div>
                     </div>
                 </div>
                 <div className="figure-nft">
-                    <img alt="" src={blackKing}/>
+                    <img alt="" src={blackKing} />
                     <div className="king-infos">
-                        <p className='nft-title' style={{fontWeight: "700",fontSize:'14px'}}>Number Runner #2</p>
+                        <p className='nft-title' style={{ fontWeight: "700", fontSize: '14px' }}>Number Runner #2</p>
                         <div>
-                            <img alt=""  src={props.theme === 'Dark Theme' ? tirelire : tirelireDark} /> <span>10</span>
+                            <img alt="" src={props.theme === 'Dark Theme' ? tirelire : tirelireDark} /> <span>10</span>
                         </div>
                     </div>
                 </div>
@@ -84,14 +99,14 @@ export const KingAuction = (props) => {
 
                     </div>
                     <div className="king-selector">
-                        <div className="king-option"style={!checkboxValue ? {borderLeftColor:"#1D9BF0",borderBottomColor:'#1D9BF0',borderTopColor:'#1D9BF0'}:null}>
+                        <div className="king-option" style={!checkboxValue ? { borderLeftColor: "#1D9BF0", borderBottomColor: '#1D9BF0', borderTopColor: '#1D9BF0' } : null}>
                             White King
                         </div>
-                        <label className="switch">  
+                        <label className="switch">
                             <input type="checkbox" className="input-switch" onChange={(e) => checkboxChange(e)} />
                             <span className="slider"></span>
                         </label>
-                        <div className="king-option"style={checkboxValue ? {borderRightColor:"#1D9BF0",borderBottomColor:'#1D9BF0',borderTopColor:'#1D9BF0'}:null}>
+                        <div className="king-option" style={checkboxValue ? { borderRightColor: "#1D9BF0", borderBottomColor: '#1D9BF0', borderTopColor: '#1D9BF0' } : null}>
                             Black King
                         </div>
                     </div>
@@ -99,17 +114,16 @@ export const KingAuction = (props) => {
                 <div className="actions">
                     <button className="action-btn" onClick={() => buyKing(checkboxValue ? 1 : 2)}>Buy Now</button>
                 </div>
-                <div className="payment" >
+                <div className="payment">
                     <div style={{ width: "30%" }}>
-                        <input name="myInput" type="text" style={{ textAlign: "center", width: "100%", fontSize: "23px" }} value="10" />
-                        Ready to pay
+                        <input name="myInput" type="text" style={{ textAlign: "center", width: "100%", fontSize: "23px" }} value={value} onChange={handleChange} />
                     </div>
                     <div style={{ width: "5%", textAlign: "center", paddingTop: "7px" }}>
                         =
                     </div>
                     <div style={{ width: "70%" }}>
-                        2023.02.18 at 01:31 (UTC+01:00)<br />
-                        Date and time shown in local time zone
+                        {calculatedDate ? calculatedDate.toLocaleString() : 'Loading...'}<br />
+                        Date et heure affichées en heure locale
                     </div>
                 </div>
             </div>
@@ -118,7 +132,7 @@ export const KingAuction = (props) => {
             </div>
             <div >
                 <div className="title" style={{ marginBottom: "15px", marginTop: '32px' }}>
-                    {(props.lang === 'EN' || props.lang === true || (props.lang === 'open' ) || (props.lang === 'open' && props.lastLang === 'EN')) && <span>How does the auction on the King work?</span>}
+                    {(props.lang === 'EN' || props.lang === true || (props.lang === 'open') || (props.lang === 'open' && props.lastLang === 'EN')) && <span>How does the auction on the King work?</span>}
                     {(props.lang === 'FR' || (props.lang === 'open' && props.lastLang === 'FR')) && <span>Comment fonctionne l’enchère sur le Roi ?</span>}
                     {(props.lang === 'ES' || (props.lang === 'open' && props.lastLang === 'ES')) && <span>¿Cómo funciona la subasta del rey?</span>}
                 </div>
