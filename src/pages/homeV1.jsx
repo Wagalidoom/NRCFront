@@ -118,7 +118,7 @@ const HomeV1 = () => {
       changePageMarket("items");
     }
     if (link === "profile") {
-      changePageProfile("home");
+      changePageProfile("graal");
     }
   };
   useEffect(() => {
@@ -4107,23 +4107,6 @@ const HomeV1 = () => {
             >
               <div className="sub-nav">
                 <SubNavLink
-                  active={
-                    linkProfile === "home" ||
-                    linkProfile === "" ||
-                    typeof linkProfile === "boolean"
-                      ? true
-                      : false
-                  }
-                  onClick={() => changePageProfile("home")}
-                >
-                  Home
-                  {(linkProfile === "home" ||
-                    linkProfile === "" ||
-                    typeof linkProfile === "boolean") && (
-                    <div className="barreBleuMarket"></div>
-                  )}
-                </SubNavLink>
-                <SubNavLink
                   active={linkProfile === "graal" ? true : false}
                   onClick={() => changePageProfile("graal")}
                 >
@@ -4143,53 +4126,6 @@ const HomeV1 = () => {
                 </SubNavLink>
               </div>
             </div>
-            {(linkProfile === "home" ||
-              linkProfile === "" ||
-              typeof linkProfile === "boolean") && (
-              <div>
-                <div
-                  className="description"
-                  style={{
-                    paddingLeft: "10%",
-                    paddingRight: "8%",
-                    fontSize: "16px",
-                    marginTop: "32px",
-                    textAlign: "justify",
-                  }}
-                >
-                  <div style={{ fontWeight: "700", marginBottom: "16px" }}>
-                    Mauris non ipsum finibus
-                  </div>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                  porttitor augue ac leo rhoncus, et rhoncus nisl accumsan.
-                  Maecenas efficitur consectetur augue. Lorem ipsum dolor sit
-                  amet, consectetur adipiscing elit. Aliquam ac ante ut enim
-                  aliquet auctor. Mauris ultrices condimentum justo, vel feugiat
-                  sapien malesuada pulvinar. Suspendisse consectetur semper
-                  rhoncus. Sed ac tristique sem. Donec mattis odio vitae dui
-                  elementum vehicula. Donec a gravida quam. Cras nec sem tellus.
-                  Maecenas sit amet imperdiet libero. Quisque at diam vehicula,
-                  tempus velit ac, sollicitudin ante. Nam ultricies neque
-                  tristique neque mattis, a elementum urna ultricies. Vestibulum
-                  ullamcorper tellus vel purus elementum sagittis ut imperdiet
-                  enim. Suspendisse ultricies ultricies turpis, et placerat erat
-                  pulvinar sed. Duis lorem ligula, pretium et cursus quis,
-                  rutrum at orci. Mauris non ipsum finibus, volutpat nisl a,
-                  mattis magna. Nulla facilisi. Sed condimentum scelerisque sem,
-                  vitae faucibus quam ultrices vel. Quisque ac purus vulputate
-                  neque ultricies porta. Nulla vitae ante dolor. Fusce id sapien
-                  et lacus condimentum pulvinar et eget est. Curabitur et
-                  ultrices orci, sit amet bibendum tellus. Nulla commodo rutrum
-                  fermentum. Integer cursus, urna vitae laoreet molestie, erat
-                  felis mattis tortor, ut vulputate nisi mi sed enim. In
-                  vehicula, leo ut convallis hendrerit, turpis ligula porta
-                  orci, vitae consequat lacus diam vitae leo. Vestibulum semper
-                  lorem vitae risus elementum, faucibus gravida elit fringilla.
-                  Donec pulvinar viverra pulvinar. Ut mi ex, vehicula vitae
-                  risus in, convallis faucibus nibh
-                </div>
-              </div>
-            )}
             {linkProfile === "graal" && (
               <div style={{ marginTop: "30px" }}>
                 <hr
