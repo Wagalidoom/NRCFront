@@ -24,7 +24,6 @@ import { getNftType, nftTypeToString } from "../../../helper";
 import { PriceSelector } from "../priceSelector/PriceSelector";
 import Axios from "axios";
 import { EnsSelector } from "../ensSelector/EnsSelector";
-import zIndex from "@mui/material/styles/zIndex";
 const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
@@ -134,25 +133,6 @@ export const MyNft = (props) => {
         console.log(error);
       }
 
-      let ENSquery = `
-      {
-        domains(where: {registrant: "${address.toLowerCase()}"}) {
-          name
-        }
-      }
-        `;
-
-      let userOwnedENS;
-
-      try {
-        await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
-          userOwnedENS = Object.values(result.data.data)[0];
-          console.log(userOwnedENS);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-
       let fetchCollection = [];
 
       userOwnedNfts.map((element) => {
@@ -160,33 +140,61 @@ export const MyNft = (props) => {
           id: Number(element.id),
           isStacked: false,
           ensName: "",
+          price: element.price,
+          owner: element.owner,
         });
       });
 
-      const fetchCollectionPromises = userOwnedENS.map(async (element) => {
-        const tokenId = await ethereumState.contract.getTokenIdOfNode(
-          namehash.hash(element.name)
-        );
-        if (tokenId.toNumber() !== 0) {
-          return {
-            id: tokenId.toNumber(),
-            isStacked: true,
-            ensName: element.name,
-          };
+      if (!props.market) {
+        let ENSquery = `
+      {
+        domains(where: {registrant: "${address.toLowerCase()}"}) {
+          name
         }
-        return null;
-      });
-      
-      const resolvedFetchCollection = await Promise.all(fetchCollectionPromises);
-      
-      fetchCollection.push(...resolvedFetchCollection.filter(Boolean));
-      
+      }
+        `;
+
+        let userOwnedENS;
+
+        try {
+          await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
+            userOwnedENS = Object.values(result.data.data)[0];
+            console.log(userOwnedENS);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+
+        setEnsList(userOwnedENS);
+
+        const fetchCollectionPromises = userOwnedENS.map(async (element) => {
+          const tokenId = await ethereumState.contract.getTokenIdOfNode(
+            namehash.hash(element.name)
+          );
+          if (tokenId.toNumber() !== 0) {
+            return {
+              id: tokenId.toNumber(),
+              isStacked: true,
+              ensName: element.name,
+              price: 0,
+              owner: element.owner,
+            };
+          }
+          return null;
+        });
+
+        const resolvedFetchCollection = await Promise.all(
+          fetchCollectionPromises
+        );
+
+        fetchCollection.push(...resolvedFetchCollection.filter(Boolean));
+      }
+
       let sortedCollection = fetchCollection.sort(function (a, b) {
         return a.id - b.id;
       });
 
-      setCollection(fetchCollection);
-      setEnsList(userOwnedENS);
+      setCollection(sortedCollection);
     };
 
     fetchData();
@@ -322,7 +330,9 @@ export const MyNft = (props) => {
         {collection.map((element, index) => (
           <div className="myNft" key={index}>
             <img alt="" src={props.img} />
-            {/* {element.isStacked ? <p style={{zIndex: 999}}>{element.ensName}</p> : null} */}
+            {element.isStacked ? (
+              <p style={{ zIndex: 999 }}>{element.ensName}</p>
+            ) : null}
             <ToolBar
               market={props.market}
               open={modalOpen === index + 1 && isOpen ? true : false}
