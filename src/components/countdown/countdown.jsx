@@ -13,7 +13,6 @@ export const Countdown = ({ endTime }) => {
         const interval = setInterval(() => {
             const now = moment().tz("Europe/Paris");
             const targetDate = moment.utc(endTime).tz("Europe/Paris");
-            console.log(endTime)
             if (now.isAfter(targetDate)) {
                 clearInterval(interval);
                 setCountdown({

@@ -8,7 +8,7 @@ import eth from "../../../assets/images/eth.png";
 import ethDark from '../../../assets/images/ethDark.png';
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { contractAddress, ETHEREUM_RPC_URL } from "../../../context/ethereumProvider";
+import { contractAddress, ETHEREUM_RPC_URL, useEthereum } from "../../../context/ethereumProvider";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
 const MAX_AUCTION_PRICE = ethers.utils.parseUnits('20000', 'ether');
@@ -19,6 +19,7 @@ export const KingAuction = (props) => {
     const [currentTime, setCurrentTime] = useState(Date.now());
     const [checkboxValue, setCheckboxValue] = useState(false);
     const [price, setPrice] = useState(0);
+    const { buyKing } = useEthereum();
 
     useEffect(() => {
         const fetchPrice = async () => {
@@ -48,6 +49,7 @@ export const KingAuction = (props) => {
 
 
     const checkboxChange = (e) => {
+        // False is white
         setCheckboxValue(checkboxValue ? false : true)
         console.log(price);
     }
@@ -95,9 +97,8 @@ export const KingAuction = (props) => {
                     </div>
                 </div>
                 <div className="actions">
-                    <button className="action-btn">Buy Now</button>
+                    <button className="action-btn" onClick={() => buyKing(checkboxValue ? 1 : 2)}>Buy Now</button>
                 </div>
-
                 <div className="payment" >
                     <div style={{ width: "30%" }}>
                         <input name="myInput" type="text" style={{ textAlign: "center", width: "100%", fontSize: "23px" }} value="10" />

@@ -145,7 +145,7 @@ color: ${props => props.theme.colors.text};
     right: 0;
     bottom: 0;
     border:${props => props.theme.name === 'Light Theme' ? '1px solid rgb(239, 243, 244)':'none'};
-    background-color: black;
+    background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 34px;
@@ -158,14 +158,14 @@ color: ${props => props.theme.colors.text};
     width: 25px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: black;
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 50%;
   }
   
   .input-switch:checked + .slider {
-    background-color:white;
+    background-color:black;
   }
   
   
@@ -173,7 +173,7 @@ color: ${props => props.theme.colors.text};
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
-    background-color:black;
+    background-color:white;
   }
   .action-btn{
     color:white;

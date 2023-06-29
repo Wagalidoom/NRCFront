@@ -141,6 +141,13 @@ export function EthereumProvider({ children }) {
     await ethereumState.contract.unlistNFT(_id);
   };
 
+  const buyKing = async (_color) => {
+    if (!ethereumState.contract) return;
+    const kingPrice = await ethereumState.contract.getCurrentPrice();
+    console.log(kingPrice)
+    await ethereumState.contract.buyKing(_color, {value: kingPrice});
+  };
+
   const connectWallet = async () => {
     if (!window.ethereum) {
       window.alert("Please install MetaMask!");
@@ -206,6 +213,7 @@ export function EthereumProvider({ children }) {
     stack,
     unstack,
     buy,
+    buyKing,
     listNFT,
     unlistNFT,
     setPrice,
