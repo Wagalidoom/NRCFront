@@ -86,7 +86,7 @@ import emojiDoigt from "../assets/images/icon/emojiDoigt.png";
 import { useEthereum } from "../context/ethereumProvider";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
-import { ConnectWallet, Web3Button, useAddress } from "@thirdweb-dev/react";
+import { ConnectWallet, useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { ColorPicker } from "../components/section/colorPicker/ColorPicker";
 import { Mint } from "../components/section/mint/Mint";
 
@@ -121,6 +121,7 @@ const HomeV1 = () => {
       changePageProfile("graal");
     }
   };
+  const connect = useConnect();
   useEffect(() => {
     if (
       window.innerWidth > 600 &&
@@ -141,20 +142,21 @@ const HomeV1 = () => {
       });
     }
   }, [link, linkProfile, linkMarket]);
+  
   const changePageMarket = (linkMarket) => {
     changePageLinkMarket(linkMarket);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const total = await getTotalMinted();
-      const currentSupply = await getCurrentSupply();
-      setTotalMinted(total.toString());
-      setCurrentSupply(currentSupply.toString());
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const total = await getTotalMinted();
+  //     const currentSupply = await getCurrentSupply();
+  //     setTotalMinted(total.toString());
+  //     setCurrentSupply(currentSupply.toString());
+  //   }
 
-    fetchData();
-  }, [getTotalMinted, getCurrentSupply]);
+  //   fetchData();
+  // }, [getTotalMinted, getCurrentSupply]);
 
   const changePageProfile = (linkProfile) => {
     changePageLinkProfile(linkProfile);
@@ -391,7 +393,7 @@ const HomeV1 = () => {
             </NavLink>
           </SectionNav>
           <SectionNav style={{ padding: "0" }}>
-            <button
+            {/* <button
               className="bigButton"
               style={{
                 width: "170px",
@@ -400,10 +402,20 @@ const HomeV1 = () => {
                 height: "43px",
                 fontSize: "18px",
               }}
-              onClick={connectWallet}
+              onClick={async () => {
+                const wallet = await connect(metamaskConfig);
+                console.log("connected to ", wallet);
+              }}
             >
               Connect
-            </button>
+            </button> */}
+            <ConnectWallet className="bigButton" style={{
+                width: "170px",
+                backgroundColor: "rgb(29, 155, 240)",
+                color: "white",
+                height: "43px",
+                fontSize: "18px",
+              }} />
           </SectionNav>
         </div>
         {thread !== "open" &&
@@ -523,24 +535,6 @@ const HomeV1 = () => {
                     )}
                   </button>
                 </div>
-                {/* <Web3Button
-      contractAddress="0xE0245C35171C8665AeeaAc7BB8A63BBDe341E468"
-      contractAbi={NUMBERRUNNERCLUB_ABI}
-      action={async (contract) => {
-        const hasColorChosen = await contract.getUserColor(address);
-        if (hasColorChosen === 0) {
-          setIsColorPickerOpen(true);
-          console.log("display choose color component");
-        }
-        else {
-          const mint = await contract.mint(5, { value: ethers.utils.parseEther("0.2") }); // mint a Pawn
-          console.log(mint);
-        }
-      }}
-    >
-      Mint
-    </Web3Button> */}
-
                 <button
                   style={
                     currentTheme.theme.name === "Light Theme"
@@ -556,8 +550,8 @@ const HomeV1 = () => {
                 >
                   Mint
                 </button>
-                {/* <ConnectWallet style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black" } : null} className="bigButton" btnTitle="Connect"></ConnectWallet> */}
-                <button
+                <ConnectWallet style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black" } : null} className="bigButton" btnTitle="Connect" />
+                {/* <button
                   style={
                     currentTheme.theme.name === "Light Theme"
                       ? { color: "white", backgroundColor: "black" }
@@ -567,7 +561,7 @@ const HomeV1 = () => {
                   onClick={connectWallet}
                 >
                   Connect
-                </button>
+                </button> */}
               </div>
               <div className="description">
                 <div id="name" className="name">

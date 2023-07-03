@@ -99,6 +99,16 @@ overflow:hidden;
         position: relative;
     }
   }
+
+  .tw-connected-wallet__balance{
+    display: none;
+  }
+
+  .tw-connected-wallet__address{
+    color: black;
+
+  }
+
   .menuLeftContent {
         display: none;
         height: 500px;

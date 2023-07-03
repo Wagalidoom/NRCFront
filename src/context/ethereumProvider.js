@@ -1,6 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
+import {
+  useAddress,
+  useContract,
+  useContractRead,
+  useContractWrite,
+} from "@thirdweb-dev/react-core";
 const namehash = require("eth-ens-namehash");
 
 export const ETHEREUM_RPC_URL =
@@ -34,6 +40,17 @@ export function EthereumProvider({ children }) {
     NUMBERRUNNERCLUB_ABI,
     generalProvider
   );
+  const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
+  const address = useAddress();
+  const { data: userColor, error: userColorError } = useContractRead(
+    contract,
+    "getUserColor",
+    [address]
+  );
+  const { mutateAsync: mintCall, error: mintError } = useContractWrite(
+    contract,
+    "mint"
+  );
 
   const chooseColor = async (_color) => {
     if (!ethereumState.contract) return;
@@ -66,19 +83,14 @@ export function EthereumProvider({ children }) {
   const mint = async (mintCount) => {
     setIsMintOpen(false);
 
-    if (!ethereumState.contract) {
-      throw new Error("Contract is not defined");
-    }
-
     for (let i = 0; i < mintCount; i++) {
       try {
-        let transactionResponse = await ethereumState.contract.mint(5, "0x0", {
-          value: ethers.utils.parseEther("0.00002"),
+        mintCall({
+          args: [5, "0x0"],
+          overrides: {
+            value: ethers.utils.parseEther("0.00002"),
+          },
         });
-
-        // Wait for the transaction to be mined
-        let receipt = await transactionResponse.wait();
-        console.log(receipt);
       } catch (error) {
         console.error(error);
       }
@@ -144,8 +156,8 @@ export function EthereumProvider({ children }) {
   const buyKing = async (_color) => {
     if (!ethereumState.contract) return;
     const kingPrice = await ethereumState.contract.getCurrentPrice();
-    console.log(kingPrice)
-    await ethereumState.contract.buyKing(_color, {value: kingPrice});
+    console.log(kingPrice);
+    await ethereumState.contract.buyKing(_color, { value: kingPrice });
   };
 
   const connectWallet = async () => {
@@ -173,12 +185,7 @@ export function EthereumProvider({ children }) {
   };
 
   const mintPawn = async () => {
-    console.log(ethereumState);
-    if (!ethereumState.provider || !ethereumState.contract) return;
-    console.log("Mint Pawn");
-    const address = ethereumState.wallet;
-    const hasColorChosen = await ethereumState.contract.getUserColor(address);
-    if (hasColorChosen === 0) {
+    if (userColor === 0) {
       setIsColorPickerOpen(true);
       console.log("display choose color component");
     } else {
