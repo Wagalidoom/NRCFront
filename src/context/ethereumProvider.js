@@ -52,15 +52,19 @@ export function EthereumProvider({ children }) {
     "mint"
   );
 
+  const { mutateAsync: chooseColorCall, error: chooseColorError } =
+    useContractWrite(contract, "chooseColor");
+
   const chooseColor = async (_color) => {
-    if (!ethereumState.contract) return;
+    setIsColorPickerOpen(false);
     try {
-      await ethereumState.contract.chooseColor(_color);
-      setIsColorPickerOpen(false);
-      const mint = await ethereumState.contract.mint(5, "0x0", {
-        value: ethers.utils.parseEther("0.00002"),
-      }); // mint a Pawn
-      console.log(mint);
+      await chooseColorCall({ args: [_color] });
+      await mintCall({
+        args: [5, "0x0"],
+        overrides: {
+          value: ethers.utils.parseEther("0.00002"),
+        },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -226,7 +230,7 @@ export function EthereumProvider({ children }) {
     setEns,
     getTotalMinted,
     getCurrentSupply,
-    address
+    address,
   };
 
   return (
