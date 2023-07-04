@@ -19,11 +19,15 @@ import {
   NRCsubgraph,
   ENSsubgraph,
   useEthereum,
+  contractAddress,
 } from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
 import { PriceSelector } from "../priceSelector/PriceSelector";
 import Axios from "axios";
 import { EnsSelector } from "../ensSelector/EnsSelector";
+import { useContract, useContractRead } from "@thirdweb-dev/react";
+import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
+import { error } from "jquery";
 const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
@@ -49,10 +53,19 @@ export const MyNft = (props) => {
     isEnsSelectorOpen,
     setPrice,
     setEns,
-    address
+    address,
   } = useEthereum();
   const [collection, setCollection] = useState([]);
   const [ensList, setEnsList] = useState([]);
+  const [node, setNode] = useState(
+    "0x9f5ff776abba477754c5d88fe9f0d82b1345407bfdd30d17c1a5f66c1627203f"
+  );
+  const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
+  const {
+    data: tokenIdOfNode,
+    isLoading,
+    error: tokenIdOfNodeError,
+  } = useContractRead(contract, "getTokenIdOfNode", [node]);
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
       if (prevModal === current) {
@@ -95,11 +108,9 @@ export const MyNft = (props) => {
   }, [modalOpen]);
 
   useEffect(() => {
-    if (!ethereumState.provider || !ethereumState.contract) {
-      setCollection([]);
-      setEnsList([]);
-      return;
-    }
+    setCollection([]);
+    setEnsList([]);
+    // console.log(address);
 
     const fetchData = async () => {
       setAddressLower(address.toLowerCase());
@@ -168,10 +179,12 @@ export const MyNft = (props) => {
         setEnsList(userOwnedENS);
 
         const fetchCollectionPromises = userOwnedENS.map(async (element) => {
-          const tokenId = await ethereumState.contract.getTokenIdOfNode(
-            namehash.hash(element.name)
-          );
-          if (tokenId.toNumber() !== 0) {
+          if (!isLoading) {
+            setNode(namehash.hash(element.name));
+          }
+          const tokenId = tokenIdOfNode;
+          console.log(tokenId, isLoading, tokenIdOfNodeError);
+          if (tokenId && tokenId.toNumber() !== 0) {
             return {
               id: tokenId.toNumber(),
               isStacked: true,
@@ -198,14 +211,13 @@ export const MyNft = (props) => {
     };
 
     fetchData();
-  }, [address]);
+  }, [address, isLoading]);
 
   return (
     <MyNftContainer
       filter={activeButton.filter}
       market={props.market}
       sweep={activeButton.sweep}
-      
       openSelect={open}
     >
       <div className="filter-group">
@@ -349,7 +361,6 @@ export const MyNft = (props) => {
                   src={props.theme === "Dark Theme" ? eth : ethDark}
                 />{" "}
                 <span>{(element.price / 10 ** 18).toString()}</span>
-                {console.log(ethereumState.wallet.toLowerCase(), element.owner)}
                 {addressLower === element.owner ? (
                   <Button
                     className="unlist-action"
