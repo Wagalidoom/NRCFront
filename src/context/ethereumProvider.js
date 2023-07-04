@@ -52,6 +52,16 @@ export function EthereumProvider({ children }) {
     "mint"
   );
 
+  const { mutateAsync: stackCall, error: stackError } = useContractWrite(
+    contract,
+    "stack"
+  );
+
+  const { mutateAsync: approveCall, error: approveError } = useContractWrite(
+    contract,
+    "approve"
+  );
+
   const { mutateAsync: chooseColorCall, error: chooseColorError } =
     useContractWrite(contract, "chooseColor");
 
@@ -109,7 +119,7 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    if (!ethereumState.contract) return;
+    approveCall({contractAddress})
     await ethereumState.contract.approve(ethereumState.contract.address, _id);
     console.log(_ens, namehash.hash(_ens), _id);
     let tx = await ethereumState.contract.stack(
