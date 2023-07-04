@@ -44,7 +44,6 @@ export const MyNft = (props) => {
   const [selected, setSelected] = useState("Price Low to High");
   const [open, setOpen] = useState(false);
   const {
-    ethereumState,
     burn,
     unstack,
     unlistNFT,
@@ -181,6 +180,7 @@ export const MyNft = (props) => {
         const fetchCollectionPromises = userOwnedENS.map(async (element) => {
           if (!isLoading) {
             setNode(namehash.hash(element.name));
+            console.log(node);
           }
           const tokenId = tokenIdOfNode;
           console.log(tokenId, isLoading, tokenIdOfNodeError);
