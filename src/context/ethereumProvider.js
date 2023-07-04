@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.1.10";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.1.15";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x1eD6e4C2EE04844c93Ff72C96071CD01285CCd81";
+export const contractAddress = "0x316a3ca98803b13f19F48cA29358dbc054AE2511";
 
 const EthereumContext = createContext(null);
 
@@ -205,7 +205,6 @@ export function EthereumProvider({ children }) {
 
   const value = {
     ethereumState,
-    connectWallet,
     mintPawn,
     chooseBlackColor,
     chooseWhiteColor,
@@ -227,6 +226,7 @@ export function EthereumProvider({ children }) {
     setEns,
     getTotalMinted,
     getCurrentSupply,
+    address
   };
 
   return (

@@ -49,6 +49,7 @@ export const MyNft = (props) => {
     isEnsSelectorOpen,
     setPrice,
     setEns,
+    address
   } = useEthereum();
   const [collection, setCollection] = useState([]);
   const [ensList, setEnsList] = useState([]);
@@ -101,7 +102,6 @@ export const MyNft = (props) => {
     }
 
     const fetchData = async () => {
-      const address = ethereumState.wallet;
       setAddressLower(address.toLowerCase());
       let NRCquery = props.market
         ? `
@@ -198,13 +198,14 @@ export const MyNft = (props) => {
     };
 
     fetchData();
-  }, [ethereumState]);
+  }, [address]);
 
   return (
     <MyNftContainer
       filter={activeButton.filter}
       market={props.market}
       sweep={activeButton.sweep}
+      
       openSelect={open}
     >
       <div className="filter-group">

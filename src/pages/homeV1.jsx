@@ -86,7 +86,7 @@ import emojiDoigt from "../assets/images/icon/emojiDoigt.png";
 import { useEthereum } from "../context/ethereumProvider";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
-import { ConnectWallet, useConnect, metamaskWallet } from "@thirdweb-dev/react";
+import { ConnectWallet} from "@thirdweb-dev/react";
 import { ColorPicker } from "../components/section/colorPicker/ColorPicker";
 import { Mint } from "../components/section/mint/Mint";
 
@@ -101,7 +101,7 @@ const HomeV1 = () => {
   const [listLangLast, showListLangLinkLast] = useState(true);
   const [mobile, changeMobile] = useState(true);
   const currentTheme = useContext(ThemeContext);
-  const { connectWallet, mintPawn, isColorPickerOpen, isMintOpen, getTotalMinted, getCurrentSupply } = useEthereum();
+  const { mintPawn, isColorPickerOpen, isMintOpen, getTotalMinted, getCurrentSupply } = useEthereum();
   const [totalMinted, setTotalMinted] = useState(0);
   const [currentSupply, setCurrentSupply] = useState(0);
   const [more, setMore] = useState({
@@ -121,7 +121,7 @@ const HomeV1 = () => {
       changePageProfile("graal");
     }
   };
-  const connect = useConnect();
+
   useEffect(() => {
     if (
       window.innerWidth > 600 &&
@@ -147,16 +147,16 @@ const HomeV1 = () => {
     changePageLinkMarket(linkMarket);
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const total = await getTotalMinted();
-  //     const currentSupply = await getCurrentSupply();
-  //     setTotalMinted(total.toString());
-  //     setCurrentSupply(currentSupply.toString());
-  //   }
+  useEffect(() => {
+    const fetchData = async () => {
+      const total = await getTotalMinted();
+      const currentSupply = await getCurrentSupply();
+      setTotalMinted(total.toString());
+      setCurrentSupply(currentSupply.toString());
+    }
 
-  //   fetchData();
-  // }, [getTotalMinted, getCurrentSupply]);
+    fetchData();
+  }, [getTotalMinted, getCurrentSupply]);
 
   const changePageProfile = (linkProfile) => {
     changePageLinkProfile(linkProfile);
@@ -393,22 +393,6 @@ const HomeV1 = () => {
             </NavLink>
           </SectionNav>
           <SectionNav style={{ padding: "0" }}>
-            {/* <button
-              className="bigButton"
-              style={{
-                width: "170px",
-                backgroundColor: "rgb(29, 155, 240)",
-                color: "white",
-                height: "43px",
-                fontSize: "18px",
-              }}
-              onClick={async () => {
-                const wallet = await connect(metamaskConfig);
-                console.log("connected to ", wallet);
-              }}
-            >
-              Connect
-            </button> */}
             <ConnectWallet className="bigButton" style={{
                 width: "170px",
                 backgroundColor: "rgb(29, 155, 240)",
@@ -551,17 +535,6 @@ const HomeV1 = () => {
                   Mint
                 </button>
                 <ConnectWallet style={currentTheme.theme.name === "Light Theme" ? { color: "white", backgroundColor: "black" } : null} className="bigButton" btnTitle="Connect" />
-                {/* <button
-                  style={
-                    currentTheme.theme.name === "Light Theme"
-                      ? { color: "white", backgroundColor: "black" }
-                      : null
-                  }
-                  className="bigButton"
-                  onClick={connectWallet}
-                >
-                  Connect
-                </button> */}
               </div>
               <div className="description">
                 <div id="name" className="name">
