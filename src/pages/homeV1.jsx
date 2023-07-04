@@ -4039,7 +4039,7 @@ const HomeV1 = () => {
                   active={linkMarket === "analyctic" ? true : false}
                   onClick={() => changePageMarket("analyctic")}
                 >
-                  Analyctics
+                  Analytics
                   {linkMarket === "analyctic" && (
                     <div className="barreBleuMarket"></div>
                   )}
