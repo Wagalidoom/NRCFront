@@ -2,32 +2,24 @@ import validate from "../../../assets/images/Valide.png";
 import novalidate from "../../../assets/images/Non_Valide.png";
 import { GraalContainer } from "./graal.style";
 import { useEffect, useState } from "react";
-import { useEthereum } from "../../../context/ethereumProvider";
+import { contractAddress, useEthereum } from "../../../context/ethereumProvider";
+import { useContract, useContractRead } from "@thirdweb-dev/react";
+import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
 export const Graal = (props) => {
   const [ensName, setEnsName] = useState("");
-  const [burn, setBurn] = useState(0);
-  const [burnCounter, setBurnCounter] = useState(0);
-  const { ethereumState } = useEthereum();
-
-  useEffect(() => {
-    if (!ethereumState.provider || !ethereumState.contract) {
-      setEnsName("");
-      setBurn(0);
-      setBurnCounter(0);
-      return;
-    }
-
-    const fetchData = async () => {
-      const address = await ethereumState.provider.getSigner().getAddress();
-      const burnCount = await ethereumState.contract.getBurnedCount(address);
-      const burnCounterCount = await ethereumState.contract.getBurnedCounterCount(address);
-      setBurn(burnCount.toString());
-      setBurnCounter(burnCounterCount);
-    };
-
-    fetchData();
-  }, [ethereumState]);
+  const { address } = useEthereum();
+  const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
+  const { data: burnCount, error: burnCountError } = useContractRead(
+    contract,
+    "getBurnedCount",
+    [address]
+  );
+  const { data: burnCounterCount, error: burnCounterCountError } = useContractRead(
+    contract,
+    "getBurnedCounterCount",
+    [address]
+  );
 
   return (
     <GraalContainer>
@@ -52,7 +44,18 @@ export const Graal = (props) => {
         </div>
         <div className="graal-condition">
           <div>
-            <img alt="" src={props.data.mint[1].type == "burn" ? burn > props.data.mint[1].value ? validate : novalidate : burnCounter > props.data.mint[1].value ? validate : novalidate } />
+            <img
+              alt=""
+              src={
+                props.data.mint[1].type == "burn"
+                  ? burnCount > props.data.mint[1].value
+                    ? validate
+                    : novalidate
+                  : burnCounterCount > props.data.mint[1].value
+                  ? validate
+                  : novalidate
+              }
+            />
           </div>
           <div>{props.data.mint[1].text}</div>
         </div>

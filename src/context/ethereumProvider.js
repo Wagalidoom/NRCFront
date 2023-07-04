@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 import {
@@ -29,11 +29,6 @@ export function EthereumProvider({ children }) {
   const [selectId, setSelectId] = useState(0);
   const [ensList, setEnsList] = useState("");
   const [isMintOpen, setIsMintOpen] = useState(false);
-  const [ethereumState, setEthereumState] = useState({
-    provider: null,
-    contract: null,
-    wallet: null,
-  });
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
   const generalContract = new ethers.Contract(
     contractAddress,
@@ -47,6 +42,12 @@ export function EthereumProvider({ children }) {
     "getUserColor",
     [address]
   );
+
+  const { data: kingPrice, error: kingPriceError } = useContractRead(
+    contract,
+    "getCurrentPrice"
+  );
+
   const { mutateAsync: mintCall, error: mintError } = useContractWrite(
     contract,
     "mint"
@@ -55,6 +56,36 @@ export function EthereumProvider({ children }) {
   const { mutateAsync: stackCall, error: stackError } = useContractWrite(
     contract,
     "stack"
+  );
+
+  const { mutateAsync: unstackCall, error: unstackError } = useContractWrite(
+    contract,
+    "unstack"
+  );
+
+  const { mutateAsync: burnCall, error: burnError } = useContractWrite(
+    contract,
+    "burn"
+  );
+
+  const { mutateAsync: buyCall, error: buyError } = useContractWrite(
+    contract,
+    "buyNFT"
+  );
+
+  const { mutateAsync: listCall, error: listError } = useContractWrite(
+    contract,
+    "listNFT"
+  );
+
+  const { mutateAsync: unlistCall, error: unlistError } = useContractWrite(
+    contract,
+    "unlistNFT"
+  );
+
+  const { mutateAsync: buyKingCall, error: buyKingError } = useContractWrite(
+    contract,
+    "buyKing"
   );
 
   const { mutateAsync: approveCall, error: approveError } = useContractWrite(
@@ -81,7 +112,6 @@ export function EthereumProvider({ children }) {
   };
 
   const setPrice = async (_id) => {
-    if (!ethereumState.contract) return;
     setIsPriceSelectorOpen(true);
     setSelectId(_id);
   };
@@ -121,49 +151,46 @@ export function EthereumProvider({ children }) {
     setSelectId(null);
     setIsEnsSelectorOpen(false);
     await approveCall({ args: [contractAddress, _id] });
-    await stackCall({args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id]});
+    await stackCall({
+      args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id],
+    });
   };
 
   const unstack = async (_id) => {
-    if (!ethereumState.contract) return;
-    let tx = await ethereumState.contract.unstack(_id);
-    console.log(tx);
+    await unstackCall({ args: [_id] });
   };
 
   const burn = async (_id) => {
-    if (!ethereumState.contract) return;
-    console.log(_id);
-    await ethereumState.contract.burn(_id);
+    await burnCall({ args: [_id] });
   };
 
   const buy = async (_id, price) => {
-    if (!ethereumState.contract) return;
-    console.log(_id, price);
-    await ethereumState.contract.buyNFT(_id, { value: price });
+    await buyCall({
+      args: [_id],
+      overrides: {
+        value: price,
+      },
+    });
   };
 
   const listNFT = async (_id, price) => {
-    if (!ethereumState.contract) return;
-    console.log(price);
-    await ethereumState.contract.approve(ethereumState.contract.address, _id);
-    await ethereumState.contract.listNFT(
-      _id,
-      ethers.utils.parseEther(price.toString())
-    );
+    await approveCall({ args: [contractAddress, _id] });
+    await listCall({ args: [_id, ethers.utils.parseEther(price.toString())] });
     setSelectId(null);
     setIsPriceSelectorOpen(false);
   };
 
   const unlistNFT = async (_id) => {
-    if (!ethereumState.contract) return;
-    await ethereumState.contract.unlistNFT(_id);
+    await unlistCall({ args: [_id] });
   };
 
   const buyKing = async (_color) => {
-    if (!ethereumState.contract) return;
-    const kingPrice = await ethereumState.contract.getCurrentPrice();
-    console.log(kingPrice);
-    await ethereumState.contract.buyKing(_color, { value: kingPrice });
+    await buyKingCall({
+      args: [_color],
+      overrides: {
+        value: kingPrice,
+      },
+    });
   };
 
   const mintPawn = async () => {
@@ -186,7 +213,6 @@ export function EthereumProvider({ children }) {
   };
 
   const value = {
-    ethereumState,
     mintPawn,
     chooseBlackColor,
     chooseWhiteColor,
