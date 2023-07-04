@@ -112,24 +112,16 @@ export function EthereumProvider({ children }) {
   };
 
   const setEns = async (_id, _list) => {
-    if (!ethereumState.contract) return;
     setIsEnsSelectorOpen(true);
     setEnsList(_list);
     setSelectId(_id);
   };
 
   const stack = async (_ens, _id) => {
-    approveCall({contractAddress})
-    await ethereumState.contract.approve(ethereumState.contract.address, _id);
-    console.log(_ens, namehash.hash(_ens), _id);
-    let tx = await ethereumState.contract.stack(
-      namehash.hash(_ens),
-      ethers.utils.formatBytes32String(_ens),
-      _id
-    );
     setSelectId(null);
     setIsEnsSelectorOpen(false);
-    console.log(tx);
+    await approveCall({ args: [contractAddress, _id] });
+    await stackCall({args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id]});
   };
 
   const unstack = async (_id) => {
@@ -172,30 +164,6 @@ export function EthereumProvider({ children }) {
     const kingPrice = await ethereumState.contract.getCurrentPrice();
     console.log(kingPrice);
     await ethereumState.contract.buyKing(_color, { value: kingPrice });
-  };
-
-  const connectWallet = async () => {
-    if (!window.ethereum) {
-      window.alert("Please install MetaMask!");
-      return;
-    }
-
-    try {
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const wallet = await signer.getAddress();
-      const contract = new ethers.Contract(
-        contractAddress,
-        NUMBERRUNNERCLUB_ABI,
-        signer
-      );
-      setEthereumState({ provider, contract, wallet });
-      console.log("Wallet Connected !");
-    } catch (error) {
-      window.alert("Failed to connect wallet");
-      console.error(error);
-    }
   };
 
   const mintPawn = async () => {
