@@ -161,6 +161,7 @@ export function EthereumProvider({ children }) {
   };
 
   const burn = async (_id) => {
+    console.log(_id);
     await burnCall({ args: [_id] });
   };
 
