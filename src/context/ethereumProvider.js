@@ -218,6 +218,12 @@ export function EthereumProvider({ children }) {
         return name;
     }
 
+    const getEnsProfilePicture = async (ensName) => {
+      const resolver = await generalProvider.getResolver(ensName);
+      const imageUrl = await resolver.getText("avatar");
+      return imageUrl;
+    }
+
     const value = {
         mintPawn,
         chooseBlackColor,
@@ -241,6 +247,7 @@ export function EthereumProvider({ children }) {
         getTotalMinted,
         getCurrentSupply,
         getEnsName,
+        getEnsProfilePicture,
         address,
     };
 
