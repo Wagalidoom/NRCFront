@@ -106,7 +106,6 @@ overflow:hidden;
 
   .tw-connected-wallet__address{
     color: black;
-
   }
 
   .menuLeftContent {
@@ -214,7 +213,15 @@ overflow:hidden;
     bottom:0px;
     left:50%;
     transform:translateX(-50%);
+  }
+  .ensImg {
+    width: 100px;
+    border-radius: 8%;
+    position:absolute;
     bottom:0px;
+    left:50%;
+    transform:translateX(-50%);
+    border: solid 5px rgb(30, 40, 50);
   }
   .leftName {
     padding-left: 75px;

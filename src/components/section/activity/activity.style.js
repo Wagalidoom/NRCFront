@@ -98,7 +98,7 @@ width:100%;
     max-width:23px;
 }
 .activity-right{
-    width:150px;
+    width:175px;
     position:relative;
     right:0px;
     display:flex;
@@ -127,7 +127,7 @@ width:100%;
     border-bottom-right-radius:5px;
     border-bottom-left-radius:5px;
     box-shadow: ${props => props.theme.name === "Dark Theme" ? 'rgb(0, 0, 0) 0px 2px 4px, rgb(0, 0, 0) 0px 7px 13px -3px, rgb(0, 0, 0) 0px -3px 0px inset' : 'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset' };
-    width:200px;
+    width:175px;
 }
 .activity-infos-right >p{
     position:relative;
@@ -141,8 +141,8 @@ top:50%;
 transform:translateY(-50%);
 }
 .activity-right > div> img{
-width:150px;
-height:150px;
+width:175px;
+height:175px;
 border-top-left-radius: 10px;
 border-top-right-radius: 10px;
 }

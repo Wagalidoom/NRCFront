@@ -138,13 +138,13 @@ export const Activity = (props) => {
                                 <p>{moment.unix(nft.blockTimestamp).fromNow()}</p>
                                 <div className="activity-user">
                                     {(nft.type === "burns" || nft.type === "mints") &&
-                                        <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Owner: {nft.owner}</p>
+                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Owner: {nft.owner}</p>
                                     }
                                     {(nft.type === "sales" || nft.type === "offers") &&
-                                        <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>From: {nft.seller}</p>
+                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>From: {nft.seller}</p>
                                     }
                                     {nft.type === "sales" &&
-                                        <p style={{ width: '50%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>To: {nft.buyer}</p>
+                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>To: {nft.buyer}</p>
                                     }
                                 </div>
                             </div>

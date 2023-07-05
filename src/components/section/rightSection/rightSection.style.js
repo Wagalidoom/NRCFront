@@ -91,6 +91,7 @@ font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto
     font-size:20px;
     padding:12px 16px;
     margin-bottom:0px;
+    border-bottom: solid 2px #5555;
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-weight:700;
 }

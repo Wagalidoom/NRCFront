@@ -461,8 +461,7 @@ const HomeV1 = () => {
                     className="logoImg"
                     id="logoImg"
                     alt=""
-                  /></>) : (<img src={ensUrl} className="logoImg"
-                  id="logoImg"
+                  /></>) : (<img className="ensImg" src={ensUrl}
                   alt="" />)}
                 </div>
               </div>
