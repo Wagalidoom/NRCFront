@@ -6,6 +6,7 @@ import queen from "../../../assets/images/icon/IconDame-Blanc.png";
 import king from "../../../assets/images/icon/IconRoi-Blanc.png";
 import rook from "../../../assets/images/icon/IconTour-Blanc.png";
 import bishop from "../../../assets/images/icon/IconFou-Blanc.png";
+import { Analyctic } from "../analyctic/analyctic";
 
 export const RightSection = ({ more,openFunction, actualPage ,subPage,theme}) => {
     const activityRef = useRef(null)
@@ -37,28 +38,9 @@ export const RightSection = ({ more,openFunction, actualPage ,subPage,theme}) =>
         <RightSectionContainer ref={activityRef} showHolder={more.topHolders} showActivity={more.activity}>
             <div className="top-holder">
                 <div>
-                    <div>
-                        <h1 className="title">Top Holders</h1>
-                    </div>
-                    <div>
-                        <ul className="list">
-                            {holderData.map((element,index) =>
-                                <li key={index}>
-                                    <div className="holder-infos">
-                                        <span>{index+1} :</span>
-                                        <div className="holder-nft"><img alt="" src={element.img}/></div>
-                                        <div className="holder-name">
-                                            <p>777.eth</p>
-                                            <p>{element.name}</p>   
-                                        </div>
-                                        <div className="holder-data">700</div>
-                                    </div>
-                                </li>
-                            )}
-                            <li onClick={() => openFunction({ topHolders: true, activity: false, page: actualPage },{pos:window.scrollY,back:false})} >
-                                <div>Show more</div>
-                            </li>
-                        </ul>
+                   <Analyctic />
+                    <div className="activity-show"  onClick={() => openFunction({ topHolders: true, activity: false, page: actualPage },{pos:window.scrollY,back:false})} >
+                        <div>Show more</div>
                     </div>
                 </div>
             </div>

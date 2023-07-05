@@ -84,6 +84,7 @@ font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto
 
 .top-holder{
     margin-bottom:18px;
+    font-weight:700;
     display:${props => props.showHolder ? 'none' :'block'};
 }
 .title{

@@ -812,43 +812,7 @@ const HomeV1 = () => {
             <AboutStyleWrapper>
                 {more.topHolders && (
                     <div className="content">
-                        <div className="QuitThread content">
-                            <img
-                                onClick={() =>
-                                    openMore(
-                                        { ...more, topHolders: false, activity: false, page: null },
-                                        { ...posScroll, back: true }
-                                    )
-                                }
-                                src={
-                                    currentTheme.theme.name === "Light Theme"
-                                        ? flecheDark
-                                        : fleche
-                                }
-                                alt=""
-                            />
-                            <span>Top Holders</span>
-                        </div>
-                        <ul className="list" style={{ marginTop: "calc(53px - 16px)" }}>
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
-                                (element, index) => (
-                                    <li key={index}>
-                                        <div className="holder-infos">
-                                            <span>{element} :</span>
-                                            <div className="holder-nft">
-                                                <img alt="" src={cavalier} />
-                                            </div>
-                                            <div className="holder-name">
-                                                <p>777.eth</p>
-                                                <p>@NRKing</p>
-                                            </div>
-                                            <div className="holder-data">700</div>
-                                        </div>
-                                    </li>
-                                )
-                            )}
-                        </ul>
-                        <div className="show-more">Show more</div>
+                        <Analyctic />
                     </div>
                 )}
                 {more.activity && (
