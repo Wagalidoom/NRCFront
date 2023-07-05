@@ -49,7 +49,9 @@ export const Analyctic = ({ theme }) => {
                     const nftType = getNftType(holder.tokenId);
                     console.log(holder.shares, lastGlobalShares[nftType]);
                     holder.shares = lastGlobalShares[nftType] - holder.shares;
-                    return holder.shares;
+                    holder.type = nftType;
+                    // holder.ensname = 
+                    return holder;
                 });
             
                 console.log(rewards);
