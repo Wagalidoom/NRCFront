@@ -6,12 +6,24 @@ import Axios from 'axios';
 import pawn5185 from "../../../assets/images/5185.png";
 import ethGreen from "../../../assets/images/icon/iconeethvert.png";
 import ethBlue from "../../../assets/images/icon/iconeethbleu.png";
+import { getNftType } from "../../../helper";
+
+const typeNames = {
+    0: 'King',
+    1: 'Queen',
+    2: 'Tower',
+    3: 'Cavalier',
+    4: 'Fou',
+    5: 'Pawn'
+};
 
 export const Activity = (props) => {
     const [filter, setFilter] = useState("sales");
     const arrayFilters = ["sales", "offers", "burns", "mints"];
     // Définir l'état pour les NFTs
     const [nfts, setNfts] = useState([]);
+
+    const getTypeName = (type) => typeNames[type] || 'Unknown';
 
     // Utiliser useEffect pour charger les données au chargement du composant
     useEffect(() => {
@@ -154,7 +166,7 @@ export const Activity = (props) => {
                                     <div className="activity-infos-right">
                                         <p>Number Runner #{nft.tokenId}</p>
                                         <p>
-                                            Pawn{" "}
+                                            {getTypeName(getNftType(nft.id))}
                                             {(nft.type !== "burns" && nft.type !== "mints") && (
                                                 <span style={{ position: "absolute", right: "8px" }}>
                                                     <img className="eth-logo" src={nft.type === "sales" ? ethGreen : ethBlue} alt="" />
