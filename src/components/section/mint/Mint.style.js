@@ -1,22 +1,30 @@
 import styled from "styled-components";
 
 export const MintStyleWrapper = styled.section`
-.content {
-    margin-bottom: 100px;
-    width: 100%;
+.callContractContainer {
+    background-color: rgba(0,0,0,0.714);
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 100;
+}
+
+.mintContent {
+    background-color: rgb(21, 32, 43);
+    border-radius: 5px;
     margin: auto;
-    max-width: 600px;
-    border-top: 1px solid ${props => props.theme.colors.border};
-    border-left: 1px solid ${props => props.theme.colors.border};
-    border-right: 1px solid ${props => props.theme.colors.border};
-    padding: 12px 16px;
-    position:fixed;
-    bottom:0;
-    background-color: rgb(30, 39, 50);
-    z-index: 999;
+    width: 520px;
+    display: flex;
+    flex-direction: column;
+    border-top: 3px solid ${props => props.theme.colors.border};
+    border-left: 3px solid ${props => props.theme.colors.border};
+    border-right: 3px solid ${props => props.theme.colors.border};
+    border-bottom: 3px solid ${props => props.theme.colors.border};
+    
   }
   @media screen and (max-width: 600px){
-    .content {
+    .mintContent {
         margin-bottom: 100px;
         width: 100%;
         margin: auto;

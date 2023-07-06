@@ -219,9 +219,9 @@ export function EthereumProvider({ children }) {
     }
 
     const getEnsProfilePicture = async (ensName) => {
-      const resolver = await generalProvider.getResolver(ensName);
-      const imageUrl = await resolver.getText("avatar");
-      return imageUrl;
+        const resolver = await generalProvider.getResolver(ensName);
+        const imageUrl = await resolver.getText("avatar");
+        return imageUrl;
     }
 
     const value = {
