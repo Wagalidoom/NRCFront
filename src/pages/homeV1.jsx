@@ -270,6 +270,8 @@ const HomeV1 = () => {
         <Layout>
             <GlobalStyles />
             <BannerV1Wrapper ref={scrollRef}>
+                {isColorPickerOpen ? <ColorPicker /> : null}
+                {isMintOpen ? <Mint /> : null}
                 <RightSection
                     more={more}
                     openFunction={openMore}
@@ -437,8 +439,6 @@ const HomeV1 = () => {
                     !more.topHolders &&
                     !more.activity && (
                         <div className="content" id="full">
-                            {isColorPickerOpen ? <ColorPicker /> : null}
-                            {isMintOpen ? <Mint /> : null}
                             <div className="banner-container">
                                 <img id="banner" src={banner} alt="" />
                                 <div id="bannerMobile" className="banner-mobile">
