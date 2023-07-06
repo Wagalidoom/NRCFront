@@ -166,7 +166,7 @@ export const Activity = (props) => {
                                     <div className="activity-infos-right">
                                         <p>Number Runner #{nft.tokenId}</p>
                                         <p>
-                                            {getTypeName(getNftType(nft.id))}
+                                            {getTypeName(getNftType(nft.tokenId))}
                                             {(nft.type !== "burns" && nft.type !== "mints") && (
                                                 <span style={{ position: "absolute", right: "8px" }}>
                                                     <img className="eth-logo" src={nft.type === "sales" ? ethGreen : ethBlue} alt="" />
