@@ -1,4 +1,5 @@
-export const NUMBERRUNNERCLUB_ABI = [
+export const NUMBERRUNNERCLUB_ABI = 
+[
 	{
 		"inputs": [
 			{
@@ -289,31 +290,6 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "address",
-				"name": "winner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "color",
-				"type": "uint256"
-			}
-		],
-		"name": "KingBought",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
 				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
@@ -434,6 +410,25 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"inputs": [
 			{
 				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "ensName",
+				"type": "bytes32"
+			}
+		],
+		"name": "NFTStacked",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
 				"internalType": "address",
 				"name": "seller",
 				"type": "address"
@@ -452,6 +447,25 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"name": "NFTUnlisted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "bytes32",
+				"name": "ensName",
+				"type": "bytes32"
+			}
+		],
+		"name": "NFTUnstacked",
 		"type": "event"
 	},
 	{
@@ -496,6 +510,25 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "rewards",
+				"type": "uint256"
+			}
+		],
+		"name": "UpdateUnclaimedRewards",
 		"type": "event"
 	},
 	{
@@ -926,13 +959,7 @@ export const NUMBERRUNNERCLUB_ABI = [
 	{
 		"inputs": [],
 		"name": "getCurrentPrice",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "view",
 		"type": "function"
 	},
@@ -1004,25 +1031,6 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "getReward",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -1226,6 +1234,19 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "kingAuction",
+		"outputs": [
+			{
+				"internalType": "contract KingAuction",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
