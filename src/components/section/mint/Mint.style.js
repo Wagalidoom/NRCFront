@@ -17,12 +17,19 @@ export const MintStyleWrapper = styled.section`
     width: 520px;
     display: flex;
     flex-direction: column;
-    border-top: 3px solid ${props => props.theme.colors.border};
-    border-left: 3px solid ${props => props.theme.colors.border};
-    border-right: 3px solid ${props => props.theme.colors.border};
-    border-bottom: 3px solid ${props => props.theme.colors.border};
+    border-top: 2px solid ${props => props.theme.colors.border};
+    border-left: 2px solid ${props => props.theme.colors.border};
+    border-right: 2px solid ${props => props.theme.colors.border};
+    border-bottom: 2px solid ${props => props.theme.colors.border};
     
   }
+
+  .contractContainerRow{
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid ${props => props.theme.colors.border};
+  }
+
   @media screen and (max-width: 600px){
     .mintContent {
         margin-bottom: 100px;
