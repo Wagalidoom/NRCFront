@@ -49,18 +49,24 @@ export const KingAuction = (props) => {
     useEffect(() => {
         const fetchPrice = async () => {
             const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
-            const transaction = await provider.getTransaction("0x7f64df18c74d8dea508d219028ebe9c6b54acb8b581219eb267b94736d738aee");
+            const transaction = await provider.getTransaction("0xcfd68ac4d9700f5dee5d1af79b8c3b4c3ed198ce845490de71277fe0546b12ca");
             const block = await provider.getBlock(transaction.blockNumber);
             setStartTime(new Date(block.timestamp * 1000));
             setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
             console.log('ts: ', block.timestamp)
             const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
             const priceToPay = await contractInstance.getCurrentPrice();
+            console.log(priceToPay)
             setPrice(priceToPay)
-
         }
-
-        fetchPrice();
+    
+        const interval = setInterval(() => {
+            fetchPrice();
+        }, 1000); // Fetch price every second
+    
+        return () => {
+            clearInterval(interval); // Cleanup on unmount
+        }
     }, [contractAddress]);
 
     const checkboxChange = (e) => {
@@ -126,9 +132,6 @@ export const KingAuction = (props) => {
                         Date et heure affichées en heure locale
                     </div>
                 </div>
-            </div>
-            <div className="graph">
-                Emplacement future graphique
             </div>
             <div >
                 <div className="title" style={{ marginBottom: "15px", marginTop: '32px' }}>
