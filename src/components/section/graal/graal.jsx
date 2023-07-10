@@ -2,12 +2,18 @@ import validate from "../../../assets/images/Valide.png";
 import novalidate from "../../../assets/images/Non_Valide.png";
 import { GraalContainer } from "./graal.style";
 import { useEffect, useState } from "react";
-import { contractAddress, useEthereum } from "../../../context/ethereumProvider";
+import {
+  ENSsubgraph,
+  contractAddress,
+  useEthereum,
+} from "../../../context/ethereumProvider";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
+import Axios from "axios";
 
 export const Graal = (props) => {
   const [ensName, setEnsName] = useState("");
+  const [ensList, setEnsList] = useState("");
   const { address } = useEthereum();
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const { data: burnCount, error: burnCountError } = useContractRead(
@@ -15,11 +21,38 @@ export const Graal = (props) => {
     "getBurnedCount",
     [address]
   );
-  const { data: burnCounterCount, error: burnCounterCountError } = useContractRead(
-    contract,
-    "getBurnedCounterCount",
-    [address]
-  );
+  const { data: burnCounterCount, error: burnCounterCountError } =
+    useContractRead(contract, "getBurnedCounterCount", [address]);
+
+
+  useEffect(() => {
+    const fetchEnsName = async () => {
+      let ENSquery = `
+    {
+      domains(where: {registrant: "${address.toLowerCase()}"}) {
+        name
+      }
+    }
+      `;
+  
+      let userOwnedENS;
+  
+      try {
+        await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
+          userOwnedENS = Object.values(result.data.data)[0];
+          console.log(userOwnedENS);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+  
+      setEnsList(userOwnedENS);
+    };
+
+    fetchEnsName();
+
+  }, [address]);
+  
 
   return (
     <GraalContainer>

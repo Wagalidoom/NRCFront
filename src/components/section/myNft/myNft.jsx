@@ -27,7 +27,6 @@ import Axios from "axios";
 import { EnsSelector } from "../ensSelector/EnsSelector";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
-import { timers } from "jquery";
 const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
@@ -54,9 +53,13 @@ export const MyNft = (props) => {
     setEns,
     address,
   } = useEthereum();
+  const [nftOwned, setNftOwned] = useState([]);
+  const [nftOnSale, setNftOnSale] = useState([]);
   const [collection, setCollection] = useState([]);
   const [ensList, setEnsList] = useState([]);
-  const [node, setNode] = useState("0x0000000000000000000000000000000000000000000000000000000000000000");
+  const [node, setNode] = useState(
+    "0x0000000000000000000000000000000000000000000000000000000000000000"
+  );
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const {
     data: tokenIdOfNode,
@@ -106,23 +109,44 @@ export const MyNft = (props) => {
   }, [modalOpen]);
 
   useEffect(() => {
-    setCollection([]);
+    const fetchNftOnSale = async () => {
+      let NRCquery = `
+              {
+                nfts(where: {listed: true}) {
+                  id
+                  owner
+                  price
+                }
+              }
+            `;
+  
+      let result;
+  
+      try {
+        await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
+          result = Object.values(result.data.data)[0];
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      setNftOnSale(result);
+    };
+
+    fetchNftOnSale();
+  }, []);
+  
+  useEffect(() =>{
+    props.market ? setCollection(nftOnSale) : setCollection(nftOwned);
+  }, [props.market]);
+  
+
+  useEffect(() => {
+    setNftOwned([]);
     setEnsList([]);
-    // console.log(address);
 
     const fetchData = async () => {
       setAddressLower(address.toLowerCase());
-      let NRCquery = props.market
-        ? `
-            {
-              nfts(where: {listed: true}) {
-                id
-                owner
-                price
-              }
-            }
-          `
-        : `
+      let NRCquery = `
             {
               nfts(where: {owner: "${address}"}) {
                 id
@@ -177,32 +201,32 @@ export const MyNft = (props) => {
         setEnsList(userOwnedENS);
 
         const fetchCollectionPromises = userOwnedENS.map((element) => {
-            return (async () => {
-              setNode(namehash.hash(element.name));
-              
-              // On utilise un boucle while pour attendre que isLoading soit faux
-              while(isLoading) {
-                // Attente de 100 ms avant de vérifier à nouveau
-                await new Promise(resolve => setTimeout(resolve, 100));
-              }
-              
-              console.log(node, namehash.hash(element.name), element.name);
-          
-              const tokenId = tokenIdOfNode;
-              console.log(tokenId, isLoading, tokenIdOfNodeError);
-              if (tokenId && Number(tokenId) !== 0) {
-                fetchCollection.push({
-                  id: Number(tokenId),
-                  isStacked: true,
-                  ensName: element.name,
-                  price: 0,
-                  owner: element.owner,
-                });
-              }
-            })(); 
-          });
-          
-          await Promise.all(fetchCollectionPromises);
+          return (async () => {
+            setNode(namehash.hash(element.name));
+
+            // On utilise un boucle while pour attendre que isLoading soit faux
+            while (isLoading) {
+              // Attente de 100 ms avant de vérifier à nouveau
+              await new Promise((resolve) => setTimeout(resolve, 100));
+            }
+
+            console.log(node, namehash.hash(element.name), element.name);
+
+            const tokenId = tokenIdOfNode;
+            console.log(tokenId, isLoading, tokenIdOfNodeError);
+            if (tokenId && Number(tokenId) !== 0) {
+              fetchCollection.push({
+                id: Number(tokenId),
+                isStacked: true,
+                ensName: element.name,
+                price: 0,
+                owner: element.owner,
+              });
+            }
+          })();
+        });
+
+        await Promise.all(fetchCollectionPromises);
 
         // fetchCollection.push(...resolvedFetchCollection.filter(Boolean));
       }
@@ -211,7 +235,7 @@ export const MyNft = (props) => {
         return a.id - b.id;
       });
 
-      setCollection(sortedCollection);
+      setNftOwned(sortedCollection);
     };
 
     fetchData();
