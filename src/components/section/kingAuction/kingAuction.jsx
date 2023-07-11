@@ -55,9 +55,9 @@ export const KingAuction = (props) => {
             setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
             console.log('ts: ', block.timestamp)
             const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
-            const priceToPay = await contractInstance.getCurrentPrice();
-            console.log(priceToPay)
-            setPrice(priceToPay)
+            // const priceToPay = await contractInstance.getCurrentPrice();
+            // console.log(priceToPay)
+            // setPrice(priceToPay)
         }
     
         const interval = setInterval(() => {

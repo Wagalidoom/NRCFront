@@ -24,7 +24,6 @@ export const Graal = (props) => {
   const { data: burnCounterCount, error: burnCounterCountError } =
     useContractRead(contract, "getBurnedCounterCount", [address]);
 
-
   useEffect(() => {
     const fetchEnsName = async () => {
       let ENSquery = `
@@ -34,9 +33,9 @@ export const Graal = (props) => {
       }
     }
       `;
-  
+
       let userOwnedENS;
-  
+
       try {
         await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
           userOwnedENS = Object.values(result.data.data)[0];
@@ -45,14 +44,14 @@ export const Graal = (props) => {
       } catch (error) {
         console.log(error);
       }
-  
+
       setEnsList(userOwnedENS);
     };
 
-    fetchEnsName();
-
+    if (address) {
+      fetchEnsName();
+    }
   }, [address]);
-  
 
   return (
     <GraalContainer>

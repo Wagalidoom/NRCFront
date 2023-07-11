@@ -18,7 +18,7 @@ export const NRCsubgraph =
 export const ENSsubgraph =
     "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x53442aAa2007528896893f4D1501a661Ec1cC41F";
+export const contractAddress = "0x6f70151b8edc2bc1e90920736b8b1c54ac6e661f";
 
 const EthereumContext = createContext(null);
 
@@ -43,10 +43,10 @@ export function EthereumProvider({ children }) {
         [address]
     );
 
-    const { data: kingPrice, error: kingPriceError } = useContractRead(
-        contract,
-        "getCurrentPrice"
-    );
+    // const { data: kingPrice, error: kingPriceError } = useContractRead(
+    //     contract,
+    //     "getCurrentPrice"
+    // );
 
     const { mutateAsync: mintCall, error: mintError } = useContractWrite(
         contract,
@@ -185,14 +185,14 @@ export function EthereumProvider({ children }) {
         await unlistCall({ args: [_id] });
     };
 
-    const buyKing = async (_color) => {
-        await buyKingCall({
-            args: [_color],
-            overrides: {
-                value: kingPrice,
-            },
-        });
-    };
+    // const buyKing = async (_color) => {
+    //     await buyKingCall({
+    //         args: [_color],
+    //         overrides: {
+    //             value: kingPrice,
+    //         },
+    //     });
+    // };
 
     const mintPawn = async () => {
         if (userColor === 0) {
@@ -239,7 +239,7 @@ export function EthereumProvider({ children }) {
         stack,
         unstack,
         buy,
-        buyKing,
+        // buyKing,
         listNFT,
         unlistNFT,
         setPrice,

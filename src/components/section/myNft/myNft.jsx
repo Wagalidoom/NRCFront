@@ -119,9 +119,9 @@ export const MyNft = (props) => {
                 }
               }
             `;
-  
+
       let result;
-  
+
       try {
         await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
           result = Object.values(result.data.data)[0];
@@ -134,11 +134,10 @@ export const MyNft = (props) => {
 
     fetchNftOnSale();
   }, []);
-  
-  useEffect(() =>{
+
+  useEffect(() => {
     props.market ? setCollection(nftOnSale) : setCollection(nftOwned);
   }, [props.market]);
-  
 
   useEffect(() => {
     setNftOwned([]);
@@ -238,12 +237,14 @@ export const MyNft = (props) => {
       setNftOwned(sortedCollection);
     };
 
-    fetchData();
+    if (address) {
+      fetchData();
+    }
   }, [address, isLoading]);
 
   return (
     <MyNftContainer
-      filter={activeButton.filter}
+      isFilterApplied={activeButton.filter}
       market={props.market}
       sweep={activeButton.sweep}
       openSelect={open}
@@ -262,7 +263,7 @@ export const MyNft = (props) => {
                 onClick={() =>
                   setActiveButton({
                     ...activeButton,
-                    filter: activeButton.filter ? false : true,
+                    isFilterApplied: activeButton.filter ? false : true,
                   })
                 }
               >
@@ -294,7 +295,7 @@ export const MyNft = (props) => {
                 onClick={() =>
                   setActiveButton({
                     ...activeButton,
-                    filter: activeButton.filter ? false : true,
+                    isFilterApplied: activeButton.filter ? false : true,
                   })
                 }
               >

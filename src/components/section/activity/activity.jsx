@@ -124,7 +124,7 @@ export const Activity = (props) => {
     };
 
     return (
-        <ActivityContainer filter={props.container === "right" ? true : false}>
+        <ActivityContainer isFilterApplied={props.container === "right" ? true : false}>
             <div className="filter-section">
                 <div className="filter-container">
                     {arrayFilters.map((element, index) => (

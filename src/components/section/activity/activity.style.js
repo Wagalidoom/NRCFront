@@ -22,7 +22,7 @@ width:100%;
     height: 34px;
     margin-bottom:32px;
     margin-top:16px;
-    display:${props => props.filter ? 'none' :'initial'};
+    display:${props => props.isFilterApplied ? 'none' :'initial'};
 }
   
 .filter-container {
@@ -36,13 +36,10 @@ width:100%;
     transform: translateX(-50%);
   }
   
-.filter {
- 
-  }
 .activity{
     display:flex;
     width:100%;
-    padding:${props => props.filter ? '0px 16px' : '0px 58px'};
+    padding:${props => props.isFilterApplied ? '0px 16px' : '0px 58px'};
     position:relative;
     height:auto;    
 }

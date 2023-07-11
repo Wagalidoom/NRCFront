@@ -70,7 +70,7 @@ justify-content:space-around;
     padding:8px 12px;
 }
 .filter{
-    background: ${props => props.theme.name === 'Dark Theme' ? props.filter ? 'rgb(5,5,5)' :'rgb(30,39,50)' : props.filter ?  '#8EA3BE':'#afafaf'  }
+    background: ${props => props.theme.name === 'Dark Theme' ? props.isFilterApplied ? 'rgb(5,5,5)' :'rgb(30,39,50)' : props.isFilterApplied ?  '#8EA3BE':'#afafaf'  }
 }
 .sweep{
     background: ${props => props.theme.name === 'Dark Theme' ? props.sweep ? 'rgb(5,5,5)' :'rgb(30,39,50)' : props.sweep ?  '#8EA3BE' :'#afafaf' }
@@ -133,7 +133,7 @@ cursor:pointer;
     border-right:1px solid ${props => props.theme.name === "Light Theme" ?'#afafaf' :'#afafaf' };
     border-bottom:1px solid ${props => props.theme.name === "Light Theme" ?'#afafaf' :'#afafaf' };
     display:${props => props.openSelect ? 'block' : 'none'};    
-    background:${props => !props.filter && props.theme.name === 'Dark Theme' ? 'rgb(30,39,50)' : 'rgb(239,243,244)'};
+    background:${props => !props.isFilterApplied && props.theme.name === 'Dark Theme' ? 'rgb(30,39,50)' : 'rgb(239,243,244)'};
     border-bottom-right-radius:5px;
     border-bottom-left-radius:5px;
     z-index:1;
