@@ -48,21 +48,26 @@ export const KingAuction = (props) => {
 
     useEffect(() => {
         const fetchPrice = async () => {
-            // const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
-            // const transaction = await provider.getTransaction("0xcfd68ac4d9700f5dee5d1af79b8c3b4c3ed198ce845490de71277fe0546b12ca");
-            // const block = await provider.getBlock(transaction.blockNumber);
-            // setStartTime(new Date(block.timestamp * 1000));
-            // setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
-            // console.log('ts: ', block.timestamp)
-            // const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
-            // const priceToPay = await contractInstance.getCurrentPrice();
-            // console.log(priceToPay)
-            // setPrice(priceToPay)
+            const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
+            const transaction = await provider.getTransaction("0xcfd68ac4d9700f5dee5d1af79b8c3b4c3ed198ce845490de71277fe0546b12ca");
+            const block = await provider.getBlock(transaction.blockNumber);
+            setStartTime(new Date(block.timestamp * 1000));
+            setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
+            console.log('ts: ', block.timestamp)
+            const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
+            const priceToPayBigNumber = await contractInstance.getCurrentPrice();
+
+            const TWO_POW_64 = ethers.BigNumber.from(2).pow(64);
+            const ONE_MILLION = ethers.BigNumber.from(1000000);
+    
+            const priceToPay = priceToPayBigNumber.mul(ONE_MILLION).div(TWO_POW_64).toNumber() / 100;
+    
+            setPrice(priceToPay);
         }
     
         const interval = setInterval(() => {
             fetchPrice();
-        }, 1000); // Fetch price every second
+        }, 10000); // Fetch price every second
     
         return () => {
             clearInterval(interval); // Cleanup on unmount
@@ -101,7 +106,7 @@ export const KingAuction = (props) => {
 
                 <div className="king-actions" >
                     <div className="king-price">
-                        <img alt="" className="leftText" src={props.theme === 'Dark Theme' ? eth : ethDark} /> <span>{price ? parseFloat(ethers.utils.formatEther(price)).toFixed(2) : 'Loading...'}</span>
+                        <img alt="" className="leftText" src={props.theme === 'Dark Theme' ? eth : ethDark} /> <span>{price ? parseFloat(price).toFixed(2) : 'Loading...'}</span>
 
                     </div>
                     <div className="king-selector">
