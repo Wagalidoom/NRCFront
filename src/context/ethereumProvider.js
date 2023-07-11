@@ -48,7 +48,7 @@ export function EthereumProvider({ children }) {
     //     "getCurrentPrice"
     // );
 
-    const { mutateAsync: mintCall, error: mintError } = useContractWrite(
+    const { mutateAsync: mintCall, isLoading: mintLoading, error: mintError } = useContractWrite(
         contract,
         "mint"
     );
@@ -235,6 +235,7 @@ export function EthereumProvider({ children }) {
         selectId,
         ensList,
         mint,
+        mintLoading,
         burn,
         stack,
         unstack,

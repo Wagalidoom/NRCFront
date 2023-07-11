@@ -52,8 +52,11 @@ export const MyNft = (props) => {
     setPrice,
     setEns,
     address,
+    mintLoading,
   } = useEthereum();
+  const [isMarketFetched, setIsMarketFetched] = useState(false);
   const [nftOwned, setNftOwned] = useState([]);
+  const [fetchENSIndex, setFetchENSIndex] = useState(0);
   const [nftOnSale, setNftOnSale] = useState([]);
   const [collection, setCollection] = useState([]);
   const [ensList, setEnsList] = useState([]);
@@ -66,6 +69,7 @@ export const MyNft = (props) => {
     isLoading,
     error: tokenIdOfNodeError,
   } = useContractRead(contract, "getTokenIdOfNode", [node]);
+
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
       if (prevModal === current) {
@@ -93,6 +97,7 @@ export const MyNft = (props) => {
       return prevOpen;
     });
   };
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
@@ -120,29 +125,38 @@ export const MyNft = (props) => {
               }
             `;
 
-      let result;
+      let fetchSale;
 
       try {
         await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
-          result = Object.values(result.data.data)[0];
+          fetchSale = Object.values(result.data.data)[0];
         });
       } catch (error) {
         console.log(error);
       }
-      setNftOnSale(result);
+
+      let collection = [];
+      fetchSale.map((element) => {
+        collection.push({
+          id: Number(element.id),
+          isStacked: false,
+          isListed: true,
+          ensName: "",
+          price: element.price,
+          owner: element.owner,
+        });
+      });
+      setNftOnSale(collection);
+      setIsMarketFetched(true);
+      if (props.market) {
+        setCollection(collection);
+      }
     };
 
     fetchNftOnSale();
   }, []);
 
   useEffect(() => {
-    props.market ? setCollection(nftOnSale) : setCollection(nftOwned);
-  }, [props.market]);
-
-  useEffect(() => {
-    setNftOwned([]);
-    setEnsList([]);
-
     const fetchData = async () => {
       setAddressLower(address.toLowerCase());
       let NRCquery = `
@@ -154,31 +168,31 @@ export const MyNft = (props) => {
             }
           `;
 
-      let userOwnedNfts;
+      let fetchOwned;
 
       try {
         await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
-          userOwnedNfts = Object.values(result.data.data)[0];
-          console.log(userOwnedNfts);
+          fetchOwned = Object.values(result.data.data)[0];
         });
       } catch (error) {
         console.log(error);
       }
 
-      let fetchCollection = [];
+      let collection = [];
 
-      userOwnedNfts.map((element) => {
-        fetchCollection.push({
+      fetchOwned.map((element) => {
+        let isListed = nftOnSale.some((e) => e.id === Number(element.id));
+        collection.push({
           id: Number(element.id),
           isStacked: false,
+          isListed: isListed,
           ensName: "",
-          price: element.price,
+          price: 0,
           owner: element.owner,
         });
       });
 
-      if (!props.market) {
-        let ENSquery = `
+      let ENSquery = `
       {
         domains(where: {registrant: "${address.toLowerCase()}"}) {
           name
@@ -186,61 +200,73 @@ export const MyNft = (props) => {
       }
         `;
 
-        let userOwnedENS;
+      let fetchENS;
 
-        try {
-          await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
-            userOwnedENS = Object.values(result.data.data)[0];
-            console.log(userOwnedENS);
-          });
-        } catch (error) {
-          console.log(error);
-        }
-
-        setEnsList(userOwnedENS);
-
-        const fetchCollectionPromises = userOwnedENS.map((element) => {
-          return (async () => {
-            setNode(namehash.hash(element.name));
-
-            // On utilise un boucle while pour attendre que isLoading soit faux
-            while (isLoading) {
-              // Attente de 100 ms avant de vérifier à nouveau
-              await new Promise((resolve) => setTimeout(resolve, 100));
-            }
-
-            console.log(node, namehash.hash(element.name), element.name);
-
-            const tokenId = tokenIdOfNode;
-            console.log(tokenId, isLoading, tokenIdOfNodeError);
-            if (tokenId && Number(tokenId) !== 0) {
-              fetchCollection.push({
-                id: Number(tokenId),
-                isStacked: true,
-                ensName: element.name,
-                price: 0,
-                owner: element.owner,
-              });
-            }
-          })();
+      try {
+        await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
+          fetchENS = Object.values(result.data.data)[0];
         });
-
-        await Promise.all(fetchCollectionPromises);
-
-        // fetchCollection.push(...resolvedFetchCollection.filter(Boolean));
+      } catch (error) {
+        console.log(error);
       }
 
-      let sortedCollection = fetchCollection.sort(function (a, b) {
-        return a.id - b.id;
-      });
+      setEnsList(fetchENS);
 
-      setNftOwned(sortedCollection);
+      // fetchENS.map(async (element) => {
+      //    const newNode = namehash.hash(element.name);
+      //     setNode(newNode);
+          // console.log(node, isLoading, tokenIdOfNodeError);
+
+          // while (isLoading) {
+          //   await new Promise((resolve) => setTimeout(resolve, 100));
+          // }
+
+          // console.log(node, namehash.hash(element.name), element.name);
+
+          // const tokenId = tokenIdOfNode;
+          // // console.log(tokenId, isLoading, tokenIdOfNodeError);
+          // if (tokenId && Number(tokenId) !== 0) {
+          //   collection.push({
+          //     id: Number(tokenId),
+          //     isStacked: true,
+          //     ensName: element.name,
+          //     price: 0,
+          //     owner: element.owner,
+          //   });
+          // }
+        // });
+      // let sortedCollection = fetchCollection.sort(function (a, b) {
+      //   return a.id - b.id;
+      // });
+
+      console.log(collection);
+      setCollection(collection);
     };
 
-    if (address) {
+    if (address && !props.market && isMarketFetched) {
       fetchData();
     }
-  }, [address, isLoading]);
+  }, [mintLoading, isMarketFetched]);
+
+  useEffect(() => {
+    if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
+      const updatedCollection = [...collection, {
+        id: Number(tokenIdOfNode),
+        isStacked: true,
+        ensName: fetchENS[fetchENSIndex].name,
+        price: 0,
+        owner: fetchENS[fetchENSIndex].owner,
+      }];
+      setCollection(updatedCollection);
+  
+      // Passe au node suivant s'il y en a un
+      const nextIndex = fetchENSIndex + 1;
+      if (nextIndex < fetchENS.length) {
+        setFetchENSIndex(nextIndex);
+        setNode(namehash.hash(fetchENS[nextIndex].name));
+      }
+    }
+  }, [tokenIdOfNode]);
 
   return (
     <MyNftContainer
@@ -435,9 +461,22 @@ export const MyNft = (props) => {
                         Stacker
                       </li>
                     )}
-                    <li className="option" onClick={() => setPrice(element.id)}>
-                      Sell
-                    </li>
+                    {element.isListed ? (
+                      <li
+                        className="option"
+                        onClick={() => unlistNFT(element.id.toString())}
+                      >
+                        Unlist
+                      </li>
+                    ) : (
+                      <li
+                        className="option"
+                        onClick={() => setPrice(element.id)}
+                      >
+                        Sell
+                      </li>
+                    )}
+
                     <li className="option" onClick={() => burn(element.id)}>
                       Burn
                     </li>

@@ -39,7 +39,7 @@ export const Graal = (props) => {
       try {
         await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
           userOwnedENS = Object.values(result.data.data)[0];
-          console.log(userOwnedENS);
+          // console.log(userOwnedENS);
         });
       } catch (error) {
         console.log(error);
