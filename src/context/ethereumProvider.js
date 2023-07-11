@@ -97,7 +97,6 @@ export function EthereumProvider({ children }) {
         useContractWrite(contract, "chooseColor");
 
     const chooseColor = async (_color) => {
-        setIsColorPickerOpen(false);
         try {
             await chooseColorCall({ args: [_color] });
             await mintCall({
@@ -106,6 +105,7 @@ export function EthereumProvider({ children }) {
                     value: ethers.utils.parseEther("0.00002"),
                 },
             });
+            setIsColorPickerOpen(false);
         } catch (error) {
             console.log(error);
         }
@@ -114,14 +114,6 @@ export function EthereumProvider({ children }) {
     const setPrice = async (_id) => {
         setIsPriceSelectorOpen(true);
         setSelectId(_id);
-    };
-
-    const chooseBlackColor = async () => {
-        await chooseColor(1);
-    };
-
-    const chooseWhiteColor = async () => {
-        await chooseColor(2);
     };
 
     const mint = async (mintCount) => {
@@ -226,8 +218,7 @@ export function EthereumProvider({ children }) {
 
     const value = {
         mintPawn,
-        chooseBlackColor,
-        chooseWhiteColor,
+        chooseColor,
         isColorPickerOpen,
         isPriceSelectorOpen,
         isEnsSelectorOpen,
@@ -236,6 +227,7 @@ export function EthereumProvider({ children }) {
         ensList,
         mint,
         mintLoading,
+        setIsMintOpen,
         burn,
         stack,
         unstack,
