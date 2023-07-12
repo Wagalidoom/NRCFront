@@ -40,7 +40,7 @@ export const MyNft = (props) => {
     const modalRef = useRef(null);
     const selectRef = useRef(null);
     const [addressLower, setAddressLower] = useState("");
-    const [selected, setSelected] = useState("Price Low to High");
+    const [selected, setSelected] = useState(null);
     const [open, setOpen] = useState(false);
     const {
         burn,
@@ -349,7 +349,7 @@ export const MyNft = (props) => {
                             onClick={() => setOpen(open ? false : true)}
                         >
                             <div className="visible">
-                                <span className="filter-selection">{selected}</span>
+                                <span className="filter-selection">{selected ? "Price Low to High" : "Price High to Low"}</span>
                                 <div className="icon">
                                     <img
                                         style={{ width: "15px" }}
@@ -363,7 +363,7 @@ export const MyNft = (props) => {
                             <div className="filter-option">
                                 <div
                                     onClick={(e) => {
-                                        setSelected(e.target.innerText);
+                                        setSelected(true);
                                         setOpen(false);
                                     }}
                                 >
@@ -372,7 +372,7 @@ export const MyNft = (props) => {
                                 </div>
                                 <div
                                     onClick={(e) => {
-                                        setSelected(e.target.innerText);
+                                        setSelected(false);
                                         setOpen(false);
                                     }}
                                 >
@@ -391,7 +391,26 @@ export const MyNft = (props) => {
                         No NFT to be shown
                     </div>
                 ) : null}
-                {collection.map((element, index) => (
+                {collection
+                .slice() // Créer une copie de la collection pour ne pas muter le state directement
+                .sort((a, b) => {
+                    if (selected === null) {
+                        return 0; // Pas de tri
+                    }
+
+                    // Assurez-vous que a.price et b.price existent, sinon retournez 0 pour éviter le tri
+                    if (!a.price || !b.price) {
+                        return 0;
+                    }
+
+                    // Tri en fonction de selected, en supposant que true est croissant et false est décroissant
+                    if (selected) {
+                        return a.price - b.price;
+                    } else {
+                        return b.price - a.price;
+                    }
+                })
+                .map((element, index) => (
                     <div className="myNft" key={index}>
                         <img alt="" src={props.img} />
                         {element.isStacked ? (
