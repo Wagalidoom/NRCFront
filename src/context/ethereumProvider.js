@@ -18,7 +18,7 @@ export const NRCsubgraph =
 export const ENSsubgraph =
     "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x6f70151b8edc2bc1e90920736b8b1c54ac6e661f";
+export const contractAddress = "0x7c2a9390a06d06681b75e385d6c881594a7b1f4f";
 
 const EthereumContext = createContext(null);
 

@@ -55,7 +55,7 @@ export const KingAuction = (props) => {
             setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
             console.log('ts: ', block.timestamp)
             const contractInstance = new ethers.Contract(contractAddress, NUMBERRUNNERCLUB_ABI, provider);
-            const priceToPayBigNumber = await contractInstance.getCurrentPrice();
+            const priceToPayBigNumber = ethers.BigNumber.from(await contractInstance.getCurrentPrice());
 
             const TWO_POW_64 = ethers.BigNumber.from(2).pow(64);
             const ONE_MILLION = ethers.BigNumber.from(1000000);
