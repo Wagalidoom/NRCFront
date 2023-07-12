@@ -70,13 +70,47 @@ export const EnsSelector = () => {
             style={{
               padding: "15px",
               flexDirection: "column",
-              height: "275px",
+              maxHeight: "275px",
             }}
           >
             Choose a number to stack your NFT!
-            <div style={{width: "100%", display: "flex", flexDirection: "column"}}>
-              {ensList.map((element) => {
-                return <div style={{ display: "flex" }}>{element.name}</div>;
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {ensList.map((element, index) => {
+                if (index % 2) {
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        backgroundColor: "rgb(35, 45, 55)",
+                        padding: "5px"
+                      }}
+                    >
+                      {element.name}
+                    </div>
+                  );
+                }
+                else {
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        backgroundColor: "rgb(30, 40, 50)",
+                        padding: "5px"
+                      }}
+                    >
+                      {element.name}
+                    </div>
+                  );
+
+                }
               })}
             </div>
           </div>
@@ -88,15 +122,9 @@ export const EnsSelector = () => {
               alignItems: "center",
             }}
           >
-            Total Cost
+            Digit selected
             <div>
-              <img
-                alt=""
-                className="leftText"
-                style={{ height: "20px", marginBottom: "2px" }}
-                src={eth}
-              />
-              0.2
+              {ensName}
             </div>
           </div>
           <Button
