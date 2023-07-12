@@ -13,7 +13,7 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.2.28";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.2.32";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
@@ -233,6 +233,7 @@ export function EthereumProvider({ children }) {
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
+    setIsColorPickerOpen,
     burn,
     stack,
     unstack,
