@@ -22,7 +22,7 @@ export const ColorPicker = () => {
 
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
-        setIsColorPickerOpen(false);
+      setIsColorPickerOpen(false);
     }
   };
 
@@ -33,7 +33,7 @@ export const ColorPicker = () => {
   return (
     <ColorPickerStyleWrapper>
       <div className="callContractContainer">
-      <div className="contractContent" ref={componentRef}>
+        <div className="contractContent" ref={componentRef}>
           <div
             className="contractContainerRow"
             style={{
@@ -64,13 +64,14 @@ export const ColorPicker = () => {
             }}
           >
             <div>
-              Choose which color you wan to mint!<sup>1</sup>
+              Choose which color you want to mint!<sup>1</sup>
             </div>
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-evenly",
                 width: "100%",
+                marginTop: "15px"
               }}
             >
               <div
@@ -79,7 +80,7 @@ export const ColorPicker = () => {
                   setColor(1);
                 }}
               >
-                <img alt="" src={blackPawn} style={{ borderRadius: "5px" }} />
+                <img alt="" src={blackPawn} style={{ borderRadius: "5px", border: color === 1 ? "4px solid rgb(29, 155, 240)" : "none" }} />
               </div>
               <div
                 style={{ width: "140px", cursor: "pointer" }}
@@ -87,14 +88,16 @@ export const ColorPicker = () => {
                   setColor(2);
                 }}
               >
-                <img alt="" src={whitePawn} style={{ borderRadius: "5px" }} />
+                <img alt="" src={whitePawn} style={{ borderRadius: "5px", border: color === 2 ? "4px solid rgb(29, 155, 240)" : "none" }} />
               </div>
             </div>
-
-            <p>
-              Attention cette action est irreversible, une fois votre couleur
-              choisie vous ne pourrez plus la modifier
-            </p>
+            <div style={{marginTop: "15px"}}>
+              <sup>1</sup>{" "}
+              <i style={{ fontSize: "14px" }}>
+                The color chosen will be linked to your address and cannot be
+                change anymore. Choose wisely!
+              </i>
+            </div>
           </div>
           <div
             style={{
@@ -116,8 +119,8 @@ export const ColorPicker = () => {
             </div>
           </div>
           <Button
-            disabled={color === 0 ? true : false}
-            style={{ margin: "15px" }}
+            disabled={color === 0}
+            style={{ margin: "15px", backgroundColor: color === 0 ? "rgb(138 180 209)" : "rgb(29, 155, 240)" }}
             variant="contained"
             onClick={() => {
               chooseColor(color);
