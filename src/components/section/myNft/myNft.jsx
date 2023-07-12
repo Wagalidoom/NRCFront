@@ -34,9 +34,11 @@ export const MyNft = (props) => {
     const [modalOpen, setModalOpen] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [activeButton, setActiveButton] = useState({
-        filter: false,
+        filter: true,
         sweep: false,
     });
+    const [filter, setFilter] = useState(null);
+
     const modalRef = useRef(null);
     const selectRef = useRef(null);
     const [addressLower, setAddressLower] = useState("");
@@ -142,6 +144,8 @@ export const MyNft = (props) => {
                     ensName: "",
                     price: element.price,
                     owner: element.owner,
+                    type: getNftType(element.id),
+                    color: element.id % 2 === 0 ? 1 : 2,
                 });
             });
             setNftOnSale(collection);
@@ -187,6 +191,8 @@ export const MyNft = (props) => {
                     ensName: "",
                     price: 0,
                     owner: element.owner,
+                    type: getNftType(element.id),
+                    color: element.id % 2 === 0 ? 1 : 2,
                 });
             });
 
@@ -295,6 +301,66 @@ export const MyNft = (props) => {
                                     src={props.theme === "Light Theme" ? filterDark : filterLight}
                                     alt=""
                                 />
+                                {activeButton.filter && (
+                                    <div className="filter-menu">
+                                        <ul>
+                                            <li
+                                                className={filter === null ? 'active' : ''}
+                                                onClick={() => setFilter(null)}
+                                            >
+                                                None
+                                            </li>
+                                            <li
+                                                className={filter === 'black' ? 'active' : ''}
+                                                onClick={() => setFilter('black')}
+                                            >
+                                                Color: Black
+                                            </li>
+                                            <li
+                                                className={filter === 'white' ? 'active' : ''}
+                                                onClick={() => setFilter('white')}
+                                            >
+                                                Color: White
+                                            </li>
+                                            <li
+                                                className={filter === 5 ? 'active' : ''}
+                                                onClick={() => setFilter(5)}
+                                            >
+                                                Type: Pawn
+                                            </li>
+                                            <li
+                                                className={filter === 4 ? 'active' : ''}
+                                                onClick={() => setFilter(4)}
+                                            >
+                                                Type: Bishop
+                                            </li>
+                                            <li
+                                                className={filter === 3 ? 'active' : ''}
+                                                onClick={() => setFilter(3)}
+                                            >
+                                                Type: Knight
+                                            </li>
+                                            <li
+                                                className={filter === 2 ? 'active' : ''}
+                                                onClick={() => setFilter(2)}
+                                            >
+                                                Type: Rook
+                                            </li>
+                                            <li
+                                                className={filter === 1 ? 'active' : ''}
+                                                onClick={() => setFilter(1)}
+                                            >
+                                                Type: Queen
+                                            </li>
+                                            <li
+                                                className={filter === 0 ? 'active' : ''}
+                                                onClick={() => setFilter(0)}
+                                            >
+                                                Type: King
+                                            </li>
+                                        </ul>
+                                    </div>
+                                )}
                             </button>
                         </div>
                     )}
@@ -327,7 +393,68 @@ export const MyNft = (props) => {
                                     src={props.theme === "Light Theme" ? filterDark : filterLight}
                                     alt=""
                                 />
+                                {activeButton.filter && (
+                                    <div className="filter-menu">
+                                        <ul>
+                                            <li
+                                                className={filter === null ? 'active' : ''}
+                                                onClick={() => setFilter(null)}
+                                            >
+                                                None
+                                            </li>
+                                            <li
+                                                className={filter === 'black' ? 'active' : ''}
+                                                onClick={() => setFilter('black')}
+                                            >
+                                                Color: Black
+                                            </li>
+                                            <li
+                                                className={filter === 'white' ? 'active' : ''}
+                                                onClick={() => setFilter('white')}
+                                            >
+                                                Color: White
+                                            </li>
+                                            <li
+                                                className={filter === 5 ? 'active' : ''}
+                                                onClick={() => setFilter(5)}
+                                            >
+                                                Type: Pawn
+                                            </li>
+                                            <li
+                                                className={filter === 4 ? 'active' : ''}
+                                                onClick={() => setFilter(4)}
+                                            >
+                                                Type: Bishop
+                                            </li>
+                                            <li
+                                                className={filter === 3 ? 'active' : ''}
+                                                onClick={() => setFilter(3)}
+                                            >
+                                                Type: Knight
+                                            </li>
+                                            <li
+                                                className={filter === 2 ? 'active' : ''}
+                                                onClick={() => setFilter(2)}
+                                            >
+                                                Type: Rook
+                                            </li>
+                                            <li
+                                                className={filter === 1 ? 'active' : ''}
+                                                onClick={() => setFilter(1)}
+                                            >
+                                                Type: Queen
+                                            </li>
+                                            <li
+                                                className={filter === 0 ? 'active' : ''}
+                                                onClick={() => setFilter(0)}
+                                            >
+                                                Type: King
+                                            </li>
+                                        </ul>
+                                    </div>
+                                )}
                             </button>
+
                             <button
                                 className="button sweep"
                                 onClick={() =>
@@ -410,6 +537,21 @@ export const MyNft = (props) => {
                         return b.price - a.price;
                     }
                 })
+                .filter((element) => {
+                    if (filter === null) {
+                        return true; // Pas de filtre
+                    }
+            
+                    if (filter === 'black') {
+                        return element.color === 0;
+                    }
+            
+                    if (filter === 'white') {
+                        return element.color === 1;
+                    }
+            
+                    return element.type === filter;
+                })
                 .map((element, index) => (
                     <div className="myNft" key={index}>
                         <img alt="" src={props.img} />
@@ -444,6 +586,7 @@ export const MyNft = (props) => {
                                         onClick={() => buy(element.id.toString(), element.price)}
                                     >
                                         Buy
+                                        {console.log(element)}
                                     </Button>
                                 )}
                             </div>

@@ -26,6 +26,10 @@ justify-content:space-around;
     display:inline-block;
 }
 
+.filter-menu{
+    color: white;
+}
+
 .filter-search{
     width:100%;
     display:flex;
