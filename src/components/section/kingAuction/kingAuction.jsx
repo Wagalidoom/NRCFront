@@ -134,7 +134,7 @@ export const KingAuction = (props) => {
                     </div>
                     <div style={{ width: "70%" }}>
                         {calculatedDate ? calculatedDate.toLocaleString() : 'Loading...'}<br />
-                        Date et heure affichées en heure locale
+                        Local time
                     </div>
                 </div>
             </div>
