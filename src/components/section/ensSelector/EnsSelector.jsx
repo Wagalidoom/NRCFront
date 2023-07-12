@@ -84,12 +84,15 @@ export const EnsSelector = () => {
               {ensList.map((element, index) => {
                 if (index % 2) {
                   return (
-                    <div
+                    <div onClick={() => {
+                      setEnsName(element.name);
+                    }}
                       style={{
                         display: "flex",
                         width: "100%",
                         backgroundColor: "rgb(35, 45, 55)",
-                        padding: "5px"
+                        padding: "5px",
+                        border: ensName === element.name ? "1px solid rgb(29, 155, 240)" : "none"
                       }}
                     >
                       {element.name}
@@ -98,12 +101,16 @@ export const EnsSelector = () => {
                 }
                 else {
                   return (
-                    <div
+                    <div onClick={() => {
+                      setEnsName(element.name);
+                    }}
                       style={{
                         display: "flex",
                         width: "100%",
                         backgroundColor: "rgb(30, 40, 50)",
-                        padding: "5px"
+                        padding: "5px",
+                        border: ensName === element.name ? "1px solid rgb(29, 155, 240)" : "none"
+                        
                       }}
                     >
                       {element.name}
