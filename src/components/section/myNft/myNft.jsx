@@ -210,36 +210,36 @@ export const MyNft = (props) => {
 
             setEnsList(fetchENS);
 
-        //     for (let element of fetchENS) {
-        //         const newNode = namehash.hash(element.name);
-        //         setNode(newNode);
-        //         console.log(node, isLoading, tokenIdOfNodeError);
+            for (let element of fetchENS) {
+                const newNode = namehash.hash(element.name);
+                setNode(newNode);
+                console.log(node, isLoading, tokenIdOfNodeError);
             
-        //         while (isLoading) {
-        //           await new Promise((resolve) => setTimeout(resolve, 100));
-        //         }
+                while (isLoading) {
+                  await new Promise((resolve) => setTimeout(resolve, 100));
+                }
             
-        //         console.log(node, namehash.hash(element.name), element.name);
+                console.log(node, namehash.hash(element.name), element.name);
             
-        //         const tokenId = tokenIdOfNode;
-        //         // console.log(tokenId, isLoading, tokenIdOfNodeError);
-        //         if (tokenId && Number(tokenId) !== 0) {
-        //           collection.push({
-        //             id: Number(tokenId),
-        //             isStacked: true,
-        //             ensName: element.name,
-        //             price: 0,
-        //             owner: element.owner,
-        //           });
-        //         }
-        //     }
-        //     console.log(collection);
-        //     setCollection(collection);
-        // };
+                const tokenId = tokenIdOfNode;
+                // console.log(tokenId, isLoading, tokenIdOfNodeError);
+                if (tokenId && Number(tokenId) !== 0) {
+                  collection.push({
+                    id: Number(tokenId),
+                    isStacked: true,
+                    ensName: element.name,
+                    price: 0,
+                    owner: element.owner,
+                  });
+                }
+            }
+            console.log(collection);
+            setCollection(collection);
+        };
         // let sortedCollection = fetchCollection.sort(function (a, b) {
         //   return a.id - b.id;
-        // }
-    }
+        // });
+    
 
         if (address && !props.market && isMarketFetched) {
             fetchData();

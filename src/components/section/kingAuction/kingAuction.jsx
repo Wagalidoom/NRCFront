@@ -7,9 +7,11 @@ import tirelireDark from "../../../assets/images/icon/tirelireDark.png";
 import eth from "../../../assets/images/eth.png";
 import ethDark from '../../../assets/images/ethDark.png';
 import React, { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import { contractAddress, ETHEREUM_RPC_URL, useEthereum } from "../../../context/ethereumProvider";
+import Axios from 'axios';
+import { BigNumber, ethers } from 'ethers';
+import { contractAddress, ETHEREUM_RPC_URL, NRCsubgraph, useEthereum } from "../../../context/ethereumProvider";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
+import { getNftType } from "../../../helper";
 
 const MAX_AUCTION_PRICE = 20000;
 const MIN_AUCTION_PRICE = 2;
@@ -21,6 +23,8 @@ export const KingAuction = (props) => {
     const [checkboxValue, setCheckboxValue] = useState(false);
     const [price, setPrice] = useState(0);
     const { buyKing } = useEthereum();
+    const [whiteKingReward, setWhiteKingReward] = useState(0);
+    const [blackKingReward, setBlackKingReward] = useState(0);
     
     const [value, setValue] = useState(10);
 
@@ -73,6 +77,37 @@ export const KingAuction = (props) => {
         }
     }, [contractAddress]);
 
+    useEffect(() => {
+        const fetchKingRewards = async () => {
+            const GET_LAST_GLOBAL_SHARES = `
+            {
+                globalSharesUpdateds (first: 1, orderBy: blockNumber, orderDirection: desc) {
+                    id
+                    shares
+                    blockNumber
+                }
+            }
+            `;
+    
+            try {
+                const response = await Axios.post(NRCsubgraph, { query: GET_LAST_GLOBAL_SHARES });
+                const lastGlobalShares = response.data.data.globalSharesUpdateds[0].shares;
+                // Assuming kings share the same rewards
+                const kingRewards = BigNumber.from(lastGlobalShares[0]).toNumber() / 10**18;
+                
+                setWhiteKingReward(kingRewards);
+                setBlackKingReward(kingRewards);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        // Call function to get rewards
+        fetchKingRewards();
+    }, []);
+    
+
+
     const checkboxChange = (e) => {
         // False is white
         setCheckboxValue(checkboxValue ? false : true)
@@ -89,7 +124,7 @@ export const KingAuction = (props) => {
                     <div className="king-infos" >
                         <p className='nft-title' style={{ fontWeight: "700", fontSize: '14px' }}>Number Runner #1</p>
                         <div>
-                            <img alt="" src={props.theme === 'Dark Theme' ? tirelire : tirelireDark} /> <span>10</span>
+                            <img alt="" src={props.theme === 'Dark Theme' ? tirelire : tirelireDark} /> <span>{whiteKingReward.toFixed(8)}</span>
                         </div>
                     </div>
                 </div>
@@ -98,7 +133,7 @@ export const KingAuction = (props) => {
                     <div className="king-infos">
                         <p className='nft-title' style={{ fontWeight: "700", fontSize: '14px' }}>Number Runner #2</p>
                         <div>
-                            <img alt="" src={props.theme === 'Dark Theme' ? tirelire : tirelireDark} /> <span>10</span>
+                            <img alt="" src={props.theme === 'Dark Theme' ? tirelire : tirelireDark} /> <span>{blackKingReward.toFixed(8)}</span>
                         </div>
                     </div>
                 </div>
