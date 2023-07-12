@@ -27,10 +27,9 @@ export const KingAuction = (props) => {
     const calculateDate = (priceInEth) => {
         if (startTime) {
             priceInEth = Number(priceInEth);
-            const auctionFraction = (MAX_AUCTION_PRICE - priceInEth) / (MAX_AUCTION_PRICE - MIN_AUCTION_PRICE);
-            const duration = 30 * 24 * 60 * 60 * 1000; 
-            const auctionTimePassed = auctionFraction * duration;
-            const date = new Date(startTime.getTime() + auctionTimePassed);
+            const estimatedDays = -3 * (Math.log(priceInEth/10000)/Math.log(2) - 1);
+            console.log(estimatedDays)
+            const date = new Date(startTime.getTime() + estimatedDays * 60 * 60 * 24 * 1000);
             return date;
         } else {
             return null
