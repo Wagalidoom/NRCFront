@@ -88,6 +88,8 @@ import NightsStayIcon from "@mui/icons-material/NightsStay";
 import { ConnectWallet } from "@thirdweb-dev/react";
 import { ColorPicker } from "../components/section/colorPicker/ColorPicker";
 import { Mint } from "../components/section/mint/Mint";
+import { PriceSelector } from "../components/section/priceSelector/PriceSelector";
+import { EnsSelector } from "../components/section/ensSelector/EnsSelector";
 
 const HomeV1 = () => {
     const [link, changePageLink] = useState(true);
@@ -104,6 +106,8 @@ const HomeV1 = () => {
         mintPawn,
         isColorPickerOpen,
         isMintOpen,
+        isPriceSelectorOpen,
+        isEnsSelectorOpen,
         getTotalMinted,
         getCurrentSupply,
         address,
@@ -272,6 +276,8 @@ const HomeV1 = () => {
             <BannerV1Wrapper ref={scrollRef}>
                 {isColorPickerOpen ? <ColorPicker /> : null}
                 {isMintOpen ? <Mint /> : null}
+                {isPriceSelectorOpen ? <PriceSelector /> : null}
+                {isEnsSelectorOpen ? <EnsSelector /> : null}
                 <RightSection
                     more={more}
                     openFunction={openMore}

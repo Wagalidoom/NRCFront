@@ -47,8 +47,6 @@ export const MyNft = (props) => {
         unstack,
         unlistNFT,
         buy,
-        isPriceSelectorOpen,
-        isEnsSelectorOpen,
         setPrice,
         setEns,
         address,
@@ -386,8 +384,6 @@ export const MyNft = (props) => {
                 )}
             </div>
             <div className="container-nft">
-                {isPriceSelectorOpen ? <PriceSelector /> : null}
-                {isEnsSelectorOpen ? <EnsSelector /> : null}
                 {collection.length === 0 ? (
                     <div
                         style={{ width: "100%", display: "flex", justifyContent: "center" }}
