@@ -241,17 +241,25 @@ font-style: normal;
   }
   .separator{
     border: none; 
+    height: 2px;
+    background-color: ${props => props.theme.name === "Light Theme" ? 'Black': 'White'};
+    margin:0;
+    width: 100%; 
+    position: absolute; 
+    left: 0;
+  }
+
+  .separator-limit{
+    border: none; 
     height: 2px; 
     background-color: ${props => props.theme.colors.border};
     margin:0;
     width: 100%; 
     position: absolute; 
     left: 0;
-  }
-  .separator:not(:first-of-type){
-    background-color: ${props => props.theme.name === "Light Theme" ? 'Black': 'White'};
 
   }
+  
   .sub-nav {
     width: 60%;
     display: flex;

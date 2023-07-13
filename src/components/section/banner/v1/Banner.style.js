@@ -100,12 +100,24 @@ overflow:hidden;
     }
   }
 
+  .css-1k4oq5h{
+    font-weight: 700;
+  }
+
+
+  .tw-connected-wallet{
+    padding: 0;
+
+  }
+
   .tw-connected-wallet__balance{
     display: none;
   }
 
   .tw-connected-wallet__address{
-    color: black;
+    font-weight: 700;
+    font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: rgb(15, 20, 25);
   }
 
   .menuLeftContent {
@@ -168,6 +180,8 @@ overflow:hidden;
     // top: 164px;
     // background:red;
     transform:translateY(-50%);
+    border-radius: 10%;
+    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(21,32,43)' : 'white'};
     left: 24px;
     position: absolute;
     width:100px;
@@ -216,12 +230,13 @@ overflow:hidden;
   }
   .ensImg {
     width: 100px;
-    border-radius: 8%;
+    border-radius: 10%;
     position:absolute;
     bottom:0px;
     left:50%;
     transform:translateX(-50%);
-    border: solid 5px rgb(30, 40, 50);
+    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(21,32,43)' : 'white'};
+    border: ${props => props.theme.name === 'Dark Theme' ? 'solid 7px rgb(21, 32, 43)' : 'solid 7px rgb(250, 250, 250)'}
   }
   .leftName {
     padding-left: 75px;
@@ -273,7 +288,7 @@ overflow:hidden;
     padding-top: 10px;
   }
   .leftText {
-    padding-left: 10px;
+    padding-left: 5px;
   }
   .textWhite {
     color: ${props => props.theme.colors.text};
@@ -296,11 +311,42 @@ overflow:hidden;
     float: right;
     display: flex;
   }
-  .bigButton {
-    min-width: 80px !important;
-    width: 80px;
+
+  .connectionButton{
+    min-width: 100px !important;
     background-color: rgb(239, 243, 244);
-    border-radius: 9999px;
+    border-radius: 50px;
+    font-size: 14px;
+    color: rgb(15, 20, 25);
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    border:none;
+  }
+
+  .connectionButtonSideMenu{
+    min-width: 100px !important;
+    background-color: rgb(239, 243, 244);
+    border-radius: 50px;
+    font-size: 14px;
+    color: rgb(15, 20, 25);
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    border:none;
+  }
+
+  .connectionButtonSideMenu .tw-connected-wallet__address{
+    font-size: 20px;
+    font-weight: 700;
+    border:none;    
+  }
+
+  .bigButton {
+    min-width: 60px !important;
+    width: 60px;
+    background-color: rgb(239, 243, 244);
+    border-radius: 50px;
     font-size: 14px;
     color: rgb(15, 20, 25);
     font-weight: 700;

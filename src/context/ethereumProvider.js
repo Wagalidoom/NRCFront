@@ -219,6 +219,12 @@ export function EthereumProvider({ children }) {
     return imageUrl;
   };
 
+  const getGasPrice = async () => {
+    const gasPrice = await generalProvider.getGasPrice();
+    return gasPrice;
+
+  }
+
   const value = {
     mintPawn,
     chooseColor,
@@ -247,6 +253,7 @@ export function EthereumProvider({ children }) {
     getCurrentSupply,
     getEnsName,
     getEnsProfilePicture,
+    getGasPrice,
     address,
   };
 

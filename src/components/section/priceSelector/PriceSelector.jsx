@@ -68,7 +68,7 @@ export const PriceSelector = () => {
                 alignItems: "center",
               }}
             >
-              NRC#{selectId}
+              Number Runner #{selectId}
               <IconButton onClick={handleClose}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>

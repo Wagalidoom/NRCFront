@@ -1,9 +1,9 @@
 import { MyNftContainer, ToolBar } from "./myNft.style";
-import { Button } from "@mui/material";
+import { Button, FormControlLabel, FormGroup } from "@mui/material";
 import DotLight from "../../../assets/images/icon/three-dot-light.svg";
 import DotDark from "../../../assets/images/icon/three-dot-dark.svg";
 import { ThemeContext } from "../../../app/App";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import eth from "../../../assets/images/eth.png";
 import ethDark from "../../../assets/images/ethDark.png";
 import filterDark from "../../../assets/images/icon/filterDark.png";
@@ -22,11 +22,10 @@ import {
   contractAddress,
 } from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
-import { PriceSelector } from "../priceSelector/PriceSelector";
 import Axios from "axios";
-import { EnsSelector } from "../ensSelector/EnsSelector";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
+import { CheckBox } from "@mui/icons-material";
 const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
@@ -37,7 +36,16 @@ export const MyNft = (props) => {
     filter: false,
     sweep: false,
   });
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState({
+    black: true,
+    white: true,
+    pawn: true,
+    bishop: true,
+    knight: true,
+    rook: true,
+    queen: true,
+    king: true
+  });
 
   const modalRef = useRef(null);
   const selectRef = useRef(null);
@@ -156,7 +164,7 @@ export const MyNft = (props) => {
     };
 
     fetchNftOnSale();
-  }, []);
+  }, [props.market]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -285,11 +293,11 @@ export const MyNft = (props) => {
         <div className="filter-search">
           {!props.market && (
             <div className="button-group">
-              <button className="button link-ens">
+              {/* <button className="button link-ens">
                 <a target="blank" href="https://ens.vision/">
                   <img src={ensvision} alt="" />
                 </a>
-              </button>
+              </button> */}
               <button
                 className="button filter"
                 onClick={() => {
@@ -318,11 +326,11 @@ export const MyNft = (props) => {
         {props.market && (
           <div style={{ marginBottom: "20px" }}>
             <div className="button-group">
-              <button className="button link-ens">
+              {/* <button className="button link-ens">
                 <a target="blank" href="https://ens.vision/">
                   <img src={ensvision} alt="" />
                 </a>
-              </button>
+              </button> */}
               <button
                 className="button filter"
                 onClick={() => {
@@ -396,60 +404,37 @@ export const MyNft = (props) => {
         )}
       </div>
       {activeButton.filter && (
-                  <div className="filter-menu">
-                    <div style={{display: "flex"}}>Color:</div>
-                    <ul>
-                      <li
-                        className={filter === "black" ? "active" : ""}
-                        onClick={() => setFilter("black")}
-                      >
-                        Color: Black
-                      </li>
-                      <li
-                        className={filter === "white" ? "active" : ""}
-                        onClick={() => setFilter("white")}
-                      >
-                        Color: White
-                      </li>
-                      <li
-                        className={filter === 5 ? "active" : ""}
-                        onClick={() => setFilter(5)}
-                      >
-                        Type: Pawn
-                      </li>
-                      <li
-                        className={filter === 4 ? "active" : ""}
-                        onClick={() => setFilter(4)}
-                      >
-                        Type: Bishop
-                      </li>
-                      <li
-                        className={filter === 3 ? "active" : ""}
-                        onClick={() => setFilter(3)}
-                      >
-                        Type: Knight
-                      </li>
-                      <li
-                        className={filter === 2 ? "active" : ""}
-                        onClick={() => setFilter(2)}
-                      >
-                        Type: Rook
-                      </li>
-                      <li
-                        className={filter === 1 ? "active" : ""}
-                        onClick={() => setFilter(1)}
-                      >
-                        Type: Queen
-                      </li>
-                      <li
-                        className={filter === 0 ? "active" : ""}
-                        onClick={() => setFilter(0)}
-                      >
-                        Type: King
-                      </li>
-                    </ul>
-                  </div>
-                )}
+        <div className="filter-menu">
+          <FormGroup style={{ width: "100%" }}>
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              Color :
+              <FormControlLabel control={<CheckBox checked={filter.black} onClick={() => setFilter({...filter, black: filter.black ? false : true})} />} label="Black" />
+              <FormControlLabel control={<CheckBox checked={filter.white} onClick={() => setFilter({...filter, white: filter.white ? false : true})}/>} label="White" />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "space-between",
+              }}
+            >
+              Type :
+              <FormControlLabel control={<CheckBox checked={filter.pawn} onClick={() => setFilter({...filter, pawn: filter.pawn ? false : true})}/>} label="Pawn" />
+              <FormControlLabel control={<CheckBox checked={filter.bishop} onClick={() => setFilter({...filter, bishop: filter.bishop ? false : true})}/>} label="Bishop" />
+              <FormControlLabel control={<CheckBox checked={filter.knight} onClick={() => setFilter({...filter, knight: filter.knight ? false : true})}/>} label="Knight" />
+              <FormControlLabel control={<CheckBox checked={filter.rook} onClick={() => setFilter({...filter, rook: filter.rook ? false : true})}/>} label="Rook" />
+              <FormControlLabel control={<CheckBox checked={filter.queen} onClick={() => setFilter({...filter, queen: filter.queen ? false : true})}/>} label="Queen" />
+              <FormControlLabel control={<CheckBox checked={filter.king} onClick={() => setFilter({...filter, king: filter.king ? false : true})}/>} label="King" />
+            </div>
+          </FormGroup>
+        </div>
+      )}
       <div className="container-nft">
         {collection.length === 0 ? (
           <div
@@ -459,10 +444,10 @@ export const MyNft = (props) => {
           </div>
         ) : null}
         {collection
-          .slice() 
+          .slice()
           .sort((a, b) => {
             if (selected === null) {
-              return 0; 
+              return 0;
             }
 
             if (!a.price || !b.price) {
@@ -477,18 +462,25 @@ export const MyNft = (props) => {
           })
           .filter((element) => {
             if (filter === null) {
-              return true; 
+              return true;
             }
-
-            if (filter === "black") {
-              return element.color === 1;
-            }
-
-            if (filter === "white") {
-              return element.color === 2;
-            }
-
-            return element.type === filter;
+          
+            // Check color
+            let colorMatches = 
+              (filter.black && element.color === 1) ||
+              (filter.white && element.color === 2);
+          
+            // Check type
+            let typeMatches =
+              (filter.pawn && element.type === 5) ||
+              (filter.bishop && element.type === 4) ||
+              (filter.knight && element.type === 3) ||
+              (filter.rook && element.type === 2) ||
+              (filter.queen && element.type === 1) ||
+              (filter.king && element.type === 0);
+              console.log(colorMatches, typeMatches);
+          
+            return colorMatches && typeMatches;
           })
           .map((element, index) => (
             <div className="myNft" key={index}>

@@ -184,7 +184,7 @@ const NavWrapper = styled.nav`
   width:100% !important;
   -webkit-justify-content: space-around !important;
   justify-content:space-around !important;
-  background:${props => props.theme.colors.background};
+  background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(21,32,43, 0.9)' : 'rgb(255,255,255,0.9)'};
   z-index:10;
   border-top: 1px solid ${props => props.theme.colors.border};
 }

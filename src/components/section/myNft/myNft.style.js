@@ -28,6 +28,7 @@ justify-content:space-around;
 
 .filter-menu{
     display: flex;
+    width: 100%;
     color: white;
 }
 
