@@ -27,6 +27,7 @@ justify-content:space-around;
 }
 
 .filter-menu{
+    display: flex;
     color: white;
 }
 
