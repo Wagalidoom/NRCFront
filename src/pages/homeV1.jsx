@@ -175,7 +175,6 @@ const HomeV1 = () => {
   useEffect(() => {
     const tokenId = Number(tokenIdOfNode);
     const nftType = getNftType(tokenId);
-    console.log(tokenId);
     const club = nftTypeToString(nftType);
     setHashTag("@NR" + club);
   }, [tokenIdOfNode]);

@@ -81,21 +81,19 @@ export const Analyctic = ({ theme }) => {
         const fetchShares = async () => {
             try {
                 setIsLoading(true);
-                // Faire les requêtes et obtenir les réponses
                 const responseHolders = await Axios.post(NRCsubgraph, { query: GET_TOP_HOLDERS });
                 const responseGlobalShares = await Axios.post(NRCsubgraph, { query: GET_LAST_GLOBAL_SHARES });
             
-                // Obtenir les données
                 const topHolders = responseHolders.data.data.nfts;
                 const lastGlobalShares = responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
-                console.log(topHolders, lastGlobalShares)
-                // Calculer récompenses
+                // console.log(topHolders, lastGlobalShares)
+
                 const calculatedRewards = topHolders.map((holder) => {
                     const nftType = getNftType(holder.tokenId);
                     const unclaimedRewards = holder.unclaimedRewards ? new BigNumber(holder.unclaimedRewards) : new BigNumber(0);
                     const stringEnsName = holder.ensName ? Buffer.from(holder.ensName.slice(2), 'hex').toString('ascii').replace(/\0/g, '') : "No name";
                     holder.ensNameString = stringEnsName;
-                    console.log(holder.share, lastGlobalShares[nftType]);
+                    // console.log(holder.share, lastGlobalShares[nftType]);
                     holder.share = new BigNumber(lastGlobalShares[nftType]).minus(holder.share);
                     holder.type = nftType;
                     holder.rewards = (holder.share.plus(unclaimedRewards)).toNumber() / 10**18;
@@ -109,7 +107,6 @@ export const Analyctic = ({ theme }) => {
                 setIsLoading(false);
             }
         };
-        // Appeler la fonction pour obtenir les NFTs
         fetchShares();
       }, []);
 

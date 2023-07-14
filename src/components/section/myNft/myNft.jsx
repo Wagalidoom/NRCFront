@@ -1,5 +1,5 @@
 import { MyNftContainer, ToolBar } from "./myNft.style";
-import { Button, FormControlLabel, FormGroup } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import DotLight from "../../../assets/images/icon/three-dot-light.svg";
 import DotDark from "../../../assets/images/icon/three-dot-dark.svg";
 import { ThemeContext } from "../../../app/App";
@@ -25,7 +25,6 @@ import { getNftType, nftTypeToString } from "../../../helper";
 import Axios from "axios";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
-import { CheckBox } from "@mui/icons-material";
 const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
@@ -71,6 +70,9 @@ export const MyNft = (props) => {
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
+  const [ensDomains, setEnsDomains] = useState([]);
+  const [currentEnsName, setCurrentEnsName] = useState(null);
+
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const {
     data: tokenIdOfNode,
@@ -223,41 +225,31 @@ export const MyNft = (props) => {
       }
 
       setEnsList(fetchENS);
-
-      for (let element of fetchENS) {
-        const newNode = namehash.hash(element.name);
-        setNode(newNode);
-        console.log(node, isLoading, tokenIdOfNodeError);
-
-        while (isLoading) {
-          await new Promise((resolve) => setTimeout(resolve, 100));
-        }
-
-        console.log(node, namehash.hash(element.name), element.name);
-
-        const tokenId = tokenIdOfNode;
-        // console.log(tokenId, isLoading, tokenIdOfNodeError);
-        if (tokenId && Number(tokenId) !== 0) {
-          collection.push({
-            id: Number(tokenId),
-            isStacked: true,
-            ensName: element.name,
-            price: 0,
-            owner: element.owner,
-          });
-        }
-      }
-      console.log(collection);
       setCollection(collection);
     };
-    // let sortedCollection = fetchCollection.sort(function (a, b) {
-    //   return a.id - b.id;
-    // });
 
     if (address && !props.market && isMarketFetched) {
       fetchData();
     }
   }, [mintLoading, isMarketFetched]);
+
+  useEffect(() => {
+    if (ensList.length > 0) {
+      const domainNames = ensList.map(domain => {
+        return {hash: namehash.hash(domain.name), name: domain.name};
+      });
+      setEnsDomains(domainNames);
+    }
+  }, [ensList]);
+
+  useEffect(() => {
+    if (ensDomains.length > 0) {
+      const [currentDomain, ...rest] = ensDomains;
+      setNode(currentDomain.hash);
+      setCurrentEnsName(currentDomain.name);
+      setEnsDomains(rest);
+    }
+  }, [ensDomains]);
 
   useEffect(() => {
     if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
@@ -266,21 +258,18 @@ export const MyNft = (props) => {
         {
           id: Number(tokenIdOfNode),
           isStacked: true,
-          // ensName: fetchENS[fetchENSIndex].name,
+          isListed: false,
+          ensName: currentEnsName,
           price: 0,
-          // owner: fetchENS[fetchENSIndex].owner,
+          owner: address,
+          type: getNftType(Number(tokenIdOfNode)),
+          color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
         },
       ];
+      console.log(updatedCollection);
       setCollection(updatedCollection);
-
-      // Passe au node suivant s'il y en a un
-      const nextIndex = fetchENSIndex + 1;
-      //   if (nextIndex < fetchENS.length) {
-      // setFetchENSIndex(nextIndex);
-      // setNode(namehash.hash(fetchENS[nextIndex].name));
-      //   }
     }
-  }, [tokenIdOfNode]);
+  }, [tokenIdOfNode, currentEnsName]);
 
   return (
     <MyNftContainer
@@ -414,8 +403,8 @@ export const MyNft = (props) => {
               }}
             >
               Color :
-              <FormControlLabel control={<CheckBox checked={filter.black} onClick={() => setFilter({...filter, black: filter.black ? false : true})} />} label="Black" />
-              <FormControlLabel control={<CheckBox checked={filter.white} onClick={() => setFilter({...filter, white: filter.white ? false : true})}/>} label="White" />
+              <FormControlLabel control={<Checkbox checked={filter.black} onChange={() => setFilter({...filter, black: filter.black ? false : true})} />} label="Black" />
+              <FormControlLabel control={<Checkbox checked={filter.white} onChange={() => setFilter({...filter, white: filter.white ? false : true})}/>} label="White" />
             </div>
             <div
               style={{
@@ -425,12 +414,12 @@ export const MyNft = (props) => {
               }}
             >
               Type :
-              <FormControlLabel control={<CheckBox checked={filter.pawn} onClick={() => setFilter({...filter, pawn: filter.pawn ? false : true})}/>} label="Pawn" />
-              <FormControlLabel control={<CheckBox checked={filter.bishop} onClick={() => setFilter({...filter, bishop: filter.bishop ? false : true})}/>} label="Bishop" />
-              <FormControlLabel control={<CheckBox checked={filter.knight} onClick={() => setFilter({...filter, knight: filter.knight ? false : true})}/>} label="Knight" />
-              <FormControlLabel control={<CheckBox checked={filter.rook} onClick={() => setFilter({...filter, rook: filter.rook ? false : true})}/>} label="Rook" />
-              <FormControlLabel control={<CheckBox checked={filter.queen} onClick={() => setFilter({...filter, queen: filter.queen ? false : true})}/>} label="Queen" />
-              <FormControlLabel control={<CheckBox checked={filter.king} onClick={() => setFilter({...filter, king: filter.king ? false : true})}/>} label="King" />
+              <FormControlLabel control={<Checkbox checked={filter.pawn} onChange={() => setFilter({...filter, pawn: filter.pawn ? false : true})}/>} label="Pawn" />
+              <FormControlLabel control={<Checkbox checked={filter.bishop} onChange={() => setFilter({...filter, bishop: filter.bishop ? false : true})}/>} label="Bishop" />
+              <FormControlLabel control={<Checkbox checked={filter.knight} onChange={() => setFilter({...filter, knight: filter.knight ? false : true})}/>} label="Knight" />
+              <FormControlLabel control={<Checkbox checked={filter.rook} onChange={() => setFilter({...filter, rook: filter.rook ? false : true})}/>} label="Rook" />
+              <FormControlLabel control={<Checkbox checked={filter.queen} onChange={() => setFilter({...filter, queen: filter.queen ? false : true})}/>} label="Queen" />
+              <FormControlLabel control={<Checkbox checked={filter.king} onChange={() => setFilter({...filter, king: filter.king ? false : true})}/>} label="King" />
             </div>
           </FormGroup>
         </div>
@@ -478,7 +467,6 @@ export const MyNft = (props) => {
               (filter.rook && element.type === 2) ||
               (filter.queen && element.type === 1) ||
               (filter.king && element.type === 0);
-              console.log(colorMatches, typeMatches);
           
             return colorMatches && typeMatches;
           })
