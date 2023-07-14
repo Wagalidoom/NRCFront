@@ -97,6 +97,11 @@ export function EthereumProvider({ children }) {
   const { mutateAsync: chooseColorCall, error: chooseColorError } =
     useContractWrite(contract, "chooseColor");
 
+  const { mutateAsync: revealKingHandCall, error: revealKingHandError } = useContractWrite(
+    contract,
+    "revealKingHand"
+  );
+
   const chooseColor = async (_color) => {
     try {
       await chooseColorCall({ args: [_color] });
@@ -154,9 +159,15 @@ export function EthereumProvider({ children }) {
   };
 
   const burn = async (_id) => {
-    console.log(_id);
     await burnCall({ args: [_id] });
   };
+
+  const revealKingHand = async (_id) => {
+    await revealKingHandCall({ args: [_id],overrides: {
+      value: ethers.utils.parseEther("0.2"),
+    } });
+  };
+  
 
   const buy = async (_id, price) => {
     await buyCall({
@@ -222,8 +233,7 @@ export function EthereumProvider({ children }) {
   const getGasPrice = async () => {
     const gasPrice = await generalProvider.getGasPrice();
     return gasPrice;
-
-  }
+  };
 
   const value = {
     mintPawn,
@@ -244,6 +254,7 @@ export function EthereumProvider({ children }) {
     stack,
     unstack,
     buy,
+    revealKingHand,
     // buyKing,
     listNFT,
     unlistNFT,

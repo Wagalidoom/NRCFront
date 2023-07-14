@@ -15,6 +15,9 @@ import searchLight from "../../../assets/images/icon/loupeLight.png";
 import ensvision from "../../../assets/images/icon/ensvision.png";
 import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
+import tirelire from "../../../assets/images/icon/tirelire.png";
+import tirelireDark from "../../../assets/images/icon/tirelireDark.png";
+
 import {
   NRCsubgraph,
   ENSsubgraph,
@@ -43,7 +46,7 @@ export const MyNft = (props) => {
     knight: true,
     rook: true,
     queen: true,
-    king: true
+    king: true,
   });
 
   const modalRef = useRef(null);
@@ -56,6 +59,7 @@ export const MyNft = (props) => {
     unstack,
     unlistNFT,
     buy,
+    revealKingHand,
     setPrice,
     setEns,
     address,
@@ -235,8 +239,8 @@ export const MyNft = (props) => {
 
   useEffect(() => {
     if (ensList.length > 0) {
-      const domainNames = ensList.map(domain => {
-        return {hash: namehash.hash(domain.name), name: domain.name};
+      const domainNames = ensList.map((domain) => {
+        return { hash: namehash.hash(domain.name), name: domain.name };
       });
       setEnsDomains(domainNames);
     }
@@ -403,8 +407,34 @@ export const MyNft = (props) => {
               }}
             >
               Color :
-              <FormControlLabel control={<Checkbox checked={filter.black} onChange={() => setFilter({...filter, black: filter.black ? false : true})} />} label="Black" />
-              <FormControlLabel control={<Checkbox checked={filter.white} onChange={() => setFilter({...filter, white: filter.white ? false : true})}/>} label="White" />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.black}
+                    onChange={() =>
+                      setFilter({
+                        ...filter,
+                        black: filter.black ? false : true,
+                      })
+                    }
+                  />
+                }
+                label="Black"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.white}
+                    onChange={() =>
+                      setFilter({
+                        ...filter,
+                        white: filter.white ? false : true,
+                      })
+                    }
+                  />
+                }
+                label="White"
+              />
             </div>
             <div
               style={{
@@ -414,12 +444,81 @@ export const MyNft = (props) => {
               }}
             >
               Type :
-              <FormControlLabel control={<Checkbox checked={filter.pawn} onChange={() => setFilter({...filter, pawn: filter.pawn ? false : true})}/>} label="Pawn" />
-              <FormControlLabel control={<Checkbox checked={filter.bishop} onChange={() => setFilter({...filter, bishop: filter.bishop ? false : true})}/>} label="Bishop" />
-              <FormControlLabel control={<Checkbox checked={filter.knight} onChange={() => setFilter({...filter, knight: filter.knight ? false : true})}/>} label="Knight" />
-              <FormControlLabel control={<Checkbox checked={filter.rook} onChange={() => setFilter({...filter, rook: filter.rook ? false : true})}/>} label="Rook" />
-              <FormControlLabel control={<Checkbox checked={filter.queen} onChange={() => setFilter({...filter, queen: filter.queen ? false : true})}/>} label="Queen" />
-              <FormControlLabel control={<Checkbox checked={filter.king} onChange={() => setFilter({...filter, king: filter.king ? false : true})}/>} label="King" />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.pawn}
+                    onChange={() =>
+                      setFilter({ ...filter, pawn: filter.pawn ? false : true })
+                    }
+                  />
+                }
+                label="Pawn"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.bishop}
+                    onChange={() =>
+                      setFilter({
+                        ...filter,
+                        bishop: filter.bishop ? false : true,
+                      })
+                    }
+                  />
+                }
+                label="Bishop"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.knight}
+                    onChange={() =>
+                      setFilter({
+                        ...filter,
+                        knight: filter.knight ? false : true,
+                      })
+                    }
+                  />
+                }
+                label="Knight"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.rook}
+                    onChange={() =>
+                      setFilter({ ...filter, rook: filter.rook ? false : true })
+                    }
+                  />
+                }
+                label="Rook"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.queen}
+                    onChange={() =>
+                      setFilter({
+                        ...filter,
+                        queen: filter.queen ? false : true,
+                      })
+                    }
+                  />
+                }
+                label="Queen"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.king}
+                    onChange={() =>
+                      setFilter({ ...filter, king: filter.king ? false : true })
+                    }
+                  />
+                }
+                label="King"
+              />
             </div>
           </FormGroup>
         </div>
@@ -453,12 +552,12 @@ export const MyNft = (props) => {
             if (filter === null) {
               return true;
             }
-          
+
             // Check color
-            let colorMatches = 
+            let colorMatches =
               (filter.black && element.color === 1) ||
               (filter.white && element.color === 2);
-          
+
             // Check type
             let typeMatches =
               (filter.pawn && element.type === 5) ||
@@ -467,58 +566,102 @@ export const MyNft = (props) => {
               (filter.rook && element.type === 2) ||
               (filter.queen && element.type === 1) ||
               (filter.king && element.type === 0);
-          
+
             return colorMatches && typeMatches;
           })
           .map((element, index) => (
-            <div className="myNft" key={index}>
+            <div
+              className="myNft"
+              key={index}
+              style={{
+                border: element.isStacked
+                  ? "3px solid rgb(29, 155, 240)"
+                  : "none",
+                backgroundColor: element.isStacked
+                  ? "rgb(29, 155, 240)"
+                  : "none",
+              }}
+            >
               <img alt="" src={props.img} />
+              {!props.market && (
+                <button className="modal-button">
+                  <img
+                    alt=""
+                    onClick={(e) => openModal(e, index + 1)}
+                    src={DotDark}
+                  />
+                </button>
+              )}
               {element.isStacked ? (
-                <p style={{ zIndex: 999 }}>{element.ensName}</p>
+                <p
+                  style={{
+                    position: "absolute",
+                    bottom: "85px",
+                    left: "10px",
+                    fontSize: "18px",
+                  }}
+                >
+                  {element.ensName}
+                </p>
               ) : null}
               <ToolBar
                 market={props.market}
                 open={modalOpen === index + 1 && isOpen ? true : false}
               >
-                <div>
-                  <p>Number Runner #{element.id.toString()}</p>
-                  <p>{nftTypeToString(getNftType(element.id.toString()))}</p>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <p style={{ fontSize: "14px" }}>
+                    Number Runner #{element.id.toString()}
+                  </p>
+                  <p style={{ fontSize: "12px" }}>
+                    {nftTypeToString(element.type)}
+                  </p>
                 </div>
-                <div className="price">
-                  <img
-                    alt=""
-                    className="leftText"
-                    src={props.theme === "Dark Theme" ? eth : ethDark}
-                  />{" "}
-                  <span>{(element.price / 10 ** 18).toString()}</span>
-                  {addressLower === element.owner ? (
-                    <Button
-                      className="unlist-action"
-                      onClick={() => unlistNFT(element.id.toString())}
-                    >
-                      UNLIST
-                    </Button>
+                <div
+                  style={{
+                    marginTop: "5px",
+                  }}
+                >
+                  {props.market ? (
+                    <div>
+                      <div className="price">
+                        <img
+                          alt=""
+                          className="leftText"
+                          src={props.theme === "Dark Theme" ? eth : ethDark}
+                        />{" "}
+                        <span>{(element.price / 10 ** 18).toString()}</span>
+                      </div>
+                      {addressLower === element.owner ? (
+                        <Button
+                          className="unlist-action"
+                          onClick={() => unlistNFT(element.id.toString())}
+                        >
+                          UNLIST
+                        </Button>
+                      ) : (
+                        <Button
+                          className="buy-action"
+                          onClick={() =>
+                            buy(element.id.toString(), element.price)
+                          }
+                        >
+                          Buy
+                          {console.log(element)}
+                        </Button>
+                      )}
+                    </div>
                   ) : (
-                    <Button
-                      className="buy-action"
-                      onClick={() => buy(element.id.toString(), element.price)}
-                    >
-                      Buy
-                      {console.log(element)}
-                    </Button>
+                    <>
+                      <img
+                        style={{ height: "18px", marginBottom: "2px" }}
+                        src={
+                          props.theme === "Dark Theme" ? tirelire : tirelireDark
+                        }
+                      ></img>
+                      <span style={{ marginLeft: "4px" }}>{100000}</span>
+                    </>
                   )}
                 </div>
-                <button className="modal-button">
-                  <img
-                    alt=""
-                    onClick={(e) => openModal(e, index + 1)}
-                    src={
-                      currentTheme.theme.name === "Dark Theme"
-                        ? DotLight
-                        : DotDark
-                    }
-                  />
-                </button>
                 {modalOpen === index + 1 && isOpen && (
                   <div ref={modalRef} className="modal-option">
                     <ul>
@@ -537,25 +680,39 @@ export const MyNft = (props) => {
                           Stacker
                         </li>
                       )}
-                      {element.isListed ? (
-                        <li
-                          className="option"
-                          onClick={() => unlistNFT(element.id.toString())}
-                        >
-                          Unlist
-                        </li>
-                      ) : (
-                        <li
-                          className="option"
-                          onClick={() => setPrice(element.id)}
-                        >
-                          Sell
-                        </li>
+                      {element.isStacked ? null : (
+                        <>
+                          {element.isListed ? (
+                            <li
+                              className="option"
+                              onClick={() => unlistNFT(element.id.toString())}
+                            >
+                              Unlist
+                            </li>
+                          ) : (
+                            <li
+                              className="option"
+                              onClick={() => setPrice(element.id)}
+                            >
+                              Sell
+                            </li>
+                          )}
+                          <li
+                            className="option"
+                            onClick={() => burn(element.id)}
+                          >
+                            Burn
+                          </li>
+                          {element.type === 5 && (
+                            <li
+                              className="option"
+                              onClick={() => revealKingHand(element.id)}
+                            >
+                              Reveal
+                            </li>
+                          )}
+                        </>
                       )}
-
-                      <li className="option" onClick={() => burn(element.id)}>
-                        Burn
-                      </li>
                     </ul>
                   </div>
                 )}

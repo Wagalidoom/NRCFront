@@ -25,7 +25,7 @@ color: ${props => props.theme.colors.text};
     width:49%;
     border-radius:5px;
     box-shadow: ${props => props.theme.name === "Dark Theme" ? 'rgb(0, 0, 0) 0px 2px 4px, rgb(0, 0, 0) 0px 7px 13px -3px, rgb(0, 0, 0) 0px -3px 0px inset' : 'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset' };
-    background:${props => props.theme.name === "Dark Theme" ?'rgb(30, 39, 50)' : 'rgb(247, 249, 249)'};
+    background: ${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)':'rgb(247,249,249)' };
 }
 .king-container > .figure-nft:first-of-type{
     margin-right:2%;
@@ -34,13 +34,14 @@ color: ${props => props.theme.colors.text};
     width:100%;
     display:flex;
     justify-content: space-between;
-    align-items:center;
+    align-items: top;
     border-bottom-left-radius:5px;
     border-bottom-right-radius:5px;
     padding-left:10px;
     padding-right:10px;
     padding-bottom:4px;
 }
+
 .king-infos > .nft-title{
     margin-bottom:0px;
 }

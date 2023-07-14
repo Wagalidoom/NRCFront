@@ -26,6 +26,24 @@ justify-content:space-around;
     display:inline-block;
 }
 
+.modal-button {
+    position:absolute;
+    top: 8px;
+    right: 14px;
+    display:${props => props.market ? 'none': 'block'};
+    background:transparent;
+    border:2px solid ${props => props.theme.name === "Dark Theme" ? 'grey' : 'rgba(0,0,0,0.6)'};
+    width:30px;
+    height:12px;
+    border-radius:99999px;
+}
+.modal-button> img{
+    width:20px;
+    position:absolute;
+    top:-6px;
+    left:3px;
+}
+
 .filter-menu{
     display: flex;
     width: 100%;
@@ -216,23 +234,21 @@ p{
 `
 export const ToolBar =styled.div`
 width:100%;
-height:${props => props.market ? '89px' :'60px'};
 display:flex;
-flex-direction:column;
-justify-content:space-around;
+justify-content:space-between;
 position:relative;
 padding-top:${props => props.market ? '0px' : '2px'}
 color:${props => props.theme.colors.text};
 background: ${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)':'rgb(247,249,249)' };
-padding-left:10.5px;
-padding-right:10.5px;
+padding-left:10px;
+padding-right:10px;
+padding-bottom: 4px;
 border-bottom-left-radius:5px;
 border-bottom-right-radius:5px;
-padding-top:5px;
 .modal-button {
     position:absolute;
-    right:15px;
-    bottom:16px;
+    top: 8px;
+    right: 14px;
     display:${props => props.market ? 'none': 'block'};
     background:transparent;
     border:1px solid ${props => props.theme.name === "Dark Theme" ? 'grey' : 'rgba(0,0,0,0.6)'};
@@ -251,18 +267,13 @@ padding-top:5px;
 }
 .buy-action{
     background:#1D9BF0;
-    border:none;
     border-radius:5px;
     color:white;
-    display:${props => props.market ?'flex' : 'none'};
-    justify-content:center;
-    align-items:center;
     position:absolute;
-    bottom:6px;
+    bottom:3px;
     right:10.5px;
-    font-size:16px;
-    cursor:default;
-    padding:6px 16px!important;
+    font-size:12px;
+    padding:3px 3px!important;
     line-height:16px;
 }
 
@@ -271,47 +282,19 @@ padding-top:5px;
     border:none;
     border-radius:5px;
     color:white;
-    display:${props => props.market ?'flex' : 'none'};
-    justify-content:center;
-    align-items:center;
     position:absolute;
     bottom:6px;
     right:10.5px;
-    font-size:16px;
+    font-size:12px;
     cursor:default;
-    padding:6px 16px!important;
+    padding:3px 3px!important;
     line-height:16px;
-}
->div:first-of-type{
-    // background:${props => props.market ? 'transparent' : 'red'};
-    position:relative;
-    top:-6px;
-}
->div> p{
-    line-height:16px;
-    color:${props => props.theme.colors.text};
-}
->div>p:first-of-type{
-    font-weight:700;
-    font-size:20px;
-    margin-bottom:8px;
-    display:flex;
-    justify-content:${props => props.market ? 'space-between': 'start'};
-}
->div>p:first-of-type > span{
-    margin-left:3px;
-}
->div>p:last-of-type{
-    font-size:16px;
-    margin-bottom:0px;
 }
 
 .price{
-    display:${props => props.market ? 'flex' : 'none'};
+    display:flex;
     align-items:center;
     position:relative;
-    left:-2px;
-    top:-1px;
 }
 .price>img{
     height:20px;
@@ -328,7 +311,7 @@ padding-top:5px;
     position:absolute;
     top:20.5px;
     transform: translateY(calc( -100% - 20px));
-    right:12px;
+    right:0;
     border-top-left-radius:5px;
     border-top-right-radius:5px;
     animation: ${fadein} 0.1s linear forwards;
@@ -384,7 +367,7 @@ padding-top:5px;
         font-size:16px;
     }
     .buy-action{
-        font-size:14px;
+        font-size:8px;
     }
     div>p:last-of-type{
         font-size:14px;

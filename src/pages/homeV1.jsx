@@ -711,8 +711,7 @@ const HomeV1 = () => {
                       currentTheme.theme.name === "Dark Theme" ? eth : ethDark
                     }
                   />
-                  <span className="textWhite">{currentSupply}</span>{" "}
-                  Volume{" "}
+                  <span className="textWhite">{currentSupply}</span> Volume{" "}
                   <img
                     alt=""
                     className="leftText"
@@ -721,8 +720,7 @@ const HomeV1 = () => {
                       currentTheme.theme.name === "Dark Theme" ? eth : ethDark
                     }
                   />
-                  <span className="textWhite">10000</span>{" "}
-                  Pool{" "}
+                  <span className="textWhite">10000</span> Pool{" "}
                 </div>
               </div>
             </div>
@@ -4259,7 +4257,11 @@ const HomeV1 = () => {
             )}
             {linkProfile === "my_nft" && (
               <div className="description">
-                <MyNft market={false} img={pawn5185} />
+                <MyNft
+                  theme={currentTheme.theme.name}
+                  market={false}
+                  img={pawn5185}
+                />
               </div>
             )}
           </div>
