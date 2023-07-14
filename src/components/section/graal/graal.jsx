@@ -10,10 +10,20 @@ import {
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 import Axios from "axios";
+import { isClub, stringToHex } from "../../../helper";
+const namehash = require("eth-ens-namehash");
 
 export const Graal = (props) => {
   const [ensName, setEnsName] = useState("");
   const [ensList, setEnsList] = useState("");
+  const [ensDomains, setEnsDomains] = useState([]);
+  const [currentEnsName, setCurrentEnsName] = useState(null);
+  const [has999, setHas999] = useState(false);
+  const [has10k, setHas10k] = useState(false);
+  const [has100k, setHas100k] = useState(false);
+  const [node, setNode] = useState(
+    "0x0000000000000000000000000000000000000000000000000000000000000000"
+  );
   const { address } = useEthereum();
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const { data: burnCount, error: burnCountError } = useContractRead(
@@ -23,6 +33,12 @@ export const Graal = (props) => {
   );
   const { data: burnCounterCount, error: burnCounterCountError } =
     useContractRead(contract, "getBurnedCounterCount", [address]);
+
+  const {
+    data: tokenIdOfNode,
+    isLoading,
+    error: tokenIdOfNodeError,
+  } = useContractRead(contract, "getTokenIdOfNode", [node]);
 
   useEffect(() => {
     const fetchEnsName = async () => {
@@ -52,6 +68,39 @@ export const Graal = (props) => {
       fetchEnsName();
     }
   }, [address]);
+
+  useEffect(() => {
+    if (ensList.length > 0) {
+      const domainNames = ensList.map((domain) => {
+        return { hash: namehash.hash(domain.name), name: domain.name };
+      });
+      setEnsDomains(domainNames);
+    }
+  }, [ensList]);
+
+  useEffect(() => {
+    if (ensDomains.length > 0) {
+      const [currentDomain, ...rest] = ensDomains;
+      setNode(currentDomain.hash);
+      setCurrentEnsName(currentDomain.name);
+      setEnsDomains(rest);
+    }
+  }, [ensDomains]);
+
+  useEffect(() => {
+    if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
+      if (!has999) {
+        setHas999(isClub(currentEnsName, 7));
+      }
+      if (!has10k) {
+        setHas10k(isClub(currentEnsName, 8));
+      }
+      if (!has100k) {
+        setHas100k(isClub(currentEnsName, 9));
+      }
+      console.log(currentEnsName, tokenIdOfNode.toString(), has999, has10k, has100k);
+    }
+  }, [tokenIdOfNode, currentEnsName]);
 
   return (
     <GraalContainer>
