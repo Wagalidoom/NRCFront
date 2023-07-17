@@ -4168,7 +4168,10 @@ const HomeV1 = () => {
                 <Graal
                   img={bishop}
                   data={{
+                    type: 4,
                     supply: 200,
+                    inf: 162,
+                    sup: 361,
                     name: "The Bishop",
                     mint: [
                       {
@@ -4188,7 +4191,10 @@ const HomeV1 = () => {
                 <Graal
                   img={knight}
                   data={{
+                    type: 3,
                     supply: 100,
+                    inf: 62,
+                    sup: 161,
                     name: "The Knight",
                     mint: [
                       {
@@ -4208,7 +4214,10 @@ const HomeV1 = () => {
                 <Graal
                   img={rook}
                   data={{
+                    type: 2,
                     supply: 50,
+                    inf: 12,
+                    sup: 61,
                     name: "The Rook",
                     mint: [
                       {
@@ -4228,7 +4237,10 @@ const HomeV1 = () => {
                 <Graal
                   img={queen}
                   data={{
+                    type: 1,
                     supply: 10,
+                    inf: 2,
+                    sup: 11,
                     name: "The Queen",
                     mint: [
                       {

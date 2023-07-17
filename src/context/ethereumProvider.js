@@ -137,9 +137,9 @@ export function EthereumProvider({ children }) {
     }
   };
 
-  const mintBishop = async () => {
+  const mintSpecial = async (type, stackedId) => {
     await mintCall({
-      args: [4, "0x0"],
+      args: [type, stackedId],
       overrides: {
         value: ethers.utils.parseEther("0.00002"),
       },
@@ -254,6 +254,7 @@ export function EthereumProvider({ children }) {
     selectId,
     ensList,
     mint,
+    mintSpecial,
     mintLoading,
     setIsMintOpen,
     setIsPriceSelectorOpen,
