@@ -583,15 +583,6 @@ export const MyNft = (props) => {
               }}
             >
               <img alt="" src={props.img} />
-              {!props.market && (
-                <button className="modal-button">
-                  <img
-                    alt=""
-                    onClick={(e) => openModal(e, index + 1)}
-                    src={DotDark}
-                  />
-                </button>
-              )}
               {element.isStacked ? (
                 <p
                   style={{
@@ -608,19 +599,17 @@ export const MyNft = (props) => {
                 market={props.market}
                 open={modalOpen === index + 1 && isOpen ? true : false}
               >
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   <p style={{ fontSize: "14px" }}>
                     Number Runner #{element.id.toString()}
                   </p>
-                  <p style={{ fontSize: "12px" }}>
-                    {nftTypeToString(element.type)}
-                  </p>
-                </div>
-                <div
-                  style={{
-                    marginTop: "5px",
-                  }}
-                >
                   {props.market ? (
                     <div>
                       <div className="price">
@@ -651,7 +640,7 @@ export const MyNft = (props) => {
                       )}
                     </div>
                   ) : (
-                    <>
+                    <div>
                       <img
                         style={{ height: "18px", marginBottom: "2px" }}
                         src={
@@ -659,7 +648,30 @@ export const MyNft = (props) => {
                         }
                       ></img>
                       <span style={{ marginLeft: "4px" }}>{100000}</span>
-                    </>
+                    </div>
+                  )}
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: "12px" }}>
+                    {nftTypeToString(element.type)}
+                  </p>
+                  {!props.market && (
+                    <button className="modal-button">
+                      <img
+                        alt=""
+                        onClick={(e) => openModal(e, index + 1)}
+                        src={currentTheme.theme.name === "Dark Theme"
+                        ? DotLight
+                        : DotDark}
+                      />
+                    </button>
                   )}
                 </div>
                 {modalOpen === index + 1 && isOpen && (

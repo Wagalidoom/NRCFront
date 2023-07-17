@@ -26,24 +26,6 @@ justify-content:space-around;
     display:inline-block;
 }
 
-.modal-button {
-    position:absolute;
-    top: 8px;
-    right: 14px;
-    display:${props => props.market ? 'none': 'block'};
-    background:transparent;
-    border:2px solid ${props => props.theme.name === "Dark Theme" ? 'grey' : 'rgba(0,0,0,0.6)'};
-    width:30px;
-    height:12px;
-    border-radius:99999px;
-}
-.modal-button> img{
-    width:20px;
-    position:absolute;
-    top:-6px;
-    left:3px;
-}
-
 .filter-menu{
     display: flex;
     width: 100%;
@@ -235,6 +217,7 @@ p{
 export const ToolBar =styled.div`
 width:100%;
 display:flex;
+flex-direction:column;
 justify-content:space-between;
 position:relative;
 padding-top:${props => props.market ? '0px' : '2px'}
@@ -246,9 +229,7 @@ padding-bottom: 4px;
 border-bottom-left-radius:5px;
 border-bottom-right-radius:5px;
 .modal-button {
-    position:absolute;
-    top: 8px;
-    right: 14px;
+    position: relative;
     display:${props => props.market ? 'none': 'block'};
     background:transparent;
     border:1px solid ${props => props.theme.name === "Dark Theme" ? 'grey' : 'rgba(0,0,0,0.6)'};
@@ -257,10 +238,10 @@ border-bottom-right-radius:5px;
     border-radius:99999px;
 }
 .modal-button> img{
-    width:20px;
     position:absolute;
     top:-5px;
     left:4px;
+    width:20px;
 }
 > img:hover{
     cursor:pointer;
