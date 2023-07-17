@@ -97,10 +97,8 @@ export function EthereumProvider({ children }) {
   const { mutateAsync: chooseColorCall, error: chooseColorError } =
     useContractWrite(contract, "chooseColor");
 
-  const { mutateAsync: revealKingHandCall, error: revealKingHandError } = useContractWrite(
-    contract,
-    "revealKingHand"
-  );
+  const { mutateAsync: revealKingHandCall, error: revealKingHandError } =
+    useContractWrite(contract, "revealKingHand");
 
   const chooseColor = async (_color) => {
     try {
@@ -139,6 +137,15 @@ export function EthereumProvider({ children }) {
     }
   };
 
+  const mintBishop = async () => {
+    await mintCall({
+      args: [4, "0x0"],
+      overrides: {
+        value: ethers.utils.parseEther("0.00002"),
+      },
+    });
+  };
+
   const setEns = async (_id, _list) => {
     setIsEnsSelectorOpen(true);
     setEnsList(_list);
@@ -163,11 +170,13 @@ export function EthereumProvider({ children }) {
   };
 
   const revealKingHand = async (_id) => {
-    await revealKingHandCall({ args: [_id],overrides: {
-      value: ethers.utils.parseEther("0.2"),
-    } });
+    await revealKingHandCall({
+      args: [_id],
+      overrides: {
+        value: ethers.utils.parseEther("0.2"),
+      },
+    });
   };
-  
 
   const buy = async (_id, price) => {
     await buyCall({

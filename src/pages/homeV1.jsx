@@ -1779,11 +1779,13 @@ const HomeV1 = () => {
                               <br />- Keep your rewards in Ethereum (ETH)
                               <br />- Renew a domain name once a year, for a
                               maximum of 1 year.
-                              <br />- Buy one or more NFTs from the collection
-                              if the amount of its rewards allows it.{" "}
+                              <br />
+                              - Buy one or more digits domain names if the
+                              amount of your rewards allows it.{" "}
                               <sup>1</sup>
-                              <br />- Buy one or more digits domain names if the
-                              amount of your rewards allows it. <sup>2</sup>
+                              <br />
+                              - Buy one or more NFTs from the collection
+                              if the amount of its rewards allows it.<sup>2</sup>
                               <br />
                               <br />
                               <sup>1</sup>{" "}
@@ -1793,7 +1795,7 @@ const HomeV1 = () => {
                                 number(s) if he sells, burns or when the cape of
                                 999 NFTs in circulation is reached.
                               </i>
-                              <br />
+                              <br /><br />
                               <sup>2</sup>{" "}
                               <i>
                                 {" "}
@@ -1813,12 +1815,12 @@ const HomeV1 = () => {
                               (ETH)
                               <br />- Renouveler un nom de domaine en chiffre
                               une fois par an, sur une durée de 1 an maximum.
-                              <br />- Acheter un ou plusieurs NFT de la
-                              collection si le montant de ses récompenses le
-                              permet. <sup>1</sup>
                               <br />- Acheter un ou plusieurs noms de domaines
                               en chiffres si le montant de ses récompenses le
-                              permet <sup>2</sup>
+                              permet.<sup>1</sup>
+                              <br />- Acheter un ou plusieurs NFT de la
+                              collection si le montant de ses récompenses le
+                              permet.<sup>2</sup>
                               <br />
                               <br />
                               <sup>1</sup>{" "}
@@ -1828,7 +1830,7 @@ const HomeV1 = () => {
                                 ses chiffres s'il vend, burn ou lorsque le cap
                                 des 999 NFTs en circulation est atteint.
                               </i>
-                              <br />
+                              <br /><br />
                               <sup>2</sup>{" "}
                               <i>
                                 Une taxe de 16% du prix d'achat est retenue au
@@ -1846,11 +1848,11 @@ const HomeV1 = () => {
                               <br />- Mantener sus recompensas en Ethereum (ETH)
                               <br />- Renovar un nombre de dominio numérico una
                               vez al año, durante un máximo de 1 año.
+                              <br />- Compre uno o varios NFT de la colección si
+                              el importe de sus recompensas se lo permite.<sup>1</sup>
                               <br />- Compre uno o varios nombres de dominio
                               numéricos si el importe de sus recompensas se lo
-                              permite. <sup>1</sup>
-                              <br />- Compre uno o varios NFT de la colección si
-                              el importe de sus recompensas se lo permite.{" "}
+                              permite.{" "}
                               <sup>2</sup>
                               <br />
                               <br />
@@ -1861,7 +1863,7 @@ const HomeV1 = () => {
                                 número(s) si venden, queman o cuando alcanzan
                                 los 999 NFT en circulación.
                               </i>
-                              <br />
+                              <br /><br />
                               <sup>2</sup>{" "}
                               <i>
                                 Se deduce un impuesto del 16% del precio de
@@ -1960,10 +1962,10 @@ const HomeV1 = () => {
                               <br />
                               - Keeps the pot in Ethereum (ETH)
                               <br />- Buys or resells domain names in digits
-                              <sup>2</sup>
+                              <sup>3</sup>
                               <br />
                               <br />
-                              <sup>2</sup>{" "}
+                              <sup>3</sup>{" "}
                               <i>
                                 Holders with the rarest NFTs will have a voting
                                 right on these transactions. They may refuse
@@ -1984,10 +1986,10 @@ const HomeV1 = () => {
                               <br />
                               - Conserve la cagnotte en Ethereum (ETH)
                               <br />- Achète ou revend des noms de domaines en
-                              chiffres <sup>2</sup>
+                              chiffres <sup>3</sup>
                               <br />
                               <br />
-                              <sup>2</sup>{" "}
+                              <sup>3</sup>{" "}
                               <i>
                                 Les détenteurs avec les NFTs les plus rares
                                 auront un droit de vote sur ces transactions.
@@ -2009,10 +2011,10 @@ const HomeV1 = () => {
                               <br />
                               - Conserva el dinero en Ethereum (ETH)
                               <br />- Compra o revende nombres de dominio en
-                              dígitos <sup>2</sup>
+                              dígitos <sup>3</sup>
                               <br />
                               <br />
-                              <sup>2</sup>{" "}
+                              <sup>3</sup>{" "}
                               <i>
                                 {" "}
                                 Los tenedores con las NFT más raras tendrán
@@ -2137,7 +2139,7 @@ const HomeV1 = () => {
                           <br />
                           Ils se partagent 65% des frais de transaction, mais le
                           taux diminue progressivement pour atteindre 5% une
-                          fois que les NFTs spéciaux ont été tous mint.
+                          fois que les NFTs spéciaux ont tous été mint.
                           <br />
                           <br />
                           - Taxe sur la vente: 16% (50% Holders | 50% Cagnotte)
@@ -2426,10 +2428,10 @@ const HomeV1 = () => {
                         <div className="description">
                           The proceeds of the king auction are redistributed
                           among 10 holders who discover the hand of the king on
-                          one of the pieces they have minted. <sup>3</sup>
+                          one of the pieces they have minted. <sup>4</sup>
                           <br />
                           <br />
-                          <sup>3</sup>{" "}
+                          <sup>4</sup>{" "}
                           <i>
                             To prevent cheating, the king's hands are encrypted
                             and are only revealed when all the nfts have been
@@ -2452,10 +2454,10 @@ const HomeV1 = () => {
                           Le produit de la vente aux enchères des rois est
                           redistribué entre 10 détenteurs qui découvrent la main
                           du roi sur l’un des pions qu’ils ont mint.{" "}
-                          <sup>3</sup>
+                          <sup>4</sup>
                           <br />
                           <br />
-                          <sup>3</sup>{" "}
+                          <sup>4</sup>{" "}
                           <i>
                             Pour éviter toute triche, les mains du roi sont
                             cryptées et ne sont révélées que lorsque tout les
@@ -2477,10 +2479,10 @@ const HomeV1 = () => {
                         <div className="description">
                           El producto de la subasta de los reyes se distribuye
                           entre 10 poseedores que descubren la mano del rey en
-                          una de las fichas que han acuñado.<sup>3</sup>
+                          una de las fichas que han acuñado.<sup>4</sup>
                           <br />
                           <br />
-                          <sup>3</sup>{" "}
+                          <sup>4</sup>{" "}
                           <i>
                             Para evitar cualquier engaño, las manos del rey
                             están codificadas y no se revelan hasta que todos
@@ -2587,7 +2589,7 @@ const HomeV1 = () => {
                           100kClub palindrome to stack the bishop.
                           <br />
                           <br />
-                          The bishop receives 10% of the transaction fees.
+                          The bishops share 10% of the transaction fees.
                           <br />
                           <br />
                           - Sales tax: 16% (50% Holders | 50% Pool)
@@ -2627,7 +2629,7 @@ const HomeV1 = () => {
                           ou 100kClub palindrome pour stacker le fou.
                           <br />
                           <br />
-                          Le fou reçoit 10% des frais de transactions.
+                          Les fous se partagent 10% des frais de transactions.
                           <br />
                           <br />
                           - Taxe sur la vente: 16% (50% Holders | 50% Cagnotte)
@@ -2668,7 +2670,7 @@ const HomeV1 = () => {
                           999Club, 10kClub o 100kClub para apilar el loco.
                           <br />
                           <br />
-                          El loco recibe 10% de las tarifas de transacción.
+                          Locos se reparten 10% de las comisiones por transacción
                           <br />
                           <br />
                           - Impuesto sobre las ventas: 16% (50% Holders | 50%
@@ -2767,7 +2769,7 @@ const HomeV1 = () => {
                           stack the Knight.
                           <br />
                           <br />
-                          The knight receives 12.5% of the transaction fee.
+                          The knights share 12.5% of the transaction fee.
                           <br />
                           <br />
                           - Sales tax: 16% (50% Holders | 50% Pool)
@@ -2807,7 +2809,7 @@ const HomeV1 = () => {
                           pour stacker le Cavalier.
                           <br />
                           <br />
-                          Le cavalier reçoit 12.5% des frais de transactions.
+                          Les cavaliers se partagent 12.5% des frais de transactions.
                           <br />
                           <br />
                           - Taxe sur la vente: 16% (50% Holders | 50% Cagnotte)
@@ -2841,7 +2843,7 @@ const HomeV1 = () => {
                           apilar el jinete que el poseedor recibirá.
                           <br />
                           <br />
-                          El jinete recibe 12.5% de las tarifas de transacción.
+                          Jinetes se reparten 12.5% de las comisiones por transacción
                           <br />
                           <br />
                           - Impuesto sobre las ventas: 16% (50% Holders | 50%
@@ -2943,7 +2945,7 @@ const HomeV1 = () => {
                           palindrome to stack the Rook.
                           <br />
                           <br />
-                          The rook receives 15% of the transaction fees.
+                          The rooks share 15% of the transaction fees.
                           <br />
                           <br />
                           - Sales tax: 16% (50% Holders | 50% Pool)
@@ -2983,7 +2985,7 @@ const HomeV1 = () => {
                           palindrome pour stacker la Tour.
                           <br />
                           <br />
-                          La tour reçoit 15% des frais de transactions.
+                          Les tours se partagent 15% des frais de transactions.
                           <br />
                           <br />
                           - Taxe sur la vente: 16% (50% Holders | 50% Cagnotte)
@@ -3020,7 +3022,7 @@ const HomeV1 = () => {
                           para apilar la torre que el titular recibirá.
                           <br />
                           <br />
-                          La torre recibe 15% de las tarifas de transacción.
+                          Torres se reparten 15% de las comisiones por transacción
                           <br />
                           <br />
                           - Impuesto sobre las ventas: 16% (50% Holders | 50%
@@ -3122,7 +3124,7 @@ const HomeV1 = () => {
                           Queen.
                           <br />
                           <br />
-                          The queen receives 22. 5% of the transaction fees.
+                          The queens share 22.5% of the transaction fees.
                           <br />
                           <br />
                           - Sales tax: 16% (50% Holders | 50% Pool)
@@ -3167,7 +3169,7 @@ const HomeV1 = () => {
                           stacker la Dame.
                           <br />
                           <br />
-                          La dame reçoit 22.5% des frais de transactions.
+                          Les dames se partagent 22.5% des frais de transactions.
                           <br />
                           <br />
                           - Taxe sur la vente: 16% (50% Holders | 50% Cagnotte)
@@ -3208,8 +3210,7 @@ const HomeV1 = () => {
                           la reina que va a recibir.
                           <br />
                           <br />
-                          La reina recibe el 22.5% de las tarifas de
-                          transacción.
+                          Reinas se reparten el 22.5% de las comisiones por transacción.
                           <br />
                           <br />
                           - Impuesto sobre las ventas: 16% (50% Holders | 50%
@@ -3273,10 +3274,10 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === "EN")) && (
                         <div className="description">
                           Only 999Club and 10Kclub holders have access to the
-                          final prize pool. <sup>4</sup>
+                          final prize pool. <sup>5</sup>
                           <br />
                           <br />
-                          <sup>4</sup>{" "}
+                          <sup>5</sup>{" "}
                           <i>
                             The collection has ended and you're not in these
                             clubs?
@@ -3292,10 +3293,10 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === "FR")) && (
                         <div className="description">
                           Seul les détenteurs du 999Club et du 10Kclub ont accès
-                          à la cagnotte finale. <sup>4</sup>
+                          à la cagnotte finale. <sup>5</sup>
                           <br />
                           <br />
-                          <sup>4</sup>{" "}
+                          <sup>5</sup>{" "}
                           <i>
                             La collection est terminé est vous n'êtes pas dans
                             ces clubs? <br />
@@ -3309,10 +3310,10 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === "ES")) && (
                         <div className="description">
                           Solo los poseedores del 999Club y del 10Kclub tienen
-                          acceso al premio final. <sup>4</sup>
+                          acceso al premio final. <sup>5</sup>
                           <br />
                           <br />
-                          <sup>4</sup>{" "}
+                          <sup>5</sup>{" "}
                           <i>
                             ¿Se ha acabado la recaudación y no perteneces a uno
                             de estos clubes? <br />
@@ -3320,7 +3321,6 @@ const HomeV1 = () => {
                             dominio 100k por un dominio 999Club o 10Kclub por tu
                             NFT.
                           </i>{" "}
-                          // à compléter
                         </div>
                       )}
                       <div className="contentBanner">
@@ -4173,7 +4173,7 @@ const HomeV1 = () => {
                     mint: [
                       {
                         type: "stack",
-                        value: 1,
+                        value: 0,
                         text: "Have already Stacked an NFT of the collection with an address of 999Club, 10kClub or 100kClub",
                       },
                       {
@@ -4233,7 +4233,7 @@ const HomeV1 = () => {
                     mint: [
                       {
                         type: "stack",
-                        value: 1,
+                        value: 2,
                         text: "Have already Stacked an NFT from the collection with a 999Club address",
                       },
                       {

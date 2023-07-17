@@ -14,13 +14,14 @@ import { isClub, stringToHex } from "../../../helper";
 const namehash = require("eth-ens-namehash");
 
 export const Graal = (props) => {
-  const [ensName, setEnsName] = useState("");
   const [ensList, setEnsList] = useState("");
   const [ensDomains, setEnsDomains] = useState([]);
   const [currentEnsName, setCurrentEnsName] = useState(null);
   const [has999, setHas999] = useState(false);
   const [has10k, setHas10k] = useState(false);
   const [has100k, setHas100k] = useState(false);
+  const [burn, setBurn] = useState(false);
+  const [stack, setStack] = useState(false);
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
@@ -39,6 +40,24 @@ export const Graal = (props) => {
     isLoading,
     error: tokenIdOfNodeError,
   } = useContractRead(contract, "getTokenIdOfNode", [node]);
+
+  useEffect(() => {
+    props.data.mint[1].type == "burn"
+      ? setBurn(burnCount > props.data.mint[1].value)
+      : setBurn(burnCounterCount > props.data.mint[1].value);
+  }, [burnCount, burnCounterCount]);
+
+  useEffect(() => {
+    if (props.data.mint[0].value == 0) {
+      setStack(has999 || has10k || has100k);
+    }
+    if (props.data.mint[0].value == 1) {
+      setStack(has999 || has10k);
+    }
+    if (props.data.mint[0].value == 2) {
+      setStack(has999);
+    }
+  }, [has999, has10k, has100k]);
 
   useEffect(() => {
     const fetchEnsName = async () => {
@@ -98,7 +117,7 @@ export const Graal = (props) => {
       if (!has100k) {
         setHas100k(isClub(currentEnsName, 9));
       }
-      console.log(currentEnsName, tokenIdOfNode.toString(), has999, has10k, has100k);
+      console.log(currentEnsName, has999, has10k, has100k);
     }
   }, [tokenIdOfNode, currentEnsName]);
 
@@ -119,24 +138,13 @@ export const Graal = (props) => {
       <div className="graal-desc">
         <div className="graal-condition">
           <div>
-            <img alt="" src={novalidate} />
+            <img alt="" src={stack ? validate : novalidate} />
           </div>
           <div>{props.data.mint[0].text}</div>
         </div>
         <div className="graal-condition">
           <div>
-            <img
-              alt=""
-              src={
-                props.data.mint[1].type == "burn"
-                  ? burnCount > props.data.mint[1].value
-                    ? validate
-                    : novalidate
-                  : burnCounterCount > props.data.mint[1].value
-                  ? validate
-                  : novalidate
-              }
-            />
+            <img alt="" src={burn ? validate : novalidate} />
           </div>
           <div>{props.data.mint[1].text}</div>
         </div>

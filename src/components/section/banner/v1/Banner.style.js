@@ -181,7 +181,6 @@ overflow:hidden;
     // background:red;
     transform:translateY(-50%);
     border-radius: 10%;
-    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(21,32,43)' : 'white'};
     left: 24px;
     position: absolute;
     width:100px;

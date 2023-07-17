@@ -297,10 +297,7 @@ export const KingAuction = (props) => {
               <br />
               <br />
               There are several options available to you. If you feel like the
-              heart of a bold, you can buy it at today’s price. But if, on the
-              contrary, your heart is that of a strategist, you can bet a
-              specific amount that you are willing to pay while waiting to see
-              if you get the Grail for that price. Finally, the more foresight
+              heart of a bold, you can buy it at today’s price. The more foresight
               will be able to inform the amount they are ready to pay and
               quickly see when they will have to reconnect on the app and mint
               the King.
@@ -330,11 +327,7 @@ export const KingAuction = (props) => {
               <br />
               <br />
               Plusieurs options s'offrent à vous. Si vous vous sentez le cœur
-              d'un audacieux, vous pouvez l’acheter au prix du jour. Mais si, au
-              contraire, votre cœur est celui d'un fin stratège, vous pouvez
-              miser une somme spécifique que vous êtes prêt à payer tout en
-              attendant de voir si vous décrochez le Graal pour ce prix. Enfin,
-              les plus prévoyants pourront renseigner la somme qu'ils sont prêts
+              d'un audacieux, vous pouvez l’acheter au prix du jour. Les plus prévoyants pourront renseigner la somme qu'ils sont prêts
               à s'acquitter et voir rapidement à quelle date ils devront se
               reconnecter sur l'application et mint le Roi.
               <br />
@@ -364,11 +357,7 @@ export const KingAuction = (props) => {
               <br />
               <br />
               Hay varias opciones disponibles para usted. Si siente el corazón
-              de un audaz, puede comprarlo a precio de día. Pero si, por el
-              contrario, tu corazón es el de un estratega fino, puedes apostar
-              una cantidad específica que estás dispuesto a pagar mientras
-              esperas a ver si consigues el Grial por ese precio. Por último,
-              los más previsores podrán indicar la cantidad que están dispuestos
+              de un audaz, puede comprarlo a precio de día. Los más previsores podrán indicar la cantidad que están dispuestos
               a pagar y ver rápidamente en qué fecha deberán volver a conectarse
               a la aplicación y al Rey.
               <br />

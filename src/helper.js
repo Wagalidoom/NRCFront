@@ -35,7 +35,6 @@ export function nftTypeToString(type) {
 
 export function isClub(name, length) {
   if (length > 32 || length < 5) return false;
-  console.log("1", name);
 
   // Check if the last part is ".eth"
   if (
@@ -45,8 +44,6 @@ export function isClub(name, length) {
     name[length - 1] !== 'h'
   )
     return false;
-
-    console.log("2", name);
 
   // Check if the first part is a number
   for (let i = 0; i < length - 4; i++) {
