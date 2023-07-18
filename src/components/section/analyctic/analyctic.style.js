@@ -3,8 +3,6 @@ import styled from "styled-components";
 export const AnalycticContainer = styled.div`
 position:relative;
 border-radius:10px;
-padding-left: 10px;
-padding-right:10px;
 background:${props => props.theme.name === "Dark Theme" ?'rgb(30, 39, 50)' : 'rgb(247, 249, 249)'};
 
 .title{
@@ -47,7 +45,7 @@ background:${props => props.theme.name === "Dark Theme" ?'rgb(30, 39, 50)' : 'rg
 .holder-data{
     position:absolute;
     right:10px;
-    padding:6px 18px;
+    padding:6px 5px;
     max-width: 100px;
     overflow: hidden;
     border-radius: 100px;
@@ -61,9 +59,6 @@ background:${props => props.theme.name === "Dark Theme" ?'rgb(30, 39, 50)' : 'rg
 .list > li:last-child {
     display:flex;
     justify-content:center;
-    border-bottom-left-radius:16px;   
-    border-bottom-right-radius:16px;   
-    color:#1D9BF0 !important;
     font-weight:700;
     }
 `

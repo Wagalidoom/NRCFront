@@ -523,7 +523,7 @@ export const MyNft = (props) => {
           </FormGroup>
         </div>
       )}
-      <div className="container-nft">
+      <div className="container-nft" style={{padding: props.market ? "0px 10px" : ""}}>
         {collection.length === 0 ? (
           <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}

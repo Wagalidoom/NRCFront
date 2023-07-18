@@ -47,6 +47,11 @@ export const BannerV1Wrapper = styled.section`
     height:200px;
     
   }
+
+  i{
+    font-size: 12px;
+  }
+
   .banner-container > img{
     width:100%;
     height:100%;
@@ -313,10 +318,10 @@ overflow:hidden;
 
   .connectionButton{
     min-width: 100px !important;
-    background-color: rgb(239, 243, 244);
+    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(239, 243, 244)' : 'rgb(21,32,43)'};
     border-radius: 50px;
     font-size: 14px;
-    color: rgb(15, 20, 25);
+    color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(15, 20, 25)' : 'white'};
     font-weight: 700;
     display: flex;
     justify-content: center;
@@ -325,10 +330,9 @@ overflow:hidden;
 
   .connectionButtonSideMenu{
     min-width: 100px !important;
-    background-color: rgb(239, 243, 244);
     border-radius: 50px;
-    font-size: 14px;
-    color: rgb(15, 20, 25);
+    font-size: 16px;
+    color: white;
     font-weight: 700;
     display: flex;
     justify-content: center;
@@ -338,13 +342,15 @@ overflow:hidden;
   .connectionButtonSideMenu .tw-connected-wallet__address{
     font-size: 20px;
     font-weight: 700;
-    border:none;    
+    border:none;
+    color: white;
+
   }
 
   .bigButton {
     min-width: 60px !important;
     width: 60px;
-    background-color: rgb(239, 243, 244);
+    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(239, 243, 244)' : 'rgb(21,32,43)'};
     border-radius: 50px;
     font-size: 14px;
     color: rgb(15, 20, 25);

@@ -378,7 +378,7 @@ const HomeV1 = () => {
                   alt=""
                 />
               )}
-              <NavSpan>Chessboard</NavSpan>
+              <NavSpan>Home</NavSpan>
             </NavLink>
           </SectionNav>
           <SectionNav onClick={() => changePage("buy")}>
@@ -585,7 +585,6 @@ const HomeV1 = () => {
 
                 <div style={{ position: "relative" }}>
                   <button
-                    style={{ background: "rgb(239, 243, 244)" }}
                     className="smallButton langButton"
                     id="themeButton"
                     onClick={() => changeTheme()}
@@ -628,7 +627,7 @@ const HomeV1 = () => {
                   )}
                 </div>
                 <div className="pieces">
-                  {hashtag === 0 ? <>@TheNRClub</> : hashtag}
+                  {address === undefined ? <>@TheNRClub</> : hashtag}
                 </div>
                 <div className="text">
                   Number Runner Club is a deflationary collection of 10.000 PFP
@@ -693,7 +692,7 @@ const HomeV1 = () => {
                         position: "relative",
                       }}
                     />
-                    {Math.trunc(Number(gasPrice) * 10 ** -9)}
+                    {Math.trunc(Number(gasPrice) * 10 ** -9)} Gwei
                     <div></div>
                   </div>
                 </div>
@@ -897,8 +896,27 @@ const HomeV1 = () => {
       </NavWrapper>
       <AboutStyleWrapper>
         {more.topHolders && (
-          <div className="content">
-            <Analyctic />
+          <div className="content-no-padding">
+            <div className="QuitThread content">
+              <img
+                onClick={() =>
+                  openMore(
+                    { ...more, topHolders: false, activity: false, page: null },
+                    { ...posScroll, back: true }
+                  )
+                }
+                src={
+                  currentTheme.theme.name === "Light Theme"
+                    ? flecheDark
+                    : fleche
+                }
+                alt=""
+              />
+              <span>Top Holders</span>
+            </div>
+            <div style={{ marginTop: "calc(53px - 16px)" }}>
+              <Analyctic />
+            </div>
           </div>
         )}
         {more.activity && (
@@ -1779,13 +1797,11 @@ const HomeV1 = () => {
                               <br />- Keep your rewards in Ethereum (ETH)
                               <br />- Renew a domain name once a year, for a
                               maximum of 1 year.
-                              <br />
-                              - Buy one or more digits domain names if the
-                              amount of your rewards allows it.{" "}
-                              <sup>1</sup>
-                              <br />
-                              - Buy one or more NFTs from the collection
-                              if the amount of its rewards allows it.<sup>2</sup>
+                              <br />- Buy one or more digits domain names if the
+                              amount of your rewards allows it.<sup>1</sup>
+                              <br />- Buy one or more NFTs from the collection
+                              if the amount of its rewards allows it.
+                              <sup>1</sup> <sup>2</sup>
                               <br />
                               <br />
                               <sup>1</sup>{" "}
@@ -1795,7 +1811,8 @@ const HomeV1 = () => {
                                 number(s) if he sells, burns or when the cape of
                                 999 NFTs in circulation is reached.
                               </i>
-                              <br /><br />
+                              <br />
+                              <br />
                               <sup>2</sup>{" "}
                               <i>
                                 {" "}
@@ -1804,6 +1821,7 @@ const HomeV1 = () => {
                                 owns one of the last 999 NFTs from the
                                 collection.
                               </i>
+                              <br />
                               <br />
                             </div>
                           )}
@@ -1820,7 +1838,7 @@ const HomeV1 = () => {
                               permet.<sup>1</sup>
                               <br />- Acheter un ou plusieurs NFT de la
                               collection si le montant de ses récompenses le
-                              permet.<sup>2</sup>
+                              permet.<sup>1</sup> <sup>2</sup>
                               <br />
                               <br />
                               <sup>1</sup>{" "}
@@ -1830,7 +1848,8 @@ const HomeV1 = () => {
                                 ses chiffres s'il vend, burn ou lorsque le cap
                                 des 999 NFTs en circulation est atteint.
                               </i>
-                              <br /><br />
+                              <br />
+                              <br />
                               <sup>2</sup>{" "}
                               <i>
                                 Une taxe de 16% du prix d'achat est retenue au
@@ -1838,6 +1857,7 @@ const HomeV1 = () => {
                                 les récupérer s'il détient un des 999 NFTs
                                 restant en circulation.
                               </i>
+                              <br />
                               <br />
                             </div>
                           )}
@@ -1849,11 +1869,11 @@ const HomeV1 = () => {
                               <br />- Renovar un nombre de dominio numérico una
                               vez al año, durante un máximo de 1 año.
                               <br />- Compre uno o varios NFT de la colección si
-                              el importe de sus recompensas se lo permite.<sup>1</sup>
+                              el importe de sus recompensas se lo permite.
+                              <sup>1</sup>
                               <br />- Compre uno o varios nombres de dominio
                               numéricos si el importe de sus recompensas se lo
-                              permite.{" "}
-                              <sup>2</sup>
+                              permite.<sup>1</sup> <sup>2</sup>
                               <br />
                               <br />
                               <sup>1</sup>{" "}
@@ -1863,7 +1883,8 @@ const HomeV1 = () => {
                                 número(s) si venden, queman o cuando alcanzan
                                 los 999 NFT en circulación.
                               </i>
-                              <br /><br />
+                              <br />
+                              <br />
                               <sup>2</sup>{" "}
                               <i>
                                 Se deduce un impuesto del 16% del precio de
@@ -1871,6 +1892,7 @@ const HomeV1 = () => {
                                 titular puede recuperarlos si posee uno de los
                                 999 NFT que quedan en circulación.
                               </i>
+                              <br />
                               <br />
                             </div>
                           )}
@@ -2087,7 +2109,7 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === true) ||
                         (listLang === "open" && listLangLast === "EN")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « The basic, indispensable, but terribly
                             underestimated element. »
                           </i>
@@ -2118,7 +2140,7 @@ const HomeV1 = () => {
                       {(listLang === "FR" ||
                         (listLang === "open" && listLangLast === "FR")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « L'élément de base, indispensable, mais
                             terriblement sous-estimé. »
                           </i>
@@ -2150,7 +2172,7 @@ const HomeV1 = () => {
                       {(listLang === "ES" ||
                         (listLang === "open" && listLangLast === "ES")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « El elemento básico, indispensable, pero
                             terriblemente subestimado. »
                           </i>
@@ -2247,7 +2269,7 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === true) ||
                         (listLang === "open" && listLangLast === "EN")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « The Lord of the place. Central point of the
                             device. To possess it is to rule. »
                           </i>
@@ -2292,7 +2314,7 @@ const HomeV1 = () => {
                       {(listLang === "FR" ||
                         (listLang === "open" && listLangLast === "FR")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « Le Seigneur des lieux. Point central du
                             dispositif. Le posséder, c'est régner. »
                           </i>
@@ -2339,7 +2361,7 @@ const HomeV1 = () => {
                       {(listLang === "ES" ||
                         (listLang === "open" && listLangLast === "ES")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « El Señor de los lugares. Punto central del
                             dispositivo. Poseerlo es gobernar. »
                           </i>
@@ -2438,10 +2460,10 @@ const HomeV1 = () => {
                             minted. Nevertheless, a reveal function allows you
                             to know if you have a king's hand in your possession
                             if you decide to burn a nft before it is sold out.
-                            10% of your prize pool will then be redistributed to
-                            activate the function. The pot of one of the king's
-                            burn hands "unintentionally" is redistributed to the
-                            other king's hands.
+                            0.01 eth of your prize pool will then be
+                            redistributed to activate the function. The pot of
+                            one of the king's burn hands "unintentionally" is
+                            redistributed to the prize pool
                           </i>
                           <div className="contentBanner">
                             <img src={mainRoi} alt="" />
@@ -2464,10 +2486,11 @@ const HomeV1 = () => {
                             nfts ont été mint. Néanmoins, une fonction de reveal
                             permet de savoir si vous avez en votre possession
                             une main du roi si vous décidiez de burn un nft
-                            avant que ce soit sold out. 10% de votre cagnotte
-                            seront alors redistribués pour activer la fonction.
-                            La cagnotte d’une main du roi burn « sans faire
-                            exprès » est redistribuée aux autres mains du roi.
+                            avant que ce soit sold out. 0.01 eth de votre
+                            cagnotte seront alors redistribués pour activer la
+                            fonction. La cagnotte d’une main du roi burn « sans
+                            faire exprès » est redistribuée à la cagnotte
+                            générale.
                           </i>
                           <div className="contentBanner">
                             <img src={mainRoi} alt="" />
@@ -2489,10 +2512,10 @@ const HomeV1 = () => {
                             los nfts han sido mintidos. Sin embargo, una función
                             de reveal te permite saber si tienes una mano del
                             rey si decides quemar un nft antes de que se agote.
-                            El 10% de su premio será entonces redistribuido para
-                            activar la función. El premio de una mano del rey
-                            quemado “sin intención” se redistribuye a las demás
-                            manos del rey.
+                            El 0.01 eth de su premio será entonces redistribuido
+                            para activar la función. El premio de una mano del
+                            rey quemado “sin intención” se redistribuye a las
+                            demás manos del rey.
                           </i>
                           <div className="contentBanner">
                             <img src={mainRoi} alt="" />
@@ -2559,7 +2582,7 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === true) ||
                         (listLang === "open" && listLangLast === "EN")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « The free electron. Capable of anything, and
                             especially at any time! »
                           </i>
@@ -2599,7 +2622,7 @@ const HomeV1 = () => {
                       {(listLang === "FR" ||
                         (listLang === "open" && listLangLast === "FR")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « L'électron libre. Capable de tout, et surtout à
                             n'importe quel moment ! »
                           </i>
@@ -2640,7 +2663,7 @@ const HomeV1 = () => {
                       {(listLang === "ES" ||
                         (listLang === "open" && listLangLast === "ES")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « El electrón libre. ¡Capaz de todo, y sobre todo en
                             todos momentos ! »
                           </i>
@@ -2670,7 +2693,8 @@ const HomeV1 = () => {
                           999Club, 10kClub o 100kClub para apilar el loco.
                           <br />
                           <br />
-                          Locos se reparten 10% de las comisiones por transacción
+                          Locos se reparten 10% de las comisiones por
+                          transacción
                           <br />
                           <br />
                           - Impuesto sobre las ventas: 16% (50% Holders | 50%
@@ -2742,7 +2766,7 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === true) ||
                         (listLang === "open" && listLangLast === "EN")) && (
                         <div className="description">
-                          <i>« The wisest hunter. Fast, precise, deadly. »</i>
+                          <i style={{fontSize: "14px"}}>« The wisest hunter. Fast, precise, deadly. »</i>
                           <br />
                           <br />
                           <strong>Supply of 100 items :</strong>
@@ -2779,7 +2803,7 @@ const HomeV1 = () => {
                       {(listLang === "FR" ||
                         (listLang === "open" && listLangLast === "FR")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « Le chasseur le plus avisé. Rapide, précis, mortel.
                             »
                           </i>
@@ -2809,7 +2833,8 @@ const HomeV1 = () => {
                           pour stacker le Cavalier.
                           <br />
                           <br />
-                          Les cavaliers se partagent 12.5% des frais de transactions.
+                          Les cavaliers se partagent 12.5% des frais de
+                          transactions.
                           <br />
                           <br />
                           - Taxe sur la vente: 16% (50% Holders | 50% Cagnotte)
@@ -2820,7 +2845,7 @@ const HomeV1 = () => {
                       {(listLang === "ES" ||
                         (listLang === "open" && listLangLast === "ES")) && (
                         <div className="description">
-                          <i>« El cazador más sabio. Rápido, preciso. »</i>
+                          <i style={{fontSize: "14px"}}>« El cazador más sabio. Rápido, preciso. »</i>
                           <br />
                           <br />
                           <strong>Suministro de 100 artículos :</strong>
@@ -2843,7 +2868,8 @@ const HomeV1 = () => {
                           apilar el jinete que el poseedor recibirá.
                           <br />
                           <br />
-                          Jinetes se reparten 12.5% de las comisiones por transacción
+                          Jinetes se reparten 12.5% de las comisiones por
+                          transacción
                           <br />
                           <br />
                           - Impuesto sobre las ventas: 16% (50% Holders | 50%
@@ -2915,7 +2941,7 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === true) ||
                         (listLang === "open" && listLangLast === "EN")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « The great guardian of the place. Nothing escapes
                             him. Absolutely nothing... »
                           </i>
@@ -2955,7 +2981,7 @@ const HomeV1 = () => {
                       {(listLang === "FR" ||
                         (listLang === "open" && listLangLast === "FR")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « Le grand gardien des lieux. Rien ne lui échappe.
                             Absolument rien... »
                           </i>
@@ -2996,9 +3022,9 @@ const HomeV1 = () => {
                       {(listLang === "ES" ||
                         (listLang === "open" && listLangLast === "ES")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « El gran guardián de los lugares. No se le escapa
-                            nada. Absolutamente nada... »
+                            nada. Absolutamente nada...»
                           </i>
                           <br />
                           <br />
@@ -3022,7 +3048,8 @@ const HomeV1 = () => {
                           para apilar la torre que el titular recibirá.
                           <br />
                           <br />
-                          Torres se reparten 15% de las comisiones por transacción
+                          Torres se reparten 15% de las comisiones por
+                          transacción
                           <br />
                           <br />
                           - Impuesto sobre las ventas: 16% (50% Holders | 50%
@@ -3094,7 +3121,7 @@ const HomeV1 = () => {
                         (listLang === "open" && listLangLast === true) ||
                         (listLang === "open" && listLangLast === "EN")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « She is the grand dame of the place and keeps order
                             in the game. To defy it is to perish. »
                           </i>
@@ -3139,7 +3166,7 @@ const HomeV1 = () => {
                       {(listLang === "FR" ||
                         (listLang === "open" && listLangLast === "FR")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « Grande dame des lieux, c'est elle qui fait régner
                             l'ordre dans le jeu. La défier, c'est périr. »
                           </i>
@@ -3169,7 +3196,8 @@ const HomeV1 = () => {
                           stacker la Dame.
                           <br />
                           <br />
-                          Les dames se partagent 22.5% des frais de transactions.
+                          Les dames se partagent 22.5% des frais de
+                          transactions.
                           <br />
                           <br />
                           - Taxe sur la vente: 16% (50% Holders | 50% Cagnotte)
@@ -3184,7 +3212,7 @@ const HomeV1 = () => {
                       {(listLang === "ES" ||
                         (listLang === "open" && listLangLast === "ES")) && (
                         <div className="description">
-                          <i>
+                          <i style={{fontSize: "14px"}}>
                             « Gran dama del lugar, ella es la que mantiene el
                             orden en el juego. Desafiarla es morir. »
                           </i>
@@ -3210,7 +3238,8 @@ const HomeV1 = () => {
                           la reina que va a recibir.
                           <br />
                           <br />
-                          Reinas se reparten el 22.5% de las comisiones por transacción.
+                          Reinas se reparten el 22.5% de las comisiones por
+                          transacción.
                           <br />
                           <br />
                           - Impuesto sobre las ventas: 16% (50% Holders | 50%
@@ -4061,7 +4090,7 @@ const HomeV1 = () => {
           </div>
         )}
         {link === "market" && !more.topHolders && !more.activity && (
-          <div className="content">
+          <div className="content-no-padding">
             <div
               style={{
                 display: "flex",
@@ -4069,7 +4098,7 @@ const HomeV1 = () => {
                 justifyContent: "center",
               }}
             >
-              <div className="sub-nav">
+              <div className="sub-nav-market">
                 <SubNavLink
                   active={
                     linkMarket === "items" ||
@@ -4133,7 +4162,7 @@ const HomeV1 = () => {
                 width: "100%",
               }}
             >
-              <div className="sub-nav">
+              <div className="sub-nav-graal">
                 <SubNavLink
                   active={linkProfile === "graal" ? true : false}
                   onClick={() => changePageProfile("graal")}

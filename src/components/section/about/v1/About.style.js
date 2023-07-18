@@ -8,6 +8,11 @@ export const AboutStyleWrapper = styled.section`
     color:#1D9BF0 !important;
     font-weight:700;
   }
+
+  i{
+    font-size: 12px;
+  }
+  
   .show-more:hover{
     cursor:pointer;
   }
@@ -22,6 +27,18 @@ export const AboutStyleWrapper = styled.section`
     padding: 12px 16px;
     position:relative;
   }
+
+  .content-no-padding{
+    margin-bottom: 100px;
+    width: 100%;
+    margin: auto;
+    max-width: 600px;
+    border-top: 1px solid ${props => props.theme.colors.border};
+    border-left: 1px solid ${props => props.theme.colors.border};
+    border-right: 1px solid ${props => props.theme.colors.border};
+    position:relative;
+  }
+  
   .content:last-child{
     padding-bottom:100px;
   }
@@ -34,9 +51,9 @@ export const AboutStyleWrapper = styled.section`
         border-left: 0;
         border-right: 0;
         border-top: 1px solid ${props => props.theme.colors.border};
-        padding: 12px 16px;
     }
   }
+
   .QuitThread {
     z-index: 1;
     position: fixed;
@@ -172,7 +189,7 @@ export const AboutStyleWrapper = styled.section`
 font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    height: 5px;
+    height: 3px;
     line-height: 22px;
     text-align: center;
     color: #ffffff;
@@ -260,8 +277,20 @@ font-style: normal;
 
   }
   
-  .sub-nav {
+  .sub-nav-market {
     width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    border-bottom:3px solid ${props => props.theme.colors.border};
+    @media screen and (max-width:400px){
+      width:80%;
+    }
+  }
+
+  .sub-nav-graal {
+    width: 30%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -310,14 +339,7 @@ font-style: normal;
 .holder-nft{
     width:80px;
 }
-.holder-data{
-    position:absolute;
-    right:10px;
-    padding:6px 18px;
-    border-radius: 100px;
-    color:${props => props.theme.name === "Dark Theme" ? "black": "white"};
-    background-color:${props => props.theme.name === "Dark Theme" ? "white": "black"};
-}
+
 .list > li:hover{
     background:${props => props.theme.colors.hover};
     cursor:pointer;

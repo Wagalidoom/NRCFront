@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.2.32";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.2.35";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x7c2a9390a06d06681b75e385d6c881594a7b1f4f";
+export const contractAddress = "0x368A1dA61d8572986Cf96D69D07dB3540bD84603";
 
 const EthereumContext = createContext(null);
 
@@ -170,12 +170,12 @@ export function EthereumProvider({ children }) {
   };
 
   const revealKingHand = async (_id) => {
-    await revealKingHandCall({
+    console.log(await revealKingHandCall({
       args: [_id],
       overrides: {
         value: ethers.utils.parseEther("0.2"),
       },
-    });
+    }));
   };
 
   const buy = async (_id, price) => {

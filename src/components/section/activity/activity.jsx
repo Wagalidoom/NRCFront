@@ -108,7 +108,7 @@ export const Activity = (props) => {
                 const sorted = merged.sort((a, b) => b.blockNumber - a.blockNumber);
 
                 // Mettre à jour l'état avec les NFTs
-                setNfts(sorted);
+                props.container === "right" ? setNfts(sorted.slice(0, 5)) : setNfts(sorted);
             } catch (error) {
                 console.error(error);
             }
@@ -141,22 +141,22 @@ export const Activity = (props) => {
                             <div className="activity-left">
                                 <div className="activity-info">
                                     <span>
-                                        {nft.type === "sales" && <span style={{ color: "#FFFFFF" }}>Sale</span>}
+                                        {nft.type === "sales" && <span style={{ color: "rgb(179, 230, 181)" }}>Sale</span>}
                                         {nft.type === "burns" && <span style={{ color: "#D288A2" }}>Burn</span>}
                                         {nft.type === "offers" && <span style={{ color: "#ADD8E6" }}>Offer</span>}
-                                        {nft.type === "mints" && <span style={{ color: "#9cf0ad" }}>Mint</span>}
+                                        {nft.type === "mints" && <span style={{ color: "#F59E0B" }}>Mint</span>}
                                     </span>
                                 </div>
                                 <p>{moment.unix(nft.blockTimestamp).fromNow()}</p>
                                 <div className="activity-user">
                                     {(nft.type === "burns" || nft.type === "mints") &&
-                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Owner: {nft.owner}</p>
+                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Owner: <br />{nft.owner}</p>
                                     }
                                     {(nft.type === "sales" || nft.type === "offers") &&
-                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>From: {nft.seller}</p>
+                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>From: <br />{nft.seller}</p>
                                     }
                                     {nft.type === "sales" &&
-                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>To: {nft.buyer}</p>
+                                        <p style={{ width: '35%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>To: <br />{nft.buyer}</p>
                                     }
                                 </div>
                             </div>
@@ -181,7 +181,6 @@ export const Activity = (props) => {
                     </div>
                 )
             ))}
-            {props.container !== "right" && <div className="activity-show">Show more</div>}
         </ActivityContainer>
     );
 };

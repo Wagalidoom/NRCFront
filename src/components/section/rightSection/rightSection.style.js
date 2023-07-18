@@ -58,24 +58,13 @@ font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto
 .holder-nft{
     width:80px;
 }
-.holder-data{
-    position:absolute;
-    right:10px;
-    padding:6px 18px;
-    border-radius: 100px;
-    color:${props => props.theme.name === "Dark Theme" ? "black": "white"};
-    background-color:${props => props.theme.name === "Dark Theme" ? "white": "black"};
-}
+
 .list > li:hover{
     background:${props => props.theme.colors.hover};
     cursor:pointer;
 }
-.list > li:hover:last-child{
-    border-bottom-left-radius:16px;   
-    border-bottom-right-radius:16px;   
-}
+
 .list > li:last-child > div{
-    color:#1D9BF0 !important;   
     font-weight:700;
 }
 .list > li:last-child{
