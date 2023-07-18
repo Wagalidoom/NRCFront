@@ -2460,8 +2460,7 @@ const HomeV1 = () => {
                             minted. Nevertheless, a reveal function allows you
                             to know if you have a king's hand in your possession
                             if you decide to burn a nft before it is sold out.
-                            0.01 eth of your prize pool will then be
-                            redistributed to activate the function. The pot of
+                            0.01 eth will be used to activate the function. The pot of
                             one of the king's burn hands "unintentionally" is
                             redistributed to the prize pool
                           </i>
@@ -2486,8 +2485,7 @@ const HomeV1 = () => {
                             nfts ont été mint. Néanmoins, une fonction de reveal
                             permet de savoir si vous avez en votre possession
                             une main du roi si vous décidiez de burn un nft
-                            avant que ce soit sold out. 0.01 eth de votre
-                            cagnotte seront alors redistribués pour activer la
+                            avant que ce soit sold out. 0.01 eth sera utilisé pour activer la
                             fonction. La cagnotte d’une main du roi burn « sans
                             faire exprès » est redistribuée à la cagnotte
                             générale.
@@ -2512,10 +2510,8 @@ const HomeV1 = () => {
                             los nfts han sido mintidos. Sin embargo, una función
                             de reveal te permite saber si tienes una mano del
                             rey si decides quemar un nft antes de que se agote.
-                            El 0.01 eth de su premio será entonces redistribuido
-                            para activar la función. El premio de una mano del
-                            rey quemado “sin intención” se redistribuye a las
-                            demás manos del rey.
+                            El 0.01 eth se utilizará para activar la función. El premio de una mano del
+                            rey quemado “sin intención” se redistribuye al premio final.
                           </i>
                           <div className="contentBanner">
                             <img src={mainRoi} alt="" />
@@ -2943,7 +2939,7 @@ const HomeV1 = () => {
                         <div className="description">
                           <i style={{fontSize: "14px"}}>
                             « The great guardian of the place. Nothing escapes
-                            him. Absolutely nothing... »
+                            him. Absolutely nothing. »
                           </i>
                           <br />
                           <br />
@@ -2983,7 +2979,7 @@ const HomeV1 = () => {
                         <div className="description">
                           <i style={{fontSize: "14px"}}>
                             « Le grand gardien des lieux. Rien ne lui échappe.
-                            Absolument rien... »
+                            Absolument rien. »
                           </i>
                           <br />
                           <br />
@@ -3024,7 +3020,7 @@ const HomeV1 = () => {
                         <div className="description">
                           <i style={{fontSize: "14px"}}>
                             « El gran guardián de los lugares. No se le escapa
-                            nada. Absolutamente nada...»
+                            nada. Absolutamente nada. »
                           </i>
                           <br />
                           <br />
@@ -4153,6 +4149,7 @@ const HomeV1 = () => {
             {linkMarket === "analyctic" && <Analyctic />}
           </div>
         )}
+        
         {link === "profile" && !more.topHolders && !more.activity && (
           <div className="content">
             <div

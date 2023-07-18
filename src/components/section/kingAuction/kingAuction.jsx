@@ -146,9 +146,19 @@ export const KingAuction = (props) => {
               >
                 Number Runner #1
               </p>
-              <p style={{ fontSize: "12px" }}>King</p>
+              <div style={{display: "flex", justifyContent: "space-between"}}>
+                <p style={{ fontSize: "12px" }}>King</p>
+                <div style={{ marginTop: "2px" }} className="small-screen">
+                  <img
+                    style={{ height: "18px", marginRight: "3px" }}
+                    alt=""
+                    src={props.theme === "Dark Theme" ? tirelire : tirelireDark}
+                  />{" "}
+                  <span>{blackKingReward.toFixed(8)}</span>
+                </div>
+              </div>
             </div>
-            <div style={{marginTop: "2px"}}>
+            <div style={{ marginTop: "2px" }} className="big-screen">
               <img
                 alt=""
                 src={props.theme === "Dark Theme" ? tirelire : tirelireDark}
@@ -167,9 +177,19 @@ export const KingAuction = (props) => {
               >
                 Number Runner #2
               </p>
-              <p style={{ fontSize: "12px" }}>King</p>
+              <div style={{display: "flex", justifyContent: "space-between"}}>
+                <p style={{ fontSize: "12px" }}>King</p>
+                <div style={{ marginTop: "2px" }} className="small-screen">
+                  <img
+                    style={{ height: "18px", marginRight: "3px" }}
+                    alt=""
+                    src={props.theme === "Dark Theme" ? tirelire : tirelireDark}
+                  />{" "}
+                  <span>{blackKingReward.toFixed(8)}</span>
+                </div>
+              </div>
             </div>
-            <div style={{marginTop: "2px"}}>
+            <div style={{ marginTop: "2px" }} className="big-screen">
               <img
                 alt=""
                 src={props.theme === "Dark Theme" ? tirelire : tirelireDark}
@@ -297,10 +317,10 @@ export const KingAuction = (props) => {
               <br />
               <br />
               There are several options available to you. If you feel like the
-              heart of a bold, you can buy it at today’s price. The more foresight
-              will be able to inform the amount they are ready to pay and
-              quickly see when they will have to reconnect on the app and mint
-              the King.
+              heart of a bold, you can buy it at today’s price. The more
+              foresight will be able to inform the amount they are ready to pay
+              and quickly see when they will have to reconnect on the app and
+              mint the King.
               <br />
               <br />
               But beware! Know that as soon as the mint is live, the king’s pool
@@ -327,8 +347,9 @@ export const KingAuction = (props) => {
               <br />
               <br />
               Plusieurs options s'offrent à vous. Si vous vous sentez le cœur
-              d'un audacieux, vous pouvez l’acheter au prix du jour. Les plus prévoyants pourront renseigner la somme qu'ils sont prêts
-              à s'acquitter et voir rapidement à quelle date ils devront se
+              d'un audacieux, vous pouvez l’acheter au prix du jour. Les plus
+              prévoyants pourront renseigner la somme qu'ils sont prêts à
+              s'acquitter et voir rapidement à quelle date ils devront se
               reconnecter sur l'application et mint le Roi.
               <br />
               <br />
@@ -357,9 +378,10 @@ export const KingAuction = (props) => {
               <br />
               <br />
               Hay varias opciones disponibles para usted. Si siente el corazón
-              de un audaz, puede comprarlo a precio de día. Los más previsores podrán indicar la cantidad que están dispuestos
-              a pagar y ver rápidamente en qué fecha deberán volver a conectarse
-              a la aplicación y al Rey.
+              de un audaz, puede comprarlo a precio de día. Los más previsores
+              podrán indicar la cantidad que están dispuestos a pagar y ver
+              rápidamente en qué fecha deberán volver a conectarse a la
+              aplicación y al Rey.
               <br />
               <br />
               ¡Pero cuidado! Sabed que tan pronto como el Mint esté vivo, el

@@ -69,7 +69,7 @@ export const GraalContainer = styled.div`
   @media screen and (max-width:600px){
     justify-content:start;
     .graal-desc{
-        margin-left:calc(30% + 15px)
+        margin-left: 20px;
     }
    }
 

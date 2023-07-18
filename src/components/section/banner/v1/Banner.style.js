@@ -122,7 +122,7 @@ overflow:hidden;
   .tw-connected-wallet__address{
     font-weight: 700;
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: rgb(15, 20, 25);
+    color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(15, 20, 25)' : 'white'};
   }
 
   .menuLeftContent {
