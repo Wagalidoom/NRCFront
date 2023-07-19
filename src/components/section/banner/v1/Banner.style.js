@@ -382,6 +382,11 @@ overflow:hidden;
     box-sizing: border-box;
     font-weight: 700;
   }
+
+  #mint{
+    margin-right: 12px;
+  }
+
   .langButton{
     background-color: ${props => props.theme.name === 'Light Theme' ? 'black' : 'white'};
     border-color:${props => props.theme.name === 'Light Theme' ? 'black' : 'white'};
@@ -431,8 +436,13 @@ overflow:hidden;
 
   @media screen and (max-width:400px){
     .smallButton{
+      margin-right: 4px;
       padding-left:2px;
       padding-right:2px;
+    }
+
+    #mint{
+      margin-right: 4px;
     }
   }
   @media screen and (max-width:600px){

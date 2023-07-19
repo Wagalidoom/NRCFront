@@ -474,12 +474,12 @@ export const MyNft = (props) => {
           <FormGroup style={{ width: "100%" }}>
             <div
               style={{
-                display: "flex",
+                display: "grid",
                 width: "100%",
-                justifyContent: "space-between",
+                gridTemplateColumns: "16% 28% 28% 28%",
               }}
             >
-              Color :
+              <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Color :</div>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -508,15 +508,16 @@ export const MyNft = (props) => {
                 }
                 label="White"
               />
+              <div></div>
             </div>
             <div
               style={{
-                display: "flex",
+                display: "grid",
                 width: "100%",
-                justifyContent: "space-between",
+                gridTemplateColumns: "16% 28% 28% 28%",
               }}
             >
-              Type :
+              <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Type :</div>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -556,6 +557,15 @@ export const MyNft = (props) => {
                 }
                 label="Knight"
               />
+            </div>
+            <div
+              style={{
+                display: "grid",
+                width: "100%",
+                gridTemplateColumns: "16% 28% 28% 28%",
+              }}
+            >
+              <div></div>
               <FormControlLabel
                 control={
                   <Checkbox

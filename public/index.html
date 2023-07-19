@@ -43,8 +43,9 @@
 <script>
   $(document).scroll(function () {
     const banner = document.getElementById('banner');
+    let bannerHeight;
     if (banner) {
-      const bannerHeight = banner.offsetHeight;
+      bannerHeight = banner.offsetHeight;
     }
     if ((navigator.userAgent.match(/iPhone/i)
       || navigator.userAgent.match(/webOS/i)

@@ -60,7 +60,7 @@ export const GraalContainer = styled.div`
     position: relative;
     top: -2px;
     margin-left: 10px;
-    font-size: 16px;
+    font-size: 14px;
     word-break:break-all;
   }
   .graal-condition:not(:first-of-type) {

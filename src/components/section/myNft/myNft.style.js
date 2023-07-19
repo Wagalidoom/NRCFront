@@ -29,7 +29,11 @@ justify-content:space-around;
 .filter-menu{
     display: flex;
     width: 100%;
-    color: white;
+    color: ${props => props.theme.colors.text};
+    margin: 25px 10px;
+    background: ${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)':'rgb(247,249,249)' };
+    box-shadow: rgba(0, 0, 0, 0.54) 0px 3px 8px;
+    border-radius: 10px;
 }
 
 .filter-search{
@@ -187,7 +191,6 @@ p{
     border-bottom-left-radius:5px;
     border-bottom-right-radius:5px;
     position: relative;
-
     box-shadow: ${props => props.theme.name === "Dark Theme" ? 'rgb(0, 0, 0) 0px 2px 4px, rgb(0, 0, 0) 0px 7px 13px -3px, rgb(0, 0, 0) 0px -3px 0px inset' : 'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset' };
 }
 .myNft > img{
