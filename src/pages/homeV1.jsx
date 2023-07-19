@@ -914,7 +914,7 @@ const HomeV1 = () => {
               />
               <span>Top Holders</span>
             </div>
-            <div style={{ marginTop: "calc(53px - 16px)" }}>
+            <div style={{ marginTop: "calc(53px - 16px)" }} className="min-height">
               <Analyctic />
             </div>
           </div>
@@ -938,7 +938,7 @@ const HomeV1 = () => {
               />
               <span>Activity</span>
             </div>
-            <div style={{ marginTop: "calc(53px - 16px)" }}>
+            <div style={{ marginTop: "calc(53px - 16px)" }} className="min-height">
               <Activity theme={currentTheme.theme.name} />
             </div>
           </div>
@@ -3941,7 +3941,7 @@ const HomeV1 = () => {
                             >
                               https://opensea.io/fr
                             </div>
-                            <div style={{ color: "white", fontSize: "14px" }}>
+                            <div style={{ color: currentTheme.theme.name === 'Dark Theme' ? 'white':'rgb(15, 20, 25)', fontSize: "14px" }}>
                               OpenSea, the largest NFT marketplace
                             </div>
                           </div>
@@ -4064,7 +4064,7 @@ const HomeV1 = () => {
                             >
                               https://nftychat.xyz/
                             </div>
-                            <div style={{ color: "white", fontSize: "14px" }}>
+                            <div style={{ color: currentTheme.theme.name === 'Dark Theme' ? 'white':'rgb(15, 20, 25)', fontSize: "14px" }}>
                               The best way to connect with your web3 frens
                             </div>
                           </div>
@@ -4086,7 +4086,7 @@ const HomeV1 = () => {
           </div>
         )}
         {link === "market" && !more.topHolders && !more.activity && (
-          <div className="content-no-padding">
+          <div className="content-no-padding min-height">
             <div
               style={{
                 display: "flex",
@@ -4146,12 +4146,12 @@ const HomeV1 = () => {
             {linkMarket === "activity" && (
               <Activity theme={currentTheme.theme.name} />
             )}
-            {linkMarket === "analyctic" && <Analyctic />}
+            {linkMarket === "analyctic" && <Analyctic/>}
           </div>
         )}
         
         {link === "profile" && !more.topHolders && !more.activity && (
-          <div className="content">
+          <div className="content min-height">
             <div
               style={{
                 display: "flex",

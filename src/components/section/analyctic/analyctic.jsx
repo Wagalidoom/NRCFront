@@ -50,7 +50,7 @@ const images = {
   },
 };
 
-export const Analyctic = ({ theme }) => {
+export const Analyctic = ({ theme, props }) => {
   // Définir l'état pour les NFTs
   const [isLoading, setIsLoading] = useState(true);
   const [rewards, setRewards] = useState([]);

@@ -11,9 +11,9 @@ import { getNftType } from "../../../helper";
 const typeNames = {
     0: 'King',
     1: 'Queen',
-    2: 'Tower',
-    3: 'Cavalier',
-    4: 'Fou',
+    2: 'Rook',
+    3: 'Knight',
+    4: 'Bishop',
     5: 'Pawn'
 };
 

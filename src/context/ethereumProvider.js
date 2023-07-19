@@ -228,6 +228,11 @@ export function EthereumProvider({ children }) {
     return currentSupply;
   };
 
+  const getPrizePool = async () => {
+    const prizePool = await generalContract.getPrizePool();
+    return prizePool;
+  };
+
   const getEnsName = async () => {
     const name = await generalProvider.lookupAddress(address);
     return name;

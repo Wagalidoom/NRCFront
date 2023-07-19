@@ -523,7 +523,10 @@ export const MyNft = (props) => {
           </FormGroup>
         </div>
       )}
-      <div className="container-nft" style={{padding: props.market ? "0px 10px" : ""}}>
+      <div
+        className="container-nft"
+        style={{ padding: props.market ? "0px 10px" : "" }}
+      >
         {collection.length === 0 ? (
           <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
@@ -599,33 +602,42 @@ export const MyNft = (props) => {
                 market={props.market}
                 open={modalOpen === index + 1 && isOpen ? true : false}
               >
+                <p
+                  style={{
+                    fontSize: "14px",
+                    paddingLeft: "5px",
+                    paddingRight: "5px",
+                  }}
+                >
+                  Number Runner #{element.id.toString()}
+                </p>
                 <div
                   style={{
                     display: "flex",
                     width: "100%",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    paddingTop: "2px",
+                    paddingBottom: "5px",
+                    paddingLeft: "5px",
+                    paddingRight: "5px",
                   }}
                 >
-                  <p style={{ fontSize: "14px" }}>
-                    Number Runner #{element.id.toString()}
+                  <p
+                    style={{
+                      fontSize: "12px",
+                    }}
+                  >
+                    {nftTypeToString(element.type)}
                   </p>
                   {props.market ? (
                     <div>
-                      <div className="price">
-                        <img
-                          alt=""
-                          className="leftText"
-                          src={props.theme === "Dark Theme" ? eth : ethDark}
-                        />{" "}
-                        <span>{(element.price / 10 ** 18).toString()}</span>
-                      </div>
                       {addressLower === element.owner ? (
                         <Button
                           className="unlist-action"
                           onClick={() => unlistNFT(element.id.toString())}
                         >
-                          UNLIST
+                          Unlist
                         </Button>
                       ) : (
                         <Button
@@ -635,43 +647,54 @@ export const MyNft = (props) => {
                           }
                         >
                           Buy
-                          {console.log(element)}
                         </Button>
                       )}
                     </div>
                   ) : (
+                    <button className="modal-button">
+                      <img
+                        alt=""
+                        onClick={(e) => openModal(e, index + 1)}
+                        src={
+                          currentTheme.theme.name === "Dark Theme"
+                            ? DotLight
+                            : DotDark
+                        }
+                      />
+                    </button>
+                  )}
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "3px 0",
+                    boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
+                  }}
+                >
+                  {props.market ? (
                     <div>
                       <img
+                        alt=""
                         style={{ height: "18px", marginBottom: "2px" }}
+                        src={props.theme === "Dark Theme" ? eth : ethDark}
+                      />{" "}
+                      <span style={{ marginLeft: "4px" }}>
+                        {(element.price / 10 ** 18).toString()}
+                      </span>
+                    </div>
+                  ) : (
+                    <div>
+                      <img
+                        style={{ height: "14px", marginBottom: "2px" }}
                         src={
                           props.theme === "Dark Theme" ? tirelire : tirelireDark
                         }
                       ></img>
                       <span style={{ marginLeft: "4px" }}>{100000}</span>
                     </div>
-                  )}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <p style={{ fontSize: "12px" }}>
-                    {nftTypeToString(element.type)}
-                  </p>
-                  {!props.market && (
-                    <button className="modal-button">
-                      <img
-                        alt=""
-                        onClick={(e) => openModal(e, index + 1)}
-                        src={currentTheme.theme.name === "Dark Theme"
-                        ? DotLight
-                        : DotDark}
-                      />
-                    </button>
                   )}
                 </div>
                 {modalOpen === index + 1 && isOpen && (

@@ -219,12 +219,8 @@ display:flex;
 flex-direction:column;
 justify-content:space-between;
 position:relative;
-padding-top:${props => props.market ? '0px' : '2px'}
 color:${props => props.theme.colors.text};
 background: ${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)':'rgb(247,249,249)' };
-padding-left:10px;
-padding-right:10px;
-padding-bottom: 4px;
 border-bottom-left-radius:5px;
 border-bottom-right-radius:5px;
 .modal-button {
@@ -249,10 +245,9 @@ border-bottom-right-radius:5px;
     background:#1D9BF0;
     border-radius:5px;
     color:white;
-    position:absolute;
-    bottom:3px;
-    right:10.5px;
     font-size:12px;
+    cursor:default;
+    text-transform: none;
     padding:3px 3px!important;
     line-height:16px;
 }
@@ -262,9 +257,6 @@ border-bottom-right-radius:5px;
     border:none;
     border-radius:5px;
     color:white;
-    position:absolute;
-    bottom:6px;
-    right:10.5px;
     font-size:12px;
     cursor:default;
     padding:3px 3px!important;
@@ -340,27 +332,16 @@ border-bottom-right-radius:5px;
     >img{
         bottom:5px
     }
-    div>p:first-of-type{
-        font-size:16px;
-    }
     .price > span{
         font-size:16px;
     }
     .buy-action{
         font-size:8px;
     }
-    div>p:last-of-type{
-        font-size:14px;
-    }
 }
 @media screen and (max-width:425px){
-    height:${props => props.market ? '76px' :'50px'};
-    div>p:first-of-type{
-        font-size:12px;
-    }
     .price{
         position:relative;
-        top:-3px;
     }
     .price > span{
         font-size:14px;
@@ -368,15 +349,5 @@ border-bottom-right-radius:5px;
     .buy-action{
         font-size:10px;
     }
-    div>p:last-of-type{
-        font-size:12px;
-        position:relative;
-        top:-4px;
-    }
-    .buy-action{
-        padding: 4px 12px !important;
-        bottom:6px;
-    }
-
 }
 `

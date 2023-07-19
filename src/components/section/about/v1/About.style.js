@@ -21,7 +21,6 @@ export const AboutStyleWrapper = styled.section`
     width: 100%;
     margin: auto;
     max-width: 600px;
-    min-height: 1000px;
     border-top: 1px solid ${props => props.theme.colors.border};
     border-left: 1px solid ${props => props.theme.colors.border};
     border-right: 1px solid ${props => props.theme.colors.border};
@@ -29,12 +28,16 @@ export const AboutStyleWrapper = styled.section`
     position:relative;
   }
 
+  .min-height{
+    min-height: 1000px;
+  }
+
   .content-no-padding{
-    margin-bottom: 100px;
+    margin-bottom: 100px !important;
     width: 100%;
     margin: auto;
     max-width: 600px;
-    min-height: 1000px;
+    padding-top: 12px;
     border-top: 1px solid ${props => props.theme.colors.border};
     border-left: 1px solid ${props => props.theme.colors.border};
     border-right: 1px solid ${props => props.theme.colors.border};
@@ -147,7 +150,6 @@ export const AboutStyleWrapper = styled.section`
   }
   .contentBannerWithText > a > .TextcontentBanner {
     border: 1px solid ${props => props.theme.colors.border};
-    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(51,54,57)':'rgb(250, 250, 250)'};
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     padding: 10px 16px;

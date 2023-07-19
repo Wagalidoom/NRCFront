@@ -38,7 +38,7 @@ export const RightSection = ({ more,openFunction, actualPage ,subPage,theme}) =>
         <RightSectionContainer ref={activityRef} showHolder={more.topHolders} showActivity={more.activity}>
             <div className="top-holder">
                 <div>
-                   <Analyctic />
+                   <Analyctic container={'right'} />
                     <div className="activity-show"  onClick={() => openFunction({ topHolders: true, activity: false, page: actualPage },{pos:window.scrollY,back:false})} >
                         <div>Show more</div>
                     </div>
