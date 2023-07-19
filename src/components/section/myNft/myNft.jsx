@@ -17,6 +17,7 @@ import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
 import tirelire from "../../../assets/images/icon/tirelire.png";
 import tirelireDark from "../../../assets/images/icon/tirelireDark.png";
+import BigNumber from "bignumber.js";
 
 import {
   NRCsubgraph,
@@ -202,6 +203,7 @@ export const MyNft = (props) => {
           id: Number(element.id),
           isStacked: false,
           isListed: isListed,
+          rewards: 0,
           ensName: "",
           price: 0,
           owner: element.owner,
@@ -256,6 +258,74 @@ export const MyNft = (props) => {
   }, [ensDomains]);
 
   useEffect(() => {
+    const fetchShares = async () => {
+      const formattedIds = JSON.stringify(collection.map(e => e.id));
+      const ownedNftsQuery = `
+          {
+              nfts (where: {id_in: ${formattedIds}})  {
+                id
+                share
+                unclaimedRewards
+              }
+          }
+          `;
+  
+      const lastGlobalSharesQuery = `
+          {
+              globalSharesUpdateds (first: 1, orderBy: blockNumber, orderDirection: desc) {
+                id
+                shares
+                blockNumber
+              }
+          }
+          `;
+      
+      try {
+        const responseNFT = await Axios.post(NRCsubgraph, {
+          query: ownedNftsQuery,
+        });
+        const responseGlobalShares = await Axios.post(NRCsubgraph, {
+          query: lastGlobalSharesQuery,
+        });
+
+        if (!responseNFT.data?.data?.nfts || !responseGlobalShares.data?.data?.globalSharesUpdateds) {
+          console.log(responseNFT)
+          console.log(ownedNftsQuery)
+          throw new Error("Invalid API response");
+        }
+
+        const nfts = responseNFT.data.data.nfts;
+        const nftsById = Object.fromEntries(nfts.map(nft => [nft.id, nft]));
+
+        const lastGlobalShares =
+          responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
+
+          const collectionShares = collection.map((element) => {
+            const nft = nftsById[element.id];
+            if (!nft) return element;
+          
+            const nftType = getNftType(Number(nft.id));
+            const unclaimedRewards = nft.unclaimedRewards
+              ? new BigNumber(nft.unclaimedRewards)
+              : new BigNumber(0);
+            const nftShare = nft.share ? new BigNumber(nft.share) : new BigNumber(0);
+            const newShare = new BigNumber(lastGlobalShares[nftType]).minus(nftShare);
+          
+            return {
+              ...element, // keep all existing properties of element
+              share: newShare.toNumber(),
+              type: nftType,
+              rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
+            }
+          });
+        console.log(collectionShares)
+
+        setCollection(collectionShares);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
       const updatedCollection = [
         ...collection,
@@ -263,6 +333,7 @@ export const MyNft = (props) => {
           id: Number(tokenIdOfNode),
           isStacked: true,
           isListed: false,
+          rewards: 0,
           ensName: currentEnsName,
           price: 0,
           owner: address,
@@ -270,10 +341,12 @@ export const MyNft = (props) => {
           color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
         },
       ];
-      console.log(updatedCollection);
-      setCollection(updatedCollection);
+      if (updatedCollection.length > 0) {
+        fetchShares(updatedCollection);
+      }
     }
   }, [tokenIdOfNode, currentEnsName]);
+  
 
   return (
     <MyNftContainer
@@ -693,7 +766,7 @@ export const MyNft = (props) => {
                           props.theme === "Dark Theme" ? tirelire : tirelireDark
                         }
                       ></img>
-                      <span style={{ marginLeft: "4px" }}>{100000}</span>
+                      <span style={{ marginLeft: "4px" }}>{element.rewards}</span>
                     </div>
                   )}
                 </div>
