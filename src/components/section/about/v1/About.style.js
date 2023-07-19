@@ -302,16 +302,14 @@ font-style: normal;
     margin-bottom: 16px;
     border-bottom:3px solid ${props => props.theme.colors.border};
     @media screen and (max-width:400px){
-      width:80%;
+      width:60%;
     }
   }
 
 
   .list{
     position:relative;
-    left:-10px;
     width:600px;
-    padding-left:0px;
     width:inherit;
 }
 .list > li:last-child{

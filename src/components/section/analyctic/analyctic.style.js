@@ -12,9 +12,7 @@ background:${props => props.theme.name === "Dark Theme" ? 'rgb(30, 39, 50)' : 'r
     font-weight:500;
 }
 .list{
-    padding-left:0px;
     width:100%;
-    left:-10px;
 }
 .list > li{
     width:calc(100% + 20px);
@@ -53,7 +51,6 @@ background:${props => props.theme.name === "Dark Theme" ? 'rgb(30, 39, 50)' : 'r
     background-color:${props => props.theme.name === "Dark Theme" ? "white": "black"};
 }
 .list > li:hover{
-    background:${props => props.theme.colors.hover};
     cursor:pointer;
 }
 .list > li:last-child {

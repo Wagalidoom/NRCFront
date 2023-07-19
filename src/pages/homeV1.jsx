@@ -143,7 +143,7 @@ const HomeV1 = () => {
       changePageMarket("items");
     }
     if (link === "profile") {
-      changePageProfile("graal");
+      changePageProfile("my_nft");
     }
   };
 
@@ -597,14 +597,14 @@ const HomeV1 = () => {
                   </button>
                 </div>
                 <button
+                id="mint"
                   style={
                     currentTheme.theme.name === "Light Theme"
                       ? {
                           color: "white",
                           backgroundColor: "black",
-                          marginRight: "12px",
                         }
-                      : { marginRight: "12px" }
+                      : {}
                   }
                   className="bigButton"
                   onClick={mintPawn}
@@ -4160,21 +4160,21 @@ const HomeV1 = () => {
               }}
             >
               <div className="sub-nav-graal">
+              <SubNavLink
+                  active={linkProfile === "my_nft" ? true : false}
+                  onClick={() => changePageProfile("my_nft")}
+                >
+                  My NFT
+                  {linkProfile === "my_nft" && (
+                    <div className="barreBleuMarket"></div>
+                  )}
+                </SubNavLink>
                 <SubNavLink
                   active={linkProfile === "graal" ? true : false}
                   onClick={() => changePageProfile("graal")}
                 >
                   Graal
                   {linkProfile === "graal" && (
-                    <div className="barreBleuMarket"></div>
-                  )}
-                </SubNavLink>
-                <SubNavLink
-                  active={linkProfile === "my_nft" ? true : false}
-                  onClick={() => changePageProfile("my_nft")}
-                >
-                  My NFT
-                  {linkProfile === "my_nft" && (
                     <div className="barreBleuMarket"></div>
                   )}
                 </SubNavLink>
@@ -4208,7 +4208,7 @@ const HomeV1 = () => {
                       {
                         type: "burn",
                         value: 10,
-                        text: "Burn 10 counters that you mint or buy on the secondary market.",
+                        text: "Burn 10 counters that you mint or buy on the secondary market",
                       },
                     ],
                   }}
