@@ -140,7 +140,7 @@ export const Analyctic = ({ theme, props }) => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          rewards.map((element, index) => (
+          rewards.sort((a, b) => b.rewards - a.rewards).map((element, index) => (
             <li key={index}>
               <div className="holder-infos">
                 <span>{index + 1} :</span>
