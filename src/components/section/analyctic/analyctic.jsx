@@ -111,7 +111,7 @@ export const Analyctic = ({ theme, props }) => {
           holder.ensNameString = stringEnsName;
           // console.log(holder.share, lastGlobalShares[nftType]);
           const holderSharesTemp = holder.share ? new BigNumber(holder.share) : new BigNumber(0);
-          holder.share = holderSharesTemp.toNumber() > 1 ? new BigNumber(lastGlobalShares[nftType]).minus(holderSharesTemp) : new BigNumber(0);
+          holder.share = holderSharesTemp.toNumber() > 0 ? new BigNumber(lastGlobalShares[nftType]).minus(holderSharesTemp) : new BigNumber(0);
           holder.type = nftType;
           holder.rewards =
             holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18;

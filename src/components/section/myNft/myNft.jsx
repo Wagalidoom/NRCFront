@@ -309,7 +309,7 @@ export const MyNft = (props) => {
               ? new BigNumber(nft.unclaimedRewards)
               : new BigNumber(0);
             const nftShare = nft.share ? new BigNumber(nft.share) : new BigNumber(0);
-            const newShare = nftShare.toNumber() > 1 ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare) : new BigNumber(0);
+            const newShare = nftShare.toNumber() > 0 ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare) : new BigNumber(0);
           
             return {
               ...element, // keep all existing properties of element
