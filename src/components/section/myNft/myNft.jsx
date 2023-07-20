@@ -776,7 +776,7 @@ export const MyNft = (props) => {
                           props.theme === "Dark Theme" ? tirelire : tirelireDark
                         }
                       ></img>
-                      <span style={{ marginLeft: "4px" }}>{element.rewards}</span>
+                      <span style={{ marginLeft: "4px" }}>{element.rewards.toFixed(6)}</span>
                     </div>
                   )}
                 </div>
