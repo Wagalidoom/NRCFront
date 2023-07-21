@@ -8,20 +8,20 @@ import rook from "../../../assets/images/icon/IconTour-Blanc.png";
 import bishop from "../../../assets/images/icon/IconFou-Blanc.png";
 import { Analyctic } from "../analyctic/analyctic";
 
-export const RightSection = ({ more,openFunction, actualPage ,subPage,theme}) => {
+export const RightSection = ({ more, openFunction, actualPage, subPage, theme }) => {
     const activityRef = useRef(null)
     const [scroll, setScroll] = useState(0)
-    const holderData=[
-    {img:king,name:'@NRKing'},
-    {img:queen,name:'@NRQueen'},
-    {img:knight,name:'@NRKnight'},
-    {img:rook,name:'@NRRook'},
-    {img:bishop,name:'@NRBishop'}]
+    const holderData = [
+        { img: king, name: '@NRKing' },
+        { img: queen, name: '@NRQueen' },
+        { img: knight, name: '@NRKnight' },
+        { img: rook, name: '@NRRook' },
+        { img: bishop, name: '@NRBishop' }]
     const handleScroll = () => {
-        const multiplicateur = subPage === 'home' ? 15 : 2; 
+        const multiplicateur = subPage === 'home' ? 15 : 2;
         const { scrollTop, scrollHeight, clientHeight } = activityRef.current;
         if (window.scrollY > scroll && scrollTop < scrollHeight - clientHeight) {
-            activityRef.current.scrollBy(0,(window.scrollY - scroll) * multiplicateur )
+            activityRef.current.scrollBy(0, (window.scrollY - scroll) * multiplicateur)
         }
         else if (window.scrollY < scroll && scrollTop > 0) {
             activityRef.current.scrollBy(0, (window.scrollY - scroll) * multiplicateur);
@@ -38,8 +38,8 @@ export const RightSection = ({ more,openFunction, actualPage ,subPage,theme}) =>
         <RightSectionContainer ref={activityRef} showHolder={more.topHolders} showActivity={more.activity}>
             <div className="top-holder">
                 <div>
-                   <Analyctic container={'right'} />
-                    <div className="activity-show"  onClick={() => openFunction({ topHolders: true, activity: false, page: actualPage },{pos:window.scrollY,back:false})} >
+                    <Analyctic container={'right'} />
+                    <div className="activity-show" onClick={() => openFunction({ topHolders: true, activity: false, page: actualPage }, { pos: window.scrollY, back: false })} >
                         <div>Show more</div>
                     </div>
                 </div>
@@ -48,10 +48,10 @@ export const RightSection = ({ more,openFunction, actualPage ,subPage,theme}) =>
                 <h1 className="title">
                     Activity
                 </h1>
-                    <Activity container={'right'} theme={theme}/>
-                    <div className="activity-show" onClick={() => openFunction({ topHolders: false, activity: true, page: actualPage },{pos:window.scrollY,back:false})}>
-                        Show more
-                    </div>
+                <Activity container={'right'} theme={theme} />
+                <div className="activity-show" onClick={() => openFunction({ topHolders: false, activity: true, page: actualPage }, { pos: window.scrollY, back: false })}>
+                    Show more
+                </div>
             </div>
         </RightSectionContainer>
     )

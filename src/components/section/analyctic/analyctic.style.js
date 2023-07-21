@@ -44,11 +44,12 @@ background:${props => props.theme.name === "Dark Theme" ? 'rgb(30, 39, 50)' : 'r
     position:absolute;
     right:10px;
     padding:6px 5px;
-    max-width: 100px;
+    display:flex;
+    align-items:center;
     overflow: hidden;
     border-radius: 100px;
-    color:${props => props.theme.name === "Dark Theme" ? "black": "white"};
-    background-color:${props => props.theme.name === "Dark Theme" ? "white": "black"};
+    color:${props => props.theme.name === "Dark Theme" ? "black" : "white"};
+    background-color:${props => props.theme.name === "Dark Theme" ? "white" : "black"};
 }
 .list > li:hover{
     cursor:pointer;
