@@ -109,14 +109,16 @@ export const Analyctic = (props) => {
                         : "No name";
                     holder.ensNameString = stringEnsName;
                     // console.log(holder.share, lastGlobalShares[nftType]);
-                    holder.share = new BigNumber(lastGlobalShares[nftType]).minus(
-                        holder.share
-                    );
+                    const holderSharesTemp = holder.share ? new BigNumber(holder.share) : new BigNumber(0);
+                    holder.share = holderSharesTemp.toNumber() > 0 ? new BigNumber(lastGlobalShares[nftType]).minus(holderSharesTemp) : new BigNumber(0);
                     holder.type = nftType;
                     holder.rewards =
                         holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18;
-                    return holder;
-                });
+                    console.log(holder.rewards)
+                    if (holder.rewards > 0) {
+                        return holder;
+                    }
+                }).filter(Boolean);
 
 
                 props.container === "right" ? setRewards(calculatedRewards.slice(0, 5)) : setRewards(calculatedRewards);
@@ -138,7 +140,7 @@ export const Analyctic = (props) => {
                 {isLoading ? (
                     <p>Loading...</p>
                 ) : (
-                    rewards.map((element, index) => (
+                    rewards.sort((a, b) => b.rewards - a.rewards).map((element, index) => (
                         <li key={index}>
                             <div className="holder-infos">
                                 <span>{index + 1} :</span>
@@ -153,6 +155,7 @@ export const Analyctic = (props) => {
                                     <img
                                         style={{
                                             height: "16px",
+                                            marginBottom: "2px",
                                             marginLeft: "2px",
                                             marginRight: "5px"
                                         }}

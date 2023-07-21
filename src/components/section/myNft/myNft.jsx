@@ -258,8 +258,8 @@ export const MyNft = (props) => {
   }, [ensDomains]);
 
   useEffect(() => {
-    const fetchShares = async () => {
-      const formattedIds = JSON.stringify(collection.map(e => e.id));
+    const fetchShares = async (updatedCollection) => {
+      const formattedIds = JSON.stringify(updatedCollection.map(e => e.id));
       const ownedNftsQuery = `
           {
               nfts (where: {id_in: ${formattedIds}})  {
@@ -300,7 +300,7 @@ export const MyNft = (props) => {
         const lastGlobalShares =
           responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
 
-          const collectionShares = collection.map((element) => {
+          const collectionShares = updatedCollection.map((element) => {
             const nft = nftsById[element.id];
             if (!nft) return element;
           
@@ -309,7 +309,7 @@ export const MyNft = (props) => {
               ? new BigNumber(nft.unclaimedRewards)
               : new BigNumber(0);
             const nftShare = nft.share ? new BigNumber(nft.share) : new BigNumber(0);
-            const newShare = new BigNumber(lastGlobalShares[nftType]).minus(nftShare);
+            const newShare = nftShare.toNumber() > 0 ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare) : new BigNumber(0);
           
             return {
               ...element, // keep all existing properties of element
@@ -318,7 +318,6 @@ export const MyNft = (props) => {
               rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
             }
           });
-        console.log(collectionShares)
 
         setCollection(collectionShares);
       } catch (error) {
@@ -776,7 +775,7 @@ export const MyNft = (props) => {
                           props.theme === "Dark Theme" ? tirelire : tirelireDark
                         }
                       ></img>
-                      <span style={{ marginLeft: "4px" }}>{element.rewards}</span>
+                      <span style={{ marginLeft: "4px" }}>{element.rewards.toFixed(6)}</span>
                     </div>
                   )}
                 </div>

@@ -613,7 +613,6 @@ const HomeV1 = () => {
                                     Mint
                                 </button>
                                 <ConnectWallet
-                                    modalTitle="Connect a wallet"
                                     className="connectionButton"
                                     btnTitle="Connect"
                                 />
@@ -1278,6 +1277,7 @@ const HomeV1 = () => {
                                                                 is register one of these famous ENS domain names
                                                                 on the official website:{" "}
                                                                 <a
+                                                                    style={{ color: "rgb(29, 155, 240)" }}
                                                                     target="_blank"
                                                                     rel="noreferrer"
                                                                     href="https://ens.domains/"
@@ -1803,7 +1803,7 @@ const HomeV1 = () => {
                                                                 amount of your rewards allows it.<sup>1</sup>
                                                                 <br />- Buy one or more NFTs from the collection
                                                                 if the amount of its rewards allows it.
-                                                                <sup>1</sup> <sup>2</sup>
+                                                                <sup>1</sup>
                                                                 <br />
                                                                 <br />
                                                                 <sup>1</sup>{" "}
@@ -1815,7 +1815,7 @@ const HomeV1 = () => {
                                                                 </i>
                                                                 <br />
                                                                 <br />
-                                                                <sup>2</sup>{" "}
+                                                                <sup>1</sup>{" "}<sup>2</sup>{" "}
                                                                 <i>
                                                                     {" "}
                                                                     A 16% tax of the buying price is applied at the
@@ -1840,7 +1840,7 @@ const HomeV1 = () => {
                                                                 permet.<sup>1</sup>
                                                                 <br />- Acheter un ou plusieurs NFT de la
                                                                 collection si le montant de ses récompenses le
-                                                                permet.<sup>1</sup> <sup>2</sup>
+                                                                permet.<sup>1</sup>
                                                                 <br />
                                                                 <br />
                                                                 <sup>1</sup>{" "}
@@ -1852,7 +1852,7 @@ const HomeV1 = () => {
                                                                 </i>
                                                                 <br />
                                                                 <br />
-                                                                <sup>2</sup>{" "}
+                                                                <sup>1</sup>{" "}<sup>2</sup>{" "}
                                                                 <i>
                                                                     Une taxe de 16% du prix d'achat est retenue au
                                                                     moment de la transaction. Le détenteur pourra
@@ -1875,7 +1875,7 @@ const HomeV1 = () => {
                                                                 <sup>1</sup>
                                                                 <br />- Compre uno o varios nombres de dominio
                                                                 numéricos si el importe de sus recompensas se lo
-                                                                permite.<sup>1</sup> <sup>2</sup>
+                                                                permite.<sup>1</sup>
                                                                 <br />
                                                                 <br />
                                                                 <sup>1</sup>{" "}
@@ -1887,7 +1887,7 @@ const HomeV1 = () => {
                                                                 </i>
                                                                 <br />
                                                                 <br />
-                                                                <sup>2</sup>{" "}
+                                                                <sup>1</sup>{" "}<sup>2</sup>{" "}
                                                                 <i>
                                                                     Se deduce un impuesto del 16% del precio de
                                                                     compra en el momento de la transacción. El
@@ -2297,7 +2297,7 @@ const HomeV1 = () => {
                                                         <strong>Who can bid?</strong>
                                                         <br />
                                                         <br />
-                                                        - 999Club holders
+                                                        - 999Club holders and 10kClub palindrome holders
                                                         <br />
                                                         <br />
                                                         The two kings share 35% of the transaction fee.
@@ -2342,7 +2342,8 @@ const HomeV1 = () => {
                                                         <strong>Qui peut enchérir ?</strong>
                                                         <br />
                                                         <br />
-                                                        - Détenteurs du 999Club
+                                                        - Détenteurs du 999Club et les détendeurs de
+                                                        palindromes du 10kClub
                                                         <br />
                                                         <br />
                                                         Les deux rois se partagent 35% sur les frais de
@@ -2388,7 +2389,8 @@ const HomeV1 = () => {
                                                         <strong>¿Quién puede pujar?</strong>
                                                         <br />
                                                         <br />
-                                                        - Los poseedores del 999Club
+                                                        - Los poseedores del 999Club y los relajadores de
+                                                        palíndromos del 10kClub
                                                         <br />
                                                         <br />
                                                         Los dos reyes comparten 35% de los costos de
@@ -2462,7 +2464,7 @@ const HomeV1 = () => {
                                                             if you decide to burn a nft before it is sold out.
                                                             0.01 eth will be used to activate the function. The pot of
                                                             one of the king's burn hands "unintentionally" is
-                                                            redistributed to the prize pool
+                                                            redistributed to the prize pool.
                                                         </i>
                                                         <div className="contentBanner">
                                                             <img src={mainRoi} alt="" />

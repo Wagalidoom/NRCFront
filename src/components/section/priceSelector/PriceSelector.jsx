@@ -63,7 +63,7 @@ export const PriceSelector = () => {
             <div
               style={{
                 display: "flex",
-                width: "40%",
+                width: "70%",
                 justifyContent: "flex-end",
                 alignItems: "center",
               }}
@@ -111,20 +111,6 @@ export const PriceSelector = () => {
             }}
           >
             Proceed to listing
-          </Button>
-        </div>
-      </div>
-      <div className="content">
-        <h2 style={{ marginBottom: "20px" }}>Set price for your NFT :</h2>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <Button
-            style={{ marginBottom: "20px" }}
-            variant="contained"
-            onClick={() => {
-              listNFT(selectId, price);
-            }}
-          >
-            accept
           </Button>
         </div>
       </div>
