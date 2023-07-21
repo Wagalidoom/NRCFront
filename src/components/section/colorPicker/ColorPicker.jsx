@@ -64,7 +64,7 @@ export const ColorPicker = () => {
             }}
           >
             <div>
-              Choose which color you want to mint!<sup>1</sup>
+              Choose which color you want to mint!<sup>*</sup>
             </div>
             <div
               style={{
@@ -91,8 +91,8 @@ export const ColorPicker = () => {
                 <img alt="" src={whitePawn} style={{ borderRadius: "5px", border: color === 2 ? "4px solid rgb(29, 155, 240)" : "none" }} />
               </div>
             </div>
-            <div style={{marginTop: "15px"}}>
-              <sup>1</sup>{" "}
+            <div style={{marginTop: "15px", marginRight: "5px", marginLeft: "5px"}}>
+              <sup>*</sup>{" "}
               <i style={{ fontSize: "14px" }}>
                 The color chosen will be linked to your address and cannot be
                 change anymore. Choose wisely!

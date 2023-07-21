@@ -54,12 +54,12 @@ export const EnsSelector = () => {
             <div
               style={{
                 display: "flex",
-                width: "40%",
+                width: "70%",
                 justifyContent: "flex-end",
                 alignItems: "center",
               }}
             >
-              NRC#{selectId}
+              Number Runner #{selectId}
               <IconButton onClick={handleClose}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
@@ -70,10 +70,13 @@ export const EnsSelector = () => {
             style={{
               padding: "15px",
               flexDirection: "column",
-              maxHeight: "275px",
+              height: "200",
+              overflowY: "scroll",
             }}
           >
+            <div  style={{marginBottom: "15px"}}>
             Choose a number to stack your NFT!
+            </div>
             <div
               style={{
                 width: "100%",
@@ -84,39 +87,44 @@ export const EnsSelector = () => {
               {ensList.map((element, index) => {
                 if (index % 2) {
                   return (
-                    <div onClick={() => {
-                      setEnsName(element.name);
-                    }}
+                    <div
+                      onClick={() => {
+                        setEnsName(element.name);
+                      }}
                       style={{
                         display: "flex",
                         width: "100%",
                         backgroundColor: "rgb(35, 45, 55)",
                         padding: "5px",
-                        border: ensName === element.name ? "1px solid rgb(29, 155, 240)" : "none"
+                        border:
+                          ensName === element.name
+                            ? "1px solid rgb(29, 155, 240)"
+                            : "none",
                       }}
                     >
                       {element.name}
                     </div>
                   );
-                }
-                else {
+                } else {
                   return (
-                    <div onClick={() => {
-                      setEnsName(element.name);
-                    }}
+                    <div
+                      onClick={() => {
+                        setEnsName(element.name);
+                      }}
                       style={{
                         display: "flex",
                         width: "100%",
                         backgroundColor: "rgb(30, 40, 50)",
                         padding: "5px",
-                        border: ensName === element.name ? "1px solid rgb(29, 155, 240)" : "none"
-                        
+                        border:
+                          ensName === element.name
+                            ? "1px solid rgb(29, 155, 240)"
+                            : "none",
                       }}
                     >
                       {element.name}
                     </div>
                   );
-
                 }
               })}
             </div>
@@ -130,9 +138,7 @@ export const EnsSelector = () => {
             }}
           >
             Digit selected
-            <div>
-              {ensName}
-            </div>
+            <div>{ensName}</div>
           </div>
           <Button
             style={{ margin: "15px" }}
@@ -143,21 +149,6 @@ export const EnsSelector = () => {
           >
             Proceed to stacking
           </Button>
-        </div>
-      </div>
-      <div className="content">
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <InputLabel>ENS name</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            value={ensName}
-            label="Age"
-            onChange={handleChange}
-          >
-            {ensList.map((element) => {
-              return <MenuItem value={element.name}>{element.name}</MenuItem>;
-            })}
-          </Select>
         </div>
       </div>
     </EnsSelectorStyleWrapper>

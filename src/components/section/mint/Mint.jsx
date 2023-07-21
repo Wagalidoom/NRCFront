@@ -126,7 +126,7 @@ export const Mint = () => {
           </div>
           <div style={{display: "flex", justifyContent: "center"}}>
             <Button
-              style={{ margin: "15px", width: "50%" }}
+              style={{ margin: "15px" }}
               variant="contained"
               onClick={() => {
                 mint(mintCount);
