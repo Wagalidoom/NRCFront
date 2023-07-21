@@ -135,66 +135,65 @@ export const KingAuction = (props) => {
             <div className="countdown-container">
                 <Countdown endTime={endTime} />
             </div>
-            <div className="king-container">
+            <div className="container-nft">
                 <div className="myNft">
                     <img alt="" src={whiteKing} />
-                    <div className="king-infos">
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                            <p
-                                className="nft-title"
-                                style={{ fontWeight: "700", fontSize: "14px" }}
-                            >
-                                Number Runner #1
-                            </p>
-                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <p style={{ fontSize: "12px" }}>King</p>
-                                <div style={{ marginTop: "2px" }} className="small-screen">
-                                    <img
-                                        style={{ height: "18px", marginRight: "3px" }}
-                                        alt=""
-                                        src={props.theme === "Dark Theme" ? tirelire : tirelireDark}
-                                    />{" "}
-                                    <span>{blackKingReward.toFixed(8)}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{ marginTop: "2px" }} className="big-screen">
+                    <div className="toolBar">
+                        <p
+                            className="nft-title"
+                            style={{ fontWeight: "700", fontSize: "14px", paddingLeft: "5px", paddingRight: "5px" }}
+                        >
+                            Number Runner #1
+                        </p>
+
+                        <p style={{ fontSize: "12px", paddingLeft: "5px", paddingRight: "5px" }}>King</p>
+                        <div
+                            style={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                padding: "3px 0",
+                                boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
+                            }}
+                        >
                             <img
+                                style={{ height: "14px", marginRight: "3px" }}
                                 alt=""
                                 src={props.theme === "Dark Theme" ? tirelire : tirelireDark}
                             />{" "}
-                            <span>{whiteKingReward.toFixed(8)}</span>
+                            <span>{blackKingReward.toFixed(6)}</span>
                         </div>
                     </div>
+
                 </div>
-                <div className="figure-nft">
+                <div className="myNft">
                     <img alt="" src={blackKing} />
-                    <div className="king-infos">
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                            <p
-                                className="nft-title"
-                                style={{ fontWeight: "700", fontSize: "14px" }}
-                            >
-                                Number Runner #2
-                            </p>
-                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <p style={{ fontSize: "12px" }}>King</p>
-                                <div style={{ marginTop: "2px" }} className="small-screen">
-                                    <img
-                                        style={{ height: "18px", marginRight: "3px" }}
-                                        alt=""
-                                        src={props.theme === "Dark Theme" ? tirelire : tirelireDark}
-                                    />{" "}
-                                    <span>{blackKingReward.toFixed(8)}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div style={{ marginTop: "2px" }} className="big-screen">
+
+                    <div className="toolBar">
+                        <p
+                            className="nft-title"
+                            style={{ fontWeight: "700", fontSize: "14px", paddingLeft: "5px", paddingRight: "5px" }}
+                        >
+                            Number Runner #2
+                        </p>
+                        <p style={{ fontSize: "12px", paddingLeft: "5px", paddingRight: "5px" }}>King</p>
+                        <div
+                            style={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                padding: "3px 0",
+                                boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
+                            }}
+                        >
                             <img
+                                style={{ height: "14px", marginRight: "3px" }}
                                 alt=""
                                 src={props.theme === "Dark Theme" ? tirelire : tirelireDark}
                             />{" "}
-                            <span>{blackKingReward.toFixed(8)}</span>
+                            <span>{whiteKingReward.toFixed(6)}</span>
                         </div>
                     </div>
                 </div>
@@ -255,17 +254,22 @@ export const KingAuction = (props) => {
                         Buy Now
                     </button>
                 </div>
-                <div className="payment">
-                    <div style={{ width: "30%" }}>
+                <div style={{ width: "100%", display: "flex", marginTop: "80px" }}>
+                    <div className="payment">
+                        <div style={{ width: "30px", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <img
+                                style={{ height: "18px" }}
+                                alt=""
+                                src={props.theme === "Dark Theme" ? eth : ethDark}
+                            />{" "}</div>
                         <input
-                            name="myInput"
                             type="text"
-                            style={{ textAlign: "center", width: "100%", fontSize: "23px" }}
+                            style={{ textAlign: "center", height: "100%", fontSize: "23px", border: "none" }}
                             value={value}
                             onChange={handleChange}
                         />
                     </div>
-                    <div style={{ width: "5%", textAlign: "center", paddingTop: "7px" }}>
+                    <div style={{ width: "5%", height: "100%", textAlign: "center", paddingTop: "7px" }}>
                         =
                     </div>
                     <div style={{ width: "70%" }}>
