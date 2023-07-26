@@ -43,16 +43,22 @@ export function EthereumProvider({ children }) {
     [address]
   );
 
-  // const { data: kingPrice, error: kingPriceError } = useContractRead(
-  //     contract,
-  //     "getCurrentPrice"
-  // );
+  const { data: kingPrice, error: kingPriceError } = useContractRead(
+    contract,
+    "getCurrentPrice"
+  );
 
   const {
     mutateAsync: mintCall,
     isLoading: mintLoading,
     error: mintError,
   } = useContractWrite(contract, "mint");
+
+  const {
+    mutateAsync: multiMintCall,
+    isLoading: multiMintLoading,
+    error: multiMintError,
+  } = useContractWrite(contract, "multiMint");
 
   const { mutateAsync: stackCall, error: stackError } = useContractWrite(
     contract,
@@ -123,18 +129,12 @@ export function EthereumProvider({ children }) {
   const mint = async (mintCount) => {
     setIsMintOpen(false);
 
-    for (let i = 0; i < mintCount; i++) {
-      try {
-        mintCall({
-          args: [5, "0x0"],
-          overrides: {
-            value: ethers.utils.parseEther("0.00002"),
-          },
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    multiMintCall({
+      args: [mintCount],
+      overrides: {
+        value: ethers.utils.parseEther((mintCount * 0.00002).toString()),
+      },
+    });
   };
 
   const mintSpecial = async (type, stackedId) => {
@@ -170,12 +170,14 @@ export function EthereumProvider({ children }) {
   };
 
   const revealKingHand = async (_id) => {
-    console.log(await revealKingHandCall({
-      args: [_id],
-      overrides: {
-        value: ethers.utils.parseEther("0.2"),
-      },
-    }));
+    console.log(
+      await revealKingHandCall({
+        args: [_id],
+        overrides: {
+          value: ethers.utils.parseEther("0.2"),
+        },
+      })
+    );
   };
 
   const buy = async (_id, price) => {
