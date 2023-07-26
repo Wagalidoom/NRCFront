@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { NRCsubgraph } from "../../../context/ethereumProvider";
 import moment from 'moment';
 import Axios from 'axios';
-import pawn5185 from "../../../assets/images/5185.png";
 import ethGreen from "../../../assets/images/icon/iconeethvert.png";
 import ethBlue from "../../../assets/images/icon/iconeethbleu.png";
 import { getNftType } from "../../../helper";
@@ -162,7 +161,7 @@ export const Activity = (props) => {
                             </div>
                             <div className="activity-right">
                                 <div className="activity-card">
-                                    <img alt="" src={pawn5185} />
+                                    <img alt="" src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${nft.tokenId}.png`} />
                                     <div className="activity-infos-right">
                                         <p>Number Runner #{nft.tokenId}</p>
                                         <p>
