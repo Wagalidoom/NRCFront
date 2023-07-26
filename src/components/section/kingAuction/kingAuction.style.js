@@ -10,53 +10,55 @@ export const KingAuctionContainer = styled.div`
     marginttop: 8px;
   }
 
-  .king-container > .figure-nft > img {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    width: 100%;
-  }
-  .king-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 30px;
-  }
-  .king-container > .figure-nft {
-    width: 49%;
-    border-radius: 5px;
-    box-shadow: ${(props) =>
-      props.theme.name === "Dark Theme"
-        ? "rgb(0, 0, 0) 0px 2px 4px, rgb(0, 0, 0) 0px 7px 13px -3px, rgb(0, 0, 0) 0px -3px 0px inset"
-        : "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"};
-    background: ${(props) =>
-      props.theme.name === "Dark Theme"
-        ? "rgba(48,60,67,0.8)"
-        : "rgb(247,249,249)"};
-  }
-  .king-container > .figure-nft:first-of-type {
-    margin-right: 2%;
-  }
-  .king-infos {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: top;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 4px;
+  .toolBar{
+    width:100%;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+position:relative;
+color:${props => props.theme.colors.text};
+background: ${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)' : 'rgb(247,249,249)'};
+border-bottom-left-radius:5px;
+border-bottom-right-radius:5px;
   }
 
-  .king-infos > .nft-title {
-    margin-bottom: 0px;
-  }
-  .king-infos > div > img {
-    height: 18px;
-  }
-  .king-infos > div > span {
+  .myNft{
+    width:49%;
+    margin-bottom:20px;
+    overflow:hidden;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+    color:${props => props.theme.colors.text};
+    background: ${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)' : 'rgb(247,249,249)'};
     position: relative;
-    top: 1px;
-  }
+    box-shadow: ${props => props.theme.name === "Dark Theme" ? 'rgb(0, 0, 0) 0px 2px 4px, rgb(0, 0, 0) 0px 7px 13px -3px, rgb(0, 0, 0) 0px -3px 0px inset' : 'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset'};
+}
+.myNft > img{
+    width:100%;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+}
+
+.container-nft{
+    width:100%;
+    display:flex;
+    margin-top: 25px;
+    flex-wrap:wrap;
+    justify-content:space-between;
+}
+
+@media screen and (max-width:572px){
+    justify-content:normal;
+    .myNft{
+        width:49%;
+    }
+    .myNft > img{
+        width:100%;
+        height:auto;
+    }
+}
   .king-actions {
     width: 100%;
     height: 80px;
@@ -75,9 +77,9 @@ export const KingAuctionContainer = styled.div`
     padding-left: 12px;
     padding-right: 12px;
     background: ${(props) =>
-      props.theme.name === "Dark Theme"
-        ? "rgb(30, 39, 50)"
-        : "rgb(247, 249, 249)"};
+        props.theme.name === "Dark Theme"
+            ? "rgb(30, 39, 50)"
+            : "rgb(247, 249, 249)"};
     border-radius: 5px;
   }
   .king-price > img {
@@ -104,11 +106,11 @@ export const KingAuctionContainer = styled.div`
 
   .king-option:last-of-type {
     border-bottom-color: ${(props) =>
-      props.theme.name === "Light Theme" ? "black" : props.theme.colors.border};
+        props.theme.name === "Light Theme" ? "black" : props.theme.colors.border};
     border-right-color: ${(props) =>
-      props.theme.name === "Light Theme" ? "black" : props.theme.colors.border};
+        props.theme.name === "Light Theme" ? "black" : props.theme.colors.border};
     border-top-color: ${(props) =>
-      props.theme.name === "Light Theme" ? "black" : props.theme.colors.border};
+        props.theme.name === "Light Theme" ? "black" : props.theme.colors.border};
   }
   .actions {
     width: 100%;
@@ -119,11 +121,11 @@ export const KingAuctionContainer = styled.div`
   }
   .payment {
     border: 1px solid white;
-    width: 100%;
+    border-radius: 5px;
     display: flex;
-    margin-top: 80px;
-    padding-left: 5px;
-    padding-right: 5px;
+    width: 50%;
+    align-items: center;
+    background-color: #E1DEDE;
   }
   .graph {
     margin-top: 32px;
@@ -156,9 +158,9 @@ export const KingAuctionContainer = styled.div`
     right: 0;
     bottom: 0;
     border: ${(props) =>
-      props.theme.name === "Light Theme"
-        ? "1px solid rgb(239, 243, 244)"
-        : "none"};
+        props.theme.name === "Light Theme"
+            ? "1px solid rgb(239, 243, 244)"
+            : "none"};
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
@@ -211,29 +213,7 @@ export const KingAuctionContainer = styled.div`
     margin-right: 20px;
   }
 
-  .big-screen {
-    display: inline;
-  }
-
-  .small-screen {
-    display: none;
-  }
-
-  @media screen and (max-width: 600px) {
-    .big-screen {
-      display: none;
-    }
-    
-    .small-screen {
-      display: flex;
-      align-items: center;
-    }
-  }
-
   @media screen and (max-width: 430px) {
-    .king-container > .banniereNft:first-child {
-      margin-bottom: 20px;
-    }
     .king-option {
       font-size: 20px;
     }
@@ -246,14 +226,6 @@ export const KingAuctionContainer = styled.div`
   @media screen and (max-width: 430px) {
     > div:last-of-type {
       margin-bottom: 15px;
-    }
-    .king-infos {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 6px;
-    }
-    .king-infos > div > img {
-      height: 18px;
     }
   }
 `;
