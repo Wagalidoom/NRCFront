@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const EnsSelectorStyleWrapper = styled.section`
+export const SweepStyleWrapper = styled.section`
   .callContractContainer {
     background-color: rgba(0, 0, 0, 0.714);
     display: flex;
@@ -36,25 +36,29 @@ export const EnsSelectorStyleWrapper = styled.section`
     border-bottom: 2px solid ${(props) => props.theme.colors.border};
   }
 
+  .example::-webkit-scrollbar {
+    display: none;
+  }
+
   * {
-    scrollbar-width: thin;
-    scrollbar-color: #32323e #161618;
-  }
+  scrollbar-width: thin;
+  scrollbar-color: #32323e #161618;
+}
 
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 10px;
-  }
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
 
-  *::-webkit-scrollbar-track {
-    background: #161618;
-  }
+*::-webkit-scrollbar-track {
+  background: #161618;
+}
 
-  *::-webkit-scrollbar-thumb {
-    background-color: #32323e;
-    border-radius: 6px;
-    border: 3px solid #161618;
-  }
+*::-webkit-scrollbar-thumb {
+  background-color: #32323e ;
+  border-radius: 6px;
+  border: 3px solid #161618;
+}
 
   @media screen and (max-width: 640px) {
     .mintContent {

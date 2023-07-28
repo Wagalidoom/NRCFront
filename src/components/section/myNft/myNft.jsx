@@ -63,6 +63,7 @@ export const MyNft = (props) => {
     revealKingHand,
     setPrice,
     setEns,
+    setSweep,
     address,
     mintLoading,
   } = useEthereum();
@@ -166,7 +167,11 @@ export const MyNft = (props) => {
       setNftOnSale(collection);
       setIsMarketFetched(true);
       if (props.market) {
-        setCollection(collection);
+        setCollection(
+          collection.sort((a, b) => {
+            return a.price - b.price;
+          })
+        );
       }
     };
 
@@ -259,7 +264,7 @@ export const MyNft = (props) => {
 
   useEffect(() => {
     const fetchShares = async (updatedCollection) => {
-      const formattedIds = JSON.stringify(updatedCollection.map(e => e.id));
+      const formattedIds = JSON.stringify(updatedCollection.map((e) => e.id));
       const ownedNftsQuery = `
           {
               nfts (where: {id_in: ${formattedIds}})  {
@@ -269,7 +274,7 @@ export const MyNft = (props) => {
               }
           }
           `;
-  
+
       const lastGlobalSharesQuery = `
           {
               globalSharesUpdateds (first: 1, orderBy: blockNumber, orderDirection: desc) {
@@ -279,7 +284,7 @@ export const MyNft = (props) => {
               }
           }
           `;
-      
+
       try {
         const responseNFT = await Axios.post(NRCsubgraph, {
           query: ownedNftsQuery,
@@ -288,36 +293,44 @@ export const MyNft = (props) => {
           query: lastGlobalSharesQuery,
         });
 
-        if (!responseNFT.data?.data?.nfts || !responseGlobalShares.data?.data?.globalSharesUpdateds) {
-          console.log(responseNFT)
-          console.log(ownedNftsQuery)
+        if (
+          !responseNFT.data?.data?.nfts ||
+          !responseGlobalShares.data?.data?.globalSharesUpdateds
+        ) {
+          console.log(responseNFT);
+          console.log(ownedNftsQuery);
           throw new Error("Invalid API response");
         }
 
         const nfts = responseNFT.data.data.nfts;
-        const nftsById = Object.fromEntries(nfts.map(nft => [nft.id, nft]));
+        const nftsById = Object.fromEntries(nfts.map((nft) => [nft.id, nft]));
 
         const lastGlobalShares =
           responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
 
-          const collectionShares = updatedCollection.map((element) => {
-            const nft = nftsById[element.id];
-            if (!nft) return element;
-          
-            const nftType = getNftType(Number(nft.id));
-            const unclaimedRewards = nft.unclaimedRewards
-              ? new BigNumber(nft.unclaimedRewards)
+        const collectionShares = updatedCollection.map((element) => {
+          const nft = nftsById[element.id];
+          if (!nft) return element;
+
+          const nftType = getNftType(Number(nft.id));
+          const unclaimedRewards = nft.unclaimedRewards
+            ? new BigNumber(nft.unclaimedRewards)
+            : new BigNumber(0);
+          const nftShare = nft.share
+            ? new BigNumber(nft.share)
+            : new BigNumber(0);
+          const newShare =
+            nftShare.toNumber() > 0
+              ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare)
               : new BigNumber(0);
-            const nftShare = nft.share ? new BigNumber(nft.share) : new BigNumber(0);
-            const newShare = nftShare.toNumber() > 0 ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare) : new BigNumber(0);
-          
-            return {
-              ...element, // keep all existing properties of element
-              share: newShare.toNumber(),
-              type: nftType,
-              rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
-            }
-          });
+
+          return {
+            ...element, // keep all existing properties of element
+            share: newShare.toNumber(),
+            type: nftType,
+            rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
+          };
+        });
 
         setCollection(collectionShares);
       } catch (error) {
@@ -345,7 +358,6 @@ export const MyNft = (props) => {
       }
     }
   }, [tokenIdOfNode, currentEnsName]);
-  
 
   return (
     <MyNftContainer
@@ -413,12 +425,17 @@ export const MyNft = (props) => {
 
               <button
                 className="button sweep"
-                onClick={() =>
+                onClick={() => {
                   setActiveButton({
                     ...activeButton,
                     sweep: activeButton.sweep ? false : true,
-                  })
-                }
+                  });
+                  setSweep(
+                    collection.sort((a, b) => {
+                      return a.price - b.price;
+                    })
+                  );
+                }}
               >
                 <img
                   src={props.theme === "Light Theme" ? sweepDark : sweepLight}
@@ -478,7 +495,15 @@ export const MyNft = (props) => {
                 gridTemplateColumns: "16% 28% 28% 28%",
               }}
             >
-              <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Color :</div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Color :
+              </div>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -516,7 +541,15 @@ export const MyNft = (props) => {
                 gridTemplateColumns: "16% 28% 28% 28%",
               }}
             >
-              <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>Type :</div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Type :
+              </div>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -667,7 +700,10 @@ export const MyNft = (props) => {
                   : "none",
               }}
             >
-              <img alt="" src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`} />
+              <img
+                alt=""
+                src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
+              />
               {element.isStacked ? (
                 <p
                   style={{
@@ -775,7 +811,9 @@ export const MyNft = (props) => {
                           props.theme === "Dark Theme" ? tirelire : tirelireDark
                         }
                       ></img>
-                      <span style={{ marginLeft: "4px" }}>{element.rewards.toFixed(6)}</span>
+                      <span style={{ marginLeft: "4px" }}>
+                        {element.rewards.toFixed(6)}
+                      </span>
                     </div>
                   )}
                 </div>

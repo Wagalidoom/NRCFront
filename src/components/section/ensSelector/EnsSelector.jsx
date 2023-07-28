@@ -70,8 +70,7 @@ export const EnsSelector = () => {
             style={{
               padding: "15px",
               flexDirection: "column",
-              height: "200",
-              overflowY: "scroll",
+              height: "200px",
             }}
           >
             <div  style={{marginBottom: "15px"}}>

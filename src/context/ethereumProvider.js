@@ -25,9 +25,11 @@ const EthereumContext = createContext(null);
 export function EthereumProvider({ children }) {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const [isPriceSelectorOpen, setIsPriceSelectorOpen] = useState(false);
+  const [isSweepOpen, setIsSweepOpen] = useState(false);
   const [isEnsSelectorOpen, setIsEnsSelectorOpen] = useState(false);
   const [selectId, setSelectId] = useState(0);
   const [ensList, setEnsList] = useState("");
+  const [collection, setCollection] = useState([]);
   const [isMintOpen, setIsMintOpen] = useState(false);
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
   const generalContract = new ethers.Contract(
@@ -59,6 +61,12 @@ export function EthereumProvider({ children }) {
     isLoading: multiMintLoading,
     error: multiMintError,
   } = useContractWrite(contract, "multiMint");
+
+  const {
+    mutateAsync: multiBuyCall,
+    isLoading: multiBuyLoading,
+    error: multiBuyError,
+  } = useContractWrite(contract, "multiBuy");
 
   const { mutateAsync: stackCall, error: stackError } = useContractWrite(
     contract,
@@ -137,6 +145,17 @@ export function EthereumProvider({ children }) {
     });
   };
 
+  const sweep = async(_list, _price) => {
+    setIsSweepOpen(false);
+
+    multiBuyCall({
+      args: [_list],
+      overrides: {
+        value: ethers.utils.parseEther((Number(_price) * 10 ** -18).toString()),
+      },
+    });
+  }
+
   const mintSpecial = async (type, stackedId) => {
     await mintCall({
       args: [type, stackedId],
@@ -151,6 +170,12 @@ export function EthereumProvider({ children }) {
     setEnsList(_list);
     setSelectId(_id);
   };
+
+  const setSweep = async (_collection) => {
+    setIsSweepOpen(true);
+    setCollection(_collection);
+  };
+  
 
   const stack = async (_ens, _id) => {
     setSelectId(null);
@@ -256,17 +281,21 @@ export function EthereumProvider({ children }) {
     chooseColor,
     isColorPickerOpen,
     isPriceSelectorOpen,
+    isSweepOpen,
     isEnsSelectorOpen,
     isMintOpen,
     selectId,
     ensList,
+    collection,
     mint,
+    sweep,
     mintSpecial,
     mintLoading,
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
     setIsColorPickerOpen,
+    setIsSweepOpen,
     burn,
     stack,
     unstack,
@@ -277,6 +306,7 @@ export function EthereumProvider({ children }) {
     unlistNFT,
     setPrice,
     setEns,
+    setSweep,
     getTotalMinted,
     getCurrentSupply,
     getEnsName,
