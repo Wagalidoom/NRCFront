@@ -63,7 +63,8 @@ export const Analyctic = (props) => {
         // Définition des requêtes
         const GET_TOP_HOLDERS = `
         {
-            nfts (where: {share_gt: 0})  {
+            nfts (where: { or: [{share_gt: 0}, {unclaimedRewards_gt: 0}] }) {
+
               id
               share
               ensName
@@ -102,11 +103,16 @@ export const Analyctic = (props) => {
                     const unclaimedRewards = holder.unclaimedRewards
                         ? new BigNumber(holder.unclaimedRewards)
                         : new BigNumber(0);
-                    const stringEnsName = holder.ensName
-                        ? Buffer.from(holder.ensName.slice(2), "hex")
+                    let stringEnsName = "Not stacked";
+                    if (holder.id === "0") {
+                        stringEnsName = "BlackKing.ens";
+                    } else if (holder.id === "1") {
+                        stringEnsName = "WhiteKing.ens";
+                    } else if (holder.ensName) {
+                        stringEnsName = Buffer.from(holder.ensName.slice(2), "hex")
                             .toString("ascii")
-                            .replace(/\0/g, "")
-                        : "Not owned";
+                            .replace(/\0/g, "");
+                    }
                     holder.ensNameString = stringEnsName;
                     // console.log(holder.share, lastGlobalShares[nftType]);
                     const holderSharesTemp = holder.share ? new BigNumber(holder.share) : new BigNumber(0);
