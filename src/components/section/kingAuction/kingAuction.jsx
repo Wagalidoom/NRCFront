@@ -74,11 +74,8 @@ export const KingAuction = (props) => {
                 await contractInstance.getCurrentPrice()
             );
 
-            const TWO_POW_64 = ethers.BigNumber.from(2).pow(64);
-            const ONE_MILLION = ethers.BigNumber.from(1000000);
-
             const priceToPay =
-                priceToPayBigNumber.mul(ONE_MILLION).div(TWO_POW_64).toNumber() / 100;
+                priceToPayBigNumber.toNumber() / 100;
 
             setPrice(priceToPay);
         };
