@@ -225,14 +225,15 @@ export function EthereumProvider({ children }) {
     await unlistCall({ args: [_id] });
   };
 
-  // const buyKing = async (_color) => {
-  //     await buyKingCall({
-  //         args: [_color],
-  //         overrides: {
-  //             value: kingPrice,
-  //         },
-  //     });
-  // };
+  const buyKing = async (_color) => {
+    console.log(kingPrice)
+      await buyKingCall({
+          args: [_color],
+          overrides: {
+              value: (kingPrice/9500).toFixed(0),
+          },
+      });
+  };
 
   const mintPawn = async () => {
     if (address) {
@@ -301,7 +302,7 @@ export function EthereumProvider({ children }) {
     unstack,
     buy,
     revealKingHand,
-    // buyKing,
+    buyKing,
     listNFT,
     unlistNFT,
     setPrice,

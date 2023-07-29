@@ -200,8 +200,6 @@ export const MyNft = (props) => {
         console.log(error);
       }
 
-      let collection = [];
-
       fetchOwned.map((element) => {
         let isListed = nftOnSale.some((e) => e.id === Number(element.id));
         collection.push({
@@ -254,15 +252,21 @@ export const MyNft = (props) => {
   }, [ensList]);
 
   useEffect(() => {
+    console.log(ensDomains);
     if (ensDomains.length > 0) {
-      const [currentDomain, ...rest] = ensDomains;
-      setNode(currentDomain.hash);
-      setCurrentEnsName(currentDomain.name);
-      setEnsDomains(rest);
+      for (let i = 0; i < ensDomains.length; i++) {
+        setTimeout(() => {
+          const domain = ensDomains[i];
+          console.log(domain.name);
+          setNode(domain.hash);
+          setCurrentEnsName(domain.name);
+        }, i * 5); // Changez 1000 (1 seconde) à la durée que vous voulez
+      }
     }
   }, [ensDomains]);
 
   useEffect(() => {
+    console.log("Declénchéé", tokenIdOfNode,currentEnsName)
     const fetchShares = async (updatedCollection) => {
       const formattedIds = JSON.stringify(updatedCollection.map((e) => e.id));
       const ownedNftsQuery = `
@@ -353,11 +357,13 @@ export const MyNft = (props) => {
           color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
         },
       ];
-      if (updatedCollection.length > 0) {
-        fetchShares(updatedCollection);
-      }
+      // if (updatedCollection.length > 0) {
+      //   fetchShares(updatedCollection);
+      // }
+      setCollection(updatedCollection);
+      console.log(updatedCollection)
     }
-  }, [tokenIdOfNode, currentEnsName]);
+  }, [currentEnsName]);
 
   return (
     <MyNftContainer
