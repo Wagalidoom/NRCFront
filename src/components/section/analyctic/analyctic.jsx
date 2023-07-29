@@ -98,7 +98,7 @@ export const Analyctic = (props) => {
                     responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
 
                 const calculatedRewards = topHolders.map((holder) => {
-                    const nftType = getNftType(holder.tokenId);
+                    const nftType = getNftType(holder.id);
                     const unclaimedRewards = holder.unclaimedRewards
                         ? new BigNumber(holder.unclaimedRewards)
                         : new BigNumber(0);
@@ -106,7 +106,7 @@ export const Analyctic = (props) => {
                         ? Buffer.from(holder.ensName.slice(2), "hex")
                             .toString("ascii")
                             .replace(/\0/g, "")
-                        : "No name";
+                        : "Not owned";
                     holder.ensNameString = stringEnsName;
                     // console.log(holder.share, lastGlobalShares[nftType]);
                     const holderSharesTemp = holder.share ? new BigNumber(holder.share) : new BigNumber(0);

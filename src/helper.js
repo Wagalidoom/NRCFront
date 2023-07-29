@@ -1,4 +1,5 @@
 export function getNftType(nftId) {
+  nftId = Number(nftId)
   if (nftId >= 0 && nftId < 2) {
     return 0;
   } else if (nftId >= 2 && nftId < 12) {
