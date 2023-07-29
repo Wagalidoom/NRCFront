@@ -75,7 +75,7 @@ export const KingAuction = (props) => {
             );
 
             const priceToPay =
-                priceToPayBigNumber.toString() / 100;
+                priceToPayBigNumber.toString();
 
             setPrice(priceToPay);
         };
@@ -124,8 +124,8 @@ export const KingAuction = (props) => {
 
     const checkboxChange = (e) => {
         // False is white
+        console.log(checkboxValue ? 1 : 2)
         setCheckboxValue(checkboxValue ? false : true);
-        console.log(price);
     };
     return (
         <KingAuctionContainer checkbox={checkboxValue}>

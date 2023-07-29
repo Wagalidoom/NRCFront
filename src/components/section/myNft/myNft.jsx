@@ -345,7 +345,7 @@ export const MyNft = (props) => {
       }
     };
     // Ajoutez tous les NFTs stackés à la collection
-    if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
+    if (tokenIdOfNode) {
       const alreadyInCollection = collection.some(e => e.id === Number(tokenIdOfNode));
 
       if (!alreadyInCollection) {

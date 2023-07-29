@@ -64,7 +64,6 @@ export const Analyctic = (props) => {
         const GET_TOP_HOLDERS = `
         {
             nfts (where: { or: [{share_gt: 0}, {unclaimedRewards_gt: 0}] }) {
-
               id
               share
               ensName
@@ -106,9 +105,11 @@ export const Analyctic = (props) => {
                     let stringEnsName = "Not stacked";
                     if (holder.id === "0") {
                         stringEnsName = "BlackKing.ens";
-                    } else if (holder.id === "1") {
+                    }
+                    if (holder.id === "1") {
                         stringEnsName = "WhiteKing.ens";
-                    } else if (holder.ensName) {
+                    }
+                    if (holder.ensName) {
                         stringEnsName = Buffer.from(holder.ensName.slice(2), "hex")
                             .toString("ascii")
                             .replace(/\0/g, "");

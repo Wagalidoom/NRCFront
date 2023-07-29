@@ -230,7 +230,7 @@ export function EthereumProvider({ children }) {
       await buyKingCall({
           args: [_color],
           overrides: {
-              value: (kingPrice/9500).toFixed(0),
+              value: kingPrice.toNumber().toFixed(0) + 1,
           },
       });
   };
