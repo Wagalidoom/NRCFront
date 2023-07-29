@@ -33,6 +33,7 @@ const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
   const currentTheme = useContext(ThemeContext);
+  const [ensDomainsLoading, setEnsDomainsLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [activeButton, setActiveButton] = useState({
@@ -200,8 +201,6 @@ export const MyNft = (props) => {
         console.log(error);
       }
 
-      let collection = [];
-
       fetchOwned.map((element) => {
         let isListed = nftOnSale.some((e) => e.id === Number(element.id));
         collection.push({
@@ -250,19 +249,27 @@ export const MyNft = (props) => {
         return { hash: namehash.hash(domain.name), name: domain.name };
       });
       setEnsDomains(domainNames);
+      setEnsDomainsLoading(false);
     }
   }, [ensList]);
 
   useEffect(() => {
-    if (ensDomains.length > 0) {
-      const [currentDomain, ...rest] = ensDomains;
-      setNode(currentDomain.hash);
-      setCurrentEnsName(currentDomain.name);
-      setEnsDomains(rest);
+    console.log(ensDomains);
+    if (!ensDomainsLoading && ensDomains.length > 0) {
+      const updateNodeAndName = (index) => {
+        if (index >= ensDomains.length) return; // stop if we've done all items
+        const domain = ensDomains[index];
+        console.log(domain.name);
+        setNode(domain.hash);
+        setCurrentEnsName(domain.name);
+        setTimeout(() => updateNodeAndName(index + 1), 50); // proceed to next item after 5 seconds
+      }
+      updateNodeAndName(0); // start with first item
     }
-  }, [ensDomains]);
+  }, [ensDomains, ensDomainsLoading]);
 
   useEffect(() => {
+    console.log("Declénchéé", tokenIdOfNode, currentEnsName)
     const fetchShares = async (updatedCollection) => {
       const formattedIds = JSON.stringify(updatedCollection.map((e) => e.id));
       const ownedNftsQuery = `
@@ -337,27 +344,33 @@ export const MyNft = (props) => {
         console.error(error);
       }
     };
-
+    // Ajoutez tous les NFTs stackés à la collection
     if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
-      const updatedCollection = [
-        ...collection,
-        {
-          id: Number(tokenIdOfNode),
-          isStacked: true,
-          isListed: false,
-          rewards: 0,
-          ensName: currentEnsName,
-          price: 0,
-          owner: address,
-          type: getNftType(Number(tokenIdOfNode)),
-          color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
-        },
-      ];
-      if (updatedCollection.length > 0) {
+      const alreadyInCollection = collection.some(e => e.id === Number(tokenIdOfNode));
+
+      if (!alreadyInCollection) {
+        const updatedCollection = [
+          ...collection,
+          {
+            id: Number(tokenIdOfNode),
+            isStacked: true,
+            isListed: false,
+            rewards: 0,
+            ensName: currentEnsName,
+            price: 0,
+            owner: address,
+            type: getNftType(Number(tokenIdOfNode)),
+            color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
+          },
+        ];
+        setCollection(updatedCollection);
+
+        // Après que tous les NFTs ont été ajoutés à la collection, appelez fetchShares une seule fois
         fetchShares(updatedCollection);
       }
     }
-  }, [tokenIdOfNode, currentEnsName]);
+
+  }, [tokenIdOfNode]);
 
   return (
     <MyNftContainer
