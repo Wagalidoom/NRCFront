@@ -269,7 +269,7 @@ export const MyNft = (props) => {
   }, [ensDomains, ensDomainsLoading]);
 
   useEffect(() => {
-    console.log("Declénchéé", tokenIdOfNode,currentEnsName)
+    console.log("Declénchéé", tokenIdOfNode, currentEnsName)
     const fetchShares = async (updatedCollection) => {
       const formattedIds = JSON.stringify(updatedCollection.map((e) => e.id));
       const ownedNftsQuery = `
@@ -344,7 +344,7 @@ export const MyNft = (props) => {
         console.error(error);
       }
     };
-
+    // Ajoutez tous les NFTs stackés à la collection
     if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
       const alreadyInCollection = collection.some(e => e.id === Number(tokenIdOfNode));
 
@@ -363,13 +363,13 @@ export const MyNft = (props) => {
             color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
           },
         ];
-        // if (updatedCollection.length > 0) {
-        //   fetchShares(updatedCollection);
-        // }
         setCollection(updatedCollection);
-        console.log(updatedCollection)
-        }
+
+        // Après que tous les NFTs ont été ajoutés à la collection, appelez fetchShares une seule fois
+        fetchShares(updatedCollection);
+      }
     }
+
   }, [tokenIdOfNode]);
 
   return (
