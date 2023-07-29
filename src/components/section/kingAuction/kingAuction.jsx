@@ -75,7 +75,7 @@ export const KingAuction = (props) => {
             );
 
             const priceToPay =
-                priceToPayBigNumber.toNumber() / 100;
+                priceToPayBigNumber.toString() / 100;
 
             setPrice(priceToPay);
         };
