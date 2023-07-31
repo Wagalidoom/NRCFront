@@ -16,6 +16,8 @@ export const EnsSelector = () => {
   const { stack, ensList, selectId, setIsEnsSelectorOpen } = useEthereum();
   const [ensName, setEnsName] = useState("");
   const componentRef = useRef(null);
+  
+  console.log(ensList);
 
   const handleChange = (newValue) => {
     setEnsName(newValue.target.value);

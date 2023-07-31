@@ -263,26 +263,28 @@ export const MyNft = (props) => {
         setNode(domain.hash);
         setCurrentEnsName(domain.name);
         setTimeout(() => updateNodeAndName(index + 1), 50); // proceed to next item after 5 seconds
-      }
+      };
       updateNodeAndName(0); // start with first item
     }
   }, [ensDomains, ensDomainsLoading]);
 
   useEffect(() => {
-    console.log("Declénchéé", tokenIdOfNode, currentEnsName)
-    const fetchShares = async (updatedCollection) => {
-      const formattedIds = JSON.stringify(updatedCollection.map((e) => e.id));
-      const ownedNftsQuery = `
+    if (Number(tokenIdOfNode)) {
+      // comment faire apparaitre les rois
+      const fetchShares = async (updatedCollection) => {
+        const formattedIds = JSON.stringify(updatedCollection.map((e) => e.id));
+        const ownedNftsQuery = `
           {
               nfts (where: {id_in: ${formattedIds}})  {
                 id
                 share
                 unclaimedRewards
+                owner
               }
           }
           `;
 
-      const lastGlobalSharesQuery = `
+        const lastGlobalSharesQuery = `
           {
               globalSharesUpdateds (first: 1, orderBy: blockNumber, orderDirection: desc) {
                 id
@@ -292,61 +294,61 @@ export const MyNft = (props) => {
           }
           `;
 
-      try {
-        const responseNFT = await Axios.post(NRCsubgraph, {
-          query: ownedNftsQuery,
-        });
-        const responseGlobalShares = await Axios.post(NRCsubgraph, {
-          query: lastGlobalSharesQuery,
-        });
+        try {
+          const responseNFT = await Axios.post(NRCsubgraph, {
+            query: ownedNftsQuery,
+          });
+          const responseGlobalShares = await Axios.post(NRCsubgraph, {
+            query: lastGlobalSharesQuery,
+          });
 
-        if (
-          !responseNFT.data?.data?.nfts ||
-          !responseGlobalShares.data?.data?.globalSharesUpdateds
-        ) {
-          console.log(responseNFT);
-          console.log(ownedNftsQuery);
-          throw new Error("Invalid API response");
-        }
+          if (
+            !responseNFT.data?.data?.nfts ||
+            !responseGlobalShares.data?.data?.globalSharesUpdateds
+          ) {
+            console.log(responseNFT);
+            console.log(ownedNftsQuery);
+            throw new Error("Invalid API response");
+          }
 
-        const nfts = responseNFT.data.data.nfts;
-        const nftsById = Object.fromEntries(nfts.map((nft) => [nft.id, nft]));
+          const nfts = responseNFT.data.data.nfts;
+          const nftsById = Object.fromEntries(nfts.map((nft) => [nft.id, nft]));
 
-        const lastGlobalShares =
-          responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
+          const lastGlobalShares =
+            responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
 
-        const collectionShares = updatedCollection.map((element) => {
-          const nft = nftsById[element.id];
-          if (!nft) return element;
+          const collectionShares = updatedCollection.map((element) => {
+            const nft = nftsById[element.id];
+            if (!nft) return element;
 
-          const nftType = getNftType(Number(nft.id));
-          const unclaimedRewards = nft.unclaimedRewards
-            ? new BigNumber(nft.unclaimedRewards)
-            : new BigNumber(0);
-          const nftShare = nft.share
-            ? new BigNumber(nft.share)
-            : new BigNumber(0);
-          const newShare =
-            nftShare.toNumber() > 0
-              ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare)
+            const nftType = getNftType(Number(nft.id));
+            const unclaimedRewards = nft.unclaimedRewards
+              ? new BigNumber(nft.unclaimedRewards)
               : new BigNumber(0);
+            const nftShare = nft.share
+              ? new BigNumber(nft.share)
+              : new BigNumber(0);
+            const newShare =
+              nftShare.toNumber() > 0
+                ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare)
+                : new BigNumber(0);
 
-          return {
-            ...element, // keep all existing properties of element
-            share: newShare.toNumber(),
-            type: nftType,
-            rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
-          };
-        });
+            return {
+              ...element,
+              share: newShare.toNumber(),
+              type: nftType,
+              rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
+            };
+          });
 
-        setCollection(collectionShares);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    // Ajoutez tous les NFTs stackés à la collection
-    if (tokenIdOfNode) {
-      const alreadyInCollection = collection.some(e => e.id === Number(tokenIdOfNode));
+          setCollection(collectionShares);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      const alreadyInCollection = collection.some(
+        (e) => e.id === Number(tokenIdOfNode)
+      );
 
       if (!alreadyInCollection) {
         const updatedCollection = [
@@ -369,7 +371,6 @@ export const MyNft = (props) => {
         fetchShares(updatedCollection);
       }
     }
-
   }, [tokenIdOfNode]);
 
   return (
@@ -721,7 +722,7 @@ export const MyNft = (props) => {
                 <p
                   style={{
                     position: "absolute",
-                    bottom: "85px",
+                    bottom: "95px",
                     left: "10px",
                     fontSize: "18px",
                   }}
