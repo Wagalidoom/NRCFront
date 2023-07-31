@@ -27,7 +27,7 @@ const typeNames = {
     1: "NRQueen",
     2: "NRTower",
     3: "NRCavalier",
-    4: "NRFou",
+    4: "NRBishop",
     5: "NRPawn",
 };
 
