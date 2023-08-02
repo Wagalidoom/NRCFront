@@ -6,6 +6,8 @@ import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useRef, useState } from "react";
 import eth from "../../../assets/images/eth.png";
 import ethDark from "../../../assets/images/ethDark.png";
+import nftDark from "../../../assets/images/icon/nftDark.png";
+import nftLight from "../../../assets/images/icon/nftLight.png";
 import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
 import sweepDark from "../../../assets/images/icon/balaisDark.png";
@@ -56,6 +58,7 @@ export const MyNft = (props) => {
   const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
   const {
+    mintPawn,
     burn,
     unstack,
     unlistNFT,
@@ -387,21 +390,10 @@ export const MyNft = (props) => {
                   <img src={ensvision} alt="" />
                 </a>
               </button> */}
-              <button
-                className="button mint"
-                onClick={() => {
-                  console.log(activeButton);
-                  setActiveButton({
-                    ...activeButton,
-                    filter: activeButton.filter ? false : true,
-                  });
-                }}
-              >
-                <img
-                  src={props.theme === "Light Theme" ? filterDark : filterLight}
+              <img style={{height: "38px", marginRight: "8px", cursor: "pointer"}} onClick={mintPawn}
+                  src={props.theme === "Light Theme" ? nftDark : nftLight}
                   alt=""
                 />
-              </button>
               <button
                 className="button filter"
                 onClick={() => {

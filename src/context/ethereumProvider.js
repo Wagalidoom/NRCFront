@@ -242,6 +242,11 @@ export function EthereumProvider({ children }) {
     return currentSupply;
   };
 
+  const getVolume = async () => {
+    const volume = await generalProvider.getBalance(contractAddress);
+    return volume;
+  };
+
   const getPrizePool = async () => {
     const prizePool = await generalContract.getPrizePool();
     return prizePool;
@@ -295,6 +300,8 @@ export function EthereumProvider({ children }) {
     setSweep,
     getTotalMinted,
     getCurrentSupply,
+    getVolume,
+    getPrizePool,
     getEnsName,
     getEnsProfilePicture,
     getGasPrice,

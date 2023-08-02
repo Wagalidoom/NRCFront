@@ -114,7 +114,6 @@ const HomeV1 = () => {
   const [hashtag, setHashTag] = useState("Club");
   const currentTheme = useContext(ThemeContext);
   const {
-    mintPawn,
     isColorPickerOpen,
     isMintOpen,
     isPriceSelectorOpen,
@@ -122,6 +121,8 @@ const HomeV1 = () => {
     isEnsSelectorOpen,
     getTotalMinted,
     getCurrentSupply,
+    getVolume,
+    getPrizePool,
     address,
     getEnsName,
     getEnsProfilePicture,
@@ -129,6 +130,8 @@ const HomeV1 = () => {
   } = useEthereum();
   const [totalMinted, setTotalMinted] = useState(0);
   const [currentSupply, setCurrentSupply] = useState(0);
+  const [volume, setVolume] = useState(0);
+  const [prizePool, setPrizePool] = useState(0);
   const [ensName, setEnsName] = useState("");
   const [ensUrl, setEnsUrl] = useState("");
   const [more, setMore] = useState({
@@ -219,12 +222,16 @@ const HomeV1 = () => {
     const fetchData = async () => {
       const total = await getTotalMinted();
       const currentSupply = await getCurrentSupply();
+      const prizePool = await getPrizePool();
+      const volume = await getVolume();
       setTotalMinted(total.toString());
       setCurrentSupply(currentSupply.toString());
+      setPrizePool(prizePool.toString());
+      setVolume(volume.toString());
     };
 
     fetchData();
-  }, [getTotalMinted, getCurrentSupply]);
+  }, [getTotalMinted, getCurrentSupply, getPrizePool, getVolume]);
 
   const changePageProfile = (linkProfile) => {
     changePageLinkProfile(linkProfile);
@@ -600,21 +607,6 @@ const HomeV1 = () => {
                     )}
                   </button>
                 </div>
-                <button
-                  id="mint"
-                  style={
-                    currentTheme.theme.name === "Light Theme"
-                      ? {
-                          color: "white",
-                          backgroundColor: "black",
-                        }
-                      : {}
-                  }
-                  className="bigButton"
-                  onClick={mintPawn}
-                >
-                  Mint
-                </button>
                 <ConnectWallet
                   className="connectionButton"
                   btnTitle="Connect"
@@ -714,7 +706,7 @@ const HomeV1 = () => {
                       currentTheme.theme.name === "Dark Theme" ? eth : ethDark
                     }
                   />
-                  <span className="textWhite">{currentSupply}</span> Volume{" "}
+                  <span className="textWhite">{(Number(volume) * 10 ** -18).toFixed(3)}</span> Volume{" "}
                   <img
                     alt=""
                     className="leftText"
@@ -723,7 +715,7 @@ const HomeV1 = () => {
                       currentTheme.theme.name === "Dark Theme" ? eth : ethDark
                     }
                   />
-                  <span className="textWhite">10000</span> Pool{" "}
+                  <span className="textWhite">{(Number(prizePool) * 10 ** -18).toFixed(3)}</span> Pool{" "}
                 </div>
               </div>
             </div>

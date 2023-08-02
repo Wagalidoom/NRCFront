@@ -77,6 +77,7 @@ justify-content:space-around;
     margin-right:10px;
 }
 .filter , .sweep{
+    color:${props => props.theme.colors.text};
     padding:8px 12px;
 }
 .filter{
