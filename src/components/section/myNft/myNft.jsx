@@ -53,14 +53,13 @@ export const MyNft = (props) => {
 
   const modalRef = useRef(null);
   const selectRef = useRef(null);
-  const [addressLower, setAddressLower] = useState("");
   const [selected, setSelected] = useState(null);
   const [open, setOpen] = useState(false);
   const {
     burn,
     unstack,
     unlistNFT,
-    buy,
+    sweep,
     revealKingHand,
     setPrice,
     setEns,
@@ -181,7 +180,6 @@ export const MyNft = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setAddressLower(address.toLowerCase());
       let NRCquery = `
             {
               nfts(where: {owner: "${address}"}) {
@@ -389,6 +387,21 @@ export const MyNft = (props) => {
                   <img src={ensvision} alt="" />
                 </a>
               </button> */}
+              <button
+                className="button mint"
+                onClick={() => {
+                  console.log(activeButton);
+                  setActiveButton({
+                    ...activeButton,
+                    filter: activeButton.filter ? false : true,
+                  });
+                }}
+              >
+                <img
+                  src={props.theme === "Light Theme" ? filterDark : filterLight}
+                  alt=""
+                />
+              </button>
               <button
                 className="button filter"
                 onClick={() => {
@@ -764,7 +777,7 @@ export const MyNft = (props) => {
                   </p>
                   {props.market ? (
                     <div>
-                      {addressLower === element.owner ? (
+                      {address.toLowerCase() === element.owner ? (
                         <Button
                           className="unlist-action"
                           onClick={() => unlistNFT(element.id.toString())}
@@ -775,7 +788,7 @@ export const MyNft = (props) => {
                         <Button
                           className="buy-action"
                           onClick={() =>
-                            buy(element.id.toString(), element.price)
+                            sweep([element.id.toString()], element.price)
                           }
                         >
                           Buy

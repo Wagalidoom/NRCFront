@@ -83,11 +83,6 @@ export function EthereumProvider({ children }) {
     "burn"
   );
 
-  const { mutateAsync: buyCall, error: buyError } = useContractWrite(
-    contract,
-    "buyNFT"
-  );
-
   const { mutateAsync: listCall, error: listError } = useContractWrite(
     contract,
     "listNFT"
@@ -205,15 +200,6 @@ export function EthereumProvider({ children }) {
     );
   };
 
-  const buy = async (_id, price) => {
-    await buyCall({
-      args: [_id],
-      overrides: {
-        value: price,
-      },
-    });
-  };
-
   const listNFT = async (_id, price) => {
     await approveCall({ args: [contractAddress, _id] });
     await listCall({ args: [_id, ethers.utils.parseEther(price.toString())] });
@@ -300,7 +286,6 @@ export function EthereumProvider({ children }) {
     burn,
     stack,
     unstack,
-    buy,
     revealKingHand,
     buyKing,
     listNFT,
