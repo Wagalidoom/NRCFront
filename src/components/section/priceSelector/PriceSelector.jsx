@@ -11,7 +11,7 @@ const CustomTextField = styled(TextField)({
   "& .MuiInputBase-root": {
       color: "rgba(255, 255, 255, 0.8)",
       backgroundColor: "rgb(0 0 0)",
-      width: "50px",
+      width: "90px",
   },
 
   "& .MuiInputBase-input": {
@@ -45,7 +45,20 @@ export const PriceSelector = () => {
     };
 
     const handleTextFieldChange = (event) => {
-        setPrice(Number(event.target.value));
+      const userInput = event.target.value;
+  
+      // Supprime les caractères non numériques ou non décimaux
+      let cleanedInput = userInput.replace(/[^0-9\.]/g, '');
+  
+      // Vérifie s'il y a plus de 4 chiffres après la virgule
+      if (cleanedInput.includes('.')) {
+        const decimalPosition = cleanedInput.indexOf('.');
+        if (cleanedInput.length - decimalPosition - 1 > 4) {
+          cleanedInput = cleanedInput.slice(0, decimalPosition + 5);
+        }
+      }
+  
+      setPrice(cleanedInput);
     };
 
   return (
@@ -97,6 +110,7 @@ export const PriceSelector = () => {
                 hiddenLabel
                 id="filled-hidden-label-small"
                 onChange={handleTextFieldChange}
+                value={price}
                 variant="filled"
                 size="small"
                 style={{ margin: "0 15px" }}
