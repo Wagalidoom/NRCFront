@@ -26,7 +26,7 @@ export const Activity = (props) => {
 
     // Utiliser useEffect pour charger les données au chargement du composant
     useEffect(() => {
-        const first = 6;
+        const first = 1000;
         // Définition des requêtes
         const GET_NFT_SOLD = `
       {

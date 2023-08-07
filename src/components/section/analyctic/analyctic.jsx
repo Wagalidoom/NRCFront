@@ -11,7 +11,7 @@ import roiNoir from "../../../assets/images/icon/IconRoi-Noir.png";
 import fouBlanc from "../../../assets/images/icon/IconFou-Blanc.png";
 import fouNoir from "../../../assets/images/icon/Icon Fou - Noir.png";
 import pionBlanc from "../../../assets/images/icon/IconPion-Blanc.png";
-import pionNoir from "../../../assets/images/icon/Icon Pion - Noir.png";
+import pionNoir from "../../../assets/images/icon/IconPion-Noir.png";
 import tourBlanc from "../../../assets/images/icon/IconTour-Blanc.png";
 import tourNoir from "../../../assets/images/icon/Icon Tour - Noir.png";
 import BigNumber from "bignumber.js";

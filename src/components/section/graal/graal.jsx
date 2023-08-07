@@ -48,8 +48,8 @@ export const Graal = (props) => {
 
   useEffect(() => {
     props.data.mint[1].type == "burn"
-      ? setBurn(burnCount > props.data.mint[1].value)
-      : setBurn(burnCounterCount > props.data.mint[1].value);
+      ? setBurn(burnCount >= props.data.mint[1].value)
+      : setBurn(burnCounterCount >= props.data.mint[1].value);
   }, [burnCount, burnCounterCount]);
 
   useEffect(() => {
