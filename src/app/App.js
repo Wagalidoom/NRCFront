@@ -25,16 +25,17 @@ function App() {
   return (
     <ThirdwebProvider sdkOptions={{
       readonlySettings: {
-        rpcUrl: ETHEREUM_RPC_URL, // force read calls to go through your own RPC url
-        chainId: 5, // reduce RPC calls by specifying your chain ID
+        rpcUrl: ETHEREUM_RPC_URL,
+        chainId: 5,
       },
     }} activeChain={{...Goerli}} supportedChains={[Goerli]} supportedWallets={[
         metamaskWallet(),
         coinbaseWallet(),
         walletConnect({
-          projectId: "8bced1683739a0bf52bbb56180e49a76",
+          projectId: "0626848077ce83d0eb850a0d03614cd3",
         }),
-        safeWallet()]}>
+        safeWallet()]}
+        clientId="d21cf762a50d961e73495ccf8e83deb8">
       <ThemeContext.Provider value={{ theme, setTheme }}>
         <MuiThemeProvider theme={muiTheme}>
           <StyledThemeProvider theme={theme}>
