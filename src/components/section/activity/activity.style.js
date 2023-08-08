@@ -1,6 +1,6 @@
 import styled from "styled-components";
 export const ButtonFilter = styled.button`
-color: ${props => props.theme.colors.text};
+color: ${props => props.active ? props.category === "sales" ? 'rgb(179, 230, 181)' : props.category === "burns" ? "#D288A2" : props.category === "offers" ? "#ADD8E6" : props.category === "mints" ? "#F59E0B" : props.theme.colors.text : props.theme.colors.text};
 border:none;
 width:84px;
 height:32px;

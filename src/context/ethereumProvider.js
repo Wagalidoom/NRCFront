@@ -112,13 +112,8 @@ export function EthereumProvider({ children }) {
   const chooseColor = async (_color) => {
     try {
       await chooseColorCall({ args: [_color] });
-      await mintCall({
-        args: [5, "0x0"],
-        overrides: {
-          value: ethers.utils.parseEther("0.00002"),
-        },
-      });
       setIsColorPickerOpen(false);
+      setIsMintOpen(true);
     } catch (error) {
       console.log(error);
     }

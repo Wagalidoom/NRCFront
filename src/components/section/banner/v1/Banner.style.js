@@ -186,7 +186,7 @@ overflow:hidden;
     // background:red;
     transform:translateY(-50%);
     border-radius: 10%;
-    left: 24px;
+    left: 15px;
     position: absolute;
     width:100px;
     height:100px;

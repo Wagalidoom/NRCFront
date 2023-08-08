@@ -15,8 +15,8 @@ background:${props => props.theme.name === "Dark Theme" ? 'rgb(30, 39, 50)' : 'r
     width:100%;
 }
 .list > li{
-    width:calc(100% + 20px);
     display:flex;
+    padding:4px 8px;
 }
 .holder-infos{
     position:relative;

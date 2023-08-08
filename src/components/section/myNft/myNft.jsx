@@ -445,12 +445,14 @@ export const MyNft = (props) => {
               <button
                 className="button sweep"
                 onClick={() => {
+                  const filteredCollection = collection.filter(item => item.owner !== address.toLowerCase());
+
                   setActiveButton({
                     ...activeButton,
                     sweep: activeButton.sweep ? false : true,
                   });
                   setSweep(
-                    collection.sort((a, b) => {
+                    filteredCollection.sort((a, b) => {
                       return a.price - b.price;
                     })
                   );
@@ -711,12 +713,12 @@ export const MyNft = (props) => {
               className="myNft"
               key={index}
               style={{
-                border: element.isStacked
+                border: props.market ? "none" : element.isListed ? "3px solid rgb(204, 80, 55)" : element.isStacked
                   ? "3px solid rgb(29, 155, 240)"
                   : "none",
-                backgroundColor: element.isStacked
-                  ? "rgb(29, 155, 240)"
-                  : "none",
+                backgroundColor: props.market ? "none" : element.isListed ? "rgb(204, 80, 55)" : element.isStacked
+                ? "rgb(29, 155, 240)"
+                : "none",
               }}
             >
               <img

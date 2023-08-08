@@ -27,7 +27,6 @@ export const Sweep = () => {
   const [price, setPrice] = useState(0);
   const [collectionId, setCollectionId] = useState([]);
   const componentRef = useRef(null);
-  console.log(collection);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);

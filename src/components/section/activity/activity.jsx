@@ -127,7 +127,7 @@ export const Activity = (props) => {
             <div className="filter-section">
                 <div className="filter-container">
                     {arrayFilters.map((element, index) => (
-                        <ButtonFilter active={element === filter ? true : false} className="filter " key={index} onClick={() => changeFilter(element)}>
+                        <ButtonFilter active={element === filter ? true : false} category={element} className="filter" key={index} onClick={() => changeFilter(element)}>
                             {element}
                         </ButtonFilter>
                     ))}

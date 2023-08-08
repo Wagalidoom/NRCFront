@@ -37,10 +37,10 @@ export const Countdown = ({ endTime }) => {
 
     return (
         <CountdownContainer>
-            <div><p className="unity">Jours</p><div className="number">{countdown.days}</div></div>
-            <div><p className="unity">Heures</p><div className="number"> {countdown.hours}</div></div>
-            <div><p className="unity">Minutes</p><div className="number">{countdown.minutes}</div></div>
-            <div><p className="unity">Secondes</p><div className="number"> {countdown.seconds}</div></div>
+            <div><p className="unity">Jours</p><div className="number">{countdown.days ? countdown.days : 0}</div></div>
+            <div><p className="unity">Heures</p><div className="number"> {countdown.hours ? countdown.hours : 0}</div></div>
+            <div><p className="unity">Minutes</p><div className="number">{countdown.minutes ? countdown.minutes : 0}</div></div>
+            <div><p className="unity">Secondes</p><div className="number"> {countdown.seconds ? countdown.seconds : 0}</div></div>
         </CountdownContainer>
     )
 }   

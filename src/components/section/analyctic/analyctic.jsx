@@ -145,7 +145,7 @@ export const Analyctic = (props) => {
             </div>
             <ul className="list">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <p style={{padding: "12px 16px"}}>Loading...</p>
                 ) : (
                     rewards.sort((a, b) => b.rewards - a.rewards).map((element, index) => (
                         <li key={index}>

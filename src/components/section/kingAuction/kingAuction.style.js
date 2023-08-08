@@ -93,6 +93,15 @@ border-bottom-right-radius:5px;
     width: 100%;
     margin-top: 16px;
   }
+
+  .data {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border: 1px solid ${(props) => props.theme.colors.border};
+    margin-top: 16px;
+  }
+
   .king-option {
     font-size: 30px;
     height: inherit;
@@ -126,14 +135,6 @@ border-bottom-right-radius:5px;
     width: 50%;
     align-items: center;
     background-color: #E1DEDE;
-  }
-  .graph {
-    margin-top: 32px;
-    width: 100%;
-    height: 400px;
-    color: white;
-    text-align: center;
-    border: 1px;
   }
   .switch {
     position: absolute;

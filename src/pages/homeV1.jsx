@@ -4198,7 +4198,7 @@ const HomeV1 = () => {
                   active={linkProfile === "graal" ? true : false}
                   onClick={() => changePageProfile("graal")}
                 >
-                  Graal
+                  Mint Graal
                   {linkProfile === "graal" && (
                     <div className="barreBleuMarket"></div>
                   )}
