@@ -211,13 +211,13 @@ export const Graal = (props) => {
           <div>
             <img alt="" src={stack ? validate : novalidate} />
           </div>
-          <div>{props.data.mint[0].text}</div>
+          <div style={{wordBreak: "keep-all"}}>{props.data.mint[0].text}</div>
         </div>
         <div className="graal-condition">
           <div>
             <img alt="" src={burn ? validate : novalidate} />
           </div>
-          <div>{props.data.mint[1].text}</div>
+          <div style={{wordBreak: "keep-all"}}>{props.data.mint[1].text}</div>
         </div>
       </div>
     </GraalContainer>

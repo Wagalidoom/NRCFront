@@ -328,7 +328,7 @@ border-bottom-right-radius:5px;
 .option:nth-child(2):hover{
     color:#B3E6B5;
 }
-.option:last-of-type:hover{
+.option:nth-child(3):hover{
     color:#D288A2;
     
 }

@@ -67,14 +67,17 @@ width:100%;
         font-size:12px;
     }
 }
-.activity-infos-right{
-    border-top:1px solid ${props => props.theme.colors.border};
-    background:${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)':'rgb(247,249,249)'};
+.toolBar{
     width:100%;
-    height:auto;    
-    border-bottom-left-radius:5px;
-    border-bottom-right-radius:5px;
-}
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+position:relative;
+color:${props => props.theme.colors.text};
+background: ${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)' : 'rgb(247,249,249)'};
+border-bottom-left-radius:5px;
+border-bottom-right-radius:5px;
+  }
 .activity-info>span{
     font-size:20px; 
     color: ${props => props.theme.colors.text};
@@ -134,10 +137,6 @@ width:100%;
 }
 .eth-logo{
 height:16px;
-position:absolute;
-left:-12px;
-top:50%;
-transform:translateY(-50%);
 }
 .activity-right > div> img{
 width:175px;

@@ -100,6 +100,7 @@ export const Mint = () => {
             <Slider
               value={mintCount}
               onChange={handleSliderChange}
+              min={1}
               max={20}
               aria-label="Default"
               valueLabelDisplay="auto"

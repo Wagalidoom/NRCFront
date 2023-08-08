@@ -76,7 +76,7 @@ export const Sweep = () => {
               justifyContent: "space-between",
             }}
           >
-            Mint
+            Sweep
             <div
               style={{
                 display: "flex",
@@ -113,6 +113,7 @@ export const Sweep = () => {
             <Slider
               value={sweepCount}
               onChange={handleSliderChange}
+              min={1}
               max={20}
               aria-label="Default"
               valueLabelDisplay="auto"

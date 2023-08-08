@@ -1,5 +1,11 @@
 import { MyNftContainer, ToolBar } from "./myNft.style";
-import { Button, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+} from "@mui/material";
 import DotLight from "../../../assets/images/icon/three-dot-light.svg";
 import DotDark from "../../../assets/images/icon/three-dot-dark.svg";
 import { ThemeContext } from "../../../app/App";
@@ -55,7 +61,7 @@ export const MyNft = (props) => {
 
   const modalRef = useRef(null);
   const selectRef = useRef(null);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(false);
   const [open, setOpen] = useState(false);
   const {
     mintPawn,
@@ -80,7 +86,9 @@ export const MyNft = (props) => {
     "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
   const [ensDomains, setEnsDomains] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const [currentEnsName, setCurrentEnsName] = useState(null);
+  const [filteredCollection, setFilteredCollection] = useState([]);
 
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const {
@@ -374,6 +382,20 @@ export const MyNft = (props) => {
     }
   }, [tokenIdOfNode]);
 
+  const handleInputChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  useEffect(() => {
+    if (searchValue) {
+        const filtered = collection.filter(nft => String(nft.id).includes(searchValue));
+        setFilteredCollection(filtered);
+    } else {
+        setFilteredCollection(collection);
+    }
+}, [searchValue, collection]);
+
+
   return (
     <MyNftContainer
       isFilterApplied={activeButton.filter}
@@ -390,10 +412,16 @@ export const MyNft = (props) => {
                   <img src={ensvision} alt="" />
                 </a>
               </button> */}
-              <img style={{height: "38px", marginRight: "8px", cursor: "pointer"}} onClick={mintPawn}
-                  src={props.theme === "Light Theme" ? nftDark : nftLight}
-                  alt=""
-                />
+              <img
+                style={{
+                  height: "38px",
+                  marginRight: "8px",
+                  cursor: "pointer",
+                }}
+                onClick={mintPawn}
+                src={props.theme === "Light Theme" ? nftDark : nftLight}
+                alt=""
+              />
               <button
                 className="button filter"
                 onClick={() => {
@@ -416,7 +444,12 @@ export const MyNft = (props) => {
               src={props.theme === "Dark Theme" ? searchDark : searchLight}
               alt=""
             />
-            <input type="text" placeholder="search..." />
+            <input
+              type="text"
+              placeholder="search..."
+              value={searchValue}
+              onChange={handleInputChange}
+            />
           </div>
         </div>
         {props.market && (
@@ -445,7 +478,9 @@ export const MyNft = (props) => {
               <button
                 className="button sweep"
                 onClick={() => {
-                  const filteredCollection = collection.filter(item => item.owner !== address.toLowerCase());
+                  const filteredCollection = collection.filter(
+                    (item) => item.owner !== address.toLowerCase()
+                  );
 
                   setActiveButton({
                     ...activeButton,
@@ -471,7 +506,7 @@ export const MyNft = (props) => {
             >
               <div className="visible">
                 <span className="filter-selection">
-                  {selected ? "Price Low to High" : "Price High to Low"}
+                  {selected ? "Price High to Low" : "Price Low to High"}
                 </span>
                 <div className="icon">
                   <img
@@ -663,14 +698,14 @@ export const MyNft = (props) => {
         className="container-nft"
         style={{ padding: props.market ? "0px 10px" : "" }}
       >
-        {collection.length === 0 ? (
+        {filteredCollection.length === 0 ? (
           <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
           >
             No NFT to be shown
           </div>
         ) : null}
-        {collection
+        {filteredCollection
           .slice()
           .sort((a, b) => {
             if (selected === null) {
@@ -713,12 +748,20 @@ export const MyNft = (props) => {
               className="myNft"
               key={index}
               style={{
-                border: props.market ? "none" : element.isListed ? "3px solid rgb(204, 80, 55)" : element.isStacked
+                border: props.market
+                  ? "none"
+                  : element.isListed
+                  ? "3px solid rgb(204, 80, 55)"
+                  : element.isStacked
                   ? "3px solid rgb(29, 155, 240)"
                   : "none",
-                backgroundColor: props.market ? "none" : element.isListed ? "rgb(204, 80, 55)" : element.isStacked
-                ? "rgb(29, 155, 240)"
-                : "none",
+                backgroundColor: props.market
+                  ? "none"
+                  : element.isListed
+                  ? "rgb(204, 80, 55)"
+                  : element.isStacked
+                  ? "rgb(29, 155, 240)"
+                  : "none",
               }}
             >
               <img
@@ -729,9 +772,9 @@ export const MyNft = (props) => {
                 <p
                   style={{
                     position: "absolute",
-                    bottom: "95px",
+                    bottom: "110px",
                     left: "10px",
-                    fontSize: "18px",
+                    fontSize: "1.2em",
                   }}
                 >
                   {element.ensName}
