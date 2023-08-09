@@ -68,7 +68,7 @@ export const PriceSelector = () => {
           <div
             className="contractContainerRow"
             style={{
-              padding: "10px",
+              padding: "15px 0px",
               justifyContent: "space-between",
             }}
           >
@@ -82,7 +82,7 @@ export const PriceSelector = () => {
               }}
             >
               Number Runner #{selectId}
-              <IconButton onClick={handleClose}>
+              <IconButton onClick={handleClose} style={{padding: "0px"}}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
@@ -113,7 +113,7 @@ export const PriceSelector = () => {
                 value={price}
                 variant="filled"
                 size="small"
-                style={{ margin: "0 15px" }}
+                style={{ margin: "0 15px 0 3px" }}
               />
             </div>
           </div>

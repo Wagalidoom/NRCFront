@@ -98,6 +98,7 @@ import { EnsSelector } from "../components/section/ensSelector/EnsSelector";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 import { getNftType, nftTypeToString } from "../helper";
 import { Sweep } from "../components/section/sweep/Sweep";
+import { BurnValidator } from "../components/section/burnValidator/BurnValidator";
 const namehash = require("eth-ens-namehash");
 
 const HomeV1 = () => {
@@ -119,6 +120,7 @@ const HomeV1 = () => {
     isPriceSelectorOpen,
     isSweepOpen,
     isEnsSelectorOpen,
+    isBurnOpen,
     getTotalMinted,
     getCurrentSupply,
     getVolume,
@@ -323,6 +325,7 @@ const HomeV1 = () => {
         {isPriceSelectorOpen ? <PriceSelector /> : null}
         {isSweepOpen ? <Sweep /> : null}
         {isEnsSelectorOpen ? <EnsSelector /> : null}
+        {isBurnOpen ? <BurnValidator /> : null}
         <RightSection
           more={more}
           openFunction={openMore}

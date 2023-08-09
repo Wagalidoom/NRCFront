@@ -27,6 +27,7 @@ export function EthereumProvider({ children }) {
   const [isPriceSelectorOpen, setIsPriceSelectorOpen] = useState(false);
   const [isSweepOpen, setIsSweepOpen] = useState(false);
   const [isEnsSelectorOpen, setIsEnsSelectorOpen] = useState(false);
+  const [isBurnOpen, setIsBurnOpen] = useState(false);
   const [selectId, setSelectId] = useState(0);
   const [ensList, setEnsList] = useState("");
   const [collection, setCollection] = useState([]);
@@ -124,18 +125,25 @@ export function EthereumProvider({ children }) {
     setSelectId(_id);
   };
 
+  const validateBurn = async (_id) => {
+    setSelectId(_id);
+    setIsBurnOpen(true);
+  };
+
   const mint = async (mintCount) => {
     setIsMintOpen(false);
 
     multiMintCall({
       args: [mintCount],
       overrides: {
-        value: ethers.utils.parseEther((mintCount * 0.00002).toFixed(5).toString()),
+        value: ethers.utils.parseEther(
+          (mintCount * 0.00002).toFixed(5).toString()
+        ),
       },
     });
   };
 
-  const sweep = async(_list, _price) => {
+  const sweep = async (_list, _price) => {
     setIsSweepOpen(false);
 
     multiBuyCall({
@@ -144,7 +152,7 @@ export function EthereumProvider({ children }) {
         value: ethers.utils.parseEther((Number(_price) * 10 ** -18).toString()),
       },
     });
-  }
+  };
 
   const mintSpecial = async (type, stackedId) => {
     await mintCall({
@@ -165,7 +173,6 @@ export function EthereumProvider({ children }) {
     setIsSweepOpen(true);
     setCollection(_collection);
   };
-  
 
   const stack = async (_ens, _id) => {
     setSelectId(null);
@@ -182,6 +189,8 @@ export function EthereumProvider({ children }) {
 
   const burn = async (_id) => {
     await burnCall({ args: [_id] });
+    setSelectId(null);
+    setIsBurnOpen(false);
   };
 
   const revealKingHand = async (_id) => {
@@ -207,13 +216,13 @@ export function EthereumProvider({ children }) {
   };
 
   const buyKing = async (_color) => {
-    console.log(kingPrice)
-      await buyKingCall({
-          args: [_color],
-          overrides: {
-              value: kingPrice.toNumber().toFixed(0) + 10,
-          },
-      });
+    console.log(kingPrice);
+    await buyKingCall({
+      args: [_color],
+      overrides: {
+        value: kingPrice.toNumber().toFixed(0) + 10,
+      },
+    });
   };
 
   const mintPawn = async () => {
@@ -271,9 +280,11 @@ export function EthereumProvider({ children }) {
     isSweepOpen,
     isEnsSelectorOpen,
     isMintOpen,
+    isBurnOpen,
     selectId,
     ensList,
     collection,
+    validateBurn,
     mint,
     sweep,
     mintSpecial,

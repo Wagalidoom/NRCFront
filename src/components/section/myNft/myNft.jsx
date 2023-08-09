@@ -65,7 +65,7 @@ export const MyNft = (props) => {
   const [open, setOpen] = useState(false);
   const {
     mintPawn,
-    burn,
+    validateBurn,
     unstack,
     unlistNFT,
     sweep,
@@ -479,8 +479,8 @@ export const MyNft = (props) => {
                 className="button sweep"
                 onClick={() => {
                   const filteredCollection = collection.filter(
-                    (item) => address ? address.toLowerCase() : "0x0" !== item.owner
-                  );
+                    (item) => address ? address.toLowerCase() !== item.owner : true
+                  ) ;
 
                   setActiveButton({
                     ...activeButton,
@@ -814,12 +814,21 @@ export const MyNft = (props) => {
                   </p>
                   {props.market ? (
                     <div>
-                      {address ? address.toLowerCase() : "0x0" === element.owner ? (
+                      {address ? address.toLowerCase() === element.owner ? (
                         <Button
                           className="unlist-action"
                           onClick={() => unlistNFT(element.id.toString())}
                         >
                           Unlist
+                        </Button>
+                      ) : (
+                        <Button
+                          className="buy-action"
+                          onClick={() =>
+                            sweep([element.id.toString()], element.price)
+                          }
+                        >
+                          Buy
                         </Button>
                       ) : (
                         <Button
@@ -918,7 +927,7 @@ export const MyNft = (props) => {
                           )}
                           <li
                             className="option"
-                            onClick={() => burn(element.id)}
+                            onClick={() => validateBurn(element.id)}
                           >
                             Burn
                           </li>

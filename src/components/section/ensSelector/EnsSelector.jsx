@@ -48,7 +48,7 @@ export const EnsSelector = () => {
           <div
             className="contractContainerRow"
             style={{
-              padding: "10px",
+              padding: "15px 0px",
               justifyContent: "space-between",
             }}
           >
@@ -62,7 +62,7 @@ export const EnsSelector = () => {
               }}
             >
               Number Runner #{selectId}
-              <IconButton onClick={handleClose}>
+              <IconButton onClick={handleClose} style={{padding: "0px"}}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
@@ -141,6 +141,12 @@ export const EnsSelector = () => {
             Digit selected
             <div>{ensName}</div>
           </div>
+          <div style={{fontSize: "12px", padding: "0px 15px"}}>If your number does not appear, please unwrap it on <a
+                          href="https://ens.domains/"
+                          rel="noreferrer"
+                          target="_blank"
+                          style={{fontSize: "11px"}}
+                        >https://ens.domains/</a></div>
           <Button
             style={{ margin: "15px" }}
             variant="contained"

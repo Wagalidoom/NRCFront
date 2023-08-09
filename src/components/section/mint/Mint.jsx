@@ -59,7 +59,7 @@ export const Mint = () => {
           <div
             className="contractContainerRow"
             style={{
-              padding: "10px",
+              padding: "15px 0px",
               justifyContent: "space-between",
             }}
           >
@@ -83,7 +83,7 @@ export const Mint = () => {
                 size="small"
                 style={{ margin: "0 15px" }}
               />
-              <IconButton onClick={handleClose}>
+              <IconButton onClick={handleClose} style={{padding: "0px"}}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
