@@ -479,7 +479,7 @@ export const MyNft = (props) => {
                 className="button sweep"
                 onClick={() => {
                   const filteredCollection = collection.filter(
-                    (item) => item.owner !== address.toLowerCase()
+                    (item) => address ? address.toLowerCase() : "0x0" !== item.owner
                   );
 
                   setActiveButton({
@@ -814,7 +814,7 @@ export const MyNft = (props) => {
                   </p>
                   {props.market ? (
                     <div>
-                      {address.toLowerCase() === element.owner ? (
+                      {address ? address.toLowerCase() : "0x0" === element.owner ? (
                         <Button
                           className="unlist-action"
                           onClick={() => unlistNFT(element.id.toString())}
