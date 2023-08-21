@@ -75,6 +75,7 @@ export const MyNft = (props) => {
     setSweep,
     address,
     mintLoading,
+    multiMintLoading,
   } = useEthereum();
   const [isMarketFetched, setIsMarketFetched] = useState(false);
   const [nftOwned, setNftOwned] = useState([]);
@@ -86,9 +87,10 @@ export const MyNft = (props) => {
     "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
   const [ensDomains, setEnsDomains] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [currentEnsName, setCurrentEnsName] = useState(null);
   const [filteredCollection, setFilteredCollection] = useState([]);
+  const [finishFetching, setFinishFetching] = useState(false);
 
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const {
@@ -140,6 +142,10 @@ export const MyNft = (props) => {
     }
   }, [modalOpen]);
 
+  const handleInputChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
   useEffect(() => {
     const fetchNftOnSale = async () => {
       let NRCquery = `
@@ -178,11 +184,7 @@ export const MyNft = (props) => {
       setNftOnSale(collection);
       setIsMarketFetched(true);
       if (props.market) {
-        setCollection(
-          collection.sort((a, b) => {
-            return a.price - b.price;
-          })
-        );
+        setCollection(collection);
       }
     };
 
@@ -210,13 +212,14 @@ export const MyNft = (props) => {
         console.log(error);
       }
 
+      let collection = [];
+
       fetchOwned.map((element) => {
         let isListed = nftOnSale.some((e) => e.id === Number(element.id));
         collection.push({
           id: Number(element.id),
           isStacked: false,
           isListed: isListed,
-          rewards: 0,
           ensName: "",
           price: 0,
           owner: element.owner,
@@ -243,6 +246,17 @@ export const MyNft = (props) => {
         console.log(error);
       }
 
+      if (fetchENS.length > 0) {
+        const domainNames = fetchENS.map((domain) => {
+          return { hash: namehash.hash(domain.name), name: domain.name };
+        });
+        console.log(domainNames);
+        const [currentDomain, ...rest] = domainNames;
+        setNode(currentDomain.hash);
+        setCurrentEnsName(currentDomain.name);
+        setEnsDomains(rest);
+      }
+
       setEnsList(fetchENS);
       setCollection(collection);
     };
@@ -250,39 +264,64 @@ export const MyNft = (props) => {
     if (address && !props.market && isMarketFetched) {
       fetchData();
     }
-  }, [mintLoading, isMarketFetched]);
+  }, [mintLoading, multiMintLoading, isMarketFetched]);
 
   useEffect(() => {
-    if (ensList.length > 0) {
-      const domainNames = ensList.map((domain) => {
-        return { hash: namehash.hash(domain.name), name: domain.name };
-      });
-      setEnsDomains(domainNames);
-      setEnsDomainsLoading(false);
+    if (isLoading === false) {
+      if (
+        ensList.length > 0 &&
+        currentEnsName === ensList[ensList.length - 1].name &&
+        !finishFetching
+      ) {
+        console.log("update collection", currentEnsName);
+        if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
+          const updatedCollection = [
+            ...collection,
+            {
+              id: Number(tokenIdOfNode),
+              isStacked: true,
+              isListed: false,
+              ensName: currentEnsName,
+              price: 0,
+              owner: address,
+              type: getNftType(Number(tokenIdOfNode)),
+              color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
+            },
+          ];
+          setCollection(updatedCollection);
+          setFinishFetching(true);
+        }
+      } else if (ensDomains.length > 0) {
+        console.log("update collection", currentEnsName);
+        if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
+          const updatedCollection = [
+            ...collection,
+            {
+              id: Number(tokenIdOfNode),
+              isStacked: true,
+              isListed: false,
+              ensName: currentEnsName,
+              price: 0,
+              owner: address,
+              type: getNftType(Number(tokenIdOfNode)),
+              color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
+            },
+          ];
+          setCollection(updatedCollection);
+        }
+        const [currentDomain, ...rest] = ensDomains;
+        setNode(currentDomain.hash);
+        setCurrentEnsName(currentDomain.name);
+        setEnsDomains(rest);
+      }
     }
-  }, [ensList]);
+  }, [tokenIdOfNode]);
 
   useEffect(() => {
-    console.log(ensDomains);
-    if (!ensDomainsLoading && ensDomains.length > 0) {
-      const updateNodeAndName = (index) => {
-        if (index >= ensDomains.length) return; // stop if we've done all items
-        const domain = ensDomains[index];
-        console.log(domain.name);
-        setNode(domain.hash);
-        setCurrentEnsName(domain.name);
-        setTimeout(() => updateNodeAndName(index + 1), 50); // proceed to next item after 5 seconds
-      };
-      updateNodeAndName(0); // start with first item
-    }
-  }, [ensDomains, ensDomainsLoading]);
-
-  useEffect(() => {
-    if (Number(tokenIdOfNode)) {
-      // comment faire apparaitre les rois
-      const fetchShares = async (updatedCollection) => {
-        const formattedIds = JSON.stringify(updatedCollection.map((e) => e.id));
-        const ownedNftsQuery = `
+    // comment faire apparaitre les rois
+    const fetchShares = async (collection) => {
+      const formattedIds = JSON.stringify(collection.map((e) => e.id));
+      const ownedNftsQuery = `
           {
               nfts (where: {id_in: ${formattedIds}})  {
                 id
@@ -293,7 +332,7 @@ export const MyNft = (props) => {
           }
           `;
 
-        const lastGlobalSharesQuery = `
+      const lastGlobalSharesQuery = `
           {
               globalSharesUpdateds (first: 1, orderBy: blockNumber, orderDirection: desc) {
                 id
@@ -303,98 +342,72 @@ export const MyNft = (props) => {
           }
           `;
 
-        try {
-          const responseNFT = await Axios.post(NRCsubgraph, {
-            query: ownedNftsQuery,
-          });
-          const responseGlobalShares = await Axios.post(NRCsubgraph, {
-            query: lastGlobalSharesQuery,
-          });
+      try {
+        const responseNFT = await Axios.post(NRCsubgraph, {
+          query: ownedNftsQuery,
+        });
+        const responseGlobalShares = await Axios.post(NRCsubgraph, {
+          query: lastGlobalSharesQuery,
+        });
 
-          if (
-            !responseNFT.data?.data?.nfts ||
-            !responseGlobalShares.data?.data?.globalSharesUpdateds
-          ) {
-            console.log(responseNFT);
-            console.log(ownedNftsQuery);
-            throw new Error("Invalid API response");
-          }
-
-          const nfts = responseNFT.data.data.nfts;
-          const nftsById = Object.fromEntries(nfts.map((nft) => [nft.id, nft]));
-
-          const lastGlobalShares =
-            responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
-
-          const collectionShares = updatedCollection.map((element) => {
-            const nft = nftsById[element.id];
-            if (!nft) return element;
-
-            const nftType = getNftType(Number(nft.id));
-            const unclaimedRewards = nft.unclaimedRewards
-              ? new BigNumber(nft.unclaimedRewards)
-              : new BigNumber(0);
-            const nftShare = nft.share
-              ? new BigNumber(nft.share)
-              : new BigNumber(0);
-            const newShare =
-              nftShare.toNumber() > 0
-                ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare)
-                : new BigNumber(0);
-
-            return {
-              ...element,
-              share: newShare.toNumber(),
-              type: nftType,
-              rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
-            };
-          });
-
-          setCollection(collectionShares);
-        } catch (error) {
-          console.error(error);
+        if (
+          !responseNFT.data?.data?.nfts ||
+          !responseGlobalShares.data?.data?.globalSharesUpdateds
+        ) {
+          console.log(responseNFT);
+          console.log(ownedNftsQuery);
+          throw new Error("Invalid API response");
         }
-      };
-      const alreadyInCollection = collection.some(
-        (e) => e.id === Number(tokenIdOfNode)
-      );
 
-      if (!alreadyInCollection) {
-        const updatedCollection = [
-          ...collection,
-          {
-            id: Number(tokenIdOfNode),
-            isStacked: true,
-            isListed: false,
-            rewards: 0,
-            ensName: currentEnsName,
-            price: 0,
-            owner: address,
-            type: getNftType(Number(tokenIdOfNode)),
-            color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
-          },
-        ];
-        setCollection(updatedCollection);
+        const nfts = responseNFT.data.data.nfts;
+        const nftsById = Object.fromEntries(nfts.map((nft) => [nft.id, nft]));
 
-        // Après que tous les NFTs ont été ajoutés à la collection, appelez fetchShares une seule fois
-        fetchShares(updatedCollection);
+        const lastGlobalShares =
+          responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
+
+        const collectionShares = collection.map((element) => {
+          const nft = nftsById[element.id];
+          if (!nft) return element;
+
+          const nftType = getNftType(Number(nft.id));
+          const unclaimedRewards = nft.unclaimedRewards
+            ? new BigNumber(nft.unclaimedRewards)
+            : new BigNumber(0);
+          const nftShare = nft.share
+            ? new BigNumber(nft.share)
+            : new BigNumber(0);
+          const newShare =
+            nftShare.toNumber() > 0
+              ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare)
+              : new BigNumber(0);
+
+          return {
+            ...element,
+            share: newShare.toNumber(),
+            type: nftType,
+            rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
+          };
+        });
+
+        setCollection(collectionShares);
+      } catch (error) {
+        console.error(error);
       }
-    }
-  }, [tokenIdOfNode]);
+    };
 
-  const handleInputChange = (e) => {
-    setSearchValue(e.target.value);
-  };
+    fetchShares(collection);
+  }, [finishFetching]);
 
   useEffect(() => {
     if (searchValue) {
-        const filtered = collection.filter(nft => String(nft.id).includes(searchValue));
-        setFilteredCollection(filtered);
+      const filtered = collection.filter((nft) =>
+        String(nft.id).includes(searchValue)
+      );
+      setFilteredCollection(filtered);
     } else {
-        setFilteredCollection(collection);
+      setFilteredCollection(collection);
     }
-}, [searchValue, collection]);
-
+  }, [searchValue, collection]);
 
   return (
     <MyNftContainer
@@ -425,7 +438,6 @@ export const MyNft = (props) => {
               <button
                 className="button filter"
                 onClick={() => {
-                  console.log(activeButton);
                   setActiveButton({
                     ...activeButton,
                     filter: activeButton.filter ? false : true,
@@ -478,9 +490,9 @@ export const MyNft = (props) => {
               <button
                 className="button sweep"
                 onClick={() => {
-                  const filteredCollection = collection.filter(
-                    (item) => address ? address.toLowerCase() !== item.owner : true
-                  ) ;
+                  const filteredCollection = collection.filter((item) =>
+                    address ? address.toLowerCase() !== item.owner : true
+                  );
 
                   setActiveButton({
                     ...activeButton,
@@ -814,22 +826,24 @@ export const MyNft = (props) => {
                   </p>
                   {props.market ? (
                     <div>
-                      {address ? address.toLowerCase() === element.owner ? (
-                        <Button
-                          className="unlist-action"
-                          onClick={() => unlistNFT(element.id.toString())}
-                        >
-                          Unlist
-                        </Button>
-                      ) : (
-                        <Button
-                          className="buy-action"
-                          onClick={() =>
-                            sweep([element.id.toString()], element.price)
-                          }
-                        >
-                          Buy
-                        </Button>
+                      {address ? (
+                        address.toLowerCase() === element.owner ? (
+                          <Button
+                            className="unlist-action"
+                            onClick={() => unlistNFT(element.id.toString())}
+                          >
+                            Unlist
+                          </Button>
+                        ) : (
+                          <Button
+                            className="buy-action"
+                            onClick={() =>
+                              sweep([element.id.toString()], element.price)
+                            }
+                          >
+                            Buy
+                          </Button>
+                        )
                       ) : (
                         <Button
                           className="buy-action"
@@ -885,7 +899,7 @@ export const MyNft = (props) => {
                         }
                       ></img>
                       <span style={{ marginLeft: "4px" }}>
-                        {element.rewards.toFixed(6)}
+                        {element.rewards}
                       </span>
                     </div>
                   )}

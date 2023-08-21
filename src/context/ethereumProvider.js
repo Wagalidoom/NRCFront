@@ -289,6 +289,7 @@ export function EthereumProvider({ children }) {
     sweep,
     mintSpecial,
     mintLoading,
+    multiMintLoading,
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
