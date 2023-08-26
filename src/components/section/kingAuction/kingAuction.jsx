@@ -144,7 +144,7 @@ export const KingAuction = (props) => {
                 paddingRight: "5px",
               }}
             >
-              Number Runner #1
+              Number Runner #0
             </p>
 
             <p
@@ -188,7 +188,7 @@ export const KingAuction = (props) => {
                 paddingRight: "5px",
               }}
             >
-              Number Runner #2
+              Number Runner #1
             </p>
             <p
               style={{

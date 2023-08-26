@@ -12,7 +12,7 @@ const CustomTextField = styled(TextField)({
     backgroundColor: "rgb(21, 32, 43)",
     height: "35px",
     width: "50px",
-    borderRadius: "25%",
+    borderRadius: "6px",
     border: "solid 2px rgb(48, 60, 67)"
   },
 

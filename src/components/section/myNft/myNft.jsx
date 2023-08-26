@@ -76,6 +76,11 @@ export const MyNft = (props) => {
     address,
     mintLoading,
     multiMintLoading,
+    burnLoading,
+    stackLoading,
+    unstackLoading,
+    listLoading,
+    unlistLoading,
   } = useEthereum();
   const [isMarketFetched, setIsMarketFetched] = useState(false);
   const [nftOwned, setNftOwned] = useState([]);
@@ -264,16 +269,16 @@ export const MyNft = (props) => {
     if (address && !props.market && isMarketFetched) {
       fetchData();
     }
-  }, [mintLoading, multiMintLoading, isMarketFetched]);
+  }, [mintLoading, multiMintLoading, isMarketFetched, burnLoading, stackLoading, unstackLoading, listLoading, unlistLoading]);
 
   useEffect(() => {
     if (isLoading === false) {
+      console.log(ensList, currentEnsName);
       if (
         ensList.length > 0 &&
         currentEnsName === ensList[ensList.length - 1].name &&
         !finishFetching
       ) {
-        console.log("update collection", currentEnsName);
         if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
           const updatedCollection = [
             ...collection,
@@ -289,10 +294,11 @@ export const MyNft = (props) => {
             },
           ];
           setCollection(updatedCollection);
-          setFinishFetching(true);
         }
-      } else if (ensDomains.length > 0) {
         console.log("update collection", currentEnsName);
+        setFinishFetching(true);
+      } else if (ensDomains.length > 0) {
+        // console.log("update collection", currentEnsName);
         if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
           const updatedCollection = [
             ...collection,
@@ -395,7 +401,9 @@ export const MyNft = (props) => {
       }
     };
 
-    fetchShares(collection);
+    if (finishFetching) {
+      fetchShares(collection);
+    }
   }, [finishFetching]);
 
   useEffect(() => {

@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.2.51";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.3.0";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x3731B68CaEAbA86B102Ef1cB76501B0edB801635";
+export const contractAddress = "0x6Cf0D550041325D55A6f7cf8D3e14878fDA897c5";
 
 const EthereumContext = createContext(null);
 
@@ -32,6 +32,9 @@ export function EthereumProvider({ children }) {
   const [ensList, setEnsList] = useState("");
   const [collection, setCollection] = useState([]);
   const [isMintOpen, setIsMintOpen] = useState(false);
+  const [isKingHandOpen, setIsKingHandOpen] = useState(false);
+  const [isNotKingHandOpen, setIsNotKingHandOpen] = useState(false);
+
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
   const generalContract = new ethers.Contract(
     contractAddress,
@@ -69,27 +72,27 @@ export function EthereumProvider({ children }) {
     error: multiBuyError,
   } = useContractWrite(contract, "multiBuy");
 
-  const { mutateAsync: stackCall, error: stackError } = useContractWrite(
+  const { mutateAsync: stackCall, isLoading: stackLoading, error: stackError } = useContractWrite(
     contract,
     "stack"
   );
 
-  const { mutateAsync: unstackCall, error: unstackError } = useContractWrite(
+  const { mutateAsync: unstackCall, isLoading: unstackLoading, error: unstackError } = useContractWrite(
     contract,
     "unstack"
   );
 
-  const { mutateAsync: burnCall, error: burnError } = useContractWrite(
+  const { mutateAsync: burnCall, isLoading: burnLoading, error: burnError } = useContractWrite(
     contract,
     "burn"
   );
 
-  const { mutateAsync: listCall, error: listError } = useContractWrite(
+  const { mutateAsync: listCall, isLoading: listLoading, error: listError } = useContractWrite(
     contract,
     "listNFT"
   );
 
-  const { mutateAsync: unlistCall, error: unlistError } = useContractWrite(
+  const { mutateAsync: unlistCall, isLoading: unlistLoading, error: unlistError } = useContractWrite(
     contract,
     "unlistNFT"
   );
@@ -194,14 +197,20 @@ export function EthereumProvider({ children }) {
   };
 
   const revealKingHand = async (_id) => {
-    console.log(
-      await revealKingHandCall({
-        args: [_id],
-        overrides: {
-          value: ethers.utils.parseEther("0.2"),
-        },
-      })
-    );
+    setSelectId(_id);
+    const reveal = await revealKingHandCall({
+      args: [_id],
+      overrides: {
+        value: ethers.utils.parseEther("0.0001"),
+      },
+    });
+    console.log(reveal.receipt.logs[0].data);
+    if(reveal.receipt.logs[0].data === 0x0000000000000000000000000000000000000000000000000000000000000000){
+      setIsKingHandOpen(false);
+    }
+    else {
+      setIsNotKingHandOpen(true);
+    }
   };
 
   const listNFT = async (_id, price) => {
@@ -281,6 +290,8 @@ export function EthereumProvider({ children }) {
     isEnsSelectorOpen,
     isMintOpen,
     isBurnOpen,
+    isKingHandOpen,
+    isNotKingHandOpen,
     selectId,
     ensList,
     collection,
@@ -290,11 +301,19 @@ export function EthereumProvider({ children }) {
     mintSpecial,
     mintLoading,
     multiMintLoading,
+    burnLoading,
+    stackLoading,
+    unstackLoading,
+    listLoading,
+    unlistLoading,
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
     setIsColorPickerOpen,
     setIsSweepOpen,
+    setIsKingHandOpen,
+    setIsNotKingHandOpen,
+    setIsBurnOpen,
     burn,
     stack,
     unstack,

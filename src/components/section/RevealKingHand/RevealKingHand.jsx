@@ -1,12 +1,11 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { useEthereum } from "../../../context/ethereumProvider";
-import { BurnValidatorStyleWrapper } from "./BurnValidator.style";
+import { RevealKingHandStyleWrapper } from "./RevealKingHand.style";
 import { Button, IconButton } from "@mui/material";
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 import { useState, useEffect, useRef } from "react";
 
-export const BurnValidator = () => {
-  const { burn, selectId, setIsBurnOpen } = useEthereum();
+export const RevealKingHand = (props) => {
+  const { selectId, setIsKingHandOpen, setIsNotKingHandOpen } = useEthereum();
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -19,16 +18,18 @@ export const BurnValidator = () => {
 
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
-      setIsBurnOpen(false);
+      setIsKingHandOpen(false);
+      setIsNotKingHandOpen(false);
     }
   };
 
   const handleClose = () => {
-    setIsBurnOpen(false);
+    setIsKingHandOpen(false);
+    setIsNotKingHandOpen(false);
   };
 
   return (
-    <BurnValidatorStyleWrapper>
+    <RevealKingHandStyleWrapper>
       <div className="callContractContainer">
         <div className="mintContent" ref={componentRef}>
           <div
@@ -38,7 +39,7 @@ export const BurnValidator = () => {
               justifyContent: "space-between",
             }}
           >
-            Burn
+            Reveal
             <div
               style={{
                 display: "flex",
@@ -48,7 +49,7 @@ export const BurnValidator = () => {
               }}
             >
               Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{padding: "0px"}}>
+              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
@@ -57,28 +58,26 @@ export const BurnValidator = () => {
             style={{
               display: "flex",
               padding: "15px",
+              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
-            <ReportGmailerrorredIcon style={{marginRight: "5px"}}/>
-            This nft cannot be access anymore!
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-            }}>
-            </div>
+            {props.reveal === true ? (
+              <p>
+                The nft is a King Hand ! Keep it until the end of the collection
+              </p>
+            ) : (
+              <p>The nft is not a King Hand. Try again with another Pawn</p>
+            )}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            ></div>
           </div>
-          <Button
-            style={{ margin: "0 15px" }}
-            variant="contained"
-            onClick={() => {
-              burn(selectId);
-            }}
-          >
-            Proceed to burn
-          </Button>
         </div>
       </div>
-    </BurnValidatorStyleWrapper>
+    </RevealKingHandStyleWrapper>
   );
 };

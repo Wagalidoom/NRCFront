@@ -64,7 +64,7 @@ export const ColorPicker = () => {
             }}
           >
             <div>
-              Choose which color you want to mint!<sup>*</sup>
+              Choose which color you want to mint!
             </div>
             <div
               style={{
@@ -92,30 +92,10 @@ export const ColorPicker = () => {
               </div>
             </div>
             <div style={{marginTop: "15px", marginRight: "5px", marginLeft: "5px"}}>
-              <sup>*</sup>{" "}
               <i style={{ fontSize: "14px" }}>
                 The color chosen will be linked to your address and cannot be
                 change anymore. Choose wisely!
               </i>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              padding: "15px",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            Total Cost
-            <div>
-              <img
-                alt=""
-                className="leftText"
-                style={{ height: "20px", marginBottom: "2px" }}
-                src={eth}
-              />
-              0.2
             </div>
           </div>
           <Button

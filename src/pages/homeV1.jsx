@@ -99,6 +99,7 @@ import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
 import { getNftType, nftTypeToString } from "../helper";
 import { Sweep } from "../components/section/sweep/Sweep";
 import { BurnValidator } from "../components/section/burnValidator/BurnValidator";
+import { RevealKingHand } from "../components/section/RevealKingHand/RevealKingHand";
 const namehash = require("eth-ens-namehash");
 
 const HomeV1 = () => {
@@ -121,6 +122,8 @@ const HomeV1 = () => {
     isSweepOpen,
     isEnsSelectorOpen,
     isBurnOpen,
+    isKingHandOpen,
+    isNotKingHandOpen,
     getTotalMinted,
     getCurrentSupply,
     getVolume,
@@ -326,6 +329,8 @@ const HomeV1 = () => {
         {isSweepOpen ? <Sweep /> : null}
         {isEnsSelectorOpen ? <EnsSelector /> : null}
         {isBurnOpen ? <BurnValidator /> : null}
+        {isKingHandOpen ? <RevealKingHand reveal={true} /> : null}
+        {isNotKingHandOpen ? <RevealKingHand reveal={false} /> : null}
         <RightSection
           more={more}
           openFunction={openMore}
@@ -2309,7 +2314,7 @@ const HomeV1 = () => {
                           <br />
                           - Sales tax: 16% (50% Holders | 50% Pool)
                           <br />
-                          - Impossible burn of the King.
+                          - Impossible burn of the King
                           <br />
                           <br />
                           The kings have the right to vote on the purchase and
@@ -4192,7 +4197,7 @@ const HomeV1 = () => {
                   active={linkProfile === "my_nft" ? true : false}
                   onClick={() => changePageProfile("my_nft")}
                 >
-                  My NFT
+                 Collection
                   {linkProfile === "my_nft" && (
                     <div className="barreBleuMarket"></div>
                   )}
@@ -4201,7 +4206,7 @@ const HomeV1 = () => {
                   active={linkProfile === "graal" ? true : false}
                   onClick={() => changePageProfile("graal")}
                 >
-                  Mint Graal
+                  Graal
                   {linkProfile === "graal" && (
                     <div className="barreBleuMarket"></div>
                   )}
@@ -4258,7 +4263,7 @@ const HomeV1 = () => {
                       },
                       {
                         type: "burnOpponent",
-                        value: 15,
+                        value: 10,
                         text: "Burn 10 counters of the opponent's color bought on the secondary market",
                       },
                     ],
