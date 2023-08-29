@@ -126,6 +126,17 @@ export const Activity = (props) => {
     fetchNfts();
   }, []);
 
+  function formatAddress(address) {
+    if (address && address.length >= 10) {
+        const start = address.substring(0, 6); 
+        const end = address.substring(address.length - 4);
+        return `${start}...${end}`;
+    }
+    return address; // Si l'adresse n'est pas valide, retournez-la telle quelle
+}
+
+  
+
   const changeFilter = (value) => {
     if (arrayFilters.includes(value) && filter !== value) {
       setFilter(value);
@@ -187,40 +198,40 @@ export const Activity = (props) => {
                     {(nft.type === "burns" || nft.type === "mints") && (
                       <p
                         style={{
-                          width: "35%",
+                          width: "100%",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
                         }}
                       >
                         Owner: <br />
-                        {nft.owner}
+                        {formatAddress(nft.owner)}
                       </p>
                     )}
                     {(nft.type === "sales" || nft.type === "offers") && (
                       <p
                         style={{
-                          width: "35%",
+                          width: "100%",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
                         }}
                       >
                         From: <br />
-                        {nft.seller}
+                        {formatAddress(nft.seller)}
                       </p>
                     )}
                     {nft.type === "sales" && (
                       <p
                         style={{
-                          width: "35%",
+                          width: "100%",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
                         }}
                       >
                         To: <br />
-                        {nft.buyer}
+                        {formatAddress(nft.buyer)}
                       </p>
                     )}
                   </div>
