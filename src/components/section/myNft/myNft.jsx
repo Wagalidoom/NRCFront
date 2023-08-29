@@ -433,16 +433,6 @@ export const MyNft = (props) => {
                   <img src={ensvision} alt="" />
                 </a>
               </button> */}
-              <img
-                style={{
-                  height: "38px",
-                  marginRight: "8px",
-                  cursor: "pointer",
-                }}
-                onClick={mintPawn}
-                src={props.theme === "Light Theme" ? nftDark : nftLight}
-                alt=""
-              />
               <button
                 className="button filter"
                 onClick={() => {

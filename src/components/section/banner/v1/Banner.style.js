@@ -388,9 +388,8 @@ overflow:hidden;
   }
 
   .langButton{
-    background-color: ${props => props.theme.name === 'Light Theme' ? 'black' : 'white'};
-    border-color:${props => props.theme.name === 'Light Theme' ? 'black' : 'white'};
-    color:${props => props.theme.name === 'Light Theme' ? 'white' : 'black'};
+    border-color:${props => props.theme.name === 'Light Theme' ? 'rgb(21, 32, 43)' : 'rgb(239, 243, 244)'};
+    color:${props => props.theme.name === 'Light Theme' ? 'rgb(21, 32, 43)' : 'rgb(239, 243, 244)'};
   }
   .change {
     z-index: 0;

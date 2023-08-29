@@ -301,26 +301,10 @@ export const KingAuction = (props) => {
           className="title"
           style={{ marginBottom: "15px", marginTop: "32px" }}
         >
-          {(props.lang === "EN" ||
-            props.lang === true ||
-            props.lang === "open" ||
-            (props.lang === "open" && props.lastLang === "EN")) && (
             <span>How does the auction on the King work?</span>
-          )}
-          {(props.lang === "FR" ||
-            (props.lang === "open" && props.lastLang === "FR")) && (
-            <span>Comment fonctionne l’enchère sur le Roi ?</span>
-          )}
-          {(props.lang === "ES" ||
-            (props.lang === "open" && props.lastLang === "ES")) && (
-            <span>¿Cómo funciona la subasta del rey?</span>
-          )}
+          
         </div>
         <div className="description">
-          {(props.lang === "EN" ||
-            props.lang === true ||
-            (props.lang === "open" && props.lastLang === true) ||
-            (props.lang === "open" && props.lastLang === "EN")) && (
             <div className="description">
               Between all the pieces in the project, the King is obviously the
               most important. Highly coveted, it offers the benefits and rewards
@@ -347,69 +331,6 @@ export const KingAuction = (props) => {
               But beware! Know that as soon as the mint is live, the king’s pool
               will start to grow. This even if he has not yet found a buyer!
             </div>
-          )}
-          {(props.lang === "FR" ||
-            (props.lang === "open" && props.lastLang === "FR")) && (
-            <div className="description">
-              Parmi toutes les pièces que recèle le projet, le Roi est
-              évidemment la plus importante. Très convoité, il offre les
-              avantages et les récompenses les plus attendus par les membres de
-              la communauté. Avec de telles performances, inutile de vous dire
-              que la compétition sera rude. Mais pour assurer une équité à tous
-              les participants, le système a mis en place un fonctionnement
-              spécifique.
-              <br />
-              <br />
-              Afin d'assurer que l'ensemble des membres de la communauté partira
-              sur un même pied d'égalité lorsqu'il s'agira de mint un roi, les
-              enchères commenceront à 20,000 ETH et diminueront de manière
-              exponentielle sur une période de 30 jours. De fait, lorsque cette
-              période prendra fin, l'enchère atteindra la base de 2 ETH.
-              <br />
-              <br />
-              Plusieurs options s'offrent à vous. Si vous vous sentez le cœur
-              d'un audacieux, vous pouvez l’acheter au prix du jour. Les plus
-              prévoyants pourront renseigner la somme qu'ils sont prêts à
-              s'acquitter et voir rapidement à quelle date ils devront se
-              reconnecter sur l'application et mint le Roi.
-              <br />
-              <br />
-              Mais attention ! Sachez que dès que le mint est en direct, la
-              cagnotte du roi commencera à grossir. Cela même si celui-ci n'a
-              pas encore trouvé preneur !
-            </div>
-          )}
-          {(props.lang === "ES" ||
-            (props.lang === "open" && props.lastLang === "ES")) && (
-            <div className="description">
-              De todas las piezas que contiene el proyecto, el Rey es
-              evidentemente la más importante. Muy codiciado, ofrece los
-              beneficios y recompensas más esperados por los miembros de la
-              comunidad. Con este rendimiento, no hace falta decir que la
-              competencia será dura. Sin embargo, para garantizar la equidad de
-              todos los participantes, el sistema ha establecido un
-              funcionamiento específico.
-              <br />
-              <br />
-              Con el fin de garantizar que todos los miembros de la comunidad
-              partirán en pie de igualdad cuando se trate de San Juan, las
-              subastas comenzarán en 20,000 ETH y disminuirán exponencialmente
-              en un período de 30 días. De hecho, cuando este período termine,
-              la subasta alcanzará la base de 2 ETH.
-              <br />
-              <br />
-              Hay varias opciones disponibles para usted. Si siente el corazón
-              de un audaz, puede comprarlo a precio de día. Los más previsores
-              podrán indicar la cantidad que están dispuestos a pagar y ver
-              rápidamente en qué fecha deberán volver a conectarse a la
-              aplicación y al Rey.
-              <br />
-              <br />
-              ¡Pero cuidado! Sabed que tan pronto como el Mint esté vivo, el
-              bote del rey comenzará a crecer. ¡Esto incluso si éste no ha
-              encontrado todavía comprador!
-            </div>
-          )}
         </div>
       </div>
     </KingAuctionContainer>
