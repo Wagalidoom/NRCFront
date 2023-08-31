@@ -28,6 +28,11 @@ export const Sweep = () => {
   const [collectionId, setCollectionId] = useState([]);
   const componentRef = useRef(null);
 
+  const marks = collection.map((item, index) => ({
+    value: index + 1,
+    label: (index + 1).toString(),
+  }));
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -39,7 +44,7 @@ export const Sweep = () => {
   useEffect(() => {
     let price = 0;
     let collectionId = [];
-    collection.slice(0, sweepCount).map((element) => {
+    collection.slice(0, sweepCount).forEach((element) => {
       price += Number(element.price);
       collectionId.push(element.id);
     });
@@ -115,6 +120,8 @@ export const Sweep = () => {
               onChange={handleSliderChange}
               min={1}
               max={20}
+              step={null}
+              marks={marks}
               aria-label="Default"
               valueLabelDisplay="auto"
             />

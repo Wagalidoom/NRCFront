@@ -541,6 +541,7 @@ const HomeV1 = () => {
                   Mint
                 </button>
                 <ConnectWallet
+                  modalTitle="Connect a wallet"
                   className="connectionButton"
                   btnTitle="Connect"
                 />
