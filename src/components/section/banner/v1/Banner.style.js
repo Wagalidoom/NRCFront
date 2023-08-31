@@ -49,7 +49,7 @@ export const BannerV1Wrapper = styled.section`
   }
 
   i{
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .banner-container > img{
@@ -186,7 +186,7 @@ overflow:hidden;
     // background:red;
     transform:translateY(-50%);
     border-radius: 10%;
-    left: 15px;
+    left: 20px;
     position: absolute;
     width:100px;
     height:100px;

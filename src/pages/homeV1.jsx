@@ -1340,62 +1340,6 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
-                        <div className="contentLogo">
-                          <div className="logo">
-                            <img
-                              src={
-                                currentTheme.theme.name === "Light Theme"
-                                  ? logoDark
-                                  : logo
-                              }
-                              className="logoImg"
-                              alt=""
-                            />
-                          </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "70%" }}
-                          ></div>
-                        </div>
-                        <div>
-                          <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
-                            <span className="account">@TheNRClub</span>
-                          </div>
-                          <div className="description">
-                            Each holder will have four choices:
-                            <br />- Keep your rewards in Ethereum (ETH)
-                            <br />- Renew a domain name once a year, for a
-                            maximum of 1 year.
-                            <br />- Buy one or more digits domain names if the
-                            amount of your rewards allows it.<sup>1</sup>
-                            <br />- Buy one or more NFTs from the collection if
-                            the amount of its rewards allows it.
-                            <sup>1</sup>
-                            <br />
-                            <br />
-                            <sup>1</sup>{" "}
-                            <i>
-                              These digits domain names remain in the holder's
-                              prize. Such holder may recover his or her
-                              number(s) if he sells, burns or when the cape of
-                              999 NFTs in circulation is reached.
-                            </i>
-                            <br />
-                            <br />
-                            <sup>1</sup> <sup>2</sup>{" "}
-                            <i>
-                              {" "}
-                              A 16% tax of the buying price is applied at the
-                              transaction. The holder may be refunded if he owns
-                              one of the last 999 NFTs from the collection.
-                            </i>
-                            <br />
-                            <br />
-                          </div>
-                        </div>
-                      </div>
                       <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
@@ -1453,10 +1397,10 @@ const HomeV1 = () => {
                             <br />
                             - Keeps the pot in Ethereum (ETH)
                             <br />- Buys or resells domain names in digits
-                            <sup>3</sup>
+                            <sup>1</sup>
                             <br />
                             <br />
-                            <sup>3</sup>{" "}
+                            <sup>1</sup>{" "}
                             <i>
                               Holders with the rarest NFTs will have a voting
                               right on these transactions. They may refuse them
@@ -1618,10 +1562,10 @@ const HomeV1 = () => {
                       <div className="description">
                         The proceeds of the king auction are redistributed among
                         10 holders who discover the hand of the king on one of
-                        the pieces they have minted. <sup>4</sup>
+                        the pieces they have minted. <sup>2</sup>
                         <br />
                         <br />
-                        <sup>4</sup>{" "}
+                        <sup>2</sup>{" "}
                         <i>
                           To prevent cheating, the king's hands are encrypted
                           and are only revealed when all the nfts have been
@@ -1933,10 +1877,10 @@ const HomeV1 = () => {
                       </div>
                       <div className="description">
                         Only 999Club and 10Kclub holders have access to the
-                        final prize pool. <sup>5</sup>
+                        final prize pool. <sup>3</sup>
                         <br />
                         <br />
-                        <sup>5</sup>{" "}
+                        <sup>3</sup>{" "}
                         <i>
                           The collection has ended and you're not in these
                           clubs?
@@ -2240,12 +2184,8 @@ const HomeV1 = () => {
                             the Number Runner Club will then be launched.
                             <br />
                             <br />
-                            At that moment, holders will be able to exchange
-                            their NFTs for a new pass that will give them shares
-                            of the new project equal to the ETH they have
-                            accumulated. But they will also be able to choose to
-                            reclaim their shares of the overall prize pool. To
-                            do so, they will have to pay a tax of 35%.
+                            They will also be able to reclaim their shares of the overall prize pool.
+                            Holders of the 999 last Number Runner in circulation will also be added to the whitelist of the second version of Number Runner Club.
                           </div>
                         </div>
                       </div>

@@ -10,7 +10,7 @@ export const AboutStyleWrapper = styled.section`
   }
 
   i{
-    font-size: 12px;
+    font-size: 13px;
   }
   
   .show-more:hover{
@@ -33,7 +33,7 @@ export const AboutStyleWrapper = styled.section`
   }
 
   .content-no-padding{
-    margin-bottom: 100px !important;
+    margin-bottom: 0 !important;
     width: 100%;
     margin: auto;
     max-width: 600px;
@@ -56,6 +56,10 @@ export const AboutStyleWrapper = styled.section`
         border-left: 0;
         border-right: 0;
         border-top: 1px solid ${props => props.theme.colors.border};
+    }
+
+    .content-no-padding{
+      margin-bottom: 100px !important;
     }
   }
 
