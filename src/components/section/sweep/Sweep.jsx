@@ -77,7 +77,7 @@ export const Sweep = () => {
           <div
             className="contractContainerRow"
             style={{
-              padding: "10px",
+              padding: "15px 0",
               justifyContent: "space-between",
             }}
           >
@@ -101,7 +101,7 @@ export const Sweep = () => {
                 size="small"
                 style={{ margin: "0 15px" }}
               />
-              <IconButton onClick={handleClose}>
+              <IconButton onClick={handleClose} style={{padding: 0}}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>

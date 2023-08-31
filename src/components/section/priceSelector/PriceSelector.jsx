@@ -9,13 +9,13 @@ import { useEffect } from "react";
 
 const CustomTextField = styled(TextField)({
   "& .MuiInputBase-root": {
-      color: "rgba(255, 255, 255, 0.8)",
-      backgroundColor: "rgb(0 0 0)",
-      width: "90px",
+    color: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgb(0 0 0)",
+    width: "90px",
   },
 
   "& .MuiInputBase-input": {
-      paddingRight: "0px",
+    paddingRight: "0px",
   },
 });
 
@@ -25,41 +25,40 @@ export const PriceSelector = () => {
 
   const componentRef = useRef(null);
 
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
 
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
-    const handleClickOutside = (event) => {
-        if (componentRef.current && !componentRef.current.contains(event.target)) {
-
-          setIsPriceSelectorOpen(false);
-        }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, []);
 
-    const handleClose = () => {
+  const handleClickOutside = (event) => {
+    if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsPriceSelectorOpen(false);
-    };
+    }
+  };
 
-    const handleTextFieldChange = (event) => {
-      const userInput = event.target.value;
-  
-      // Supprime les caractères non numériques ou non décimaux
-      let cleanedInput = userInput.replace(/[^0-9\.]/g, '');
-  
-      // Vérifie s'il y a plus de 4 chiffres après la virgule
-      if (cleanedInput.includes('.')) {
-        const decimalPosition = cleanedInput.indexOf('.');
-        if (cleanedInput.length - decimalPosition - 1 > 4) {
-          cleanedInput = cleanedInput.slice(0, decimalPosition + 5);
-        }
+  const handleClose = () => {
+    setIsPriceSelectorOpen(false);
+  };
+
+  const handleTextFieldChange = (event) => {
+    const userInput = event.target.value;
+
+    // Supprime les caractères non numériques ou non décimaux
+    let cleanedInput = userInput.replace(/[^0-9\.]/g, "");
+
+    // Vérifie s'il y a plus de 4 chiffres après la virgule
+    if (cleanedInput.includes(".")) {
+      const decimalPosition = cleanedInput.indexOf(".");
+      if (cleanedInput.length - decimalPosition - 1 > 4) {
+        cleanedInput = cleanedInput.slice(0, decimalPosition + 5);
       }
-  
-      setPrice(cleanedInput);
-    };
+    }
+
+    setPrice(cleanedInput);
+  };
 
   return (
     <PriceSelectorStyleWrapper>
@@ -82,7 +81,7 @@ export const PriceSelector = () => {
               }}
             >
               Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{padding: "0px"}}>
+              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
@@ -96,10 +95,12 @@ export const PriceSelector = () => {
             }}
           >
             Set the price and sell your nft!
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-            }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <img
                 alt=""
                 className="leftText"
