@@ -170,8 +170,10 @@ const HomeV1 = () => {
       if (name) {
         setEnsName(name);
         const url = await getEnsProfilePicture(name);
-        if (url) {
-          setEnsUrl(url);
+        const prefix = "eip155:1/erc721:0x4cc0F1816d9fd2b5fd5d0Ec6Cb730791E2D2F697/";
+        if (url.startsWith(prefix)) {
+          const tokenId = url.slice(prefix.length);
+          setEnsUrl(`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${tokenId}.png`);
         }
       }
     };

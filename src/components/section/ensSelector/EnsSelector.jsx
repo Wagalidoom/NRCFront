@@ -13,7 +13,7 @@ import eth from "../../../assets/images/eth.png";
 import { useRef, useEffect } from "react";
 
 export const EnsSelector = () => {
-  const { stack, ensList, selectId, setIsEnsSelectorOpen } = useEthereum();
+  const { stack, ensList, selectId, setIsEnsSelectorOpen, setAvatar } = useEthereum();
   const [ensName, setEnsName] = useState("");
   const componentRef = useRef(null);
   
@@ -152,6 +152,7 @@ export const EnsSelector = () => {
             variant="contained"
             onClick={() => {
               stack(ensName, selectId);
+              setAvatar(ensName, selectId);
             }}
           >
             Proceed to stacking

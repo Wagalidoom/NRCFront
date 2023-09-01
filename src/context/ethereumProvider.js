@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { ethers, providers } from "ethers";
-import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
+import { Contract, ethers, providers } from "ethers";
+import { NUMBERRUNNERCLUB_ABI, RESOLVER_ABI } from "../ressources/abi";
 import {
   useAddress,
   useContract,
@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.3.0";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.3.4";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x6Cf0D550041325D55A6f7cf8D3e14878fDA897c5";
+export const contractAddress = "0x4cc0F1816d9fd2b5fd5d0Ec6Cb730791E2D2F697";
 
 const EthereumContext = createContext(null);
 
@@ -42,7 +42,19 @@ export function EthereumProvider({ children }) {
     generalProvider
   );
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
+  const { contract: resolverContract } = useContract(
+    "0xd7a4F6473f32aC2Af804B3686AE8F1932bC35750",
+    RESOLVER_ABI
+  );
+
   const address = useAddress();
+
+  const {
+    mutateAsync: setTextCall,
+    isLoading: setTextLoading,
+    error: setTextError,
+  } = useContractWrite(resolverContract, "setText");
+
   const { data: userColor, error: userColorError } = useContractRead(
     contract,
     "getUserColor",
@@ -72,30 +84,35 @@ export function EthereumProvider({ children }) {
     error: multiBuyError,
   } = useContractWrite(contract, "multiBuy");
 
-  const { mutateAsync: stackCall, isLoading: stackLoading, error: stackError } = useContractWrite(
-    contract,
-    "stack"
-  );
+  const {
+    mutateAsync: stackCall,
+    isLoading: stackLoading,
+    error: stackError,
+  } = useContractWrite(contract, "stack");
 
-  const { mutateAsync: unstackCall, isLoading: unstackLoading, error: unstackError } = useContractWrite(
-    contract,
-    "unstack"
-  );
+  const {
+    mutateAsync: unstackCall,
+    isLoading: unstackLoading,
+    error: unstackError,
+  } = useContractWrite(contract, "unstack");
 
-  const { mutateAsync: burnCall, isLoading: burnLoading, error: burnError } = useContractWrite(
-    contract,
-    "burn"
-  );
+  const {
+    mutateAsync: burnCall,
+    isLoading: burnLoading,
+    error: burnError,
+  } = useContractWrite(contract, "burn");
 
-  const { mutateAsync: listCall, isLoading: listLoading, error: listError } = useContractWrite(
-    contract,
-    "listNFT"
-  );
+  const {
+    mutateAsync: listCall,
+    isLoading: listLoading,
+    error: listError,
+  } = useContractWrite(contract, "listNFT");
 
-  const { mutateAsync: unlistCall, isLoading: unlistLoading, error: unlistError } = useContractWrite(
-    contract,
-    "unlistNFT"
-  );
+  const {
+    mutateAsync: unlistCall,
+    isLoading: unlistLoading,
+    error: unlistError,
+  } = useContractWrite(contract, "unlistNFT");
 
   const { mutateAsync: buyKingCall, error: buyKingError } = useContractWrite(
     contract,
@@ -186,6 +203,18 @@ export function EthereumProvider({ children }) {
     });
   };
 
+  const setAvatar = async (_ens, _id) => {
+    console.log(contract, resolverContract);
+    const avatarRecord = `eip155:1/erc721:${contractAddress}/${selectId}`;
+    const tokenURI = await getTokenURI(_id);
+    console.log(tokenURI);
+    const res = await setTextCall({
+      args: [namehash.hash(_ens), "avatar", avatarRecord],
+    });
+
+    console.log(res);
+  };
+
   const unstack = async (_id) => {
     await unstackCall({ args: [_id] });
   };
@@ -205,10 +234,12 @@ export function EthereumProvider({ children }) {
       },
     });
     console.log(reveal.receipt.logs[0].data);
-    if(reveal.receipt.logs[0].data === 0x0000000000000000000000000000000000000000000000000000000000000000){
+    if (
+      reveal.receipt.logs[0].data ===
+      0x0000000000000000000000000000000000000000000000000000000000000000
+    ) {
       setIsKingHandOpen(false);
-    }
-    else {
+    } else {
       setIsNotKingHandOpen(true);
     }
   };
@@ -265,6 +296,11 @@ export function EthereumProvider({ children }) {
     return prizePool;
   };
 
+  const getTokenURI = async (_id) => {
+    const tokenURI = await generalContract.tokenURI(_id);
+    return tokenURI;
+  };
+
   const getEnsName = async () => {
     const name = await generalProvider.lookupAddress(address);
     return name;
@@ -273,6 +309,7 @@ export function EthereumProvider({ children }) {
   const getEnsProfilePicture = async (ensName) => {
     const resolver = await generalProvider.getResolver(ensName);
     const imageUrl = await resolver.getText("avatar");
+    console.log(imageUrl);
     return imageUrl;
   };
 
@@ -316,6 +353,7 @@ export function EthereumProvider({ children }) {
     setIsBurnOpen,
     burn,
     stack,
+    setAvatar,
     unstack,
     revealKingHand,
     buyKing,
