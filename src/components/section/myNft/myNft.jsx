@@ -293,6 +293,7 @@ export const MyNft = (props) => {
               color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
             },
           ];
+          
           setCollection(updatedCollection);
         }
         console.log("update collection", currentEnsName);
@@ -722,9 +723,12 @@ export const MyNft = (props) => {
               return 0;
             }
 
+            if (a.isStacked && !b.isStacked) return -1;
+            if (!a.isStacked && b.isStacked) return 1;
+
             if (!a.price || !b.price) {
               return 0;
-            }
+            } 
 
             if (selected) {
               return a.price - b.price;
