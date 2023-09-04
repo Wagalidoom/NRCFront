@@ -1,4 +1,5 @@
 import { KingAuctionContainer } from "./kingAuction.style";
+import { BeatLoader } from "react-spinners";
 import { Countdown } from "../../countdown/countdown";
 import whiteKing from "../../../assets/images/1.png";
 import blackKing from "../../../assets/images/2.png";
@@ -29,7 +30,8 @@ export const KingAuction = (props) => {
   const { buyKing } = useEthereum();
   const [whiteKingReward, setWhiteKingReward] = useState(0);
   const [blackKingReward, setBlackKingReward] = useState(0);
-
+  const [isLoadingInference, setIsLoadingInference] = useState(true);
+  const [isLoadingPrice, setIsLoadingPrice] = useState(true);
   const [value, setValue] = useState(10);
 
   const calculateDate = (priceInEth) => {
@@ -48,8 +50,10 @@ export const KingAuction = (props) => {
   };
 
   useEffect(() => {
-    setCalculatedDate(calculateDate(value));
-  }, [value]);
+    if(!isLoadingInference) {
+      setCalculatedDate(calculateDate(value));
+    }
+  }, [value, isLoadingInference, startTime]);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -57,13 +61,15 @@ export const KingAuction = (props) => {
 
   useEffect(() => {
     const fetchPrice = async () => {
+      setIsLoadingPrice(true);
       const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
       const transaction = await provider.getTransaction(
-        "0xcfd68ac4d9700f5dee5d1af79b8c3b4c3ed198ce845490de71277fe0546b12ca"
+        "0x5c701b641e0ffa580537b15fcfb7032dbf9f4a4c9799bdb255af2d2659e5da84"
       );
       const block = await provider.getBlock(transaction.blockNumber);
       setStartTime(new Date(block.timestamp * 1000));
       setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
+      setIsLoadingInference(false);
       console.log("ts: ", block.timestamp);
       const contractInstance = new ethers.Contract(
         contractAddress,
@@ -77,6 +83,7 @@ export const KingAuction = (props) => {
       const priceToPay = priceToPayBigNumber.toString();
 
       setPrice(priceToPay);
+      setIsLoadingPrice(false);
     };
 
     const interval = setInterval(() => {
@@ -129,7 +136,7 @@ export const KingAuction = (props) => {
   return (
     <KingAuctionContainer checkbox={checkboxValue}>
       <div className="countdown-container">
-        <Countdown endTime={endTime} />
+        {<Countdown endTime={endTime} />}
       </div>
       <div className="container-nft">
         <div className="myNft">
@@ -221,12 +228,11 @@ export const KingAuction = (props) => {
 
         <div className="king-actions">
           <div className="king-price">
-            <img
-              alt=""
-              className="leftText"
-              src={props.theme === "Dark Theme" ? eth : ethDark}
-            />{" "}
-            <span>{price ? parseFloat(price).toFixed(2) : 0}</span>
+            {isLoadingPrice ? <BeatLoader color="#123abc" loading={true} size={15} /> :
+              <>
+                <img alt="" className="leftText" src={props.theme === "Dark Theme" ? eth : ethDark} />
+                <span>{price ? parseFloat(price).toFixed(2) : 0}</span>
+              </>}
           </div>
           <div className="king-selector">
             <div
@@ -234,10 +240,10 @@ export const KingAuction = (props) => {
               style={
                 !checkboxValue
                   ? {
-                      borderLeftColor: "#1D9BF0",
-                      borderBottomColor: "#1D9BF0",
-                      borderTopColor: "#1D9BF0",
-                    }
+                    borderLeftColor: "#1D9BF0",
+                    borderBottomColor: "#1D9BF0",
+                    borderTopColor: "#1D9BF0",
+                  }
                   : null
               }
             >
@@ -256,10 +262,10 @@ export const KingAuction = (props) => {
               style={
                 checkboxValue
                   ? {
-                      borderRightColor: "#1D9BF0",
-                      borderBottomColor: "#1D9BF0",
-                      borderTopColor: "#1D9BF0",
-                    }
+                    borderRightColor: "#1D9BF0",
+                    borderBottomColor: "#1D9BF0",
+                    borderTopColor: "#1D9BF0",
+                  }
                   : null
               }
             >
@@ -276,9 +282,9 @@ export const KingAuction = (props) => {
           </button>
         </div>
         <div className="data">
-        {calculatedDate ? calculatedDate.toLocaleString() : "Loading..."}
-            <br />
-            Local time
+          {calculatedDate ? calculatedDate.toLocaleString() : "Loading..."}
+          <br />
+          Local time
         </div>
         <div style={{ width: "100%", display: "flex", marginTop: "16px" }}>
           <div className="payment">
@@ -301,36 +307,36 @@ export const KingAuction = (props) => {
           className="title"
           style={{ marginBottom: "15px", marginTop: "32px" }}
         >
-            <span>How does the auction on the King work?</span>
-          
+          <span>How does the auction on the King work?</span>
+
         </div>
         <div className="description">
-            <div className="description">
-              Between all the pieces in the project, the King is obviously the
-              most important. Highly coveted, it offers the benefits and rewards
-              most expected by community members. With such performances,
-              needless to say, the competition will be tough. But to ensure
-              fairness for all participants, the system has set up a specific
-              operation.
-              <br />
-              <br />
-              In order to ensure that all members of the community will go on an
-              equal footing when it comes to mint a king, the auction will start
-              at 20,000 ETH and will decrease exponentially over a period of 30
-              days. In fact, when this period ends, the auction will reach the
-              base of 2 ETH.
-              <br />
-              <br />
-              There are several options available to you. If you feel like the
-              heart of a bold, you can buy it at today’s price. The more
-              foresight will be able to inform the amount they are ready to pay
-              and quickly see when they will have to reconnect on the app and
-              mint the King.
-              <br />
-              <br />
-              But beware! Know that as soon as the mint is live, the king’s pool
-              will start to grow. This even if he has not yet found a buyer!
-            </div>
+          <div className="description">
+            Between all the pieces in the project, the King is obviously the
+            most important. Highly coveted, it offers the benefits and rewards
+            most expected by community members. With such performances,
+            needless to say, the competition will be tough. But to ensure
+            fairness for all participants, the system has set up a specific
+            operation.
+            <br />
+            <br />
+            In order to ensure that all members of the community will go on an
+            equal footing when it comes to mint a king, the auction will start
+            at 20,000 ETH and will decrease exponentially over a period of 30
+            days. In fact, when this period ends, the auction will reach the
+            base of 2 ETH.
+            <br />
+            <br />
+            There are several options available to you. If you feel like the
+            heart of a bold, you can buy it at today’s price. The more
+            foresight will be able to inform the amount they are ready to pay
+            and quickly see when they will have to reconnect on the app and
+            mint the King.
+            <br />
+            <br />
+            But beware! Know that as soon as the mint is live, the king’s pool
+            will start to grow. This even if he has not yet found a buyer!
+          </div>
         </div>
       </div>
     </KingAuctionContainer>
