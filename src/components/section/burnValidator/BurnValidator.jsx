@@ -2,11 +2,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { BurnValidatorStyleWrapper } from "./BurnValidator.style";
 import { Button, IconButton } from "@mui/material";
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import { useState, useEffect, useRef } from "react";
+import { BeatLoader } from "react-spinners";
 
 export const BurnValidator = () => {
-  const { burn, selectId, setIsBurnOpen } = useEthereum();
+  const { burn, selectId, setIsBurnOpen, burnLoading } = useEthereum();
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export const BurnValidator = () => {
               }}
             >
               Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{padding: "0px"}}>
+              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
@@ -60,23 +61,30 @@ export const BurnValidator = () => {
               alignItems: "center",
             }}
           >
-            <ReportGmailerrorredIcon style={{marginRight: "5px"}}/>
+            <ReportGmailerrorredIcon style={{ marginRight: "5px" }} />
             This nft cannot be access anymore!
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-            }}>
-            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            ></div>
           </div>
-          <Button
-            style={{ margin: "0 15px" }}
-            variant="contained"
-            onClick={() => {
-              burn(selectId);
-            }}
-          >
-            Proceed to burn
-          </Button>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              style={{ margin: "0 15px", width: "190px", height: "40px" }}
+              variant="contained"
+              onClick={() => {
+                burn(selectId);
+              }}
+            >
+              {burnLoading ? (
+                <BeatLoader color="#ffff" loading={true} size={15} />
+              ) : (
+                <p>Proceed to burn</p>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </BurnValidatorStyleWrapper>

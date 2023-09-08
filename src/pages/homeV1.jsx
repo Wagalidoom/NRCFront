@@ -310,8 +310,7 @@ const HomeV1 = () => {
         {isSweepOpen ? <Sweep /> : null}
         {isEnsSelectorOpen ? <EnsSelector /> : null}
         {isBurnOpen ? <BurnValidator /> : null}
-        {isKingHandOpen ? <RevealKingHand reveal={true} /> : null}
-        {isNotKingHandOpen ? <RevealKingHand reveal={false} /> : null}
+        {isKingHandOpen ? <RevealKingHand /> : null}
         <RightSection
           more={more}
           openFunction={openMore}

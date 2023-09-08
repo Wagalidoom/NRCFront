@@ -11,12 +11,20 @@ import { EnsSelectorStyleWrapper } from "./EnsSelector.style";
 import CloseIcon from "@mui/icons-material/Close";
 import eth from "../../../assets/images/eth.png";
 import { useRef, useEffect } from "react";
+import { BeatLoader } from "react-spinners";
 
 export const EnsSelector = () => {
-  const { stack, ensList, selectId, setIsEnsSelectorOpen, setAvatar } = useEthereum();
+  const {
+    stack,
+    ensList,
+    selectId,
+    setIsEnsSelectorOpen,
+    setAvatar,
+    stackLoading,
+  } = useEthereum();
   const [ensName, setEnsName] = useState("");
   const componentRef = useRef(null);
-  
+
   console.log(ensList);
 
   const handleChange = (newValue) => {
@@ -62,7 +70,7 @@ export const EnsSelector = () => {
               }}
             >
               Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{padding: "0px"}}>
+              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
@@ -75,8 +83,8 @@ export const EnsSelector = () => {
               height: "200px",
             }}
           >
-            <div  style={{marginBottom: "15px"}}>
-            Choose a number to stack your NFT!
+            <div style={{ marginBottom: "15px" }}>
+              Choose a number to stack your NFT!
             </div>
             <div
               style={{
@@ -141,22 +149,35 @@ export const EnsSelector = () => {
             Digit selected
             <div>{ensName}</div>
           </div>
-          <div style={{fontSize: "12px", padding: "0px 15px"}}>If your number does not appear, please unwrap it on <a
-                          href="https://ens.domains/"
-                          rel="noreferrer"
-                          target="_blank"
-                          style={{fontSize: "11px"}}
-                        >https://ens.domains/</a></div>
-          <Button
-            style={{ margin: "15px" }}
-            variant="contained"
-            onClick={() => {
-              stack(ensName, selectId);
-              setAvatar(ensName, selectId);
-            }}
-          >
-            Proceed to stacking
-          </Button>
+          <div style={{ fontSize: "12px", padding: "0px 15px" }}>
+            If your number does not appear, please unwrap it on{" "}
+            <a
+              href="https://ens.domains/"
+              rel="noreferrer"
+              target="_blank"
+              style={{ fontSize: "11px" }}
+            >
+              https://ens.domains/
+            </a>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              style={{ margin: "15px", width: "210px", height: "40px" }}
+              variant="contained"
+              onClick={() => {
+                if (ensName) {
+                  stack(ensName, selectId);
+                  setAvatar(ensName, selectId);
+                }
+              }}
+            >
+              {stackLoading ? (
+                <BeatLoader color="#ffff" loading={true} size={15} />
+              ) : (
+                <p>Proceed to stacking</p>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </EnsSelectorStyleWrapper>

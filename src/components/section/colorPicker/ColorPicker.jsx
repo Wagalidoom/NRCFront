@@ -6,9 +6,10 @@ import { useEthereum } from "../../../context/ethereumProvider";
 import { ColorPickerStyleWrapper } from "./ColorPicker.style";
 import { Button, IconButton } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
+import { BeatLoader } from "react-spinners";
 
 export const ColorPicker = () => {
-  const { chooseColor, setIsColorPickerOpen } = useEthereum();
+  const { chooseColor, setIsColorPickerOpen, chooseColorLoading } = useEthereum();
   const [color, setColor] = useState(0);
   const componentRef = useRef(null);
 
@@ -100,14 +101,16 @@ export const ColorPicker = () => {
           </div>
           <Button
             disabled={color === 0}
-            style={{ margin: "15px", backgroundColor: color === 0 ? "rgb(138 180 209)" : "rgb(29, 155, 240)" }}
+            style={{ margin: "15px", width: "190px", height: "40px", backgroundColor: color === 0 ? "rgb(138 180 209)" : "rgb(29, 155, 240)" }}
             variant="contained"
             onClick={() => {
               chooseColor(color);
             }}
           >
             {" "}
-            {color === 0 ? <p>Choose a color</p> : <p>Proceed to minting</p>}
+            {chooseColorLoading ? <BeatLoader color="#ffff" loading={true} size={15} /> : 
+              color === 0 ? <p>Choose a color</p> : <p>Proceed to minting</p>
+            }
           </Button>
         </div>
       </div>

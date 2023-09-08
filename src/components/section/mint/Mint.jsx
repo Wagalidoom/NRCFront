@@ -5,6 +5,7 @@ import { MintStyleWrapper } from "./Mint.style";
 import CloseIcon from "@mui/icons-material/Close";
 import eth from "../../../assets/images/eth.png";
 import { useEffect, useRef, useState } from "react";
+import { BeatLoader } from "react-spinners";
 
 const CustomTextField = styled(TextField)({
   "& .MuiInputBase-root": {
@@ -22,7 +23,7 @@ const CustomTextField = styled(TextField)({
 });
 
 export const Mint = () => {
-  const { mint, setIsMintOpen } = useEthereum();
+  const { mint, setIsMintOpen, multiMintLoading } = useEthereum();
   const [mintCount, setMintCount] = useState(1);
   const componentRef = useRef(null);
 
@@ -127,13 +128,15 @@ export const Mint = () => {
           </div>
           <div style={{display: "flex", justifyContent: "center"}}>
             <Button
-              style={{ margin: "15px" }}
+              style={{ margin: "15px", width: "190px", height: "40px" }}
               variant="contained"
               onClick={() => {
                 mint(mintCount);
               }}
             >
-              Proceed to minting
+              {multiMintLoading ? <BeatLoader color="#ffff" loading={true} size={15} /> : 
+              <p>Proceed to minting</p>
+            }
             </Button>
           </div>
         </div>

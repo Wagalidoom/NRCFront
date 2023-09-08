@@ -1,8 +1,8 @@
 import { KingAuctionContainer } from "./kingAuction.style";
 import { BeatLoader } from "react-spinners";
 import { Countdown } from "../../countdown/countdown";
+import blackKing from "../../../assets/images/0.png";
 import whiteKing from "../../../assets/images/1.png";
-import blackKing from "../../../assets/images/2.png";
 import tirelire from "../../../assets/images/icon/tirelire.png";
 import tirelireDark from "../../../assets/images/icon/tirelireDark.png";
 import eth from "../../../assets/images/eth.png";
@@ -140,7 +140,7 @@ export const KingAuction = (props) => {
       </div>
       <div className="container-nft">
         <div className="myNft">
-          <img alt="" src={whiteKing} />
+          <img alt="" src={blackKing} />
           <div className="toolBar">
             <p
               className="nft-title"
@@ -183,7 +183,7 @@ export const KingAuction = (props) => {
           </div>
         </div>
         <div className="myNft">
-          <img alt="" src={blackKing} />
+          <img alt="" src={whiteKing} />
 
           <div className="toolBar">
             <p

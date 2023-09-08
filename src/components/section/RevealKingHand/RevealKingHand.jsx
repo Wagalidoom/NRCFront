@@ -3,9 +3,10 @@ import { useEthereum } from "../../../context/ethereumProvider";
 import { RevealKingHandStyleWrapper } from "./RevealKingHand.style";
 import { Button, IconButton } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
+import { BeatLoader } from "react-spinners";
 
 export const RevealKingHand = (props) => {
-  const { selectId, setIsKingHandOpen, setIsNotKingHandOpen } = useEthereum();
+  const { selectId, setIsKingHandOpen, isKingHand, revealKingHandLoading } = useEthereum();
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -19,13 +20,11 @@ export const RevealKingHand = (props) => {
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsKingHandOpen(false);
-      setIsNotKingHandOpen(false);
     }
   };
 
   const handleClose = () => {
     setIsKingHandOpen(false);
-    setIsNotKingHandOpen(false);
   };
 
   return (
@@ -58,11 +57,11 @@ export const RevealKingHand = (props) => {
             style={{
               display: "flex",
               padding: "15px",
-              justifyContent: "space-between",
+              justifyContent: "center",
               alignItems: "center",
             }}
           >
-            {props.reveal === true ? (
+            { revealKingHandLoading ? <BeatLoader color="#ffff" loading={true} size={15} /> : isKingHand === true ? (
               <p>
                 The nft is a King Hand ! Keep it until the end of the collection
               </p>

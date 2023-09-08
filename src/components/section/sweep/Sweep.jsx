@@ -5,6 +5,7 @@ import { SweepStyleWrapper } from "./Sweep.style";
 import CloseIcon from "@mui/icons-material/Close";
 import eth from "../../../assets/images/eth.png";
 import { useEffect, useRef, useState } from "react";
+import { BeatLoader } from "react-spinners";
 
 const CustomTextField = styled(TextField)({
   "& .MuiInputBase-root": {
@@ -22,7 +23,7 @@ const CustomTextField = styled(TextField)({
 });
 
 export const Sweep = () => {
-  const { collection, sweep, setIsSweepOpen } = useEthereum();
+  const { collection, sweep, setIsSweepOpen, multiBuyLoading } = useEthereum();
   const [sweepCount, setSweepCount] = useState(1);
   const [price, setPrice] = useState(0);
   const [collectionId, setCollectionId] = useState([]);
@@ -101,7 +102,7 @@ export const Sweep = () => {
                 size="small"
                 style={{ margin: "0 15px" }}
               />
-              <IconButton onClick={handleClose} style={{padding: 0}}>
+              <IconButton onClick={handleClose} style={{ padding: 0 }}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
@@ -204,13 +205,17 @@ export const Sweep = () => {
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
-              style={{ margin: "15px" }}
+              style={{ margin: "15px", width: "190px", height: "40px" }}
               variant="contained"
               onClick={() => {
                 sweep(collectionId, price);
               }}
             >
-              Proceed to sweep
+              {multiBuyLoading ? (
+                <BeatLoader color="#ffff" loading={true} size={15} />
+              ) : (
+                <p>Proceed to sweep</p>
+              )}
             </Button>
           </div>
         </div>

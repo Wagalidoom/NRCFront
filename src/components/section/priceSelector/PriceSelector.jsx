@@ -6,6 +6,7 @@ import eth from "../../../assets/images/eth.png";
 import { PriceSelectorStyleWrapper } from "./PriceSelector.style";
 import { useRef } from "react";
 import { useEffect } from "react";
+import { BeatLoader } from "react-spinners";
 
 const CustomTextField = styled(TextField)({
   "& .MuiInputBase-root": {
@@ -20,7 +21,8 @@ const CustomTextField = styled(TextField)({
 });
 
 export const PriceSelector = () => {
-  const { listNFT, selectId, setIsPriceSelectorOpen } = useEthereum();
+  const { listNFT, selectId, setIsPriceSelectorOpen, listLoading } =
+    useEthereum();
   const [price, setPrice] = useState(1);
 
   const componentRef = useRef(null);
@@ -118,15 +120,21 @@ export const PriceSelector = () => {
               />
             </div>
           </div>
-          <Button
-            style={{ margin: "15px" }}
-            variant="contained"
-            onClick={() => {
-              listNFT(selectId, price);
-            }}
-          >
-            Proceed to listing
-          </Button>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              style={{ margin: "15px", width: "190px", height: "40px" }}
+              variant="contained"
+              onClick={() => {
+                listNFT(selectId, price);
+              }}
+            >
+              {listLoading ? (
+                <BeatLoader color="#ffff" loading={true} size={15} />
+              ) : (
+                <p>Proceed to listing</p>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </PriceSelectorStyleWrapper>

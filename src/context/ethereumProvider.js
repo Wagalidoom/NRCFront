@@ -33,7 +33,7 @@ export function EthereumProvider({ children }) {
   const [collection, setCollection] = useState([]);
   const [isMintOpen, setIsMintOpen] = useState(false);
   const [isKingHandOpen, setIsKingHandOpen] = useState(false);
-  const [isNotKingHandOpen, setIsNotKingHandOpen] = useState(false);
+  const [isKingHand, setIsKingHand] = useState(false);
 
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
   const generalContract = new ethers.Contract(
@@ -124,10 +124,10 @@ export function EthereumProvider({ children }) {
     "approve"
   );
 
-  const { mutateAsync: chooseColorCall, error: chooseColorError } =
+  const { mutateAsync: chooseColorCall, isLoading: chooseColorLoading, error: chooseColorError } =
     useContractWrite(contract, "chooseColor");
 
-  const { mutateAsync: revealKingHandCall, error: revealKingHandError } =
+  const { mutateAsync: revealKingHandCall, isLoading: revealKingHandLoading, error: revealKingHandError } =
     useContractWrite(contract, "revealKingHand");
 
   const chooseColor = async (_color) => {
@@ -151,9 +151,9 @@ export function EthereumProvider({ children }) {
   };
 
   const mint = async (mintCount) => {
-    setIsMintOpen(false);
+    
 
-    multiMintCall({
+    await multiMintCall({
       args: [mintCount],
       overrides: {
         value: ethers.utils.parseEther(
@@ -161,6 +161,8 @@ export function EthereumProvider({ children }) {
         ),
       },
     });
+
+    setIsMintOpen(false);
   };
 
   const sweep = async (_list, _price) => {
@@ -195,12 +197,12 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    setSelectId(null);
-    setIsEnsSelectorOpen(false);
     await approveCall({ args: [contractAddress, _id] });
     await stackCall({
       args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id],
     });
+    setSelectId(null);
+    setIsEnsSelectorOpen(false);
   };
 
   const setAvatar = async (_ens, _id) => {
@@ -226,6 +228,8 @@ export function EthereumProvider({ children }) {
   };
 
   const revealKingHand = async (_id) => {
+    setIsKingHandOpen(true);
+    setIsKingHand(false);
     setSelectId(_id);
     const reveal = await revealKingHandCall({
       args: [_id],
@@ -233,14 +237,13 @@ export function EthereumProvider({ children }) {
         value: ethers.utils.parseEther("0.0001"),
       },
     });
-    console.log(reveal.receipt.logs[0].data);
     if (
       reveal.receipt.logs[0].data ===
       0x0000000000000000000000000000000000000000000000000000000000000000
     ) {
-      setIsKingHandOpen(false);
+      setIsKingHand(true);
     } else {
-      setIsNotKingHandOpen(true);
+      setIsKingHand(false);
     }
   };
 
@@ -327,8 +330,8 @@ export function EthereumProvider({ children }) {
     isEnsSelectorOpen,
     isMintOpen,
     isBurnOpen,
+    isKingHand,
     isKingHandOpen,
-    isNotKingHandOpen,
     selectId,
     ensList,
     collection,
@@ -343,13 +346,15 @@ export function EthereumProvider({ children }) {
     unstackLoading,
     listLoading,
     unlistLoading,
+    chooseColorLoading,
+    multiBuyLoading,
+    revealKingHandLoading,
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
     setIsColorPickerOpen,
     setIsSweepOpen,
     setIsKingHandOpen,
-    setIsNotKingHandOpen,
     setIsBurnOpen,
     burn,
     stack,
