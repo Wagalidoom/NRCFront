@@ -21,6 +21,7 @@ export const Activity = (props) => {
   const arrayFilters = ["sales", "offers", "burns", "mints"];
   // Définir l'état pour les NFTs
   const [nfts, setNfts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getTypeName = (type) => typeNames[type] || "Unknown";
 
@@ -84,6 +85,7 @@ export const Activity = (props) => {
     // Fonction pour obtenir les NFTs
     const fetchNfts = async () => {
       try {
+        setIsLoading(true);
         // Faire les requêtes et obtenir les réponses
         const responseSold = await Axios.post(NRCsubgraph, {
           query: GET_NFT_SOLD,
@@ -118,8 +120,10 @@ export const Activity = (props) => {
         props.container === "right"
           ? setNfts(sorted.slice(0, 5))
           : setNfts(sorted);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
     // Appeler la fonction pour obtenir les NFTs
@@ -128,14 +132,12 @@ export const Activity = (props) => {
 
   function formatAddress(address) {
     if (address && address.length >= 10) {
-        const start = address.substring(0, 6); 
-        const end = address.substring(address.length - 4);
-        return `${start}...${end}`;
+      const start = address.substring(0, 6);
+      const end = address.substring(address.length - 4);
+      return `${start}...${end}`;
     }
     return address; // Si l'adresse n'est pas valide, retournez-la telle quelle
-}
-
-  
+  }
 
   const changeFilter = (value) => {
     if (arrayFilters.includes(value) && filter !== value) {
@@ -144,24 +146,29 @@ export const Activity = (props) => {
   };
 
   return (
+    
     <ActivityContainer
       isFilterApplied={props.container === "right" ? true : false}
     >
+      {isLoading ? (
+      <p style={{ padding: "12px 16px" }}>Loading...</p>
+    ) : (
       <div className="filter-section">
-        <div className="filter-container">
-          {arrayFilters.map((element, index) => (
-            <ButtonFilter
-              active={element === filter ? true : false}
-              category={element}
-              className="filter"
-              key={index}
-              onClick={() => changeFilter(element)}
-            >
-              {element}
-            </ButtonFilter>
-          ))}
-        </div>
+          <div className="filter-container">
+            {arrayFilters.map((element, index) => (
+              <ButtonFilter
+                active={element === filter ? true : false}
+                category={element}
+                className="filter"
+                key={index}
+                onClick={() => changeFilter(element)}
+              >
+                {element}
+              </ButtonFilter>
+            ))}
+          </div>
       </div>
+    )}
       {nfts.map(
         (nft, index) =>
           (props.container === "right" ||

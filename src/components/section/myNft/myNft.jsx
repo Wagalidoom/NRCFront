@@ -94,6 +94,7 @@ export const MyNft = (props) => {
   const [ensDomains, setEnsDomains] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [currentEnsName, setCurrentEnsName] = useState(null);
+  const [ensNameUsed, setEnsNameUsed] = useState([]);
   const [filteredCollection, setFilteredCollection] = useState([]);
   const [finishFetching, setFinishFetching] = useState(false);
 
