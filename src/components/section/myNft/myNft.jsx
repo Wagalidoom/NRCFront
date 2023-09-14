@@ -94,7 +94,6 @@ export const MyNft = (props) => {
   const [ensDomains, setEnsDomains] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [currentEnsName, setCurrentEnsName] = useState(null);
-  const [filteredCollection, setFilteredCollection] = useState([]);
   const [finishFetching, setFinishFetching] = useState(false);
 
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
@@ -255,7 +254,6 @@ export const MyNft = (props) => {
         const domainNames = fetchENS.map((domain) => {
           return { hash: namehash.hash(domain.name), name: domain.name };
         });
-        console.log(domainNames);
         const [currentDomain, ...rest] = domainNames;
         setNode(currentDomain.hash);
         setCurrentEnsName(currentDomain.name);
@@ -282,7 +280,6 @@ export const MyNft = (props) => {
 
   useEffect(() => {
     if (isLoading === false) {
-      console.log(ensList, currentEnsName);
       if (
         ensList.length > 0 &&
         currentEnsName === ensList[ensList.length - 1].name &&
@@ -305,10 +302,9 @@ export const MyNft = (props) => {
 
           setCollection(updatedCollection);
         }
-        console.log("update collection", currentEnsName);
         setFinishFetching(true);
+        console.log(collection);
       } else if (ensDomains.length > 0) {
-        // console.log("update collection", currentEnsName);
         if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
           const updatedCollection = [
             ...collection,
@@ -421,9 +417,9 @@ export const MyNft = (props) => {
       const filtered = collection.filter((nft) =>
         String(nft.id).includes(searchValue)
       );
-      setFilteredCollection(filtered);
+      setCollection(filtered);
     } else {
-      setFilteredCollection(collection);
+      setCollection(collection);
     }
   }, [searchValue, collection]);
 
@@ -718,14 +714,14 @@ export const MyNft = (props) => {
         className="container-nft"
         style={{ padding: props.market ? "0px 10px" : "" }}
       >
-        {filteredCollection.length === 0 ? (
+        {collection.length === 0 ? (
           <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
           >
             No NFT to be shown
           </div>
         ) : null}
-        {filteredCollection
+        {collection
           .slice()
           .sort((a, b) => {
             if (selected === null) {
