@@ -59,7 +59,7 @@ import rookLogo from "../assets/images/themeSombre/rook.png";
 import bannerRook from "../assets/images/banniere/rook.gif";
 import queenLogo from "../assets/images/themeSombre/queen.png";
 import bannerQueen from "../assets/images/banniere/reine.gif";
-import gasIcon from "../assets/images/gaz_icon.png";
+import gasIcon from "../assets/images/gas_icon.png";
 import tableau from "../assets/images/tableau.png";
 import tableau2 from "../assets/images/tableau2.png";
 import faqGif from "../assets/images/faq.png";

@@ -94,7 +94,6 @@ export const MyNft = (props) => {
   const [ensDomains, setEnsDomains] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [currentEnsName, setCurrentEnsName] = useState(null);
-  const [ensNameUsed, setEnsNameUsed] = useState([]);
   const [filteredCollection, setFilteredCollection] = useState([]);
   const [finishFetching, setFinishFetching] = useState(false);
 
@@ -270,7 +269,16 @@ export const MyNft = (props) => {
     if (address && !props.market && isMarketFetched) {
       fetchData();
     }
-  }, [mintLoading, multiMintLoading, isMarketFetched, burnLoading, stackLoading, unstackLoading, listLoading, unlistLoading]);
+  }, [
+    mintLoading,
+    multiMintLoading,
+    isMarketFetched,
+    burnLoading,
+    stackLoading,
+    unstackLoading,
+    listLoading,
+    unlistLoading,
+  ]);
 
   useEffect(() => {
     if (isLoading === false) {
@@ -294,7 +302,7 @@ export const MyNft = (props) => {
               color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
             },
           ];
-          
+
           setCollection(updatedCollection);
         }
         console.log("update collection", currentEnsName);
@@ -729,7 +737,7 @@ export const MyNft = (props) => {
 
             if (!a.price || !b.price) {
               return 0;
-            } 
+            }
 
             if (selected) {
               return a.price - b.price;
@@ -920,7 +928,15 @@ export const MyNft = (props) => {
                       ) : (
                         <li
                           className="option"
-                          onClick={() => setEns(element.id, ensList)}
+                          onClick={() => {
+                            const ensNameUsed = collection.map(element => {
+                              if(element.isStacked === true) {
+                                return element.ensName;
+                              }
+                            }).filter(element => element !== undefined);
+                            const ensName = ensList.map(element => element.name);
+                            setEns(element.id, ensName.filter(element => !ensNameUsed.includes(element)));
+                          }}
                         >
                           Stacker
                         </li>

@@ -98,7 +98,7 @@ export const EnsSelector = () => {
                   return (
                     <div
                       onClick={() => {
-                        setEnsName(element.name);
+                        setEnsName(element);
                       }}
                       style={{
                         display: "flex",
@@ -106,19 +106,19 @@ export const EnsSelector = () => {
                         backgroundColor: "rgb(35, 45, 55)",
                         padding: "5px",
                         border:
-                          ensName === element.name
+                          ensName === element
                             ? "1px solid rgb(29, 155, 240)"
                             : "none",
                       }}
                     >
-                      {element.name}
+                      {element}
                     </div>
                   );
                 } else {
                   return (
                     <div
                       onClick={() => {
-                        setEnsName(element.name);
+                        setEnsName(element);
                       }}
                       style={{
                         display: "flex",
@@ -131,7 +131,7 @@ export const EnsSelector = () => {
                             : "none",
                       }}
                     >
-                      {element.name}
+                      {element}
                     </div>
                   );
                 }
