@@ -65,6 +65,7 @@ import tableau2 from "../assets/images/tableau2.png";
 import faqGif from "../assets/images/faq.png";
 import contrat from "../assets/images/contrat.png";
 import discord from "../assets/images/discord.jpg";
+import tag from "../assets/images/tag.png";
 import pawn5185 from "../assets/images/5185.png";
 import soldat from "../assets/images/soldat.png";
 import {
@@ -144,7 +145,6 @@ const HomeV1 = () => {
     page: null,
   });
   const [posScroll, setPosScroll] = useState({ pos: 0, back: false });
-  const langRef = useRef(null);
   const scrollRef = useRef(null);
   const changePage = (link) => {
     changePageLink(link);
@@ -551,7 +551,7 @@ const HomeV1 = () => {
                 <div id="name" className="name">
                   {ensName === "" ? (
                     <>
-                      <strong>Number Runner Club</strong> <sup>v1/</sup>
+                      <strong>Number Runner Club</strong> <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>
                     </>
                   ) : (
                     ensName
@@ -914,7 +914,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1001,7 +1001,7 @@ const HomeV1 = () => {
                             className="title"
                             style={{ marginTop: "7px", marginLeft: "7px" }}
                           >
-                            Number Runner Club <sup>v1/</sup>
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <br />
                             <span className="account">@TheNRClub</span>
                           </div>
@@ -1072,7 +1072,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1105,7 +1105,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1167,7 +1167,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1206,7 +1206,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1243,7 +1243,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1289,7 +1289,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1326,7 +1326,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1361,7 +1361,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1389,7 +1389,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1873,7 +1873,7 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <sup>v1/</sup>{" "}
+                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -1923,7 +1923,7 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <sup>v1/</sup>{" "}
+                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -1961,7 +1961,7 @@ const HomeV1 = () => {
                       </div>
                       <div>
                         <div className="title">
-                          Number Runner Club <sup>v1/</sup>{" "}
+                          Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                           <span className="account">@TheNRClub</span>
                           <br />
                         </div>
@@ -2029,7 +2029,7 @@ const HomeV1 = () => {
                             className="title"
                             style={{ marginTop: "7px", marginLeft: "7px" }}
                           >
-                            Number Runner Club <sup>v1/</sup>
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>
                             <br />
                             <span className="account">@TheNRClub</span>
                           </div>
@@ -2066,7 +2066,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                             <br />
                           </div>
@@ -2103,7 +2103,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -2142,7 +2142,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -2169,7 +2169,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <sup>v1/</sup>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -2212,7 +2212,7 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <sup>v1/</sup>{" "}
+                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -2281,7 +2281,7 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <sup>v1/</sup>{" "}
+                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
