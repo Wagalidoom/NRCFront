@@ -4,6 +4,7 @@ import { GraalContainer } from "./graal.style";
 import { useEffect, useState } from "react";
 import {
   ENSsubgraph,
+  NRCsubgraph,
   contractAddress,
   useEthereum,
 } from "../../../context/ethereumProvider";
@@ -122,9 +123,8 @@ export const Graal = (props) => {
     const fetchMint = async () => {
       let ENSquery = `
       {
-        nftminteds(first: 300, where: {tokenId_gte: "${props.data.inf}", tokenId_lte: "${props.data.sup}"}) {
+        nfts(first: 300, where: {id_gte: "${props.data.inf}", id_lte: "${props.data.sup}"}) {
           id
-          tokenId
         }
       }
       `;
@@ -132,14 +132,15 @@ export const Graal = (props) => {
       let mintCount;
 
       try {
-        await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
+        await Axios.post(NRCsubgraph, { query: ENSquery }).then((result) => {
           mintCount = Object.values(result.data.data)[0];
-          console.log(mintCount);
+          console.log(result);
         });
       } catch (error) {
         console.log(error);
       }
       if (mintCount) {
+        console.log(mintCount);
         setCount(mintCount.length);
       }
     };

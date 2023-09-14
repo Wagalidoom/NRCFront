@@ -226,6 +226,7 @@ export const MyNft = (props) => {
           isListed: isListed,
           ensName: "",
           price: 0,
+          rewards: 0,
           owner: element.owner,
           type: getNftType(element.id),
           color: element.id % 2 === 0 ? 1 : 2,
@@ -294,6 +295,7 @@ export const MyNft = (props) => {
               isListed: false,
               ensName: currentEnsName,
               price: 0,
+              rewards: 0,
               owner: address,
               type: getNftType(Number(tokenIdOfNode)),
               color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
@@ -314,6 +316,7 @@ export const MyNft = (props) => {
               isListed: false,
               ensName: currentEnsName,
               price: 0,
+              rewards: 0,
               owner: address,
               type: getNftType(Number(tokenIdOfNode)),
               color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
@@ -906,7 +909,7 @@ export const MyNft = (props) => {
                         }
                       ></img>
                       <span style={{ marginLeft: "4px" }}>
-                        {element.rewards}
+                        {element.rewards === 0 ? element.rewards : element.rewards.toFixed(5)} 
                       </span>
                     </div>
                   )}

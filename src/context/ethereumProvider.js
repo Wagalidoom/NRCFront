@@ -197,7 +197,7 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    await approveCall({ args: [contractAddress, _id] });
+    // await approveCall({ args: [contractAddress, _id] });
     await stackCall({
       args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id],
     });
