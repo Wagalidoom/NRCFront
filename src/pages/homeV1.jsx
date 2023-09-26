@@ -110,7 +110,6 @@ const HomeV1 = () => {
   const [linkProfile, changePageLinkProfile] = useState(true);
   const [thread, threadLink] = useState(true);
   const [faq, faqLink] = useState(true);
-  const [listThemeLast, showListThemeLinkLast] = useState(true);
   const [mobile, changeMobile] = useState(true);
   const [gasPrice, setGasPrice] = useState(0);
   const [hashtag, setHashTag] = useState("Club");
@@ -123,7 +122,6 @@ const HomeV1 = () => {
     isEnsSelectorOpen,
     isBurnOpen,
     isKingHandOpen,
-    isNotKingHandOpen,
     mintPawn,
     getTotalMinted,
     getCurrentSupply,
@@ -161,8 +159,6 @@ const HomeV1 = () => {
 
   const {
     data: tokenIdOfNode,
-    isLoading,
-    error: tokenIdOfNodeError,
   } = useContractRead(contract, "getTokenIdOfNode", [namehash.hash(ensName)]);
 
   useEffect(() => {
@@ -182,7 +178,7 @@ const HomeV1 = () => {
     if (address) {
       fetchEns();
     }
-  }, [address]);
+  }, [address, getEnsName, getEnsProfilePicture]);
 
   useEffect(() => {
     const tokenId = Number(tokenIdOfNode);
@@ -223,7 +219,7 @@ const HomeV1 = () => {
     };
 
     fetchData();
-  }, []);
+  }, [getGasPrice]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -552,7 +548,7 @@ const HomeV1 = () => {
                 <div id="name" className="name">
                   {ensName === "" ? (
                     <>
-                      <strong>Number Runner Club</strong> <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>
+                      <strong>Number Runner Club</strong> <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>
                     </>
                   ) : (
                     ensName
@@ -615,6 +611,7 @@ const HomeV1 = () => {
                     />
                     Joined in June 2022
                     <img
+                    alt="gas icon"
                       src={gasIcon}
                       style={{
                         marginLeft: "20px",
@@ -915,7 +912,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1002,7 +999,7 @@ const HomeV1 = () => {
                             className="title"
                             style={{ marginTop: "7px", marginLeft: "7px" }}
                           >
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <br />
                             <span className="account">@TheNRClub</span>
                           </div>
@@ -1073,7 +1070,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1106,7 +1103,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1168,7 +1165,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1207,7 +1204,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1244,7 +1241,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1290,7 +1287,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1327,7 +1324,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1362,7 +1359,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1390,7 +1387,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1874,7 +1871,7 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -1924,7 +1921,7 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -1962,7 +1959,7 @@ const HomeV1 = () => {
                       </div>
                       <div>
                         <div className="title">
-                          Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                          Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                           <span className="account">@TheNRClub</span>
                           <br />
                         </div>
@@ -2030,7 +2027,7 @@ const HomeV1 = () => {
                             className="title"
                             style={{ marginTop: "7px", marginLeft: "7px" }}
                           >
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>
                             <br />
                             <span className="account">@TheNRClub</span>
                           </div>
@@ -2067,7 +2064,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                             <br />
                           </div>
@@ -2104,7 +2101,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -2143,7 +2140,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -2170,7 +2167,7 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -2213,7 +2210,7 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -2282,7 +2279,7 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img style={{width: "18px",}} src={tag} /></div>{" "}
+                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
