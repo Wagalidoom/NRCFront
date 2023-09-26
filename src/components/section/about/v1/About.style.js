@@ -297,20 +297,7 @@ font-style: normal;
       width:80%;
     }
   }
-
-  .sub-nav-graal {
-    width: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    border-bottom:3px solid ${props => props.theme.colors.border};
-    @media screen and (max-width:400px){
-      width:60%;
-    }
-  }
-
-
+  
   .list{
     position:relative;
     width:600px;

@@ -101,6 +101,7 @@ import { getNftType, nftTypeToString } from "../helper";
 import { Sweep } from "../components/section/sweep/Sweep";
 import { BurnValidator } from "../components/section/burnValidator/BurnValidator";
 import { RevealKingHand } from "../components/section/RevealKingHand/RevealKingHand";
+import { Chessboard } from "../components/section/chessboard/Chessboard";
 const namehash = require("eth-ens-namehash");
 
 const HomeV1 = () => {
@@ -2369,7 +2370,7 @@ const HomeV1 = () => {
                   }
                   onClick={() => changePageMarket("items")}
                 >
-                  Collection
+                  Marketplace
                   {(linkMarket === "items" ||
                     linkMarket === "" ||
                     typeof linkMarket === "boolean") && (
@@ -2423,7 +2424,7 @@ const HomeV1 = () => {
                 width: "100%",
               }}
             >
-              <div className="sub-nav-graal">
+              <div className="sub-nav-market">
                 <SubNavLink
                   active={linkProfile === "my_nft" ? true : false}
                   onClick={() => changePageProfile("my_nft")}
@@ -2439,6 +2440,15 @@ const HomeV1 = () => {
                 >
                   Graal
                   {linkProfile === "graal" && (
+                    <div className="barreBleuMarket"></div>
+                  )}
+                </SubNavLink>
+                <SubNavLink
+                  active={linkProfile === "chessboard" ? true : false}
+                  onClick={() => changePageProfile("chessboard")}
+                >
+                  Chessboard
+                  {linkProfile === "chessboard" && (
                     <div className="barreBleuMarket"></div>
                   )}
                 </SubNavLink>
@@ -2560,6 +2570,15 @@ const HomeV1 = () => {
             {linkProfile === "my_nft" && (
               <div className="description">
                 <MyNft
+                  theme={currentTheme.theme.name}
+                  market={false}
+                  img={pawn5185}
+                />
+              </div>
+            )}
+            {linkProfile === "chessboard" && (
+              <div className="description">
+                <Chessboard
                   theme={currentTheme.theme.name}
                   market={false}
                   img={pawn5185}
