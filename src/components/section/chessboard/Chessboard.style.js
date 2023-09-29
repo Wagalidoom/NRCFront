@@ -247,8 +247,8 @@ border-bottom-right-radius:5px;
 }
 
 .buy-action{
-    background: #1D9BF0;
-    border: solid 2px #1D9BF0;
+    background: #cc5037;
+    border: solid 2px #cc5037;
     border-radius:5px;
     color:white;
     font-size:12px;
@@ -259,23 +259,6 @@ border-bottom-right-radius:5px;
 }
 
 .buy-action:hover{
-    background: none;
-    border: solid 2px #1D9BF0;
-}
-
-.unlist-action{
-    background: #cc5037;
-    border: solid 2px #cc5037;
-    border-radius:5px;
-    text-transform: none;
-    color:white;
-    font-size:12px;
-    cursor:default;
-    padding:3px 3px!important;
-    line-height:16px;
-}
-
-.unlist-action:hover{
     background: none;
     border: solid 2px #cc5037;
 }

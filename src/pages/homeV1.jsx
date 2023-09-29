@@ -102,6 +102,7 @@ import { Sweep } from "../components/section/sweep/Sweep";
 import { BurnValidator } from "../components/section/burnValidator/BurnValidator";
 import { RevealKingHand } from "../components/section/RevealKingHand/RevealKingHand";
 import { Chessboard } from "../components/section/chessboard/Chessboard";
+import { KillValidator } from "../components/section/killValidator/BurnValidator";
 const namehash = require("eth-ens-namehash");
 
 const HomeV1 = () => {
@@ -120,6 +121,7 @@ const HomeV1 = () => {
     isPriceSelectorOpen,
     isSweepOpen,
     isEnsSelectorOpen,
+    isKillOpen,
     isBurnOpen,
     isKingHandOpen,
     mintPawn,
@@ -306,6 +308,7 @@ const HomeV1 = () => {
         {isPriceSelectorOpen ? <PriceSelector /> : null}
         {isSweepOpen ? <Sweep /> : null}
         {isEnsSelectorOpen ? <EnsSelector /> : null}
+        {isKillOpen ? <KillValidator /> : null}
         {isBurnOpen ? <BurnValidator /> : null}
         {isKingHandOpen ? <RevealKingHand /> : null}
         <RightSection

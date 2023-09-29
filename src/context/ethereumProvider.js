@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.3.4";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.3.96";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x4cc0F1816d9fd2b5fd5d0Ec6Cb730791E2D2F697";
+export const contractAddress = "0x46B95F96D6F6487B606D698f22643eCDdafd650a";
 
 const EthereumContext = createContext(null);
 
@@ -28,6 +28,7 @@ export function EthereumProvider({ children }) {
   const [isSweepOpen, setIsSweepOpen] = useState(false);
   const [isEnsSelectorOpen, setIsEnsSelectorOpen] = useState(false);
   const [isBurnOpen, setIsBurnOpen] = useState(false);
+  const [isKillOpen, setIsKillOpen] = useState(false);
   const [selectId, setSelectId] = useState(0);
   const [ensList, setEnsList] = useState("");
   const [collection, setCollection] = useState([]);
@@ -138,6 +139,11 @@ export function EthereumProvider({ children }) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const validateKill = async (_id) => {
+    setSelectId(_id);
+    setIsKillOpen(true);
   };
 
   const setPrice = async (_id) => {
@@ -329,12 +335,15 @@ export function EthereumProvider({ children }) {
     isSweepOpen,
     isEnsSelectorOpen,
     isMintOpen,
+    isKillOpen,
     isBurnOpen,
     isKingHand,
     isKingHandOpen,
     selectId,
     ensList,
     collection,
+    userColor,
+    validateKill,
     validateBurn,
     mint,
     sweep,
@@ -355,6 +364,7 @@ export function EthereumProvider({ children }) {
     setIsColorPickerOpen,
     setIsSweepOpen,
     setIsKingHandOpen,
+    setIsKillOpen,
     setIsBurnOpen,
     burn,
     stack,

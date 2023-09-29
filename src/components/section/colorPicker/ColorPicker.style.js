@@ -26,6 +26,7 @@ export const ColorPickerStyleWrapper = styled.section`
       0 4px 6px -4px rgb(0 0 0 / 0.1);
     line-height: 1;
     display: flex;
+    align-items: center;
     flex-direction: column;
     max-width: 480px;
   }

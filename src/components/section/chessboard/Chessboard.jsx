@@ -1,16 +1,8 @@
 import { ChessboardContainer, ToolBar } from "./Chessboard.style";
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-} from "@mui/material";
-import DotLight from "../../../assets/images/icon/three-dot-light.svg";
-import DotDark from "../../../assets/images/icon/three-dot-dark.svg";
+import { Button, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useRef, useState } from "react";
-import eth from "../../../assets/images/eth.png";
-import ethDark from "../../../assets/images/ethDark.png";
 import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
 import searchDark from "../../../assets/images/icon/loupeDark.png";
@@ -25,19 +17,18 @@ import { getNftType, nftTypeToString } from "../../../helper";
 import Axios from "axios";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
+import { element } from "prop-types";
 const namehash = require("eth-ens-namehash");
 
 export const Chessboard = (props) => {
   const currentTheme = useContext(ThemeContext);
-  const [modalOpen, setModalOpen] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
   const [activeButton, setActiveButton] = useState({
     filter: false,
     sweep: false,
   });
   const [filter, setFilter] = useState({
-    black: true,
-    white: true,
+    unstack: true,
+    list: true,
     pawn: true,
     bishop: true,
     knight: true,
@@ -46,20 +37,8 @@ export const Chessboard = (props) => {
     king: true,
   });
 
-  const modalRef = useRef(null);
-  const selectRef = useRef(null);
-  const [selected, setSelected] = useState(false);
   const [open, setOpen] = useState(false);
-  const {
-    validateBurn,
-    unstack,
-    unlistNFT,
-    sweep,
-    revealKingHand,
-    setPrice,
-    setEns,
-    address,
-  } = useEthereum();
+  const { validateKill, userColor } = useEthereum();
   const [collection, setCollection] = useState([]);
   const [ensList, setEnsList] = useState([]);
   const [node, setNode] = useState(
@@ -75,95 +54,76 @@ export const Chessboard = (props) => {
     error: tokenIdOfNodeError,
   } = useContractRead(contract, "getTokenIdOfNode", [node]);
 
-  const openModal = (e, current) => {
-    setModalOpen((prevModal) => {
-      if (prevModal === current) {
-        return 0;
-      }
-      return current;
-    });
-  };
-
-  const handleClickOutside = (event) => {
-    setIsOpen((prevIsOpen) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        return false;
-      }
-      return prevIsOpen;
-    });
-    setOpen((prevOpen) => {
-      if (
-        prevOpen &&
-        selectRef.current &&
-        !selectRef.current.contains(event.target)
-      ) {
-        return false;
-      }
-      return prevOpen;
-    });
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (modalOpen > 0) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-    }
-  }, [modalOpen]);
-
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
   };
+  const today = new Date();
 
   useEffect(() => {
     const fetchChessboard = async () => {
       let NRCquery = `
               {
-                nfts(where: {listed: true}) {
+                nfts(where: {ensName: null}) {
                   id
                   owner
+                  listed
+                  unclaimedRewards
                   price
+                  lastTimeStacked
                 }
               }
             `;
 
-      let fetchSale;
+      let fetchChessboard;
 
       try {
         await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
-          fetchSale = Object.values(result.data.data)[0];
+          fetchChessboard = Object.values(result.data.data)[0];
         });
       } catch (error) {
         console.log(error);
       }
 
-      let collection = [];
-      fetchSale.map((element) => {
-        collection.push({
-          id: Number(element.id),
-          isStacked: false,
-          isListed: true,
-          ensName: "",
-          price: element.price,
-          owner: element.owner,
-          type: getNftType(element.id),
-          color: element.id % 2 === 0 ? 1 : 2,
-        });
-      });
-      if (props.market) {
-        setCollection(collection);
+      fetchChessboard = fetchChessboard.slice(2);
+      if (userColor === 1) {
+        fetchChessboard = fetchChessboard.filter(
+          (element) => element.id % 2 == 1
+        );
+      } else if (userColor === 2) {
+        fetchChessboard = fetchChessboard.filter(
+          (element) => element.id % 2 == 0
+        );
       }
+      console.log(fetchChessboard);
+
+      let collection = [];
+      fetchChessboard.map((element) => {
+        if (
+          Math.round(
+            (today.getTime() -
+              new Date(element.lastTimeStacked * 1000).getTime()) /
+              (1000 * 3600 * 24)
+          ) >= 2
+        ) {
+          collection.push({
+            id: Number(element.id),
+            isStacked: false,
+            isListed: element.listed,
+            ensName: "",
+            price: element.listed ? 0.15 + element.unclaimedRewards : 0.1 + element.unclaimedRewards,
+            owner: element.owner,
+            type: getNftType(element.id),
+            color: element.id % 2 === 0 ? 1 : 2,
+          });
+        }
+      });
+      setCollection(collection);
     };
 
-    fetchChessboard();
-  }, [props.market]);
+    if (userColor !== 0) {
+      fetchChessboard();
+    }
+  }, []);
 
   return (
     <ChessboardContainer
@@ -209,7 +169,7 @@ export const Chessboard = (props) => {
       {activeButton.filter && (
         <div className="filter-menu">
           <FormGroup style={{ width: "100%" }}>
-            <div
+          <div
               style={{
                 display: "grid",
                 width: "100%",
@@ -223,35 +183,35 @@ export const Chessboard = (props) => {
                   alignItems: "center",
                 }}
               >
-                Color :
+                State :
               </div>
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={filter.black}
+                    checked={filter.unstack}
                     onChange={() =>
                       setFilter({
                         ...filter,
-                        black: filter.black ? false : true,
+                        unstack: filter.unstack ? false : true,
                       })
                     }
                   />
                 }
-                label="Black"
+                label="Unstack"
               />
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={filter.white}
+                    checked={filter.list}
                     onChange={() =>
                       setFilter({
                         ...filter,
-                        white: filter.white ? false : true,
+                        list: filter.list ? false : true,
                       })
                     }
                   />
                 }
-                label="White"
+                label="List"
               />
               <div></div>
             </div>
@@ -373,22 +333,7 @@ export const Chessboard = (props) => {
         {collection
           .slice()
           .sort((a, b) => {
-            if (selected === null) {
-              return 0;
-            }
-
-            if (a.isStacked && !b.isStacked) return -1;
-            if (!a.isStacked && b.isStacked) return 1;
-
-            if (!a.price || !b.price) {
-              return 0;
-            }
-
-            if (selected) {
-              return a.price - b.price;
-            } else {
-              return b.price - a.price;
-            }
+            return a.price - b.price;
           })
           .filter((element) => {
             if (filter === null) {
@@ -396,9 +341,9 @@ export const Chessboard = (props) => {
             }
 
             // Check color
-            let colorMatches =
-              (filter.black && element.color === 1) ||
-              (filter.white && element.color === 2);
+            let stateMatches =
+              (filter.unstack && element.isListed === false) ||
+              (filter.list && element.isListed === true);
 
             // Check type
             let typeMatches =
@@ -409,29 +354,10 @@ export const Chessboard = (props) => {
               (filter.queen && element.type === 1) ||
               (filter.king && element.type === 0);
 
-            return colorMatches && typeMatches;
+            return typeMatches && stateMatches;
           })
           .map((element, index) => (
-            <div
-              className="myNft"
-              key={index}
-              style={{
-                border: props.market
-                  ? "none"
-                  : element.isListed
-                  ? "3px solid rgb(204, 80, 55)"
-                  : element.isStacked
-                  ? "3px solid rgb(29, 155, 240)"
-                  : "none",
-                backgroundColor: props.market
-                  ? "none"
-                  : element.isListed
-                  ? "rgb(204, 80, 55)"
-                  : element.isStacked
-                  ? "rgb(29, 155, 240)"
-                  : "none",
-              }}
-            >
+            <div className="myNft" key={index}>
               <img
                 alt=""
                 src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
@@ -448,10 +374,7 @@ export const Chessboard = (props) => {
                   {element.ensName}
                 </p>
               ) : null}
-              <ToolBar
-                market={props.market}
-                open={modalOpen === index + 1 && isOpen ? true : false}
-              >
+              <ToolBar market={props.market}>
                 <p
                   style={{
                     fontSize: "14px",
@@ -480,50 +403,16 @@ export const Chessboard = (props) => {
                   >
                     {nftTypeToString(element.type)}
                   </p>
-                  {props.market ? (
-                    <div>
-                      {address ? (
-                        address.toLowerCase() === element.owner ? (
-                          <Button
-                            className="unlist-action"
-                            onClick={() => unlistNFT(element.id.toString())}
-                          >
-                            Unlist
-                          </Button>
-                        ) : (
-                          <Button
-                            className="buy-action"
-                            onClick={() =>
-                              sweep([element.id.toString()], element.price)
-                            }
-                          >
-                            Buy
-                          </Button>
-                        )
-                      ) : (
-                        <Button
-                          className="buy-action"
-                          onClick={() =>
-                            sweep([element.id.toString()], element.price)
-                          }
-                        >
-                          Buy
-                        </Button>
-                      )}
-                    </div>
-                  ) : (
-                    <button className="modal-button">
-                      <img
-                        alt=""
-                        onClick={(e) => openModal(e, index + 1)}
-                        src={
-                          currentTheme.theme.name === "Dark Theme"
-                            ? DotLight
-                            : DotDark
-                        }
-                      />
-                    </button>
-                  )}
+                  <div>
+                    <Button
+                      className="buy-action"
+                      onClick={() =>
+                        validateKill([element.id.toString()], element.price)
+                      }
+                    >
+                      Burn
+                    </Button>
+                  </div>
                 </div>
                 <div
                   style={{
@@ -535,79 +424,11 @@ export const Chessboard = (props) => {
                     boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
                   }}
                 >
-                    <div>
-                      <img
-                        alt=""
-                        style={{ height: "18px", marginBottom: "2px" }}
-                        src={props.theme === "Dark Theme" ? eth : ethDark}
-                      />{" "}
-                      <span style={{ marginLeft: "4px" }}>
-                        {(element.price / 10 ** 18).toString()}
-                      </span>
-                    </div>
+                  <WhatshotIcon />
+                  <span style={{ marginLeft: "4px" }}>
+                    {element.price}
+                  </span>
                 </div>
-                {modalOpen === index + 1 && isOpen && (
-                  <div ref={modalRef} className="modal-option">
-                    <ul>
-                      {element.isStacked ? (
-                        <li
-                          className="option"
-                          onClick={() => unstack(element.id)}
-                        >
-                          Unstacker
-                        </li>
-                      ) : (
-                        <li
-                          className="option"
-                          onClick={() => {
-                            const ensNameUsed = collection.map(element => {
-                              if(element.isStacked === true) {
-                                return element.ensName;
-                              }
-                            }).filter(element => element !== undefined);
-                            const ensName = ensList.map(element => element.name);
-                            setEns(element.id, ensName.filter(element => !ensNameUsed.includes(element)));
-                          }}
-                        >
-                          Stacker
-                        </li>
-                      )}
-                      {element.isStacked ? null : (
-                        <>
-                          {element.isListed ? (
-                            <li
-                              className="option"
-                              onClick={() => unlistNFT(element.id.toString())}
-                            >
-                              Unlist
-                            </li>
-                          ) : (
-                            <li
-                              className="option"
-                              onClick={() => setPrice(element.id)}
-                            >
-                              Sell
-                            </li>
-                          )}
-                          <li
-                            className="option"
-                            onClick={() => validateBurn(element.id)}
-                          >
-                            Burn
-                          </li>
-                          {element.type === 5 && (
-                            <li
-                              className="option"
-                              onClick={() => revealKingHand(element.id)}
-                            >
-                              Reveal
-                            </li>
-                          )}
-                        </>
-                      )}
-                    </ul>
-                  </div>
-                )}
               </ToolBar>
             </div>
           ))}
