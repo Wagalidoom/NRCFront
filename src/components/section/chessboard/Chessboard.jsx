@@ -1,12 +1,13 @@
 import { ChessboardContainer, ToolBar } from "./Chessboard.style";
 import { Button, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-import WhatshotIcon from '@mui/icons-material/Whatshot';
+import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { ThemeContext } from "../../../app/App";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
 import searchDark from "../../../assets/images/icon/loupeDark.png";
 import searchLight from "../../../assets/images/icon/loupeLight.png";
+import tag from "../../../assets/images/tag.png";
 
 import {
   NRCsubgraph,
@@ -17,8 +18,6 @@ import { getNftType, nftTypeToString } from "../../../helper";
 import Axios from "axios";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
-import { element } from "prop-types";
-const namehash = require("eth-ens-namehash");
 
 export const Chessboard = (props) => {
   const currentTheme = useContext(ThemeContext);
@@ -40,11 +39,9 @@ export const Chessboard = (props) => {
   const [open, setOpen] = useState(false);
   const { validateKill, userColor } = useEthereum();
   const [collection, setCollection] = useState([]);
-  const [ensList, setEnsList] = useState([]);
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
-  const [ensDomains, setEnsDomains] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
@@ -110,7 +107,9 @@ export const Chessboard = (props) => {
             isStacked: false,
             isListed: element.listed,
             ensName: "",
-            price: element.listed ? 0.15 + element.unclaimedRewards : 0.1 + element.unclaimedRewards,
+            price: element.listed
+              ? 0.15 + element.unclaimedRewards
+              : 0.10 + element.unclaimedRewards,
             owner: element.owner,
             type: getNftType(element.id),
             color: element.id % 2 === 0 ? 1 : 2,
@@ -169,7 +168,7 @@ export const Chessboard = (props) => {
       {activeButton.filter && (
         <div className="filter-menu">
           <FormGroup style={{ width: "100%" }}>
-          <div
+            <div
               style={{
                 display: "grid",
                 width: "100%",
@@ -362,18 +361,6 @@ export const Chessboard = (props) => {
                 alt=""
                 src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
               />
-              {element.isStacked ? (
-                <p
-                  style={{
-                    position: "absolute",
-                    bottom: "110px",
-                    left: "10px",
-                    fontSize: "1.2em",
-                  }}
-                >
-                  {element.ensName}
-                </p>
-              ) : null}
               <ToolBar market={props.market}>
                 <p
                   style={{
@@ -424,9 +411,23 @@ export const Chessboard = (props) => {
                     boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
                   }}
                 >
-                  <WhatshotIcon />
-                  <span style={{ marginLeft: "4px" }}>
-                    {element.price}
+                  <WhatshotIcon
+                    style={{
+                      color: element.isListed
+                        ? "rgb(245, 158, 11)"
+                        : "rgb(29, 155, 240)",
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      marginLeft: "4px",
+                      color: element.isListed
+                        ? "rgb(245, 158, 11)"
+                        : "rgb(29, 155, 240)",
+                    }}
+                  >
+                    {element.price.toFixed(2)}
                   </span>
                 </div>
               </ToolBar>
