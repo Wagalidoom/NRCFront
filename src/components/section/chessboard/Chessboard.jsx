@@ -5,6 +5,9 @@ import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useState } from "react";
 import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
+
+import sweepDark from "../../../assets/images/icon/balaisDark.png";
+import sweepLight from "../../../assets/images/icon/balaisLight.png";
 import searchDark from "../../../assets/images/icon/loupeDark.png";
 import searchLight from "../../../assets/images/icon/loupeLight.png";
 import tag from "../../../assets/images/tag.png";
@@ -28,6 +31,7 @@ export const Chessboard = (props) => {
   const [filter, setFilter] = useState({
     unstack: true,
     list: true,
+    stack: true,
     pawn: true,
     bishop: true,
     knight: true,
@@ -37,7 +41,7 @@ export const Chessboard = (props) => {
   });
 
   const [open, setOpen] = useState(false);
-  const { validateKill, userColor } = useEthereum();
+  const { validateKill, userColor, setBurnSweep } = useEthereum();
   const [collection, setCollection] = useState([]);
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
@@ -58,14 +62,29 @@ export const Chessboard = (props) => {
 
   useEffect(() => {
     const fetchChessboard = async () => {
+      // let NRCquery = `
+      //         {
+      //           nfts(where: {ensName: null}) {
+      //             id
+      //             owner
+      //             listed
+      //             unclaimedRewards
+      //             price
+      //             lastTimeStacked
+      //           }
+      //         }
+      //       `;
+
       let NRCquery = `
               {
-                nfts(where: {ensName: null}) {
+                nfts {
                   id
                   owner
                   listed
                   unclaimedRewards
+                  share
                   price
+                  ensName
                   lastTimeStacked
                 }
               }
@@ -91,31 +110,45 @@ export const Chessboard = (props) => {
           (element) => element.id % 2 == 0
         );
       }
-      console.log(fetchChessboard);
+      fetchChessboard = fetchChessboard.filter(
+        (element) =>
+          element.owner !== "0x0000000000000000000000000000000000000000"
+      );
 
       let collection = [];
       fetchChessboard.map((element) => {
+        let ensName = element.ensName
+          ? Buffer.from(element.ensName.slice(2), "hex")
+              .toString("ascii")
+              .replace(/\0/g, "")
+          : "";
         if (
           Math.round(
             (today.getTime() -
               new Date(element.lastTimeStacked * 1000).getTime()) /
               (1000 * 3600 * 24)
-          ) >= 2
+          ) >= 0 &&
+          (ensName === "" || ensName.length === 9)
         ) {
           collection.push({
             id: Number(element.id),
-            isStacked: false,
+            isStacked: element.ensName ? true : false,
             isListed: element.listed,
-            ensName: "",
+            ensName: element.ensName
+              ? Buffer.from(element.ensName.slice(2), "hex")
+                  .toString("ascii")
+                  .replace(/\0/g, "")
+              : "",
             price: element.listed
               ? 0.15 + element.unclaimedRewards
-              : 0.10 + element.unclaimedRewards,
+              : element.ensName ? 0.3 + element.unclaimedRewards + element.share : 0.1 + element.unclaimedRewards,
             owner: element.owner,
             type: getNftType(element.id),
             color: element.id % 2 === 0 ? 1 : 2,
           });
         }
       });
+      console.log(collection);
       setCollection(collection);
     };
 
@@ -146,6 +179,27 @@ export const Chessboard = (props) => {
               >
                 <img
                   src={props.theme === "Light Theme" ? filterDark : filterLight}
+                  alt=""
+                />
+              </button>
+
+              <button
+                className="button sweep"
+                onClick={() => {
+
+                  setActiveButton({
+                    ...activeButton,
+                    sweep: activeButton.sweep ? false : true,
+                  });
+                  setBurnSweep(
+                    collection.sort((a, b) => {
+                      return a.price - b.price;
+                    })
+                  );
+                }}
+              >
+                <img
+                  src={props.theme === "Light Theme" ? sweepDark : sweepLight}
                   alt=""
                 />
               </button>
@@ -212,7 +266,20 @@ export const Chessboard = (props) => {
                 }
                 label="List"
               />
-              <div></div>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={filter.stack}
+                    onChange={() =>
+                      setFilter({
+                        ...filter,
+                        stack: filter.stack ? false : true,
+                      })
+                    }
+                  />
+                }
+                label="Stacked"
+              />
             </div>
             <div
               style={{
@@ -342,7 +409,8 @@ export const Chessboard = (props) => {
             // Check color
             let stateMatches =
               (filter.unstack && element.isListed === false) ||
-              (filter.list && element.isListed === true);
+              (filter.list && element.isListed === true) ||
+              (filter.stack && element.isStacked === true);
 
             // Check type
             let typeMatches =
@@ -415,6 +483,8 @@ export const Chessboard = (props) => {
                     style={{
                       color: element.isListed
                         ? "rgb(245, 158, 11)"
+                        : element.isStacked
+                        ? "rgb(204, 80, 55)"
                         : "rgb(29, 155, 240)",
                     }}
                   />
@@ -424,10 +494,12 @@ export const Chessboard = (props) => {
                       marginLeft: "4px",
                       color: element.isListed
                         ? "rgb(245, 158, 11)"
+                        : element.isStacked
+                        ? "rgb(204, 80, 55)"
                         : "rgb(29, 155, 240)",
                     }}
                   >
-                    {element.price.toFixed(2)}
+                    {Number(element.price).toFixed(2)}
                   </span>
                 </div>
               </ToolBar>

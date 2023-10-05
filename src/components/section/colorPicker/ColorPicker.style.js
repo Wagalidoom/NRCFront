@@ -34,6 +34,7 @@ export const ColorPickerStyleWrapper = styled.section`
   .contractContainerRow {
     display: flex;
     align-items: center;
+    width: 100%;
     border-bottom: 2px solid ${(props) => props.theme.colors.border};
   }
 

@@ -61,6 +61,7 @@ export const Mint = () => {
             className="contractContainerRow"
             style={{
               padding: "15px 0px",
+              width: "100%",
               justifyContent: "space-between",
             }}
           >

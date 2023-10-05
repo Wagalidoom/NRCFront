@@ -22,8 +22,16 @@ const CustomTextField = styled(TextField)({
   },
 });
 
-export const Sweep = () => {
-  const { collection, sweep, setIsSweepOpen, multiBuyLoading } = useEthereum();
+export const Sweep = (props) => {
+  const {
+    collection,
+    sweep,
+    burnSweep,
+    setIsSweepOpen,
+    setIsBurnSweepOpen,
+    multiBuyLoading,
+    multiKillLoading,
+  } = useEthereum();
   const [sweepCount, setSweepCount] = useState(1);
   const [price, setPrice] = useState(0);
   const [collectionId, setCollectionId] = useState([]);
@@ -56,11 +64,13 @@ export const Sweep = () => {
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsSweepOpen(false);
+      setIsBurnSweepOpen(false);
     }
   };
 
   const handleClose = () => {
     setIsSweepOpen(false);
+    setIsBurnSweepOpen(false);
   };
 
   const handleSliderChange = (event, newValue) => {
@@ -115,7 +125,11 @@ export const Sweep = () => {
               justifyContent: "center",
             }}
           >
-            Slide to add more items to your cart!
+            {props.market ? (
+              <p>Slide to add more items to your cart!</p>
+            ) : (
+              <p>Slide to add more items to burn!</p>
+            )}
             <Slider
               value={sweepCount}
               onChange={handleSliderChange}
@@ -176,7 +190,9 @@ export const Sweep = () => {
                           style={{ height: "20px", marginBottom: "2px" }}
                           src={eth}
                         />
-                        {(Number(element.price) * 10 ** -18).toFixed(4)}
+                        {props.market
+                          ? (Number(element.price) * 10 ** -18).toFixed(4)
+                          : Number(element.price).toFixed(4)}
                       </div>
                     </div>
                   </div>
@@ -200,7 +216,7 @@ export const Sweep = () => {
                 style={{ height: "20px", marginBottom: "2px" }}
                 src={eth}
               />
-              {(price * 10 ** -18).toFixed(4)}
+              {props.market ? (price * 10 ** -18).toFixed(4) : price.toFixed(4)}
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -208,10 +224,12 @@ export const Sweep = () => {
               style={{ margin: "15px", width: "190px", height: "40px" }}
               variant="contained"
               onClick={() => {
-                sweep(collectionId, price);
+                props.market
+                  ? sweep(collectionId, price)
+                  : burnSweep(collectionId, price);
               }}
             >
-              {multiBuyLoading ? (
+              {multiBuyLoading || multiKillLoading ? (
                 <BeatLoader color="#ffff" loading={true} size={15} />
               ) : (
                 <p>Proceed to sweep</p>

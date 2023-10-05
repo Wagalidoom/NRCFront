@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.3.96";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.0";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x46B95F96D6F6487B606D698f22643eCDdafd650a";
+export const contractAddress = "0x09C42eD2BB2f57a81D7C45F7a1d75859bAba9A90";
 
 const EthereumContext = createContext(null);
 
@@ -26,10 +26,12 @@ export function EthereumProvider({ children }) {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const [isPriceSelectorOpen, setIsPriceSelectorOpen] = useState(false);
   const [isSweepOpen, setIsSweepOpen] = useState(false);
+  const [isBurnSweepOpen, setIsBurnSweepOpen] = useState(false);
   const [isEnsSelectorOpen, setIsEnsSelectorOpen] = useState(false);
   const [isBurnOpen, setIsBurnOpen] = useState(false);
   const [isKillOpen, setIsKillOpen] = useState(false);
   const [selectId, setSelectId] = useState(0);
+  const [burnPrice, setBurnPrice] = useState(0);
   const [ensList, setEnsList] = useState("");
   const [collection, setCollection] = useState([]);
   const [isMintOpen, setIsMintOpen] = useState(false);
@@ -84,6 +86,12 @@ export function EthereumProvider({ children }) {
     isLoading: multiBuyLoading,
     error: multiBuyError,
   } = useContractWrite(contract, "multiBuy");
+
+  const {
+    mutateAsync: multiKillCall,
+    isLoading: multiKillLoading,
+    error: multiKillError,
+  } = useContractWrite(contract, "multiKill");
 
   const {
     mutateAsync: stackCall,
@@ -141,8 +149,9 @@ export function EthereumProvider({ children }) {
     }
   };
 
-  const validateKill = async (_id) => {
+  const validateKill = async (_id, price) => {
     setSelectId(_id);
+    setBurnPrice(price);
     setIsKillOpen(true);
   };
 
@@ -157,7 +166,6 @@ export function EthereumProvider({ children }) {
   };
 
   const mint = async (mintCount) => {
-    
 
     await multiMintCall({
       args: [mintCount],
@@ -172,14 +180,27 @@ export function EthereumProvider({ children }) {
   };
 
   const sweep = async (_list, _price) => {
-    setIsSweepOpen(false);
 
-    multiBuyCall({
+    await multiBuyCall({
       args: [_list],
       overrides: {
         value: ethers.utils.parseEther((Number(_price) * 10 ** -18).toString()),
       },
     });
+
+    setIsSweepOpen(false);
+  };
+
+  const burnSweep = async (_list, _price) => {
+
+    await multiKillCall({
+      args: [_list],
+      overrides: {
+        value: ethers.utils.parseEther((Number(_price * 10 ** -3).toFixed(5)).toString()),
+      },
+    });
+    setIsBurnSweepOpen(false);
+    setIsKillOpen(false);
   };
 
   const mintSpecial = async (type, stackedId) => {
@@ -199,6 +220,11 @@ export function EthereumProvider({ children }) {
 
   const setSweep = async (_collection) => {
     setIsSweepOpen(true);
+    setCollection(_collection);
+  };
+
+  const setBurnSweep = async (_collection) => {
+    setIsBurnSweepOpen(true);
     setCollection(_collection);
   };
 
@@ -333,6 +359,7 @@ export function EthereumProvider({ children }) {
     isColorPickerOpen,
     isPriceSelectorOpen,
     isSweepOpen,
+    isBurnSweepOpen,
     isEnsSelectorOpen,
     isMintOpen,
     isKillOpen,
@@ -340,6 +367,7 @@ export function EthereumProvider({ children }) {
     isKingHand,
     isKingHandOpen,
     selectId,
+    burnPrice,
     ensList,
     collection,
     userColor,
@@ -347,6 +375,7 @@ export function EthereumProvider({ children }) {
     validateBurn,
     mint,
     sweep,
+    burnSweep,
     mintSpecial,
     mintLoading,
     multiMintLoading,
@@ -357,12 +386,14 @@ export function EthereumProvider({ children }) {
     unlistLoading,
     chooseColorLoading,
     multiBuyLoading,
+    multiKillLoading,
     revealKingHandLoading,
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
     setIsColorPickerOpen,
     setIsSweepOpen,
+    setIsBurnSweepOpen,
     setIsKingHandOpen,
     setIsKillOpen,
     setIsBurnOpen,
@@ -377,6 +408,7 @@ export function EthereumProvider({ children }) {
     setPrice,
     setEns,
     setSweep,
+    setBurnSweep,
     getTotalMinted,
     getCurrentSupply,
     getVolume,

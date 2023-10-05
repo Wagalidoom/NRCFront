@@ -949,37 +949,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "killNonStacked",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "opponentId",
-				"type": "uint256"
-			}
-		],
-		"name": "killStacked",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "kingAuction",
 		"outputs": [
@@ -1063,6 +1032,19 @@
 			}
 		],
 		"name": "multiBuy",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "tokensId",
+				"type": "uint256[]"
+			}
+		],
+		"name": "multiKill",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"

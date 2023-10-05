@@ -1,13 +1,13 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { useEthereum } from "../../../context/ethereumProvider";
-import { KillValidatorStyleWrapper } from "./BurnValidator.style";
+import { KillValidatorStyleWrapper } from "./KillValidator.style";
 import { Button, IconButton } from "@mui/material";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import { useState, useEffect, useRef } from "react";
 import { BeatLoader } from "react-spinners";
 
 export const KillValidator = () => {
-  const { burn, selectId, setIsKillOpen, killLoading } = useEthereum();
+  const { burnSweep, burnPrice, selectId, setIsKillOpen, multiKillLoading } = useEthereum();
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -75,10 +75,10 @@ export const KillValidator = () => {
               style={{ margin: "0 15px", width: "190px", height: "40px" }}
               variant="contained"
               onClick={() => {
-                burn(selectId);
+                burnSweep(selectId, burnPrice);
               }}
             >
-              {killLoading ? (
+              {multiKillLoading ? (
                 <BeatLoader color="#ffff" loading={true} size={15} />
               ) : (
                 <p>Proceed to burn</p>
