@@ -36,6 +36,11 @@ export const MintStyleWrapper = styled.section`
     border-bottom: 2px solid ${(props) => props.theme.colors.border};
   }
 
+  .spin{
+    display: flex;
+    align-items: center;
+  }
+
   @media screen and (max-width: 640px) {
     .mintContent {
       top: auto;

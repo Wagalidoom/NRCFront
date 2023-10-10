@@ -1,5 +1,5 @@
 import { KingAuctionContainer } from "./kingAuction.style";
-import { BeatLoader } from "react-spinners";
+import ReactLoading from "react-loading";
 import { Countdown } from "../../countdown/countdown";
 import blackKing from "../../../assets/images/0.png";
 import whiteKing from "../../../assets/images/1.png";
@@ -50,7 +50,7 @@ export const KingAuction = (props) => {
   };
 
   useEffect(() => {
-    if(!isLoadingInference) {
+    if (!isLoadingInference) {
       setCalculatedDate(calculateDate(value));
     }
   }, [value, isLoadingInference, startTime]);
@@ -228,56 +228,28 @@ export const KingAuction = (props) => {
 
         <div className="king-actions">
           <div className="king-price">
-            {isLoadingPrice ? <BeatLoader color="#123abc" loading={true} size={15} /> :
-              <>
-                <img alt="" className="leftText" src={props.theme === "Dark Theme" ? eth : ethDark} />
-                <span>{price ? parseFloat(price).toFixed(2) : 0}</span>
-              </>}
-          </div>
-          <div className="king-selector">
-            <div
-              className="king-option"
-              style={
-                !checkboxValue
-                  ? {
-                    borderLeftColor: "#1D9BF0",
-                    borderBottomColor: "#1D9BF0",
-                    borderTopColor: "#1D9BF0",
-                  }
-                  : null
-              }
-            >
-              White King
-            </div>
-            <label className="switch">
-              <input
-                type="checkbox"
-                className="input-switch"
-                onChange={(e) => checkboxChange(e)}
+            {isLoadingPrice ? (
+              <ReactLoading
+                type={"cylon"}
+                color={"rgb(225, 222, 222)"}
+                height={46}
+                width={150}
+                className="cylon"
               />
-              <span className="slider"></span>
-            </label>
-            <div
-              className="king-option"
-              style={
-                checkboxValue
-                  ? {
-                    borderRightColor: "#1D9BF0",
-                    borderBottomColor: "#1D9BF0",
-                    borderTopColor: "#1D9BF0",
-                  }
-                  : null
-              }
-            >
-              Black King
-            </div>
+            ) : (
+              <>
+                <img
+                  alt=""
+                  className="leftText"
+                  src={props.theme === "Dark Theme" ? eth : ethDark}
+                />
+                <span>{price ? parseFloat(price).toFixed(2) : 0}</span>
+              </>
+            )}
           </div>
         </div>
         <div className="actions">
-          <button
-            className="action-btn"
-            onClick={() => buyKing(checkboxValue ? 1 : 2)}
-          >
+          <button className="action-btn" onClick={() => buyKing()}>
             Buy Now
           </button>
         </div>
@@ -308,16 +280,14 @@ export const KingAuction = (props) => {
           style={{ marginBottom: "15px", marginTop: "32px" }}
         >
           <span>How does the auction on the King work?</span>
-
         </div>
         <div className="description">
           <div className="description">
             Between all the pieces in the project, the King is obviously the
             most important. Highly coveted, it offers the benefits and rewards
-            most expected by community members. With such performances,
-            needless to say, the competition will be tough. But to ensure
-            fairness for all participants, the system has set up a specific
-            operation.
+            most expected by community members. With such performances, needless
+            to say, the competition will be tough. But to ensure fairness for
+            all participants, the system has set up a specific operation.
             <br />
             <br />
             In order to ensure that all members of the community will go on an
@@ -328,10 +298,9 @@ export const KingAuction = (props) => {
             <br />
             <br />
             There are several options available to you. If you feel like the
-            heart of a bold, you can buy it at today’s price. The more
-            foresight will be able to inform the amount they are ready to pay
-            and quickly see when they will have to reconnect on the app and
-            mint the King.
+            heart of a bold, you can buy it at today’s price. The more foresight
+            will be able to inform the amount they are ready to pay and quickly
+            see when they will have to reconnect on the app and mint the King.
             <br />
             <br />
             But beware! Know that as soon as the mint is live, the king’s pool

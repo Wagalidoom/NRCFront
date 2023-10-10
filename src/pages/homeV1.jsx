@@ -62,6 +62,9 @@ import bannerQueen from "../assets/images/banniere/reine.gif";
 import gasIcon from "../assets/images/gas_icon.png";
 import tableau from "../assets/images/tableau.png";
 import tableau2 from "../assets/images/tableau2.png";
+import duo1 from "../assets/images/duo1.png";
+import duo2 from "../assets/images/duo2.png";
+import horloge from "../assets/images/horloge.jpeg";
 import faqGif from "../assets/images/faq.png";
 import contrat from "../assets/images/contrat.png";
 import discord from "../assets/images/discord.jpg";
@@ -160,9 +163,11 @@ const HomeV1 = () => {
 
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
 
-  const {
-    data: tokenIdOfNode,
-  } = useContractRead(contract, "getTokenIdOfNode", [namehash.hash(ensName)]);
+  const { data: tokenIdOfNode } = useContractRead(
+    contract,
+    "getTokenIdOfNode",
+    [namehash.hash(ensName)]
+  );
 
   useEffect(() => {
     const fetchEns = async () => {
@@ -170,10 +175,13 @@ const HomeV1 = () => {
       if (name) {
         setEnsName(name);
         const url = await getEnsProfilePicture(name);
-        const prefix = "eip155:1/erc721:0x4cc0F1816d9fd2b5fd5d0Ec6Cb730791E2D2F697/";
+        const prefix =
+          "eip155:1/erc721:0x4cc0F1816d9fd2b5fd5d0Ec6Cb730791E2D2F697/";
         if (url.startsWith(prefix)) {
           const tokenId = url.slice(prefix.length);
-          setEnsUrl(`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${tokenId}.png`);
+          setEnsUrl(
+            `https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${tokenId}.png`
+          );
         }
       }
     };
@@ -480,7 +488,7 @@ const HomeV1 = () => {
           faq !== "open" &&
           !more.topHolders &&
           !more.activity && (
-            <div className="content" id="full">
+            <div className="text-content" id="full">
               <div className="banner-container">
                 <img id="banner" src={banner} alt="" />
                 <div id="bannerMobile" className="banner-mobile">
@@ -553,7 +561,16 @@ const HomeV1 = () => {
                 <div id="name" className="name">
                   {ensName === "" ? (
                     <>
-                      <strong>Number Runner Club</strong> <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>
+                      <strong>Number Runner Club</strong>{" "}
+                      <div
+                        style={{ display: "inline-flex", alignItems: "top" }}
+                      >
+                        <img
+                          alt="twitter tag"
+                          style={{ width: "18px" }}
+                          src={tag}
+                        />
+                      </div>
                     </>
                   ) : (
                     ensName
@@ -616,7 +633,7 @@ const HomeV1 = () => {
                     />
                     Joined in June 2022
                     <img
-                    alt="gas icon"
+                      alt="gas icon"
                       src={gasIcon}
                       style={{
                         marginLeft: "20px",
@@ -837,7 +854,7 @@ const HomeV1 = () => {
       <AboutStyleWrapper>
         {more.topHolders && (
           <div className="content-no-padding">
-            <div className="QuitThread content">
+            <div className="QuitThread text-content">
               <img
                 onClick={() =>
                   openMore(
@@ -863,8 +880,8 @@ const HomeV1 = () => {
           </div>
         )}
         {more.activity && (
-          <div className="content">
-            <div className="QuitThread content">
+          <div className="text-content">
+            <div className="QuitThread text-content">
               <img
                 onClick={() =>
                   openMore(
@@ -894,7 +911,7 @@ const HomeV1 = () => {
           !more.activity && (
             <div>
               {faq !== "open" && (
-                <div className="content" id="contentFirst">
+                <div className="text-content" id="contentFirst">
                   {thread !== "open" && (
                     <div>
                       <div className="retweet">
@@ -917,7 +934,19 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -965,7 +994,7 @@ const HomeV1 = () => {
                   )}
                   {thread === "open" && (
                     <>
-                      <div className="QuitThread content">
+                      <div className="QuitThread text-content">
                         <img
                           onClick={() => {
                             showThread("close");
@@ -982,7 +1011,6 @@ const HomeV1 = () => {
                       </div>
                       <div>
                         <div
-                          className="contentLogo"
                           style={{
                             display: "flex",
                             width: "100%",
@@ -1004,7 +1032,19 @@ const HomeV1 = () => {
                             className="title"
                             style={{ marginTop: "7px", marginLeft: "7px" }}
                           >
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <br />
                             <span className="account">@TheNRClub</span>
                           </div>
@@ -1055,7 +1095,7 @@ const HomeV1 = () => {
                         </div>
                       </div>
                       <div className="barreObliqueBasse"></div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -1068,14 +1108,23 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "92%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1083,12 +1132,16 @@ const HomeV1 = () => {
                             deflationary collection of 10,000 PFP NFTs thought
                             for Ethereum Name Service (ENS) domain names.
                             <div className="contentBanner">
-                              <img src={ens} alt="" />
+                              <img
+                                src={ens}
+                                alt=""
+                                style={{ marginBottom: "21px" }}
+                              />
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -1101,17 +1154,26 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "89%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description">
+                          <div className="description" style={{marginBottom: "21px"}}>
                             On Ethereum Name Service (ENS), there are several
                             "domain name clubs", all different from each other.
                             Everyone can use a logic based on numbers, letters,
@@ -1150,7 +1212,7 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -1163,14 +1225,23 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "93%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1184,12 +1255,16 @@ const HomeV1 = () => {
                             <br />- <strong>100kClub</strong>; name with 5
                             digits: 00000 to 99999.eth
                             <div className="contentBanner">
-                              <img src={groupe} alt="" />
+                              <img
+                                src={groupe}
+                                alt=""
+                                style={{ marginBottom: "21px" }}
+                              />
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -1202,17 +1277,26 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "69%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description">
+                          <div className="description" style={{marginBottom: "21px"}}>
                             [2] The ambition of Number Runner Club V1 is simple:
                             to build a community that is structured, recognized
                             and able to adapt to changes in the market. All in a
@@ -1226,7 +1310,7 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -1239,17 +1323,26 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "78%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description">
+                          <div className="description" style={{marginBottom: "21px"}}>
                             [3] How does the Number Runner Club V1 NFT
                             collection work?
                             <br />
@@ -1272,7 +1365,7 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -1285,17 +1378,26 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "73%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description">
+                          <div className="description" style={{marginBottom: "21px"}}>
                             Future holders will have to meet certain conditions
                             or perform certain actions in order to qualify for
                             the different levels of rarity of the NFTs in the
@@ -1309,7 +1411,7 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -1322,17 +1424,26 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "61%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description">
+                          <div className="description" style={{marginBottom: "21px"}}>
                             Each NFT from the collection generates rewards on
                             the Number Runner Club V1 smart contract that can
                             only be claimed in 3 specific cases :<br />
@@ -1357,14 +1468,22 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "35%" }}
-                          ></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -1376,58 +1495,16 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
-                        <div className="contentLogo">
-                          <div className="logo">
-                            <img
-                              src={
-                                currentTheme.theme.name === "Light Theme"
-                                  ? logoDark
-                                  : logo
-                              }
-                              className="logoImg"
-                              alt=""
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
-                            <span className="account">@TheNRClub</span>
-                          </div>
-                          <div className="description">
-                            Number Runner Club V1 manages the overall prize pool
-                            in two ways :<br />
-                            <br />
-                            - Keeps the pot in Ethereum (ETH)
-                            <br />- Buys or resells domain names in digits
-                            <sup>1</sup>
-                            <br />
-                            <br />
-                            <sup>1</sup>{" "}
-                            <i>
-                              Holders with the rarest NFTs will have a voting
-                              right on these transactions. They may refuse them
-                              if they feel that they are not in the interest of
-                              the community.
-                            </i>
-                            <br />
-                            <div className="contentBanner">
-                              <img src={coffre} alt="" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </>
                   )}
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div>
                     <div className="retweet">
                       <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong>"You have reposted"</strong>
+                      <strong>Number Runner Club has reposted</strong>
                     </div>
                   </div>
                   <div className="flex">
@@ -1468,8 +1545,8 @@ const HomeV1 = () => {
                         been minted.
                         <br />
                         <br />
-                        - Sales tax: 16% (50% Holders | 50% Pool)
-                        <br />- Burn tax: 25% (50% Holders | 50% Pool)
+                        - Sales tax: 20% (50% Holders | 50% Pool)
+                        <br />- Burn tax: 20% (50% Holders | 50% Pool)
                       </div>
                       <div className="contentBanner">
                         <img src={bannerPawn} alt="" />
@@ -1479,11 +1556,11 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div>
                     <div className="retweet">
                       <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong>You have reposted</strong>
+                      <strong>Number Runner Club has reposted</strong>
                     </div>
                   </div>
                   <div className="flex">
@@ -1491,10 +1568,7 @@ const HomeV1 = () => {
                       <div className="logo">
                         <img src={kingLogo} className="logoImg" alt="" />
                       </div>
-                      <div
-                        className="barreOblique"
-                        style={{ height: "96%" }}
-                      ></div>
+                      <div className="barreOblique"></div>
                     </div>
                     <div>
                       <div className="title">
@@ -1530,27 +1604,25 @@ const HomeV1 = () => {
                         <strong>Who can bid?</strong>
                         <br />
                         <br />
-                        - 999Club holders and 10kClub palindrome holders
+                        - 999Club holders
                         <br />
                         <br />
                         The two kings share 35% of the transaction fee.
                         <br />
                         <br />
-                        - Sales tax: 16% (50% Holders | 50% Pool)
-                        <br />
-                        - Impossible burn of the King
-                        <br />
-                        <br />
-                        The kings have the right to vote on the purchase and
-                        sale of numbers from the pool.
-                        <br />
+                        - Sales tax: 20% (50% Holders | 50% Pool)
+                        <br />- Impossible burn of the King
                       </div>
                       <div className="contentBanner">
-                        <img src={bannerKing} alt="" />
+                        <img
+                          src={bannerKing}
+                          alt=""
+                          style={{ marginBottom: "21px" }}
+                        />
                       </div>
                     </div>
                   </div>
-                  <div className="flex flexMargin">
+                  <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">
                         <img src={kingLogo} className="logoImg" alt="" />
@@ -1566,34 +1638,31 @@ const HomeV1 = () => {
                       <div className="description">
                         The proceeds of the king auction are redistributed among
                         10 holders who discover the hand of the king on one of
-                        the pieces they have minted. <sup>2</sup>
+                        the pieces they have minted. To prevent cheating, the
+                        king's hands are encrypted and are only revealed when
+                        all the nfts have been minted.
                         <br />
                         <br />
-                        <sup>2</sup>{" "}
-                        <i>
-                          To prevent cheating, the king's hands are encrypted
-                          and are only revealed when all the nfts have been
-                          minted. Nevertheless, a reveal function allows you to
-                          know if you have a king's hand in your possession if
-                          you decide to burn a nft before it is sold out. 0.01
-                          eth will be used to activate the function. The pot of
-                          one of the king's burn hands "unintentionally" is
-                          redistributed to the prize pool.
-                        </i>
-                        <div className="contentBanner">
-                          <img src={mainRoi} alt="" />
-                        </div>
+                        Nevertheless, a reveal function allows you to know if
+                        you have a king's hand in your possession if you decide
+                        to burn a nft before it is sold out. 0.01 eth will be
+                        used to activate the function. The pot of one of the
+                        king's burn hands "unintentionally" is redistributed to
+                        the prize pool.
+                      </div>
+                      <div className="contentBanner">
+                        <img src={mainRoi} alt="" />
                       </div>
                     </div>
                   </div>
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div>
                     <div className="retweet">
                       <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong> You have reposted"</strong>
+                      <strong>Number Runner Club has reposted</strong>
                     </div>
                   </div>
                   <div className="flex">
@@ -1637,14 +1706,14 @@ const HomeV1 = () => {
                         <br />
                         <br />
                         Have a domain name available of 999Club, 10kClub or
-                        100kClub palindrome to stack the bishop.
+                        100kClub palindrome to stack the Bishop.
                         <br />
                         <br />
-                        The bishops share 10% of the transaction fees.
+                        The Bishops share 10% of the transaction fees.
                         <br />
                         <br />
-                        - Sales tax: 16% (50% Holders | 50% Pool)
-                        <br />- Burn tax: 25% (50% Holders | 50% Pool)
+                        - Sales tax: 20% (50% Holders | 50% Pool)
+                        <br />- Burn tax: 15% (50% Holders | 50% Pool)
                       </div>
                       <div className="contentBanner">
                         <img src={bannerBishop} alt="" />
@@ -1654,11 +1723,11 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div>
                     <div className="retweet">
                       <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong> You have reposted</strong>
+                      <strong>Number Runner Club has reposted</strong>
                     </div>
                   </div>
                   <div className="flex">
@@ -1704,11 +1773,11 @@ const HomeV1 = () => {
                         stack the Knight.
                         <br />
                         <br />
-                        The knights share 12.5% of the transaction fee.
+                        The Knights share 12.5% of the transaction fee.
                         <br />
                         <br />
-                        - Sales tax: 16% (50% Holders | 50% Pool)
-                        <br />- Burn tax: 30% (50% Holders | 50% Pool)
+                        - Sales tax: 20% (50% Holders | 50% Pool)
+                        <br />- Burn tax: 15% (50% Holders | 50% Pool)
                       </div>
                       <div className="contentBanner">
                         <img src={bannerKnight} alt="" />
@@ -1718,11 +1787,11 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div>
                     <div className="retweet">
                       <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong> You have reposted</strong>
+                      <strong>Number Runner Club has reposted</strong>
                     </div>
                   </div>
                   <div className="flex">
@@ -1769,11 +1838,11 @@ const HomeV1 = () => {
                         palindrome to stack the Rook.
                         <br />
                         <br />
-                        The rooks share 15% of the transaction fees.
+                        The Rooks share 15% of the transaction fees.
                         <br />
                         <br />
-                        - Sales tax: 16% (50% Holders | 50% Pool)
-                        <br />- Burn tax: 35% (50% Holders | 50% Pool)
+                        - Sales tax: 20% (50% Holders | 50% Pool)
+                        <br />- Burn tax: 15% (50% Holders | 50% Pool)
                       </div>
                       <div className="contentBanner">
                         <img src={bannerRook} alt="" />
@@ -1783,11 +1852,11 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div>
                     <div className="retweet">
                       <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong> You have reposted</strong>
+                      <strong>Number Runner Club has reposted</strong>
                     </div>
                   </div>
                   <div className="flex">
@@ -1834,16 +1903,11 @@ const HomeV1 = () => {
                         Queen.
                         <br />
                         <br />
-                        The queens share 22.5% of the transaction fees.
+                        The Queens share 22.5% of the transaction fees.
                         <br />
                         <br />
-                        - Sales tax: 16% (50% Holders | 50% Pool)
-                        <br />
-                        - Burn tax: 35% (50% Holders | 50% Pool)
-                        <br />
-                        <br />
-                        The queen has the right to vote on the purchase and sale
-                        of figures in the pool.
+                        - Sales tax: 20% (50% Holders | 50% Pool)
+                        <br />- Burn tax: 15% (50% Holders | 50% Pool)
                       </div>
                       <div className="contentBanner">
                         <img src={bannerQueen} alt="" />
@@ -1853,11 +1917,11 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div>
                     <div className="retweet">
                       <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong> You have reposted</strong>
+                      <strong>Number Runner Club has reposted</strong>
                     </div>
                   </div>
                   <div className="flex">
@@ -1876,22 +1940,30 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                        Number Runner Club{" "}
+                        <div
+                          style={{ display: "inline-flex", alignItems: "top" }}
+                        >
+                          <img
+                            alt="twitter tag"
+                            style={{ width: "18px" }}
+                            src={tag}
+                          />
+                        </div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
-                        Only 999Club and 10Kclub holders have access to the
-                        final prize pool. <sup>3</sup>
+                        Only the NFTs stacked with a 999Club or a 10Kclub have
+                        access to the final prize pool. <sup>2</sup>
                         <br />
                         <br />
-                        <sup>3</sup>{" "}
+                        <sup>2</sup>{" "}
                         <i>
                           The collection has ended and you're not in these
                           clubs?
                           <br />
-                          Don't worry, you still can swap the 100k domain of
-                          your NFT for a 999Club or 10Kclub within the next 7
-                          days.
+                          Don't worry, it's not too late to join these clubs and
+                          claim your prize !
                           <br />
                         </i>
                       </div>
@@ -1903,11 +1975,11 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div>
                     <div className="retweet">
                       <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong> You have reposted</strong>
+                      <strong>Number Runner Club has reposted</strong>
                     </div>
                   </div>
                   <div className="flex">
@@ -1926,7 +1998,16 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                        Number Runner Club{" "}
+                        <div
+                          style={{ display: "inline-flex", alignItems: "top" }}
+                        >
+                          <img
+                            alt="twitter tag"
+                            style={{ width: "18px" }}
+                            src={tag}
+                          />
+                        </div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -1945,8 +2026,178 @@ const HomeV1 = () => {
                   </div>
                 </div>
               )}
+              {thread !== "open" && faq !== "open" && (
+                <div className="text-content">
+                  <div>
+                    <div className="retweet">
+                      <img src={retweet} className="retweetImg" alt="" />{" "}
+                      <strong>Number Runner Club has reposted</strong>
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <div className="contentLogo">
+                      <div className="logo">
+                        <img
+                          src={
+                            currentTheme.theme.name === "Light Theme"
+                              ? logoDark
+                              : logo
+                          }
+                          className="logoImg"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="title">
+                        Number Runner Club{" "}
+                        <div
+                          style={{ display: "inline-flex", alignItems: "top" }}
+                        >
+                          <img
+                            alt="twitter tag"
+                            style={{ width: "18px" }}
+                            src={tag}
+                          />
+                        </div>{" "}
+                        <span className="account">@TheNRClub</span>
+                      </div>
+                      <div className="description">
+                        <strong>ENS transfer</strong> <br />
+                        <br />
+                        If you become the new owner of a digit already used in
+                        the collection, you're also the new owner of his number
+                        runner ! The rewards stacked can now be claimed thanks
+                        to your digit.
+                      </div>
+                      <div className="contentBanner">
+                        <img src={duo2} alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {thread !== "open" && faq !== "open" && (
+                <div className="text-content">
+                  <div>
+                    <div className="retweet">
+                      <img src={retweet} className="retweetImg" alt="" />{" "}
+                      <strong>Number Runner Club has reposted</strong>
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <div className="contentLogo">
+                      <div className="logo">
+                        <img
+                          src={
+                            currentTheme.theme.name === "Light Theme"
+                              ? logoDark
+                              : logo
+                          }
+                          className="logoImg"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="title">
+                        Number Runner Club{" "}
+                        <div
+                          style={{ display: "inline-flex", alignItems: "top" }}
+                        >
+                          <img
+                            alt="twitter tag"
+                            style={{ width: "18px" }}
+                            src={tag}
+                          />
+                        </div>{" "}
+                        <span className="account">@TheNRClub</span>
+                      </div>
+                      <div className="description">
+                        <strong>Burn opponent color</strong> <br />
+                        <br />
+                        3 burning option:
+                        <br />
+                        <br />
+                        - nft unstacked (0.1eth + 10% of the rewards for the
+                        burner) | when all nft minted
+                        <br />
+                        - nft listed (0.2eth + 10% of the rewards for the
+                        burner) | when all nft minted
+                        <br />
+                        - nft stacked with a 100k (0.3eth + 10% of the rewards
+                        for the burner) | when all nft minted AND supply inf
+                        5000
+                        <br />
+                        <br />
+                        the owner of the nft will be taxed 10% of his rewards
+                        <br />
+                        <br />
+                        <i>
+                          The burn taxes will be refund for holder of last 999
+                          nfts
+                        </i>
+                      </div>
+                      <div className="contentBanner">
+                        <img src={duo1} alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {thread !== "open" && faq !== "open" && (
+                <div className="text-content">
+                  <div>
+                    <div className="retweet">
+                      <img src={retweet} className="retweetImg" alt="" />{" "}
+                      <strong>Number Runner Club has reposted</strong>
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <div className="contentLogo">
+                      <div className="logo">
+                        <img
+                          src={
+                            currentTheme.theme.name === "Light Theme"
+                              ? logoDark
+                              : logo
+                          }
+                          className="logoImg"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="title">
+                        Number Runner Club{" "}
+                        <div
+                          style={{ display: "inline-flex", alignItems: "top" }}
+                        >
+                          <img
+                            alt="twitter tag"
+                            style={{ width: "18px" }}
+                            src={tag}
+                          />
+                        </div>{" "}
+                        <span className="account">@TheNRClub</span>
+                      </div>
+                      <div className="description">
+                        <strong>Expiration date</strong> <br />
+                        <br />
+                        Every NFTs stacked merge with your digit, and then for
+                        his expiration date! Be careful to renew it before the
+                        grace period or your NFT will be added to the chessboard
+                        and risk to be burned by others.
+                      </div>
+                      <div className="contentBanner">
+                        <img src={horloge} alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               {thread !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   {faq !== "open" && (
                     <div className="flex" id="faqBloc">
                       <div className="contentLogo">
@@ -1964,7 +2215,19 @@ const HomeV1 = () => {
                       </div>
                       <div>
                         <div className="title">
-                          Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                          Number Runner Club{" "}
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "top",
+                            }}
+                          >
+                            <img
+                              alt="twitter tag"
+                              style={{ width: "18px" }}
+                              src={tag}
+                            />
+                          </div>{" "}
                           <span className="account">@TheNRClub</span>
                           <br />
                         </div>
@@ -1997,7 +2260,7 @@ const HomeV1 = () => {
                   )}
                   {faq === "open" && (
                     <div>
-                      <div className="QuitThread content">
+                      <div className="QuitThread text-content">
                         <img
                           onClick={() => {
                             showFaq("close");
@@ -2013,10 +2276,7 @@ const HomeV1 = () => {
                         <span>FAQ</span>
                       </div>
                       <div id="faqBloc" style={{ marginTop: "53px" }}>
-                        <div
-                          className="contentLogo"
-                          style={{ display: "flex", width: "100%" }}
-                        >
+                        <div style={{ display: "flex", width: "100%" }}>
                           <div className="logo">
                             <img
                               src={
@@ -2032,7 +2292,19 @@ const HomeV1 = () => {
                             className="title"
                             style={{ marginTop: "7px", marginLeft: "7px" }}
                           >
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>
                             <br />
                             <span className="account">@TheNRClub</span>
                           </div>
@@ -2049,7 +2321,7 @@ const HomeV1 = () => {
                         </div>
                       </div>
                       <div className="barreObliqueBasse"></div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -2062,18 +2334,27 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "59%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                             <br />
                           </div>
-                          <div className="description">
+                          <div className="description" style={{marginBottom: "21px"}}>
                             <strong>
                               How much does the mint of a Number Runner cost ?
                             </strong>
@@ -2086,7 +2367,7 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -2099,17 +2380,26 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "72%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description">
+                          <div className="description" style={{marginBottom: "21px"}}>
                             <strong>Why didn't you turn to freemint ?</strong>
                             <br />
                             <br />
@@ -2125,7 +2415,7 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -2138,17 +2428,26 @@ const HomeV1 = () => {
                               alt=""
                             />
                           </div>
-                          <div
-                            className="barreOblique"
-                            style={{ height: "44%" }}
-                          ></div>
+                          <div className="barreOblique"></div>
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description">
+                          <div className="description" style={{marginBottom: "21px"}}>
                             <strong>How to Stack my Number Runner?</strong>
                             <br />
                             <br />
@@ -2156,7 +2455,7 @@ const HomeV1 = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flexMargin">
+                      <div className="flex">
                         <div className="contentLogo">
                           <div className="logo">
                             <img
@@ -2172,7 +2471,19 @@ const HomeV1 = () => {
                         </div>
                         <div>
                           <div className="title">
-                            Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                            Number Runner Club{" "}
+                            <div
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "top",
+                              }}
+                            >
+                              <img
+                                alt="twitter tag"
+                                style={{ width: "18px" }}
+                                src={tag}
+                              />
+                            </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
                           <div className="description">
@@ -2184,12 +2495,9 @@ const HomeV1 = () => {
                             <br />
                             Once the collection reaches 999 Number Runner in
                             circulation, holders will be able to withdraw their
-                            rewards tax-free as noted above. A new version of
-                            the Number Runner Club will then be launched.
-                            <br />
-                            <br />
-                            They will also be able to reclaim their shares of the overall prize pool.
-                            Holders of the 999 last Number Runner in circulation will also be added to the whitelist of the second version of Number Runner Club.
+                            rewards tax-free as noted above. They will also be
+                            able to reclaim their shares of the overall prize
+                            pool.
                           </div>
                         </div>
                       </div>
@@ -2215,7 +2523,16 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                        Number Runner Club{" "}
+                        <div
+                          style={{ display: "inline-flex", alignItems: "top" }}
+                        >
+                          <img
+                            alt="twitter tag"
+                            style={{ width: "18px" }}
+                            src={tag}
+                          />
+                        </div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -2267,7 +2584,7 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content">
+                <div className="text-content">
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">
@@ -2284,7 +2601,16 @@ const HomeV1 = () => {
                     </div>
                     <div>
                       <div className="title">
-                        Number Runner Club <div style={{display: "inline-flex", alignItems: "top"}}><img alt="twitter tag" style={{width: "18px",}} src={tag} /></div>{" "}
+                        Number Runner Club{" "}
+                        <div
+                          style={{ display: "inline-flex", alignItems: "top" }}
+                        >
+                          <img
+                            alt="twitter tag"
+                            style={{ width: "18px" }}
+                            src={tag}
+                          />
+                        </div>{" "}
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
@@ -2348,7 +2674,7 @@ const HomeV1 = () => {
             </div>
           )}
         {link === "buy" && !more.topHolders && !more.activity && (
-          <div className="content">
+          <div className="text-content">
             <KingAuction theme={currentTheme.theme.name} />
           </div>
         )}
@@ -2418,7 +2744,7 @@ const HomeV1 = () => {
         )}
 
         {link === "profile" && !more.topHolders && !more.activity && (
-          <div className="content min-height">
+          <div className="text-content min-height">
             <div
               style={{
                 display: "flex",

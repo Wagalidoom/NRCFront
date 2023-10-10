@@ -35,7 +35,7 @@ function App() {
           projectId: "0626848077ce83d0eb850a0d03614cd3",
         }),
         safeWallet()]}
-        clientId="d21cf762a50d961e73495ccf8e83deb8">
+        clientId="c82bdb2a716de4c99531f01a1c9fdf40">
       <ThemeContext.Provider value={{ theme, setTheme }}>
         <MuiThemeProvider theme={muiTheme}>
           <StyledThemeProvider theme={theme}>

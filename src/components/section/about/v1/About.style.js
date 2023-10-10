@@ -16,7 +16,7 @@ export const AboutStyleWrapper = styled.section`
   .show-more:hover{
     cursor:pointer;
   }
-  .content {
+  .text-content {
     margin-bottom: 100px;
     width: 100%;
     margin: auto;
@@ -44,11 +44,11 @@ export const AboutStyleWrapper = styled.section`
     position:relative;
   }
   
-  .content:last-child{
+  .text-content:last-child{
     padding-bottom:100px;
   }
   @media screen and (max-width: 600px){
-    .content {
+    .text-content {
         margin-bottom: 100px;
         width: 100%;
         margin: auto;
@@ -98,34 +98,19 @@ export const AboutStyleWrapper = styled.section`
     width: 2px;
     background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(51,54,57)':'rgb(207, 217, 222)'};
     margin-top: 4px;
-    -webkit-box-flex: 1;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
+    height: 100%;
+    margin-bottom: 4px;
     margin-left: auto;
     margin-right: auto;
     -webkit-box-align: stretch;
     -webkit-box-direction: normal;
     -webkit-box-orient: vertical;
-    border: 0 solid black;
     box-sizing: border-box;
-    display: flex;
-    flex-basis: auto;
-    flex-direction: column;
-    flex-shrink: 0;
-    margin-bottom: 0px;
-    min-height: 0px;
-    min-width: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 0px;
-    position: relative;
-    z-index: 0;
   }
   .contentLogo {
     margin-right: 12px;
+    display: flex;
+    flex-direction: column;
   }
   @media screen and (max-width: 555px) {
       .paddingOpensea {
@@ -168,18 +153,17 @@ export const AboutStyleWrapper = styled.section`
   .flex {
     display: flex;
   }
-  .flexMargin {
-    margin-top: 25px;
-  }
   .title {
     margin-bottom: 2px;
     color: ${props => props.theme.colors.text};
     font-weight: bold;
   }
   .retweet {
-    margin-left: 43px;
+    margin-left: 54px;
     margin-bottom: 4px;
     color: rgb(139,152,165);
+    display: flex;
+    align-items: center;
     font-size: 13px;
   }
   .account {
@@ -216,7 +200,7 @@ font-style: normal;
   }
   .retweetImg {
     height: 1.25em;
-    margin-right: 12px;
+    margin-right: 5px;
   }
   section {
     max-width: 600px;

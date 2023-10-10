@@ -24,7 +24,6 @@ border-bottom-right-radius:5px;
 
   .myNft{
     width:49%;
-    margin-bottom:20px;
     overflow:hidden;
     border-top-left-radius:10px;
     border-top-right-radius:10px;
@@ -61,31 +60,31 @@ border-bottom-right-radius:5px;
 }
   .king-actions {
     width: 100%;
-    height: 80px;
-    border-radius: 5px;
-    position: relative;
-    margin-top: 60px;
+    display: flex;
+    justify-content: center;
   }
   .king-price {
-    width: auto;
+    width: 150px;
+    height: 42px;
+    margin-top: 34px;
     font-size: 26px;
     font-weight: 700;
-    position: absolute;
     left: 50%;
-    transform: translate(-50%, -100%);
+    border: 2px solid rgb(29, 155, 240);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-    padding-left: 12px;
-    padding-right: 12px;
-    background: ${(props) =>
-        props.theme.name === "Dark Theme"
-            ? "rgb(30, 39, 50)"
-            : "rgb(247, 249, 249)"};
-    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+  }
+
+  .cylon{
+    padding-bottom: 146px;
+
   }
   .king-price > img {
     height: 26px;
     position: relative;
-    top: -2px;
   }
   .king-selector {
     display: flex;
@@ -124,8 +123,7 @@ border-bottom-right-radius:5px;
   .actions {
     width: 100%;
     display: flex;
-    margin-top: 34px;
-    border-radius: 5px;
+    margin-top: 17px;
     justify-content: center;
   }
   .payment {
@@ -195,23 +193,12 @@ border-bottom-right-radius:5px;
     color: white;
     text-align: center;
     font-size: 23px;
-    width: 40%;
+    width: 150px;
     background: #1d9bf0;
-    padding: 8px 10px;
-    border: none;
+    border-radius: 2px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     transition-duration: 0.4s;
     border-radius: 5px;
-  }
-  .action-btn:active {
-    scale: 0.95;
-    transition: ;
-  }
-  .action-btn:after {
-    scale: 0.8;
-  }
-  .action-btn:first-of-type {
-    margin-right: 20px;
   }
 
   @media screen and (max-width: 430px) {

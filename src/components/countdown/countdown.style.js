@@ -22,7 +22,6 @@ text-align:center;
     color:${props => props.theme.colors.text};
     font-weight:700;
     font-size:20px;
-    margin-bottom:4px;
     @media screen and (max-width: 420px) {
         font-size:16px;
     }
@@ -30,6 +29,9 @@ text-align:center;
 .number{
     font-weight:700;
     font-size:40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     line-height:40px;
     @media screen and (max-width: 420px) {
         font-size:36px;

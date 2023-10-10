@@ -1,15 +1,16 @@
 import blackPawn from "../../../assets/images/icon/Icon_Pion_-_Noir_entier.png";
 import whitePawn from "../../../assets/images/icon/Icon_Pion_-_Blanc_entier.png";
 import CloseIcon from "@mui/icons-material/Close";
-import eth from "../../../assets/images/eth.png";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { ColorPickerStyleWrapper } from "./ColorPicker.style";
 import { Button, IconButton } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
-import { BeatLoader } from "react-spinners";
+import ReactLoading from "react-loading";
 
 export const ColorPicker = () => {
-  const { chooseColor, setIsColorPickerOpen, chooseColorLoading } = useEthereum();
+  const { chooseColor, setIsColorPickerOpen, chooseColorLoading } =
+    useEthereum();
+  const [state, setState] = useState("idle");
   const [color, setColor] = useState(0);
   const componentRef = useRef(null);
 
@@ -51,7 +52,7 @@ export const ColorPicker = () => {
                 alignItems: "center",
               }}
             >
-              <IconButton onClick={handleClose} style={{padding: "0px"}}>
+              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
@@ -64,54 +65,78 @@ export const ColorPicker = () => {
               justifyContent: "center",
             }}
           >
-            <div>
-              Choose which color you want to mint!
-            </div>
+            <div style={{ margin: "10px 0" }}>Choose which color you want!</div>
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-evenly",
-                width: "100%",
-                marginTop: "15px"
+                width: "80%",
+                margin: "15px 0px",
               }}
             >
               <div
-                style={{ width: "140px", cursor: "pointer" }}
+                style={{ width: "120px", cursor: "pointer" }}
                 onClick={() => {
                   setColor(1);
                 }}
               >
-                <img alt="" src={blackPawn} style={{ borderRadius: "5px", border: color === 1 ? "4px solid rgb(29, 155, 240)" : "none" }} />
+                <img
+                  alt=""
+                  src={blackPawn}
+                  style={{
+                    borderRadius: "5px",
+                    border:
+                      color === 1 ? "4px solid rgb(29, 155, 240)" : "none",
+                  }}
+                />
               </div>
               <div
-                style={{ width: "140px", cursor: "pointer" }}
+                style={{ width: "120px", cursor: "pointer" }}
                 onClick={() => {
                   setColor(2);
                 }}
               >
-                <img alt="" src={whitePawn} style={{ borderRadius: "5px", border: color === 2 ? "4px solid rgb(29, 155, 240)" : "none" }} />
+                <img
+                  alt=""
+                  src={whitePawn}
+                  style={{
+                    borderRadius: "5px",
+                    border:
+                      color === 2 ? "4px solid rgb(29, 155, 240)" : "none",
+                  }}
+                />
               </div>
             </div>
-            <div style={{marginTop: "15px", marginRight: "5px", marginLeft: "5px"}}>
-              <i style={{ fontSize: "14px" }}>
+            <div style={{ margin: "10px 5px", textAlign: "center" }}>
+              <i style={{ fontSize: "14px", textAlign: "center" }}>
                 The color chosen will be linked to your address and cannot be
                 change anymore. Choose wisely!
               </i>
             </div>
           </div>
-          <Button
+          {/* <Button
             disabled={color === 0}
-            style={{ margin: "15px", width: "190px", height: "40px", backgroundColor: color === 0 ? "rgb(138 180 209)" : "rgb(29, 155, 240)" }}
+            style={{
+              margin: "15px",
+              width: "190px",
+              height: "40px",
+              backgroundColor:
+                color === 0 ? "rgb(138 180 209)" : "rgb(29, 155, 240)",
+            }}
             variant="contained"
             onClick={() => {
               chooseColor(color);
             }}
           >
             {" "}
-            {chooseColorLoading ? <BeatLoader color="#ffff" loading={true} size={15} /> : 
-              color === 0 ? <p>Choose a color</p> : <p>Proceed to minting</p>
-            }
-          </Button>
+            {chooseColorLoading ? (
+              
+            ) : color === 0 ? (
+              <p>Choose a color</p>
+            ) : (
+              <p>Proceed</p>
+            )}
+          </Button> */}
         </div>
       </div>
     </ColorPickerStyleWrapper>

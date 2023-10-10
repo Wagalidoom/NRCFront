@@ -68,7 +68,7 @@ export const BannerV1Wrapper = styled.section`
     bottom: 15px;
     font-size: 18px;
     font-weight: 700;
-    left: 10px;
+    left: 18px;
     color:white;
   }
   .banner-mobile{
@@ -86,7 +86,7 @@ overflow:hidden;
     width:100%;
     height:100%;
   }
-  .content {
+  .text-content {
     max-width: 600px;
     margin: auto;
     border-top: 1px solid ${props => props.theme.colors.border};
@@ -95,7 +95,7 @@ overflow:hidden;
     position: relative;
   }
   @media screen and (max-width: 600px){
-    .content {
+    .text-content {
         max-width: 600px;
         margin: auto;
         border-top: 1px solid  ${props => props.theme.colors.border};
@@ -112,7 +112,7 @@ overflow:hidden;
 
   .tw-connected-wallet{
     padding: 0;
-
+    border: 5px solid ${props => props.theme.name === 'Dark Theme' ? 'rgb(239, 243, 244)' : 'black'};
   }
 
   .tw-connected-wallet__balance{
@@ -122,7 +122,7 @@ overflow:hidden;
   .tw-connected-wallet__address{
     font-weight: 700;
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(15, 20, 25)' : 'white'};
+    color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(15, 20, 25)' : "white"};
   }
 
   .menuLeftContent {
@@ -318,14 +318,18 @@ overflow:hidden;
 
   .connectionButton{
     min-width: 100px !important;
-    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(239, 243, 244)' : 'rgb(21,32,43)'};
+    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(239, 243, 244)' : 'black'};
     border-radius: 50px;
     font-size: 14px;
-    color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(15, 20, 25)' : 'white'};
+    color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(15, 20, 25)' : 'rgb(239, 243, 244)'};
     font-weight: 700;
     display: flex;
     justify-content: center;
     border:none;
+  }
+
+  .connectionButton:hover{
+    background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(239, 243, 244)' : 'black'};
   }
 
   .connectionButtonSideMenu{
@@ -369,7 +373,7 @@ overflow:hidden;
   .smallButton {
     position:relative;
     z-index:0;
-    border: 1px solid rgb(83, 100, 113);
+    border: 2px solid rgb(83, 100, 113);
     margin-right: 12px;
     min-width: 36px;
     min-height: 36px;
@@ -388,7 +392,7 @@ overflow:hidden;
   }
 
   .langButton{
-    border-color:${props => props.theme.name === 'Light Theme' ? 'rgb(21, 32, 43)' : 'rgb(239, 243, 244)'};
+    border-color:${props => props.theme.name === 'Light Theme' ? 'rgb(21, 32, 43)' : 'rgb(83, 100, 113)'};
     color:${props => props.theme.name === 'Light Theme' ? 'rgb(21, 32, 43)' : 'rgb(239, 243, 244)'};
   }
   .change {

@@ -133,11 +133,17 @@ export function EthereumProvider({ children }) {
     "approve"
   );
 
-  const { mutateAsync: chooseColorCall, isLoading: chooseColorLoading, error: chooseColorError } =
-    useContractWrite(contract, "chooseColor");
+  const {
+    mutateAsync: chooseColorCall,
+    isLoading: chooseColorLoading,
+    error: chooseColorError,
+  } = useContractWrite(contract, "chooseColor");
 
-  const { mutateAsync: revealKingHandCall, isLoading: revealKingHandLoading, error: revealKingHandError } =
-    useContractWrite(contract, "revealKingHand");
+  const {
+    mutateAsync: revealKingHandCall,
+    isLoading: revealKingHandLoading,
+    error: revealKingHandError,
+  } = useContractWrite(contract, "revealKingHand");
 
   const chooseColor = async (_color) => {
     try {
@@ -166,7 +172,6 @@ export function EthereumProvider({ children }) {
   };
 
   const mint = async (mintCount) => {
-
     await multiMintCall({
       args: [mintCount],
       overrides: {
@@ -176,11 +181,10 @@ export function EthereumProvider({ children }) {
       },
     });
 
-    setIsMintOpen(false);
+    // setIsMintOpen(false);
   };
 
   const sweep = async (_list, _price) => {
-
     await multiBuyCall({
       args: [_list],
       overrides: {
@@ -192,11 +196,14 @@ export function EthereumProvider({ children }) {
   };
 
   const burnSweep = async (_list, _price) => {
-
     await multiKillCall({
       args: [_list],
       overrides: {
-        value: ethers.utils.parseEther((Number(_price * 10 ** -3).toFixed(5)).toString()),
+        value: ethers.utils.parseEther(
+          Number(_price * 10 ** -3)
+            .toFixed(5)
+            .toString()
+        ),
       },
     });
     setIsBurnSweepOpen(false);
@@ -229,7 +236,7 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    // await approveCall({ args: [contractAddress, _id] });
+    console.log(_ens);
     await stackCall({
       args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id],
     });
@@ -291,13 +298,20 @@ export function EthereumProvider({ children }) {
   };
 
   const buyKing = async (_color) => {
-    console.log(kingPrice);
-    await buyKingCall({
-      args: [_color],
-      overrides: {
-        value: kingPrice.toNumber().toFixed(0) + 10,
-      },
-    });
+    if (address) {
+      if (userColor === 0) {
+        setIsColorPickerOpen(true);
+        console.log("display choose color component");
+      } else {
+        // setIsColorPickerOpen(true);
+        await buyKingCall({
+          args: [userColor],
+          overrides: {
+            value: kingPrice.toNumber().toFixed(0) + 10,
+          },
+        });
+      }
+    }
   };
 
   const mintPawn = async () => {

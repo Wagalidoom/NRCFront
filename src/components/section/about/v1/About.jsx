@@ -28,7 +28,7 @@ import rookLogo from "../../../../assets/images/themeSombre/rook.png";
 const About = () => {
   return (
     <AboutStyleWrapper>
-      <div className="content">
+      <div className="text-content">
         <div>
           <div className="retweet">
             <img src={epingle} className="retweetImg" /> Pinned Tweet
@@ -39,7 +39,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "94%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -59,7 +59,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "90%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -78,7 +78,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "90%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -99,7 +99,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "92%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -121,7 +121,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "75%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -138,7 +138,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "85%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -161,7 +161,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "83%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -178,7 +178,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "78%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -197,7 +197,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "70%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -213,7 +213,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "72%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -250,7 +250,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div>
           <div className="retweet">
             <img src={retweet} className="retweetImg" />You have retweeted
@@ -282,7 +282,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div>
           <div className="retweet">
             <img src={retweet} className="retweetImg" />You have retweeted
@@ -293,7 +293,7 @@ const About = () => {
             <div className="logo">
               <img src={kingLogo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "97%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -337,7 +337,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div>
           <div className="retweet">
             <img src={retweet} className="retweetImg" />You have retweeted
@@ -372,7 +372,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div>
           <div className="retweet">
             <img src={retweet} className="retweetImg" />You have retweeted
@@ -406,7 +406,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div>
           <div className="retweet">
             <img src={retweet} className="retweetImg" />You have retweeted
@@ -440,7 +440,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div>
           <div className="retweet">
             <img src={retweet} className="retweetImg" />You have retweeted
@@ -475,7 +475,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div>
           <div className="retweet">
             <img src={retweet} className="retweetImg" />You have retweeted
@@ -503,13 +503,13 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div className="flex">
           <div className="contentLogo">
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "95%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -527,7 +527,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "75%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -546,7 +546,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "76%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -564,7 +564,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "70%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -581,7 +581,7 @@ const About = () => {
             <div className="logo">
               <img src={logo} className="logoImg"/>
             </div>
-            <div className="barreOblique" style={{height: "84%"}}></div>
+            <div className="barreOblique"></div>
           </div>
           <div>
             <div className="title">
@@ -611,7 +611,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div className="flex">
           <div className="contentLogo">
             <div className="logo">
@@ -631,7 +631,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="content">
+      <div className="text-content">
         <div className="flex">
           <div className="contentLogo">
             <div className="logo">

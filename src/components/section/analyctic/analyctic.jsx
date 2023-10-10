@@ -104,10 +104,10 @@ export const Analyctic = (props) => {
                         : new BigNumber(0);
                     let stringEnsName = "Not stacked";
                     if (holder.id === "0") {
-                        stringEnsName = "BlackKing.ens";
+                        stringEnsName = "BlackKing";
                     }
                     if (holder.id === "1") {
-                        stringEnsName = "WhiteKing.ens";
+                        stringEnsName = "WhiteKing";
                     }
                     if (holder.ensName) {
                         stringEnsName = Buffer.from(holder.ensName.slice(2), "hex")
@@ -162,9 +162,7 @@ export const Analyctic = (props) => {
                                     <img
                                         style={{
                                             height: "16px",
-                                            marginBottom: "2px",
                                             marginLeft: "2px",
-                                            marginRight: "5px"
                                         }}
                                         src={currentTheme.theme.name === "Dark Theme" ? ethDark : eth}
                                     />

@@ -67,9 +67,6 @@ font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto
 .list > li:last-child > div{
     font-weight:700;
 }
-.list > li:last-child{
-    padding :12px 14px;
-}
 
 .top-holder{
     margin-bottom:18px;
