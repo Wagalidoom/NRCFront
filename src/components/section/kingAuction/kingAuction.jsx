@@ -240,7 +240,6 @@ export const KingAuction = (props) => {
               <>
                 <img
                   alt=""
-                  className="leftText"
                   src={props.theme === "Dark Theme" ? eth : ethDark}
                 />
                 <span>{price ? parseFloat(price).toFixed(2) : 0}</span>
@@ -254,24 +253,12 @@ export const KingAuction = (props) => {
           </button>
         </div>
         <div className="data">
+          <label aria-label="Enter the amount in €" data-currency="€" style={{margin: "14px 0"}}>
+            <input type="tel" value={value} onChange={handleChange}/>
+          </label>
           {calculatedDate ? calculatedDate.toLocaleString() : "Loading..."}
           <br />
           Local time
-        </div>
-        <div style={{ width: "100%", display: "flex", marginTop: "16px" }}>
-          <div className="payment">
-            <input
-              type="text"
-              style={{
-                textAlign: "center",
-                height: "100%",
-                fontSize: "23px",
-                border: "none",
-              }}
-              value={value}
-              onChange={handleChange}
-            />
-          </div>
         </div>
       </div>
       <div>

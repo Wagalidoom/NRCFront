@@ -169,6 +169,8 @@ const HomeV1 = () => {
     [namehash.hash(ensName)]
   );
 
+
+
   useEffect(() => {
     const fetchEns = async () => {
       const name = await getEnsName();
@@ -188,6 +190,11 @@ const HomeV1 = () => {
 
     if (address) {
       fetchEns();
+    }
+    else{
+      setEnsName("");
+      setEnsUrl("");
+
     }
   }, [address, getEnsName, getEnsProfilePicture]);
 
@@ -523,7 +530,6 @@ const HomeV1 = () => {
                 </div>
               </div>
               <div className="contentButton">
-                <div style={{ position: "relative" }}>
                   <button
                     className="smallButton langButton"
                     id="themeButton"
@@ -535,7 +541,6 @@ const HomeV1 = () => {
                       <NightsStayIcon />
                     )}
                   </button>
-                </div>
                 <button
                   id="mint"
                   style={
@@ -1173,7 +1178,10 @@ const HomeV1 = () => {
                             </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description" style={{marginBottom: "21px"}}>
+                          <div
+                            className="description"
+                            style={{ marginBottom: "21px" }}
+                          >
                             On Ethereum Name Service (ENS), there are several
                             "domain name clubs", all different from each other.
                             Everyone can use a logic based on numbers, letters,
@@ -1296,7 +1304,10 @@ const HomeV1 = () => {
                             </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description" style={{marginBottom: "21px"}}>
+                          <div
+                            className="description"
+                            style={{ marginBottom: "21px" }}
+                          >
                             [2] The ambition of Number Runner Club V1 is simple:
                             to build a community that is structured, recognized
                             and able to adapt to changes in the market. All in a
@@ -1342,7 +1353,10 @@ const HomeV1 = () => {
                             </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description" style={{marginBottom: "21px"}}>
+                          <div
+                            className="description"
+                            style={{ marginBottom: "21px" }}
+                          >
                             [3] How does the Number Runner Club V1 NFT
                             collection work?
                             <br />
@@ -1397,7 +1411,10 @@ const HomeV1 = () => {
                             </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description" style={{marginBottom: "21px"}}>
+                          <div
+                            className="description"
+                            style={{ marginBottom: "21px" }}
+                          >
                             Future holders will have to meet certain conditions
                             or perform certain actions in order to qualify for
                             the different levels of rarity of the NFTs in the
@@ -1443,7 +1460,10 @@ const HomeV1 = () => {
                             </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description" style={{marginBottom: "21px"}}>
+                          <div
+                            className="description"
+                            style={{ marginBottom: "21px" }}
+                          >
                             Each NFT from the collection generates rewards on
                             the Number Runner Club V1 smart contract that can
                             only be claimed in 3 specific cases :<br />
@@ -2354,7 +2374,10 @@ const HomeV1 = () => {
                             <span className="account">@TheNRClub</span>
                             <br />
                           </div>
-                          <div className="description" style={{marginBottom: "21px"}}>
+                          <div
+                            className="description"
+                            style={{ marginBottom: "21px" }}
+                          >
                             <strong>
                               How much does the mint of a Number Runner cost ?
                             </strong>
@@ -2399,7 +2422,10 @@ const HomeV1 = () => {
                             </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description" style={{marginBottom: "21px"}}>
+                          <div
+                            className="description"
+                            style={{ marginBottom: "21px" }}
+                          >
                             <strong>Why didn't you turn to freemint ?</strong>
                             <br />
                             <br />
@@ -2447,7 +2473,10 @@ const HomeV1 = () => {
                             </div>{" "}
                             <span className="account">@TheNRClub</span>
                           </div>
-                          <div className="description" style={{marginBottom: "21px"}}>
+                          <div
+                            className="description"
+                            style={{ marginBottom: "21px" }}
+                          >
                             <strong>How to Stack my Number Runner?</strong>
                             <br />
                             <br />
@@ -2506,7 +2535,7 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="content paddingOpensea">
+                <div className="text-content paddingOpensea">
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">

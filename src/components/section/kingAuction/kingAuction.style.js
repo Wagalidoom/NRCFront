@@ -95,6 +95,8 @@ border-bottom-right-radius:5px;
 
   .data {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     height: 100%;
     width: 100%;
     border: 1px solid ${(props) => props.theme.colors.border};
@@ -126,14 +128,31 @@ border-bottom-right-radius:5px;
     margin-top: 17px;
     justify-content: center;
   }
-  .payment {
-    border: 1px solid white;
-    border-radius: 5px;
-    display: flex;
-    width: 50%;
-    align-items: center;
-    background-color: #E1DEDE;
-  }
+
+  label {
+    border: 2px #ccc solid;
+    border-radius: .5em;
+    display: inline-flex;
+    color: #666;
+    overflow: hidden;
+ }
+ 
+ label:before {
+    content: attr(data-currency);
+    width: 2.5em;
+    padding: .5em 0;
+    background: #e6e6e8;
+    text-align: center;
+    font: inherit;
+    border-right: inherit;
+ }
+ 
+ input {
+    border: 0;
+    font: inherit;
+    color: inherit;
+ }
+
   .switch {
     position: absolute;
     left: 50%;

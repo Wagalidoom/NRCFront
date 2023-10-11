@@ -177,8 +177,6 @@ cursor:pointer;
     display:flex;
     justify-content:center;
     align-items:center;
-    border-bottom-left-radius:${props => props.openSelect ? '0px':'5px'};
-    border-top-left-radius:${props => props.openSelect ? '0px':'5px'};
 }
 p{
     font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;

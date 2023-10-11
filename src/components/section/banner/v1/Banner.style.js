@@ -78,7 +78,7 @@ overflow:hidden;
     position: fixed;
     top: -80px;
     margin-top:0px;
-    z-index: 1;
+    z-index: 40;
     width: 100%;
     max-width:599px;    
   }
@@ -312,6 +312,7 @@ overflow:hidden;
   .contentButton {
     padding-top: 12px;
     padding-right: 12px;
+    height: 40px;
     float: right;
     display: flex;
   }
@@ -324,6 +325,7 @@ overflow:hidden;
     color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(15, 20, 25)' : 'rgb(239, 243, 244)'};
     font-weight: 700;
     display: flex;
+    height: 40px;
     justify-content: center;
     border:none;
   }
@@ -354,6 +356,7 @@ overflow:hidden;
   .bigButton {
     min-width: 60px !important;
     width: 60px;
+    height: 40px;
     background-color: ${props => props.theme.name === 'Dark Theme' ? 'rgb(239, 243, 244)' : 'rgb(21,32,43)'};
     border-radius: 50px;
     font-size: 14px;
@@ -375,8 +378,11 @@ overflow:hidden;
     z-index:0;
     border: 2px solid rgb(83, 100, 113);
     margin-right: 12px;
-    min-width: 36px;
-    min-height: 36px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgba(0, 0, 0, 0);
     border-radius: 9999px;
     font-size: 14px;

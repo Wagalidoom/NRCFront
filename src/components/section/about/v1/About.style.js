@@ -80,7 +80,7 @@ export const AboutStyleWrapper = styled.section`
     border-bottom-style: solid;
     border-bottom-color: ${props => props.theme.colors.border};
     border-bottom-width: 1px;
-    margin-top: 30px;
+    margin: 20px 0;
   }
   .QuitThread > img {
     cursor: pointer;

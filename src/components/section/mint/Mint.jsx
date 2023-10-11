@@ -14,6 +14,7 @@ const CustomTextField = styled(TextField)({
     height: "35px",
     width: "50px",
     borderRadius: "6px",
+    pointerEvents: "none",
     border: "solid 2px rgb(48, 60, 67)",
   },
 

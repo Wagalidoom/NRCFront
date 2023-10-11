@@ -6,7 +6,7 @@ import eth from "../../../assets/images/eth.png";
 import { PriceSelectorStyleWrapper } from "./PriceSelector.style";
 import { useRef } from "react";
 import { useEffect } from "react";
-import { BeatLoader } from "react-spinners";
+import ReactLoading from "react-loading";
 
 const CustomTextField = styled(TextField)({
   "& .MuiInputBase-root": {
@@ -23,6 +23,7 @@ const CustomTextField = styled(TextField)({
 export const PriceSelector = () => {
   const { listNFT, selectId, setIsPriceSelectorOpen, listLoading } =
     useEthereum();
+  const [state, setState] = useState("");
   const [price, setPrice] = useState(1);
 
   const componentRef = useRef(null);
@@ -122,16 +123,62 @@ export const PriceSelector = () => {
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
-              style={{ margin: "15px", width: "190px", height: "40px" }}
+              style={{
+                margin: "15px",
+                width: "190px",
+                height: "40px",
+                backgroundColor:
+                  state === "success"
+                    ? "rgb(138 180 209)"
+                    : "rgb(29, 155, 240)",
+              }}
               variant="contained"
-              onClick={() => {
-                listNFT(selectId, price);
+              onClick={async () => {
+                if (state === "success") {
+                  handleClose();
+                } else {
+                  await listNFT(selectId, price);
+                  setState("success");
+                }
               }}
             >
               {listLoading ? (
-                <BeatLoader color="#ffff" loading={true} size={15} />
+                <>
+                  <ReactLoading
+                    className="spin"
+                    type={"spin"}
+                    color={"rgba(255, 255, 255, 0.8)"}
+                    height={22}
+                    width={22}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      marginLeft: "12px",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Loading...
+                  </p>
+                </>
+              ) : state === "success" ? (
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Done
+                </p>
               ) : (
-                <p>Proceed to listing</p>
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Proceed to listing
+                </p>
               )}
             </Button>
           </div>

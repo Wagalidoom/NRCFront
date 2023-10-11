@@ -61,7 +61,7 @@ export const MyNft = (props) => {
 
   const modalRef = useRef(null);
   const selectRef = useRef(null);
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(true);
   const [open, setOpen] = useState(false);
   const {
     mintPawn,
@@ -525,7 +525,7 @@ export const MyNft = (props) => {
             >
               <div className="visible">
                 <span className="filter-selection">
-                  {selected ? "Price High to Low" : "Price Low to High"}
+                  {selected ? "Price Low to High" : "Price High to Low"}
                 </span>
                 <div className="icon">
                   <img
@@ -896,7 +896,7 @@ export const MyNft = (props) => {
                         style={{ height: "18px", marginBottom: "2px" }}
                         src={props.theme === "Dark Theme" ? eth : ethDark}
                       />{" "}
-                      <span style={{ marginLeft: "4px" }}>
+                      <span>
                         {(element.price / 10 ** 18).toString()}
                       </span>
                     </div>

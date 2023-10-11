@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const AnalycticContainer = styled.div`
 position:relative;
-border-radius:10px;
 background:${props => props.theme.name === "Dark Theme" ? 'rgb(30, 39, 50)' : 'rgb(247, 249, 249)'};
 
 .title{

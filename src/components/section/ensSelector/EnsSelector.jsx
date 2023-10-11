@@ -10,8 +10,8 @@ import { useState } from "react";
 import { EnsSelectorStyleWrapper } from "./EnsSelector.style";
 import CloseIcon from "@mui/icons-material/Close";
 import eth from "../../../assets/images/eth.png";
+import ReactLoading from "react-loading";
 import { useRef, useEffect } from "react";
-import { BeatLoader } from "react-spinners";
 
 export const EnsSelector = () => {
   const {
@@ -23,6 +23,7 @@ export const EnsSelector = () => {
     stackLoading,
   } = useEthereum();
   const [ensName, setEnsName] = useState("");
+  const [state, setState] = useState("");
   const componentRef = useRef(null);
 
   console.log(ensList);
@@ -162,19 +163,63 @@ export const EnsSelector = () => {
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
-              style={{ margin: "15px", width: "210px", height: "40px" }}
+              style={{
+                margin: "15px",
+                width: "190px",
+                height: "40px",
+                backgroundColor:
+                  state === "success"
+                    ? "rgb(138 180 209)"
+                    : "rgb(29, 155, 240)",
+              }}
               variant="contained"
-              onClick={() => {
-                if (ensName) {
-                  stack(ensName, selectId);
+              onClick={async () => {
+                if (state === "success") {
+                  handleClose();
+                } else {
                   setAvatar(ensName, selectId);
+                  await stack(ensName, selectId);
+                  setState("success");
                 }
               }}
             >
               {stackLoading ? (
-                <BeatLoader color="#ffff" loading={true} size={15} />
+                <>
+                  <ReactLoading
+                    className="spin"
+                    type={"spin"}
+                    color={"rgba(255, 255, 255, 0.8)"}
+                    height={22}
+                    width={22}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      marginLeft: "12px",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Loading...
+                  </p>
+                </>
+              ) : state === "success" ? (
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Done
+                </p>
               ) : (
-                <p>Proceed to stacking</p>
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Proceed to stacking
+                </p>
               )}
             </Button>
           </div>

@@ -139,7 +139,7 @@ export const Analyctic = (props) => {
     }, []);
 
     return (
-        <AnalycticContainer>
+        <AnalycticContainer style={{borderRadius: props.container === "right" ? "10px" : "0"}}>
             <div>
                 <h1 className="title">Top Holders</h1>
             </div>

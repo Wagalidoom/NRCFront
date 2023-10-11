@@ -4,10 +4,11 @@ import { BurnValidatorStyleWrapper } from "./BurnValidator.style";
 import { Button, IconButton } from "@mui/material";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import { useState, useEffect, useRef } from "react";
-import { BeatLoader } from "react-spinners";
+import ReactLoading from "react-loading";
 
 export const BurnValidator = () => {
   const { burn, selectId, setIsBurnOpen, burnLoading } = useEthereum();
+  const [state, setState] = useState("");
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -71,17 +72,63 @@ export const BurnValidator = () => {
             ></div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              style={{ margin: "0 15px", width: "190px", height: "40px" }}
+          <Button
+              style={{
+                margin: "15px",
+                width: "190px",
+                height: "40px",
+                backgroundColor:
+                  state === "success"
+                    ? "rgb(138 180 209)"
+                    : "rgb(29, 155, 240)",
+              }}
               variant="contained"
-              onClick={() => {
-                burn(selectId);
+              onClick={async () => {
+                if (state === "success") {
+                  handleClose();
+                } else {
+                  await burn(selectId);
+                  setState("success");
+                }
               }}
             >
               {burnLoading ? (
-                <BeatLoader color="#ffff" loading={true} size={15} />
+                <>
+                  <ReactLoading
+                    className="spin"
+                    type={"spin"}
+                    color={"rgba(255, 255, 255, 0.8)"}
+                    height={22}
+                    width={22}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      marginLeft: "12px",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Loading...
+                  </p>
+                </>
+              ) : state === "success" ? (
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Done
+                </p>
               ) : (
-                <p>Proceed to burn</p>
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Proceed to burning
+                </p>
               )}
             </Button>
           </div>
