@@ -3,7 +3,7 @@ import moment from "moment-timezone"
 import { CountdownContainer } from "./countdown.style";
 import { HashLoader } from "react-spinners";
 
-export const Countdown = ({ endTime }) => {
+export const Countdown = (props) => {
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -12,10 +12,12 @@ export const Countdown = ({ endTime }) => {
     });
     const [loading, setLoading] = useState(true);
 
+    console.log(props.theme === "Dark Theme" ? "dark" : "white");
+
     useEffect(() => {
         const interval = setInterval(() => {
             const now = moment().tz("Europe/Paris");
-            const targetDate = moment.utc(endTime).tz("Europe/Paris");
+            const targetDate = moment.utc(props.endTime).tz("Europe/Paris");
             if (now.isAfter(targetDate)) {
                 clearInterval(interval);
                 setCountdown({
@@ -41,14 +43,14 @@ export const Countdown = ({ endTime }) => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [endTime]);
+    }, [props.endTime]);
 
     return (
         <CountdownContainer style={{ paddingBottom: '8px' }}>
-            <div><p className="unity">DAYS</p><div className="number">{loading ? <HashLoader color="#ffffff" loading={true} size={40} /> : countdown.days}</div></div>
-            <div><p className="unity">HRS</p><div className="number">{loading ? <HashLoader color="#ffffff" loading={true} size={40} /> : countdown.hours}</div></div>
-            <div><p className="unity">MINS</p><div className="number">{loading ? <HashLoader color="#ffffff" loading={true} size={40} /> : countdown.minutes}</div></div>
-            <div><p className="unity">SECS</p><div className="number">{loading ? <HashLoader color="#ffffff" loading={true} size={40} /> : countdown.seconds}</div></div>
+            <div><p className="unity">DAYS</p><div className="number">{loading ? <HashLoader color={props.theme === "Dark Theme" ? "#ffffff" : "#1d9bf0"} loading={true} size={40} /> : countdown.days}</div></div>
+            <div><p className="unity">HRS</p><div className="number">{loading ? <HashLoader color={props.theme === "Dark Theme" ? "#ffffff" : "#1d9bf0"} loading={true} size={40} /> : countdown.hours}</div></div>
+            <div><p className="unity">MINS</p><div className="number">{loading ? <HashLoader color={props.theme === "Dark Theme" ? "#ffffff" : "#1d9bf0"} loading={true} size={40} /> : countdown.minutes}</div></div>
+            <div><p className="unity">SECS</p><div className="number">{loading ? <HashLoader color={props.theme === "Dark Theme" ? "#ffffff" : "#1d9bf0"} loading={true} size={40} /> : countdown.seconds}</div></div>
         </CountdownContainer>
     )
 }

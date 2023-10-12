@@ -6,6 +6,7 @@ import whiteKing from "../../../assets/images/1.png";
 import tirelire from "../../../assets/images/icon/tirelire.png";
 import tirelireDark from "../../../assets/images/icon/tirelireDark.png";
 import eth from "../../../assets/images/eth.png";
+import ethGrey from "../../../assets/images/ethGrey.png";
 import ethDark from "../../../assets/images/ethDark.png";
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
@@ -136,7 +137,7 @@ export const KingAuction = (props) => {
   return (
     <KingAuctionContainer checkbox={checkboxValue}>
       <div className="countdown-container">
-        {<Countdown endTime={endTime} />}
+        {<Countdown theme={props.theme} endTime={endTime} />}
       </div>
       <div className="container-nft">
         <div className="myNft">
@@ -253,12 +254,57 @@ export const KingAuction = (props) => {
           </button>
         </div>
         <div className="data">
-          <label aria-label="Enter the amount in €" data-currency="€" style={{margin: "14px 0"}}>
-            <input type="tel" value={value} onChange={handleChange}/>
-          </label>
-          {calculatedDate ? calculatedDate.toLocaleString() : "Loading..."}
-          <br />
-          Local time
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <p style={{ margin: "8px 0" }}>Target Price</p>
+            <label
+              aria-label="Enter the amount in ETH"
+              style={{ height: "28px", margin: "14px 0" }}
+            >
+              <img
+                src={ethGrey}
+                style={{
+                  width: "14px",
+                  zIndex: 30,
+                  position: "absolute",
+                  marginLeft: "3px",
+                  marginTop: "2px",
+                }}
+              />
+              <input type="tel" value={value} onChange={handleChange} />
+            </label>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <p style={{ margin: "8px 0" }}>Target Time</p>
+            <div
+              style={{
+                color: "black",
+                backgroundColor: "white",
+                height: "28px",
+                border: "2px solid rgb(204, 204, 204)",
+                margin: "14px 0",
+                borderRadius: "0.5em",
+                width: "200px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {calculatedDate ? calculatedDate.toLocaleString() : "Loading..."}
+            </div>
+          </div>
         </div>
       </div>
       <div>

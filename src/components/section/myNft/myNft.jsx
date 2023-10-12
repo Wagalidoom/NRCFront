@@ -7,6 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import DotLight from "../../../assets/images/icon/three-dot-light.svg";
+import validate from "../../../assets/images/ValideWhite.png";
 import DotDark from "../../../assets/images/icon/three-dot-dark.svg";
 import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -25,6 +26,7 @@ import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
 import tirelire from "../../../assets/images/icon/tirelire.png";
 import tirelireDark from "../../../assets/images/icon/tirelireDark.png";
+import ReactLoading from "react-loading";
 import BigNumber from "bignumber.js";
 
 import {
@@ -77,6 +79,7 @@ export const MyNft = (props) => {
     mintLoading,
     multiMintLoading,
     burnLoading,
+    sweepLoading,
     stackLoading,
     unstackLoading,
     listLoading,
@@ -87,6 +90,8 @@ export const MyNft = (props) => {
   const [fetchENSIndex, setFetchENSIndex] = useState(0);
   const [nftOnSale, setNftOnSale] = useState([]);
   const [collection, setCollection] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingFinished, setLoadingFinished] = useState(false);
   const [ensList, setEnsList] = useState([]);
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
@@ -145,6 +150,34 @@ export const MyNft = (props) => {
       setIsOpen(false);
     }
   }, [modalOpen]);
+
+  useEffect(() => {
+    if (unlistLoading) {
+      setLoading(true);
+      setLoadingFinished(false);
+    } else if (loading) {
+      setLoading(false);
+      setLoadingFinished(true);
+      setTimeout(() => {
+        setLoadingFinished(false);
+      }, 3000);
+    }
+    console.log("LOADING FINISHED", loadingFinished);
+  }, [unlistLoading, loading]);
+
+  useEffect(() => {
+    if (sweepLoading) {
+      setLoading(true);
+      setLoadingFinished(false);
+    } else if (loading) {
+      setLoading(false);
+      setLoadingFinished(true);
+      setTimeout(() => {
+        setLoadingFinished(false);
+      }, 3000);
+    }
+    console.log("LOADING FINISHED", loadingFinished);
+  }, [sweepLoading, loading]);
 
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
@@ -842,7 +875,19 @@ export const MyNft = (props) => {
                             className="unlist-action"
                             onClick={() => unlistNFT(element.id.toString())}
                           >
-                            Unlist
+                            {unlistLoading ? (
+                              <ReactLoading
+                                className="spin"
+                                type={"spin"}
+                                color={"rgba(255, 255, 255, 0.8)"}
+                                height={18}
+                                width={18}
+                              />
+                            ) : loadingFinished ? (
+                              <img style={{width: "20px"}} src={validate} />
+                            ) : (
+                              <p>Unlist</p>
+                            )}
                           </Button>
                         ) : (
                           <Button
@@ -851,7 +896,19 @@ export const MyNft = (props) => {
                               sweep([element.id.toString()], element.price)
                             }
                           >
-                            Buy
+                            {sweepLoading ? (
+                              <ReactLoading
+                                className="spin"
+                                type={"spin"}
+                                color={"rgba(255, 255, 255, 0.8)"}
+                                height={18}
+                                width={18}
+                              />
+                            ) : loadingFinished ? (
+                              <img style={{width: "20px"}} src={validate} />
+                            ) : (
+                              <p>Buy</p>
+                            )}
                           </Button>
                         )
                       ) : (
@@ -896,9 +953,7 @@ export const MyNft = (props) => {
                         style={{ height: "18px", marginBottom: "2px" }}
                         src={props.theme === "Dark Theme" ? eth : ethDark}
                       />{" "}
-                      <span>
-                        {(element.price / 10 ** 18).toString()}
-                      </span>
+                      <span>{(element.price / 10 ** 18).toString()}</span>
                     </div>
                   ) : (
                     <div>
@@ -909,7 +964,9 @@ export const MyNft = (props) => {
                         }
                       ></img>
                       <span style={{ marginLeft: "4px" }}>
-                        {element.rewards === 0 ? element.rewards : element.rewards.toFixed(5)} 
+                        {element.rewards === 0
+                          ? element.rewards
+                          : element.rewards.toFixed(5)}
                       </span>
                     </div>
                   )}
@@ -922,22 +979,31 @@ export const MyNft = (props) => {
                           className="option"
                           onClick={() => unstack(element.id)}
                         >
-                          Unstacker
+                          Unstack
                         </li>
                       ) : (
                         <li
                           className="option"
                           onClick={() => {
-                            const ensNameUsed = collection.map(element => {
-                              if(element.isStacked === true) {
-                                return element.ensName;
-                              }
-                            }).filter(element => element !== undefined);
-                            const ensName = ensList.map(element => element.name);
-                            setEns(element.id, ensName.filter(element => !ensNameUsed.includes(element)));
+                            const ensNameUsed = collection
+                              .map((element) => {
+                                if (element.isStacked === true) {
+                                  return element.ensName;
+                                }
+                              })
+                              .filter((element) => element !== undefined);
+                            const ensName = ensList.map(
+                              (element) => element.name
+                            );
+                            setEns(
+                              element.id,
+                              ensName.filter(
+                                (element) => !ensNameUsed.includes(element)
+                              )
+                            );
                           }}
                         >
-                          Stacker
+                          Stack
                         </li>
                       )}
                       {element.isStacked ? null : (

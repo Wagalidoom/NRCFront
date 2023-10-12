@@ -94,9 +94,8 @@ border-bottom-right-radius:5px;
   }
 
   .data {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 50% 50%;
     height: 100%;
     width: 100%;
     border: 1px solid ${(props) => props.theme.colors.border};
@@ -132,8 +131,9 @@ border-bottom-right-radius:5px;
   label {
     border: 2px #ccc solid;
     border-radius: .5em;
+    width: 200px;
     display: inline-flex;
-    color: #666;
+    // align-items: center;
     overflow: hidden;
  }
  
@@ -149,8 +149,8 @@ border-bottom-right-radius:5px;
  
  input {
     border: 0;
+    color: "black";
     font: inherit;
-    color: inherit;
  }
 
   .switch {
@@ -223,6 +223,10 @@ border-bottom-right-radius:5px;
   @media screen and (max-width: 430px) {
     .king-option {
       font-size: 20px;
+    }
+
+    .data{
+      grid-template-columns: 100%;
     }
   }
   @media screen and (min-width: 430px) and (max-width: 500px) {

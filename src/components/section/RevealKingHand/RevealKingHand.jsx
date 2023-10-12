@@ -63,7 +63,7 @@ export const RevealKingHand = (props) => {
           >
             { revealKingHandLoading ? <BeatLoader color="#ffff" loading={true} size={15} /> : isKingHand === true ? (
               <p>
-                The nft is a King Hand ! Keep it until the end of the collection
+                Congratulation, this nft is a King Hand ! It will be update when reach the end of the collection
               </p>
             ) : (
               <p>The nft is not a King Hand. Try again with another Pawn</p>

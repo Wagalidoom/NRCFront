@@ -151,7 +151,9 @@ export const Activity = (props) => {
       isFilterApplied={props.container === "right" ? true : false}
     >
       {isLoading ? (
+        <div style={{display: "flex", justifyContent: "center"}}>
       <p style={{ padding: "12px 16px" }}>Loading...</p>
+      </div>
     ) : (
       <div className="filter-section">
           <div className="filter-container">

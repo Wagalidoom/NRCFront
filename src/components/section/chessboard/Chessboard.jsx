@@ -5,7 +5,6 @@ import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useState } from "react";
 import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
-
 import sweepDark from "../../../assets/images/icon/balaisDark.png";
 import sweepLight from "../../../assets/images/icon/balaisLight.png";
 import searchDark from "../../../assets/images/icon/loupeDark.png";
@@ -58,6 +57,18 @@ export const Chessboard = (props) => {
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (searchValue) {
+      const filtered = collection.filter((nft) =>
+        String(nft.id).includes(searchValue)
+      );
+      setCollection(filtered);
+    } else {
+      setCollection(collection);
+    }
+  }, [searchValue, collection]);
+
   const today = new Date();
 
   useEffect(() => {
@@ -199,7 +210,7 @@ export const Chessboard = (props) => {
                 }}
               >
                 <img
-                  src={props.theme === "Light Theme" ? sweepDark : sweepLight}
+                 src={props.theme === "Light Theme" ? sweepDark : sweepLight}
                   alt=""
                 />
               </button>

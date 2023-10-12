@@ -84,7 +84,8 @@ justify-content:space-around;
     background: ${props => props.theme.name === 'Dark Theme' ? props.isFilterApplied ? 'rgb(5,5,5)' :'rgb(30,39,50)' : props.isFilterApplied ?  '#8EA3BE':'#afafaf'  }
 }
 .sweep{
-    background: ${props => props.theme.name === 'Dark Theme' ? props.sweep ? 'rgb(5,5,5)' :'rgb(30,39,50)' : props.sweep ?  '#8EA3BE' :'#afafaf' }
+    background: rgb(204, 80, 55);
+    border: 1px solid rgb(204, 80, 55);
 }
 .link-ens{
     padding:2.3px 7px;

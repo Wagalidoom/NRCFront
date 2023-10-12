@@ -274,8 +274,8 @@ border-bottom-right-radius:5px;
 }
 
 .unlist-action:hover{
-    background: none;
-    border: solid 2px #cc5037;
+    background: #cc5037;
+    border: solid 2px white;
 }
 
 .price{
