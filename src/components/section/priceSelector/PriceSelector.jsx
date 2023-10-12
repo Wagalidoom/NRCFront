@@ -3,6 +3,7 @@ import { useEthereum } from "../../../context/ethereumProvider";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import eth from "../../../assets/images/eth.png";
+import ethGrey from "../../../assets/images/ethGrey.png";
 import { PriceSelectorStyleWrapper } from "./PriceSelector.style";
 import { useRef } from "react";
 import { useEffect } from "react";
@@ -102,12 +103,19 @@ export const PriceSelector = () => {
               style={{
                 display: "flex",
                 alignItems: "center",
+                border: "2px rgb(32 34 45) solid",
+                borderRadius: ".5em",
+                backgroundColor: "rgb(32 34 45)",
+                overflow: "hidden",
               }}
             >
               <img
                 alt=""
-                className="leftText"
-                style={{ height: "20px", marginBottom: "2px" }}
+                style={{
+                  height: "20px",
+                  paddingLeft: "5px",
+                  paddingRight: "5px",
+                }}
                 src={eth}
               />
               <CustomTextField
@@ -117,7 +125,6 @@ export const PriceSelector = () => {
                 value={price}
                 variant="filled"
                 size="small"
-                style={{ margin: "0 15px 0 3px" }}
               />
             </div>
           </div>
