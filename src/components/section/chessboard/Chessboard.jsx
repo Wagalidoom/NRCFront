@@ -1,5 +1,5 @@
 import { ChessboardContainer, ToolBar } from "./Chessboard.style";
-import { Button, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, FormGroup, IconButton } from "@mui/material";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
 import sweepDark from "../../../assets/images/icon/balaisDark.png";
 import sweepLight from "../../../assets/images/icon/balaisLight.png";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 import searchDark from "../../../assets/images/icon/loupeDark.png";
 import searchLight from "../../../assets/images/icon/loupeLight.png";
 import tag from "../../../assets/images/tag.png";
@@ -152,7 +153,9 @@ export const Chessboard = (props) => {
               : "",
             price: element.listed
               ? 0.15 + element.unclaimedRewards
-              : element.ensName ? 0.3 + element.unclaimedRewards + element.share : 0.1 + element.unclaimedRewards,
+              : element.ensName
+              ? 0.3 + element.unclaimedRewards + element.share
+              : 0.1 + element.unclaimedRewards,
             owner: element.owner,
             type: getNftType(element.id),
             color: element.id % 2 === 0 ? 1 : 2,
@@ -197,7 +200,6 @@ export const Chessboard = (props) => {
               <button
                 className="button sweep"
                 onClick={() => {
-
                   setActiveButton({
                     ...activeButton,
                     sweep: activeButton.sweep ? false : true,
@@ -210,7 +212,7 @@ export const Chessboard = (props) => {
                 }}
               >
                 <img
-                 src={props.theme === "Light Theme" ? sweepDark : sweepLight}
+                  src={props.theme === "Light Theme" ? sweepDark : sweepLight}
                   alt=""
                 />
               </button>
@@ -231,169 +233,201 @@ export const Chessboard = (props) => {
         </div>
       </div>
       {activeButton.filter && (
-        <div className="filter-menu">
-          <FormGroup style={{ width: "100%" }}>
-            <div
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <IconButton
+            onClick={() => {
+              setActiveButton({
+                ...activeButton,
+                filter: activeButton.filter ? false : true,
+              });
+            }}
+          >
+            <KeyboardArrowUpRoundedIcon
               style={{
-                display: "grid",
-                width: "100%",
-                gridTemplateColumns: "16% 28% 28% 28%",
+                color: props.theme === "Dark Theme" ? "white" : "black",
               }}
-            >
+            />
+          </IconButton>
+          <div className="filter-menu">
+            <FormGroup style={{ width: "100%" }}>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: "grid",
+                  width: "100%",
+                  gridTemplateColumns: "16% 28% 28% 28%",
                 }}
               >
-                State :
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  State :
+                </div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.unstack}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          unstack: filter.unstack ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Unstack"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.list}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          list: filter.list ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="List"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.stack}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          stack: filter.stack ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Stacked"
+                />
               </div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.unstack}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        unstack: filter.unstack ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Unstack"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.list}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        list: filter.list ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="List"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.stack}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        stack: filter.stack ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Stacked"
-              />
-            </div>
-            <div
-              style={{
-                display: "grid",
-                width: "100%",
-                gridTemplateColumns: "16% 28% 28% 28%",
-              }}
-            >
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: "grid",
+                  width: "100%",
+                  gridTemplateColumns: "16% 28% 28% 28%",
                 }}
               >
-                Type :
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Type :
+                </div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.pawn}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          pawn: filter.pawn ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Pawn"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.bishop}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          bishop: filter.bishop ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Bishop"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.knight}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          knight: filter.knight ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Knight"
+                />
               </div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.pawn}
-                    onChange={() =>
-                      setFilter({ ...filter, pawn: filter.pawn ? false : true })
-                    }
-                  />
-                }
-                label="Pawn"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.bishop}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        bishop: filter.bishop ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Bishop"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.knight}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        knight: filter.knight ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Knight"
-              />
-            </div>
-            <div
-              style={{
-                display: "grid",
-                width: "100%",
-                gridTemplateColumns: "16% 28% 28% 28%",
-              }}
-            >
-              <div></div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.rook}
-                    onChange={() =>
-                      setFilter({ ...filter, rook: filter.rook ? false : true })
-                    }
-                  />
-                }
-                label="Rook"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.queen}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        queen: filter.queen ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Queen"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.king}
-                    onChange={() =>
-                      setFilter({ ...filter, king: filter.king ? false : true })
-                    }
-                  />
-                }
-                label="King"
-              />
-            </div>
-          </FormGroup>
+              <div
+                style={{
+                  display: "grid",
+                  width: "100%",
+                  gridTemplateColumns: "16% 28% 28% 28%",
+                }}
+              >
+                <div></div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.rook}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          rook: filter.rook ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Rook"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.queen}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          queen: filter.queen ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Queen"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.king}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          king: filter.king ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="King"
+                />
+              </div>
+            </FormGroup>
+          </div>
         </div>
       )}
       <div

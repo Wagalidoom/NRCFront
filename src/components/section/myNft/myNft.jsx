@@ -4,6 +4,7 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
+  IconButton,
   TextField,
 } from "@mui/material";
 import DotLight from "../../../assets/images/icon/three-dot-light.svg";
@@ -26,6 +27,7 @@ import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
 import tirelire from "../../../assets/images/icon/tirelire.png";
 import tirelireDark from "../../../assets/images/icon/tirelireDark.png";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 import ReactLoading from "react-loading";
 import BigNumber from "bignumber.js";
 
@@ -594,156 +596,188 @@ export const MyNft = (props) => {
         )}
       </div>
       {activeButton.filter && (
-        <div className="filter-menu">
-          <FormGroup style={{ width: "100%" }}>
-            <div
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <IconButton
+            onClick={() => {
+              setActiveButton({
+                ...activeButton,
+                filter: activeButton.filter ? false : true,
+              });
+            }}
+          >
+            <KeyboardArrowUpRoundedIcon
               style={{
-                display: "grid",
-                width: "100%",
-                gridTemplateColumns: "16% 28% 28% 28%",
+                color: props.theme === "Dark Theme" ? "white" : "black",
               }}
-            >
+            />
+          </IconButton>
+          <div className="filter-menu">
+            <FormGroup style={{ width: "100%" }}>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: "grid",
+                  width: "100%",
+                  gridTemplateColumns: "16% 28% 28% 28%",
                 }}
               >
-                Color :
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Color :
+                </div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.black}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          black: filter.black ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Black"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.white}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          white: filter.white ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="White"
+                />
+                <div></div>
               </div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.black}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        black: filter.black ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Black"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.white}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        white: filter.white ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="White"
-              />
-              <div></div>
-            </div>
-            <div
-              style={{
-                display: "grid",
-                width: "100%",
-                gridTemplateColumns: "16% 28% 28% 28%",
-              }}
-            >
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  display: "grid",
+                  width: "100%",
+                  gridTemplateColumns: "16% 28% 28% 28%",
                 }}
               >
-                Type :
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Type :
+                </div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.pawn}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          pawn: filter.pawn ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Pawn"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.bishop}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          bishop: filter.bishop ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Bishop"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.knight}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          knight: filter.knight ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Knight"
+                />
               </div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.pawn}
-                    onChange={() =>
-                      setFilter({ ...filter, pawn: filter.pawn ? false : true })
-                    }
-                  />
-                }
-                label="Pawn"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.bishop}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        bishop: filter.bishop ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Bishop"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.knight}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        knight: filter.knight ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Knight"
-              />
-            </div>
-            <div
-              style={{
-                display: "grid",
-                width: "100%",
-                gridTemplateColumns: "16% 28% 28% 28%",
-              }}
-            >
-              <div></div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.rook}
-                    onChange={() =>
-                      setFilter({ ...filter, rook: filter.rook ? false : true })
-                    }
-                  />
-                }
-                label="Rook"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.queen}
-                    onChange={() =>
-                      setFilter({
-                        ...filter,
-                        queen: filter.queen ? false : true,
-                      })
-                    }
-                  />
-                }
-                label="Queen"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filter.king}
-                    onChange={() =>
-                      setFilter({ ...filter, king: filter.king ? false : true })
-                    }
-                  />
-                }
-                label="King"
-              />
-            </div>
-          </FormGroup>
+              <div
+                style={{
+                  display: "grid",
+                  width: "100%",
+                  gridTemplateColumns: "16% 28% 28% 28%",
+                }}
+              >
+                <div></div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.rook}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          rook: filter.rook ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Rook"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.queen}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          queen: filter.queen ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="Queen"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={filter.king}
+                      onChange={() =>
+                        setFilter({
+                          ...filter,
+                          king: filter.king ? false : true,
+                        })
+                      }
+                    />
+                  }
+                  label="King"
+                />
+              </div>
+            </FormGroup>
+          </div>
         </div>
       )}
       <div
@@ -824,16 +858,7 @@ export const MyNft = (props) => {
                 src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
               />
               {element.isStacked ? (
-                <p
-                  style={{
-                    position: "absolute",
-                    bottom: "110px",
-                    left: "10px",
-                    fontSize: "1.2em",
-                  }}
-                >
-                  {element.ensName}
-                </p>
+                <p className="ensName">{element.ensName}</p>
               ) : null}
               <ToolBar
                 market={props.market}
@@ -884,7 +909,7 @@ export const MyNft = (props) => {
                                 width={18}
                               />
                             ) : loadingFinished ? (
-                              <img style={{width: "20px"}} src={validate} />
+                              <img style={{ width: "20px" }} src={validate} />
                             ) : (
                               <p>Unlist</p>
                             )}
@@ -905,7 +930,7 @@ export const MyNft = (props) => {
                                 width={18}
                               />
                             ) : loadingFinished ? (
-                              <img style={{width: "20px"}} src={validate} />
+                              <img style={{ width: "20px" }} src={validate} />
                             ) : (
                               <p>Buy</p>
                             )}

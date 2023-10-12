@@ -13,7 +13,7 @@ export const MintStyleWrapper = styled.section`
   .mintContent {
     z-index: 10000;
     background-color: hsl(246, 6%, 9%);
-    border-radius: 20px;
+    border-radius: 12px;
     position: fixed;
     top: 50%;
     left: 50%;

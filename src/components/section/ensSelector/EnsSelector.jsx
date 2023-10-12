@@ -156,7 +156,7 @@ export const EnsSelector = () => {
               href="https://ens.domains/"
               rel="noreferrer"
               target="_blank"
-              style={{ fontSize: "11px" }}
+              style={{ fontSize: "11px", color: "rgb(29, 155, 240)" }}
             >
               https://ens.domains/
             </a>
