@@ -1,6 +1,5 @@
 import { ChessboardContainer, ToolBar } from "./Chessboard.style";
 import { Button, Checkbox, FormControlLabel, FormGroup, IconButton } from "@mui/material";
-import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useState } from "react";
 import filterDark from "../../../assets/images/icon/filterDark.png";
@@ -10,6 +9,9 @@ import sweepLight from "../../../assets/images/icon/balaisLight.png";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 import searchDark from "../../../assets/images/icon/loupeDark.png";
 import searchLight from "../../../assets/images/icon/loupeLight.png";
+import burn1 from "../../../assets/images/icon/burn1.png";
+import burn2 from "../../../assets/images/icon/burn2.png";
+import burn3 from "../../../assets/images/icon/burn3.png";
 import tag from "../../../assets/images/tag.png";
 
 import {
@@ -524,15 +526,7 @@ export const Chessboard = (props) => {
                     boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
                   }}
                 >
-                  <WhatshotIcon
-                    style={{
-                      color: element.isListed
-                        ? "rgb(245, 158, 11)"
-                        : element.isStacked
-                        ? "rgb(204, 80, 55)"
-                        : "rgb(29, 155, 240)",
-                    }}
-                  />
+                  <img src={element.isListed ? burn2 : element.isStacked ? burn3 : burn1} style={{width: "20px"}}/>
                   <span
                     style={{
                       fontWeight: "bold",

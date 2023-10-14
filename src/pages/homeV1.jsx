@@ -64,7 +64,7 @@ import tableau from "../assets/images/tableau.png";
 import tableau2 from "../assets/images/tableau2.png";
 import duo1 from "../assets/images/duo1.png";
 import duo2 from "../assets/images/duo2.png";
-import horloge from "../assets/images/horloge.jpeg";
+import horloge from "../assets/images/horloge.png";
 import faqGif from "../assets/images/faq.png";
 import contrat from "../assets/images/contrat.png";
 import discord from "../assets/images/discord.jpg";
@@ -169,8 +169,6 @@ const HomeV1 = () => {
     [namehash.hash(ensName)]
   );
 
-
-
   useEffect(() => {
     const fetchEns = async () => {
       const name = await getEnsName();
@@ -190,11 +188,9 @@ const HomeV1 = () => {
 
     if (address) {
       fetchEns();
-    }
-    else{
+    } else {
       setEnsName("");
       setEnsUrl("");
-
     }
   }, [address, getEnsName, getEnsProfilePicture]);
 
@@ -530,17 +526,17 @@ const HomeV1 = () => {
                 </div>
               </div>
               <div className="contentButton">
-                  <button
-                    className="smallButton langButton"
-                    id="themeButton"
-                    onClick={() => changeTheme()}
-                  >
-                    {currentTheme.theme.name === "Dark Theme" ? (
-                      <WbSunnyIcon />
-                    ) : (
-                      <NightsStayIcon />
-                    )}
-                  </button>
+                <button
+                  className="smallButton langButton"
+                  id="themeButton"
+                  onClick={() => changeTheme()}
+                >
+                  {currentTheme.theme.name === "Dark Theme" ? (
+                    <WbSunnyIcon />
+                  ) : (
+                    <NightsStayIcon />
+                  )}
+                </button>
                 <button
                   id="mint"
                   style={
@@ -2086,8 +2082,8 @@ const HomeV1 = () => {
                         <strong>ENS transfer</strong> <br />
                         <br />
                         If you become the new owner of a digit already used in
-                        the collection, you're also the new owner of his number
-                        runner ! The rewards stacked can now be claimed thanks
+                        the collection, you're also the new owner of his Number
+                        Nunner ! The rewards stacked can now be claimed thanks
                         to your digit.
                       </div>
                       <div className="contentBanner">
@@ -2136,26 +2132,27 @@ const HomeV1 = () => {
                       <div className="description">
                         <strong>Burn opponent color</strong> <br />
                         <br />
-                        3 burning option:
+                        Burning options:
                         <br />
                         <br />
-                        - nft unstacked (0.1eth + 10% of the rewards for the
-                        burner) | when all nft minted
+                        - NFT unstacked | When all NFTs are minted: 0.1eth + 10%
+                        of the rewards for the burner
                         <br />
-                        - nft listed (0.2eth + 10% of the rewards for the
-                        burner) | when all nft minted
+                        - NFT listed | When all NFTs are minted: 0.2eth + 10% of
+                        the rewards for the burner
                         <br />
-                        - nft stacked with a 100k (0.3eth + 10% of the rewards
-                        for the burner) | when all nft minted AND supply inf
-                        5000
+                        - NFT stacked with a 100kClub | When all NFTs minted AND
+                        the supply is less than 4000 NFTs: 0.3eth + 10% of the
+                        rewards for the burner
                         <br />
                         <br />
-                        the owner of the nft will be taxed 10% of his rewards
+                        The owner of the NFT burn will be taxed 15% of his
+                        rewards
                         <br />
                         <br />
                         <i>
-                          The burn taxes will be refund for holder of last 999
-                          nfts
+                          The burn taxes will be refund for holder of the last
+                          999 NFTs.
                         </i>
                       </div>
                       <div className="contentBanner">
@@ -2204,10 +2201,12 @@ const HomeV1 = () => {
                       <div className="description">
                         <strong>Expiration date</strong> <br />
                         <br />
-                        Every NFTs stacked merge with your digit, and then for
-                        his expiration date! Be careful to renew it before the
-                        grace period or your NFT will be added to the chessboard
-                        and risk to be burned by others.
+                        Each stacked NFT merges with your number, then for its
+                        expiration date! Make sure you renew it before it
+                        expired and prove it on your profile, or your NFT will
+                        be added to the chessboard and risk being burned by
+                        others for free. The owner of the NFT burn will be taxed
+                        15% of his rewards.
                       </div>
                       <div className="contentBanner">
                         <img src={horloge} alt="" />

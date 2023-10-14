@@ -85,7 +85,7 @@ justify-content:space-around;
 }
 .sweep{
     background: rgb(204, 80, 55);
-    border: 1px solid rgb(204, 80, 55);
+    border: 1px solid rgb(101 23 8);
 }
 .link-ens{
     padding:2.3px 7px;

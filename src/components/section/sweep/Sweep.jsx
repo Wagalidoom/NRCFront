@@ -104,7 +104,7 @@ export const Sweep = (props) => {
             >
               Items
               <CustomTextField
-                type="number"
+                type="tel"
                 hiddenLabel
                 id="filled-hidden-label-small"
                 value={sweepCount}
