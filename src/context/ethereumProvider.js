@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.0";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.1";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x09C42eD2BB2f57a81D7C45F7a1d75859bAba9A90";
+export const contractAddress = "0x81D97F57c39f537D4655ca11B0e18b79b0A0fbAC";
 
 const EthereumContext = createContext(null);
 
@@ -148,7 +148,7 @@ export function EthereumProvider({ children }) {
   const chooseColor = async (_color) => {
     try {
       await chooseColorCall({ args: [_color] });
-      setIsColorPickerOpen(false);
+      // setIsColorPickerOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -184,10 +184,11 @@ export function EthereumProvider({ children }) {
   };
 
   const sweep = async (_list, _price) => {
+
     await multiBuyCall({
       args: [_list],
       overrides: {
-        value: ethers.utils.parseEther((Number(_price) * 10 ** -18).toString()),
+        value: ethers.utils.parseEther(Number(_price * 10 ** -18).toFixed(5).toString()),
       },
     });
 

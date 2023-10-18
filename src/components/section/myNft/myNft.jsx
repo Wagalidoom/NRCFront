@@ -81,7 +81,7 @@ export const MyNft = (props) => {
     mintLoading,
     multiMintLoading,
     burnLoading,
-    sweepLoading,
+    multiBuyLoading,
     stackLoading,
     unstackLoading,
     listLoading,
@@ -91,9 +91,10 @@ export const MyNft = (props) => {
   const [nftOwned, setNftOwned] = useState([]);
   const [fetchENSIndex, setFetchENSIndex] = useState(0);
   const [nftOnSale, setNftOnSale] = useState([]);
+  const [currentNFTId, setCurrentNFTId] = useState(null);
   const [collection, setCollection] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [loadingFinished, setLoadingFinished] = useState(false);
+  const [loadingNFTId, setLoadingNFTId] = useState(null);
+  const [loadingFinishedNFTId, setLoadingFinishedNFTId] = useState(null);
   const [ensList, setEnsList] = useState([]);
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
@@ -154,32 +155,21 @@ export const MyNft = (props) => {
   }, [modalOpen]);
 
   useEffect(() => {
-    if (unlistLoading) {
-      setLoading(true);
-      setLoadingFinished(false);
-    } else if (loading) {
-      setLoading(false);
-      setLoadingFinished(true);
+    if ((unlistLoading || multiBuyLoading) && currentNFTId) {
+      console.log(currentNFTId);
+      setLoadingNFTId(currentNFTId);
+      setLoadingFinishedNFTId(null);
+    } else if (loadingNFTId === currentNFTId) {
+      setLoadingNFTId(null);
+      setLoadingFinishedNFTId(currentNFTId);
       setTimeout(() => {
-        setLoadingFinished(false);
+        if (loadingFinishedNFTId === currentNFTId) {
+          setLoadingFinishedNFTId(null);
+        }
       }, 3000);
     }
-    console.log("LOADING FINISHED", loadingFinished);
-  }, [unlistLoading, loading]);
-
-  useEffect(() => {
-    if (sweepLoading) {
-      setLoading(true);
-      setLoadingFinished(false);
-    } else if (loading) {
-      setLoading(false);
-      setLoadingFinished(true);
-      setTimeout(() => {
-        setLoadingFinished(false);
-      }, 3000);
-    }
-    console.log("LOADING FINISHED", loadingFinished);
-  }, [sweepLoading, loading]);
+    console.log("LOADING FINISHED", loadingNFTId, loadingFinishedNFTId);
+  }, [unlistLoading, multiBuyLoading, currentNFTId, loadingNFTId]);
 
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
@@ -472,11 +462,6 @@ export const MyNft = (props) => {
         <div className="filter-search">
           {!props.market && (
             <div className="button-group">
-              {/* <button className="button link-ens">
-                <a target="blank" href="https://ens.vision/">
-                  <img src={ensvision} alt="" />
-                </a>
-              </button> */}
               <button
                 className="button filter"
                 onClick={() => {
@@ -509,11 +494,6 @@ export const MyNft = (props) => {
         {props.market && (
           <div style={{ marginBottom: "20px" }}>
             <div className="button-group">
-              {/* <button className="button link-ens">
-                <a target="blank" href="https://ens.vision/">
-                  <img src={ensvision} alt="" />
-                </a>
-              </button> */}
               <button
                 className="button filter"
                 onClick={() => {
@@ -832,96 +812,126 @@ export const MyNft = (props) => {
 
             return colorMatches && typeMatches;
           })
-          .map((element, index) => (
-            <div
-              className="myNft"
-              key={index}
-              style={{
-                border: props.market
-                  ? "none"
-                  : element.isListed
-                  ? "3px solid rgb(204, 80, 55)"
-                  : element.isStacked
-                  ? "3px solid rgb(29, 155, 240)"
-                  : "none",
-                backgroundColor: props.market
-                  ? "none"
-                  : element.isListed
-                  ? "rgb(204, 80, 55)"
-                  : element.isStacked
-                  ? "rgb(29, 155, 240)"
-                  : "none",
-              }}
-            >
-              <img
-                alt=""
-                src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
-              />
-              {element.isStacked ? (
-                <p className="ensName">{element.ensName}</p>
-              ) : null}
-              <ToolBar
-                market={props.market}
-                open={modalOpen === index + 1 && isOpen ? true : false}
+          .map((element, index) => {
+            const isLoading = loadingNFTId === element.id;
+            const hasFinishedLoading = loadingFinishedNFTId === element.id;
+            return (
+              <div
+                className="myNft"
+                key={index}
+                style={{
+                  border: props.market
+                    ? "none"
+                    : element.isListed
+                    ? "3px solid rgb(204, 80, 55)"
+                    : element.isStacked
+                    ? "3px solid rgb(29, 155, 240)"
+                    : "none",
+                  backgroundColor: props.market
+                    ? "none"
+                    : element.isListed
+                    ? "rgb(204, 80, 55)"
+                    : element.isStacked
+                    ? "rgb(29, 155, 240)"
+                    : "none",
+                }}
               >
-                <p
-                  style={{
-                    fontSize: "14px",
-                    paddingLeft: "5px",
-                    paddingRight: "5px",
-                  }}
-                >
-                  Number Runner #{element.id.toString()}
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    paddingTop: "2px",
-                    paddingBottom: "5px",
-                    paddingLeft: "5px",
-                    paddingRight: "5px",
-                  }}
+                <img
+                  alt=""
+                  src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
+                />
+                {element.isStacked ? (
+                  <p className="ensName">{element.ensName}</p>
+                ) : null}
+                <ToolBar
+                  market={props.market}
+                  open={modalOpen === index + 1 && isOpen ? true : false}
                 >
                   <p
                     style={{
-                      fontSize: "12px",
+                      fontSize: "14px",
+                      paddingLeft: "5px",
+                      paddingRight: "5px",
                     }}
                   >
-                    {nftTypeToString(element.type)}
+                    Number Runner #{element.id.toString()}
                   </p>
-                  {props.market ? (
-                    <div>
-                      {address ? (
-                        address.toLowerCase() === element.owner ? (
-                          <Button
-                            className="unlist-action"
-                            onClick={() => unlistNFT(element.id.toString())}
-                          >
-                            {unlistLoading ? (
-                              <ReactLoading
-                                className="spin"
-                                type={"spin"}
-                                color={"rgba(255, 255, 255, 0.8)"}
-                                height={18}
-                                width={18}
-                              />
-                            ) : loadingFinished ? (
-                              <img style={{ width: "20px" }} src={validate} />
-                            ) : (
-                              <p>Unlist</p>
-                            )}
-                          </Button>
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingTop: "2px",
+                      paddingBottom: "5px",
+                      paddingLeft: "5px",
+                      paddingRight: "5px",
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: "12px",
+                      }}
+                    >
+                      {nftTypeToString(element.type)}
+                    </p>
+                    {props.market ? (
+                      <div>
+                        {address ? (
+                          address.toLowerCase() === element.owner ? (
+                            <Button
+                              className="unlist-action"
+                              onClick={() => {
+                                setCurrentNFTId(element.id);
+                                unlistNFT(element.id.toString());
+                              }}
+                            >
+                              {isLoading ? (
+                                <ReactLoading
+                                  className="spin"
+                                  type={"spin"}
+                                  color={"rgba(255, 255, 255, 0.8)"}
+                                  height={18}
+                                  width={18}
+                                />
+                              ) : hasFinishedLoading ? (
+                                <img style={{ width: "18px" }} src={validate} />
+                              ) : (
+                                <p>Unlist</p>
+                              )}
+                            </Button>
+                          ) : (
+                            <Button
+                              className="buy-action"
+                              onClick={() => {
+                                setCurrentNFTId(element.id);
+                                sweep([element.id.toString()], element.price);
+                              }}
+                            >
+                              {isLoading ? (
+                                <ReactLoading
+                                  className="spin"
+                                  type={"spin"}
+                                  color={"rgba(255, 255, 255, 0.8)"}
+                                  height={18}
+                                  width={18}
+                                />
+                              ) : hasFinishedLoading ? (
+                                <img style={{ width: "18px" }} src={validate} />
+                              ) : (
+                                <p>Buy</p>
+                              )}
+                            </Button>
+                          )
                         ) : (
                           <Button
                             className="buy-action"
-                            onClick={() =>
-                              sweep([element.id.toString()], element.price)
-                            }
+                            onClick={() => {
+                              setCurrentNFTId(element.id);
+                              sweep([element.id.toString()], element.price);
+                            }}
                           >
-                            {sweepLoading ? (
+                            {isLoading ? (
                               <ReactLoading
                                 className="spin"
                                 type={"spin"}
@@ -929,147 +939,140 @@ export const MyNft = (props) => {
                                 height={18}
                                 width={18}
                               />
-                            ) : loadingFinished ? (
-                              <img style={{ width: "20px" }} src={validate} />
+                            ) : hasFinishedLoading ? (
+                              <img style={{ width: "18px" }} src={validate} />
                             ) : (
                               <p>Buy</p>
                             )}
                           </Button>
-                        )
-                      ) : (
-                        <Button
-                          className="buy-action"
-                          onClick={() =>
-                            sweep([element.id.toString()], element.price)
+                        )}
+                      </div>
+                    ) : (
+                      <button className="modal-button">
+                        <img
+                          alt=""
+                          onClick={(e) => openModal(e, index + 1)}
+                          src={
+                            currentTheme.theme.name === "Dark Theme"
+                              ? DotLight
+                              : DotDark
                           }
-                        >
-                          Buy
-                        </Button>
-                      )}
-                    </div>
-                  ) : (
-                    <button className="modal-button">
-                      <img
-                        alt=""
-                        onClick={(e) => openModal(e, index + 1)}
-                        src={
-                          currentTheme.theme.name === "Dark Theme"
-                            ? DotLight
-                            : DotDark
-                        }
-                      />
-                    </button>
-                  )}
-                </div>
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "3px 0",
-                    boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
-                  }}
-                >
-                  {props.market ? (
-                    <div>
-                      <img
-                        alt=""
-                        style={{ height: "18px", marginBottom: "2px" }}
-                        src={props.theme === "Dark Theme" ? eth : ethDark}
-                      />{" "}
-                      <span>{(element.price / 10 ** 18).toString()}</span>
-                    </div>
-                  ) : (
-                    <div>
-                      <img
-                        style={{ height: "14px", marginBottom: "2px" }}
-                        src={
-                          props.theme === "Dark Theme" ? tirelire : tirelireDark
-                        }
-                      ></img>
-                      <span style={{ marginLeft: "4px" }}>
-                        {element.rewards === 0
-                          ? element.rewards
-                          : element.rewards.toFixed(5)}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                {modalOpen === index + 1 && isOpen && (
-                  <div ref={modalRef} className="modal-option">
-                    <ul>
-                      {element.isStacked ? (
-                        <li
-                          className="option"
-                          onClick={() => unstack(element.id)}
-                        >
-                          Unstack
-                        </li>
-                      ) : (
-                        <li
-                          className="option"
-                          onClick={() => {
-                            const ensNameUsed = collection
-                              .map((element) => {
-                                if (element.isStacked === true) {
-                                  return element.ensName;
-                                }
-                              })
-                              .filter((element) => element !== undefined);
-                            const ensName = ensList.map(
-                              (element) => element.name
-                            );
-                            setEns(
-                              element.id,
-                              ensName.filter(
-                                (element) => !ensNameUsed.includes(element)
-                              )
-                            );
-                          }}
-                        >
-                          Stack
-                        </li>
-                      )}
-                      {element.isStacked ? null : (
-                        <>
-                          {element.isListed ? (
-                            <li
-                              className="option"
-                              onClick={() => unlistNFT(element.id.toString())}
-                            >
-                              Unlist
-                            </li>
-                          ) : (
-                            <li
-                              className="option"
-                              onClick={() => setPrice(element.id)}
-                            >
-                              Sell
-                            </li>
-                          )}
+                        />
+                      </button>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "3px 0",
+                      boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
+                    }}
+                  >
+                    {props.market ? (
+                      <div>
+                        <img
+                          alt=""
+                          style={{ height: "18px", marginBottom: "2px" }}
+                          src={props.theme === "Dark Theme" ? eth : ethDark}
+                        />{" "}
+                        <span>{(element.price / 10 ** 18).toString()}</span>
+                      </div>
+                    ) : (
+                      <div>
+                        <img
+                          style={{ height: "14px", marginBottom: "2px" }}
+                          src={
+                            props.theme === "Dark Theme"
+                              ? tirelire
+                              : tirelireDark
+                          }
+                        ></img>
+                        <span style={{ marginLeft: "4px" }}>
+                          {element.rewards === 0
+                            ? element.rewards
+                            : element.rewards.toFixed(5)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {modalOpen === index + 1 && isOpen && (
+                    <div ref={modalRef} className="modal-option">
+                      <ul>
+                        {element.isStacked ? (
                           <li
                             className="option"
-                            onClick={() => validateBurn(element.id)}
+                            onClick={() => unstack(element.id)}
                           >
-                            Burn
+                            Unstack
                           </li>
-                          {element.type === 5 && (
+                        ) : (
+                          <li
+                            className="option"
+                            onClick={() => {
+                              const ensNameUsed = collection
+                                .map((element) => {
+                                  if (element.isStacked === true) {
+                                    return element.ensName;
+                                  }
+                                })
+                                .filter((element) => element !== undefined);
+                              const ensName = ensList.map(
+                                (element) => element.name
+                              );
+                              setEns(
+                                element.id,
+                                ensName.filter(
+                                  (element) => !ensNameUsed.includes(element)
+                                )
+                              );
+                            }}
+                          >
+                            Stack
+                          </li>
+                        )}
+                        {element.isStacked ? null : (
+                          <>
+                            {element.isListed ? (
+                              <li
+                                className="option"
+                                onClick={() => unlistNFT(element.id.toString())}
+                              >
+                                Unlist
+                              </li>
+                            ) : (
+                              <li
+                                className="option"
+                                onClick={() => setPrice(element.id)}
+                              >
+                                Sell
+                              </li>
+                            )}
                             <li
                               className="option"
-                              onClick={() => revealKingHand(element.id)}
+                              onClick={() => validateBurn(element.id)}
                             >
-                              Reveal
+                              Burn
                             </li>
-                          )}
-                        </>
-                      )}
-                    </ul>
-                  </div>
-                )}
-              </ToolBar>
-            </div>
-          ))}
+                            {element.type === 5 && (
+                              <li
+                                className="option"
+                                onClick={() => revealKingHand(element.id)}
+                              >
+                                Reveal
+                              </li>
+                            )}
+                          </>
+                        )}
+                      </ul>
+                    </div>
+                  )}
+                </ToolBar>
+              </div>
+            );
+          })}
       </div>
     </MyNftContainer>
   );

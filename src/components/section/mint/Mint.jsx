@@ -102,7 +102,6 @@ export const Mint = () => {
             Slide to mint more items!
             <Slider
               value={mintCount}
-              style={{pointerEvents: "none"}}
               onChange={handleSliderChange}
               min={1}
               max={20}
