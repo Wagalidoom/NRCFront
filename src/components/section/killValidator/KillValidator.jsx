@@ -4,10 +4,11 @@ import { KillValidatorStyleWrapper } from "./KillValidator.style";
 import { Button, IconButton } from "@mui/material";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import { useState, useEffect, useRef } from "react";
-import { BeatLoader } from "react-spinners";
+import ReactLoading from "react-loading";
 
 export const KillValidator = () => {
   const { burnSweep, burnPrice, selectId, setIsKillOpen, multiKillLoading } = useEthereum();
+  const [state, setState] = useState("");
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -79,9 +80,42 @@ export const KillValidator = () => {
               }}
             >
               {multiKillLoading ? (
-                <BeatLoader color="#ffff" loading={true} size={15} />
+                <>
+                  <ReactLoading
+                    className="spin"
+                    type={"spin"}
+                    color={"rgba(255, 255, 255, 0.8)"}
+                    height={22}
+                    width={22}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      marginLeft: "12px",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Loading...
+                  </p>
+                </>
+              ) : state === "success" ? (
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Done
+                </p>
               ) : (
-                <p>Proceed to burn</p>
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Proceed to burn
+                </p>
               )}
             </Button>
           </div>
