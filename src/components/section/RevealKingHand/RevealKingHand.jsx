@@ -3,11 +3,19 @@ import { useEthereum } from "../../../context/ethereumProvider";
 import { RevealKingHandStyleWrapper } from "./RevealKingHand.style";
 import { Button, IconButton } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
-import { BeatLoader } from "react-spinners";
+import ReactLoading from "react-loading";
 
 export const RevealKingHand = (props) => {
-  const { selectId, setIsKingHandOpen, isKingHand, revealKingHandLoading } = useEthereum();
+  const [state, setState] = useState("");
+  const { selectId, setIsKingHandOpen, isKingHand, revealKingHandLoading } =
+    useEthereum();
   const componentRef = useRef(null);
+
+  useEffect(() => {
+    if (!revealKingHandLoading) {
+      setState("success");
+    }
+  }, [revealKingHandLoading]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -38,42 +46,94 @@ export const RevealKingHand = (props) => {
               justifyContent: "space-between",
             }}
           >
-            Reveal
-            <div
-              style={{
-                display: "flex",
-                width: "70%",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
-              Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
-                <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
-              </IconButton>
-            </div>
+            Reveal : Number Runner #{selectId}
+            <IconButton onClick={handleClose} style={{ padding: "0px" }}>
+              <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
+            </IconButton>
           </div>
           <div
             style={{
               display: "flex",
-              padding: "15px",
+              flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            { revealKingHandLoading ? <BeatLoader color="#ffff" loading={true} size={15} /> : isKingHand === true ? (
-              <p>
-                Congratulation, this nft is a King Hand ! It will be update when reach the end of the collection
+            {revealKingHandLoading ? (
+              <div
+                style={{
+                  display: "flex",
+                  margin: "25px 0",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ReactLoading
+                  className="spin"
+                  type={"spin"}
+                  color={"rgba(255, 255, 255, 0.8)"}
+                  height={22}
+                  width={22}
+                />
+                <p
+                  style={{
+                    textTransform: "none",
+                    marginLeft: "12px",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Loading...
+                </p>
+              </div>
+            ) : isKingHand === true ? (
+              <p
+                style={{
+                  display: "flex",
+                  textAlign: "center",
+                  margin: "25px 0",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Congratulation, this nft is a King Hand!<br />
+                It will be update when reach the end of the collection.
               </p>
             ) : (
-              <p>The nft is not a King Hand. Try again with another Pawn</p>
+              <p
+                style={{
+                  display: "flex",
+                  textAlign: "center",
+                  margin: "25px 0",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                This nft is not a King Hand...
+                <br />
+                Try again with another Pawn!
+              </p>
             )}
-            <div
+            <Button
+              disabled={state === "success" ? false : true}
               style={{
-                display: "flex",
-                alignItems: "center",
+                width: "100px",
+                height: "40px",
+                backgroundColor:
+                  state === "success"
+                    ? "rgb(29, 155, 240)"
+                    : "rgb(138 180 209)",
               }}
-            ></div>
+              variant="contained"
+              onClick={async () => {
+                if (state === "success") {
+                  handleClose();
+                }
+              }}
+            >
+              OK
+            </Button>
           </div>
         </div>
       </div>

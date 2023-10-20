@@ -13,7 +13,7 @@ import eth from "../../../assets/images/eth.png";
 import ReactLoading from "react-loading";
 import { useRef, useEffect } from "react";
 
-export const EnsSelector = () => {
+export const EnsSelector = (props) => {
   const {
     stack,
     ensList,
@@ -61,20 +61,13 @@ export const EnsSelector = () => {
               justifyContent: "space-between",
             }}
           >
-            Stack
-            <div
-              style={{
-                display: "flex",
-                width: "70%",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
+            <div>
+              {props.king ? "Buy : " : "Stack : "}
               Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
-                <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
-              </IconButton>
             </div>
+            <IconButton onClick={handleClose} style={{ padding: "0px" }}>
+              <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
+            </IconButton>
           </div>
           <div
             className="contractContainerRow"
@@ -84,8 +77,10 @@ export const EnsSelector = () => {
               height: "200px",
             }}
           >
-            <div style={{ marginBottom: "15px" }}>
-              Choose a number to stack your NFT!
+            <div style={{ marginBottom: "25px" }}>
+              {props.king
+                ? "Choose a number to stack your NFT!"
+                : "Choose a number to stack your NFT!"}
             </div>
             <div
               style={{
@@ -127,7 +122,7 @@ export const EnsSelector = () => {
                         backgroundColor: "rgb(30, 40, 50)",
                         padding: "5px",
                         border:
-                          ensName === element.name
+                          ensName === element
                             ? "1px solid rgb(29, 155, 240)"
                             : "none",
                       }}
@@ -142,7 +137,7 @@ export const EnsSelector = () => {
           <div
             style={{
               display: "flex",
-              padding: "15px",
+              padding: "20px 0",
               justifyContent: "space-between",
               alignItems: "center",
             }}
@@ -150,13 +145,14 @@ export const EnsSelector = () => {
             Digit selected
             <div>{ensName}</div>
           </div>
-          <div style={{ fontSize: "12px", padding: "0px 15px" }}>
-            If your number does not appear, please unwrap it on{" "}
+          <div style={{ fontSize: "14px", padding: "0px 15px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            If your number does not appear, please unwrap it on :
+            <br />
             <a
               href="https://ens.domains/"
               rel="noreferrer"
               target="_blank"
-              style={{ fontSize: "11px", color: "rgb(29, 155, 240)" }}
+              style={{ fontSize: "13px", margin: "8px 0", color: "rgb(29, 155, 240)" }}
             >
               https://ens.domains/
             </a>
@@ -164,7 +160,7 @@ export const EnsSelector = () => {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               style={{
-                margin: "15px",
+                marginTop: "15px",
                 width: "190px",
                 height: "40px",
                 backgroundColor:
@@ -177,7 +173,7 @@ export const EnsSelector = () => {
                 if (state === "success") {
                   handleClose();
                 } else {
-                  setAvatar(ensName, selectId);
+                  // setAvatar(ensName, selectId);
                   await stack(ensName, selectId);
                   setState("success");
                 }

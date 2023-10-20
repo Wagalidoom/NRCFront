@@ -40,29 +40,21 @@ export const BurnValidator = () => {
               justifyContent: "space-between",
             }}
           >
-            Burn
-            <div
-              style={{
-                display: "flex",
-                width: "70%",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
-              Number Runner #{selectId}
+            Burn : Number Runner #{selectId}
               <IconButton onClick={handleClose} style={{ padding: "0px" }}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
-          </div>
           <div
             style={{
               display: "flex",
               padding: "15px",
+              flexDirection: "column",
+              justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <ReportGmailerrorredIcon style={{ marginRight: "5px" }} />
+            <ReportGmailerrorredIcon style={{ margin: "10px 0 20px 0", width: "35px", height: "35px", color: "#cc5037" }} />
             This nft cannot be access anymore!
             <div
               style={{

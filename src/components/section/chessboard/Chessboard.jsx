@@ -1,11 +1,16 @@
 import { ChessboardContainer, ToolBar } from "./Chessboard.style";
-import { Button, Checkbox, FormControlLabel, FormGroup, IconButton } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+} from "@mui/material";
 import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useState } from "react";
 import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
-import sweepDark from "../../../assets/images/icon/balaisDark.png";
-import sweepLight from "../../../assets/images/icon/balaisLight.png";
+import sweepRed from "../../../assets/images/icon/balaisRed.png";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 import searchDark from "../../../assets/images/icon/loupeDark.png";
 import searchLight from "../../../assets/images/icon/loupeLight.png";
@@ -213,10 +218,7 @@ export const Chessboard = (props) => {
                   );
                 }}
               >
-                <img
-                  src={props.theme === "Light Theme" ? sweepDark : sweepLight}
-                  alt=""
-                />
+                <img src={sweepRed} alt="" />
               </button>
             </div>
           )}
@@ -250,6 +252,7 @@ export const Chessboard = (props) => {
                 filter: activeButton.filter ? false : true,
               });
             }}
+            style={{ padding: 0 }}
           >
             <KeyboardArrowUpRoundedIcon
               style={{
@@ -526,7 +529,16 @@ export const Chessboard = (props) => {
                     boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
                   }}
                 >
-                  <img src={element.isListed ? burn2 : element.isStacked ? burn3 : burn1} style={{width: "20px"}}/>
+                  <img
+                    src={
+                      element.isListed
+                        ? burn2
+                        : element.isStacked
+                        ? burn3
+                        : burn1
+                    }
+                    style={{ width: "20px" }}
+                  />
                   <span
                     style={{
                       fontWeight: "bold",

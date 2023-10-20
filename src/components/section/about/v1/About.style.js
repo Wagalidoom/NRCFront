@@ -29,7 +29,7 @@ export const AboutStyleWrapper = styled.section`
   }
 
   .min-height{
-    min-height: 1000px;
+    min-height: 1300px;
   }
 
   .content-no-padding{

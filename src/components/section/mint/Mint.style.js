@@ -29,6 +29,10 @@ export const MintStyleWrapper = styled.section`
     flex-direction: column;
     max-width: 480px;
   }
+  
+  #items:focus{
+    outline: none;
+  }
 
   .contractContainerRow {
     display: flex;
@@ -53,7 +57,7 @@ export const MintStyleWrapper = styled.section`
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       max-width: none!important;
-      padding: 12px 16px;
+      padding: 25px 16px;
     }
   }
 `;

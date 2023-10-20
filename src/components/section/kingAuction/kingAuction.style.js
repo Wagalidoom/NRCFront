@@ -99,7 +99,8 @@ border-bottom-right-radius:5px;
     height: 100%;
     width: 100%;
     border: 1px solid ${(props) => props.theme.colors.border};
-    margin-top: 16px;
+    margin-top: 34px;
+    padding-top: 12px;
   }
 
   .king-option {
@@ -131,7 +132,7 @@ border-bottom-right-radius:5px;
   label {
     border: 2px #ccc solid;
     border-radius: .5em;
-    width: 200px;
+    // width: 200px;
     display: inline-flex;
     // align-items: center;
     overflow: hidden;
@@ -139,7 +140,7 @@ border-bottom-right-radius:5px;
  
  label:before {
     content: attr(data-currency);
-    width: 2.5em;
+    width: 25px;
     padding: .5em 0;
     background: #e6e6e8;
     text-align: center;

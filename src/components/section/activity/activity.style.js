@@ -12,7 +12,7 @@ font-size:18px;
 export const ActivityContainer = styled.div`
 display:flex;
 flex-direction:column;
-min-height: 1000px;
+min-height: 1300px;
 width:100%;
 
 >div:last-of-type{

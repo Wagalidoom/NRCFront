@@ -28,9 +28,10 @@ export const MyNftContainer = styled.div`
 
   .filter-menu {
     display: flex;
-    width: 100%;
+    width: ${(props) =>
+      props.market ? "95%" : "100%" };
     color: ${(props) => props.theme.colors.text};
-    margin: 25px 0;
+    margin-bottom: 20px;
     background: ${(props) =>
       props.theme.name === "Dark Theme"
         ? "rgba(48,60,67,0.8)"
@@ -99,19 +100,15 @@ export const MyNftContainer = styled.div`
         ? "#8EA3BE"
         : "#afafaf"};
   }
+
   .sweep {
-    background: ${(props) =>
-      props.theme.name === "Dark Theme"
-        ? props.sweep
-          ? "rgb(5,5,5)"
-          : "rgb(30,39,50)"
-        : props.sweep
-        ? "#8EA3BE"
-        : "#afafaf"};
+    background: ${props => props.theme.name === 'Dark Theme' ? 'rgb(30,39,50)' :'#afafaf' }
   }
+
   .link-ens {
     padding: 2.3px 7px;
   }
+  
   .filter > img,
   .sweep > img {
     height: 30px;

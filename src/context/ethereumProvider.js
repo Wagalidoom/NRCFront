@@ -28,6 +28,7 @@ export function EthereumProvider({ children }) {
   const [isSweepOpen, setIsSweepOpen] = useState(false);
   const [isBurnSweepOpen, setIsBurnSweepOpen] = useState(false);
   const [isEnsSelectorOpen, setIsEnsSelectorOpen] = useState(false);
+  const [isKingEnsSelectorOpen, setIsKingEnsSelectorOpen] = useState(false);
   const [isBurnOpen, setIsBurnOpen] = useState(false);
   const [isKillOpen, setIsKillOpen] = useState(false);
   const [selectId, setSelectId] = useState(0);
@@ -236,7 +237,7 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    console.log(_ens);
+    console.log(_ens, namehash.hash(_ens));
     await stackCall({
       args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id],
     });
@@ -297,17 +298,19 @@ export function EthereumProvider({ children }) {
     await unlistCall({ args: [_id] });
   };
 
-  const buyKing = async (_color) => {
+  const buyKing = async (_list) => {
     if (address) {
       if (userColor === 0) {
         setIsColorPickerOpen(true);
       } else {
-        await buyKingCall({
-          args: [userColor],
-          overrides: {
-            value: kingPrice.toNumber().toFixed(0) + 10,
-          },
-        });
+        setIsKingEnsSelectorOpen(true);
+        setEnsList(_list);
+        // await buyKingCall({
+        //   args: [userColor],
+        //   overrides: {
+        //     value: kingPrice.toNumber().toFixed(0) + 10,
+        //   },
+        // });
       }
     }
   };
@@ -373,6 +376,7 @@ export function EthereumProvider({ children }) {
     isSweepOpen,
     isBurnSweepOpen,
     isEnsSelectorOpen,
+    isKingEnsSelectorOpen,
     isMintOpen,
     isKillOpen,
     isBurnOpen,

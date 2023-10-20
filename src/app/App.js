@@ -10,6 +10,7 @@ import {
   coinbaseWallet,
   walletConnect,
   safeWallet,
+  trustWallet,
 } from "@thirdweb-dev/react";
 import { Ethereum, Goerli } from "@thirdweb-dev/chains";
 import muiTheme from "../assets/styles/muiTheme";
@@ -33,8 +34,14 @@ function App() {
         coinbaseWallet(),
         walletConnect({
           projectId: "0626848077ce83d0eb850a0d03614cd3",
+          dappMetadata: {
+            name: "Number Runner Club",
+            url: "https://nrc.xyz",
+            description: "thirdweb powered dApp",
+            logoUrl: "https://thirdweb.com/favicon.ico",
+          },
         }),
-        safeWallet()]}
+        trustWallet()]}
         clientId="c82bdb2a716de4c99531f01a1c9fdf40">
       <ThemeContext.Provider value={{ theme, setTheme }}>
         <MuiThemeProvider theme={muiTheme}>

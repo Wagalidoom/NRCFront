@@ -73,7 +73,7 @@ export const EnsSelectorStyleWrapper = styled.section`
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       max-width: none !important;
-      padding: 12px 16px;
+      padding: 25px 16px;
     }
   }
 `;

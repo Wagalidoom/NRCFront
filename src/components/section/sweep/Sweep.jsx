@@ -115,34 +115,37 @@ export const Sweep = (props) => {
             }}
           >
             Sweep
-            <div
-              style={{
-                display: "flex",
-                width: "40%",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
-              Items
-              <CustomTextField
-                type="tel"
-                hiddenLabel
-                id="filled-hidden-label-small"
-                value={sweepCount}
+            <div>
+              <label
+                for="items"
+                style={{ fontSize: "16px", marginRight: "12px" }}
+              >
+                Items
+              </label>
+              <input
                 onChange={handleTextFieldChange}
-                variant="filled"
-                size="small"
-                style={{ margin: "0 15px" }}
+                value={sweepCount}
+                id="items"
+                style={{
+                  color: "rgba(255, 255, 255, 0.8)",
+                  backgroundColor: "rgb(37 49 63)",
+                  height: "30px",
+                  width: "50px",
+                  border: "none",
+                  borderRadius: "5px",
+                  fontWeight: "bold",
+                  paddingLeft: "15px",
+                }}
               />
-              <IconButton onClick={handleClose} style={{ padding: 0 }}>
-                <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
-              </IconButton>
             </div>
+            <IconButton onClick={handleClose} style={{ padding: 0 }}>
+              <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
+            </IconButton>
           </div>
           <div
             className="contractContainerRow"
             style={{
-              padding: "15px",
+              padding: "25px 15px",
               flexDirection: "column",
               justifyContent: "center",
             }}
@@ -153,6 +156,7 @@ export const Sweep = (props) => {
               <p>Slide to add more items to burn!</p>
             )}
             <Slider
+              style={{ marginTop: "15px" }}
               value={sweepCount}
               onChange={handleSliderChange}
               min={1}
@@ -244,7 +248,6 @@ export const Sweep = (props) => {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               style={{
-                margin: "15px",
                 width: "190px",
                 height: "40px",
                 backgroundColor:

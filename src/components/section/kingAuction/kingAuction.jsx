@@ -15,6 +15,7 @@ import {
   contractAddress,
   ETHEREUM_RPC_URL,
   NRCsubgraph,
+  ENSsubgraph,
   useEthereum,
 } from "../../../context/ethereumProvider";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
@@ -28,12 +29,13 @@ export const KingAuction = (props) => {
   const [endTime, setEndTime] = useState(null);
   const [checkboxValue, setCheckboxValue] = useState(false);
   const [price, setPrice] = useState(0);
-  const { buyKing } = useEthereum();
+  const { buyKing, address } = useEthereum();
   const [whiteKingReward, setWhiteKingReward] = useState(0);
   const [blackKingReward, setBlackKingReward] = useState(0);
+  const [ensList, setEnsList] = useState("");
   const [isLoadingInference, setIsLoadingInference] = useState(true);
   const [isLoadingPrice, setIsLoadingPrice] = useState(true);
-  const [value, setValue] = useState(10);
+  const [value, setValue] = useState(null);
 
   const calculateDate = (priceInEth) => {
     if (startTime) {
@@ -51,7 +53,35 @@ export const KingAuction = (props) => {
   };
 
   useEffect(() => {
-    if (!isLoadingInference) {
+    const fetchData = async () => {
+      let ENSquery = `
+      {
+        domains(where: {registrant: "${address.toLowerCase()}"}) {
+          name
+        }
+      }
+        `;
+
+      let fetchENS;
+
+      try {
+        await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
+          fetchENS = Object.values(result.data.data)[0];
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      setEnsList(fetchENS);
+    };
+
+    if (address) {
+      fetchData();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isLoadingInference && value) {
       setCalculatedDate(calculateDate(value));
     }
   }, [value, isLoadingInference, startTime]);
@@ -249,7 +279,10 @@ export const KingAuction = (props) => {
           </div>
         </div>
         <div className="actions">
-          <button className="action-btn" onClick={() => buyKing()}>
+          <button
+            className="action-btn"
+            onClick={() => buyKing(ensList.map((element) => element.name))}
+          >
             Buy Now
           </button>
         </div>
@@ -262,33 +295,7 @@ export const KingAuction = (props) => {
               alignItems: "center",
             }}
           >
-            <p style={{ margin: "8px 0" }}>Target Price</p>
-            <label
-              aria-label="Enter the amount in ETH"
-              style={{ height: "28px", margin: "14px 0" }}
-            >
-              <img
-                src={ethGrey}
-                style={{
-                  width: "14px",
-                  zIndex: 30,
-                  position: "absolute",
-                  marginLeft: "3px",
-                  marginTop: "2px",
-                }}
-              />
-              <input type="tel" value={value} onChange={handleChange} />
-            </label>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <p style={{ margin: "8px 0" }}>Target Time</p>
+            <p>Target Time</p>
             <div
               style={{
                 color: "black",
@@ -304,6 +311,32 @@ export const KingAuction = (props) => {
             >
               {calculatedDate ? calculatedDate.toLocaleString() : "Loading..."}
             </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <p>Target Price</p>
+            <label
+              aria-label="Enter the amount in ETH"
+              style={{ height: "28px", margin: "14px 0" }}
+            >
+              <img
+                src={ethGrey}
+                style={{
+                  width: "14px",
+                  zIndex: 30,
+                  position: "absolute",
+                  marginLeft: "5px",
+                  marginTop: "2px",
+                }}
+              />
+              <input type="tel" value={value} onChange={handleChange} />
+            </label>
           </div>
         </div>
       </div>
@@ -325,7 +358,7 @@ export const KingAuction = (props) => {
             <br />
             In order to ensure that all members of the community will go on an
             equal footing when it comes to mint a king, the auction will start
-            at 20,000 ETH and will decrease exponentially over a period of 30
+            at 20,000 ETH and will decrease exponentially over a period of 21
             days. In fact, when this period ends, the auction will reach the
             base of 2 ETH.
             <br />

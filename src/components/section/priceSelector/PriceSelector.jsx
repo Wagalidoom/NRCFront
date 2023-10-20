@@ -75,34 +75,28 @@ export const PriceSelector = () => {
               justifyContent: "space-between",
             }}
           >
-            List
-            <div
-              style={{
-                display: "flex",
-                width: "70%",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
-              Number Runner #{selectId}
+            List : Number Runner #{selectId}
               <IconButton onClick={handleClose} style={{ padding: "0px" }}>
                 <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
               </IconButton>
             </div>
-          </div>
           <div
             style={{
               display: "flex",
-              padding: "15px",
+              padding: "18px 15px",
+              flexDirection: "column",
               justifyContent: "space-between",
               alignItems: "center",
             }}
           >
-            Set the price and sell your nft!
+            Set the price and sell your NFT!
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
+                marginTop: "30px",
+                fontWeight: "bold",
+                height: "35px",
                 border: "2px rgb(32 34 45) solid",
                 borderRadius: ".5em",
                 backgroundColor: "rgb(32 34 45)",
@@ -131,7 +125,7 @@ export const PriceSelector = () => {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               style={{
-                margin: "15px",
+                marginTop: "10px",
                 width: "190px",
                 height: "40px",
                 backgroundColor:

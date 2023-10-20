@@ -43,7 +43,7 @@ export const ColorPicker = () => {
               justifyContent: "space-between",
             }}
           >
-            Mint
+            Choose color
             <div
               style={{
                 display: "flex",

@@ -591,6 +591,7 @@ export const MyNft = (props) => {
                 filter: activeButton.filter ? false : true,
               });
             }}
+            style={{ padding: 0 }}
           >
             <KeyboardArrowUpRoundedIcon
               style={{

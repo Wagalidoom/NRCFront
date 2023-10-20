@@ -125,6 +125,7 @@ const HomeV1 = () => {
     isSweepOpen,
     isBurnSweepOpen,
     isEnsSelectorOpen,
+    isKingEnsSelectorOpen,
     isKillOpen,
     isBurnOpen,
     isKingHandOpen,
@@ -321,6 +322,7 @@ const HomeV1 = () => {
         {isSweepOpen ? <Sweep market="true" /> : null}
         {isBurnSweepOpen ? <Sweep /> : null}
         {isEnsSelectorOpen ? <EnsSelector /> : null}
+        {isKingEnsSelectorOpen ? <EnsSelector king="true" /> : null}
         {isKillOpen ? <KillValidator /> : null}
         {isBurnOpen ? <BurnValidator /> : null}
         {isKingHandOpen ? <RevealKingHand /> : null}
@@ -477,6 +479,7 @@ const HomeV1 = () => {
             <ConnectWallet
               modalTitle="Connect a wallet"
               className="connectionButtonSideMenu"
+              modalTitleIconUrl={""}
               style={{
                 width: "170px",
                 backgroundColor: "rgb(29, 155, 240)",
@@ -554,6 +557,7 @@ const HomeV1 = () => {
                 </button>
                 <ConnectWallet
                   modalTitle="Connect a wallet"
+                  modalTitleIconUrl={""}
                   className="connectionButton"
                   btnTitle="Connect"
                 />
@@ -1207,12 +1211,6 @@ const HomeV1 = () => {
                             </a>
                             . And if it is no longer available online, you can
                             of course purchase it on the secondary market.
-                            <br />
-                            <br />
-                            Far from being a mere fad, the concept convinces the
-                            major players in the market. Thus, the main NFT
-                            marketplaces of the moment quickly decided to adopt
-                            the use to categorize domain names.
                           </div>
                         </div>
                       </div>
@@ -1465,7 +1463,7 @@ const HomeV1 = () => {
                             only be claimed in 3 specific cases :<br />
                             - Sell your NFT.
                             <br />
-                            - Burn his NFT.
+                            - Burn your NFT.
                             <br />- Or wait until the collection reaches 999
                             NFTs remaining in circulation
                           </div>
@@ -1715,7 +1713,7 @@ const HomeV1 = () => {
                         address of 999Club, 10kClub or 100kClub
                         <br />
                         - Burn 10 counters that you mint or buy on the secondary
-                        market.
+                        market
                         <br />
                         <br />
                         <strong>How do you stack a Bishop ?</strong>
@@ -1969,6 +1967,8 @@ const HomeV1 = () => {
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
+                        <strong>Final prize pool</strong> <br />
+                        <br />
                         Only the NFTs stacked with a 999Club or a 10Kclub have
                         access to the final prize pool. <sup>2</sup>
                         <br />
@@ -2083,8 +2083,12 @@ const HomeV1 = () => {
                         <br />
                         If you become the new owner of a digit already used in
                         the collection, you're also the new owner of his Number
-                        Nunner ! The rewards stacked can now be claimed thanks
-                        to your digit.
+                        Nunner ! <br />
+                        <br />
+                        The rewards stacked can now be claimed thanks to your
+                        digit.
+                        <br /><br />
+                        Note: <i>You can find the rewards of your digit in Market &rarr; Analytics</i>
                       </div>
                       <div className="contentBanner">
                         <img src={duo2} alt="" />
@@ -2130,30 +2134,38 @@ const HomeV1 = () => {
                         <span className="account">@TheNRClub</span>
                       </div>
                       <div className="description">
-                        <strong>Burn opponent color</strong> <br />
-                        <br />
-                        Burning options:
+                        <strong>Burn opponent color</strong>
                         <br />
                         <br />
-                        - NFT unstacked | When all NFTs are minted: 0.1eth + 10%
-                        of the rewards for the burner
+                        <u>Burning options on chessboard:</u>
                         <br />
-                        - NFT listed | When all NFTs are minted: 0.2eth + 10% of
-                        the rewards for the burner
                         <br />
-                        - NFT stacked with a 100kClub | When all NFTs minted AND
-                        the supply is less than 4000 NFTs: 0.3eth + 10% of the
-                        rewards for the burner
+                        <strong>
+                          - NFT unstacked | When all NFTs are minted:
+                        </strong>
+                        <br />
+                        0.1eth + 10% of the rewards for the burner
+                        <br />
+                        <br />
+                        <strong>
+                          - NFT listed | When all NFTs are minted:
+                        </strong>
+                        <br /> 0.2eth + 10% of the rewards for the burner
+                        <br />
+                        <br />
+                        <strong>
+                          - NFT stacked with a 100kClub | When all NFTs minted
+                          AND the supply is less than 4000 NFTs:
+                        </strong>
+                        <br /> 0.3eth + 10% of the rewards for the burner
                         <br />
                         <br />
                         The owner of the NFT burn will be taxed 15% of his
-                        rewards
+                        rewards.
                         <br />
                         <br />
-                        <i>
-                          The burn taxes will be refund for holder of the last
-                          999 NFTs.
-                        </i>
+                        The burn taxes will be refund for holder of the last 999
+                        NFTs.
                       </div>
                       <div className="contentBanner">
                         <img src={duo1} alt="" />
@@ -2202,11 +2214,16 @@ const HomeV1 = () => {
                         <strong>Expiration date</strong> <br />
                         <br />
                         Each stacked NFT merges with your number, then for its
-                        expiration date! Make sure you renew it before it
-                        expired and prove it on your profile, or your NFT will
-                        be added to the chessboard and risk being burned by
-                        others for free. The owner of the NFT burn will be taxed
-                        15% of his rewards.
+                        expiration date!
+                        <br />
+                        <br />
+                        Make sure you renew it before it expired and prove it on
+                        your profile, or your NFT will be added to the
+                        chessboard and risk being burned by others for free.
+                        <br />
+                        <br />
+                        The owner of the NFT burn will be taxed 15% of his
+                        rewards.
                       </div>
                       <div className="contentBanner">
                         <img src={horloge} alt="" />

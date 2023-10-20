@@ -30,7 +30,7 @@ justify-content:space-around;
     display: flex;
     width: 100%;
     color: ${props => props.theme.colors.text};
-    margin: 25px 10px;
+    margin-bottom: 20px;
     background: ${props => props.theme.name === "Dark Theme" ? 'rgba(48,60,67,0.8)':'rgb(247,249,249)' };
     box-shadow: rgba(0, 0, 0, 0.54) 0px 3px 8px;
     border-radius: 10px;
@@ -83,10 +83,11 @@ justify-content:space-around;
 .filter{
     background: ${props => props.theme.name === 'Dark Theme' ? props.isFilterApplied ? 'rgb(5,5,5)' :'rgb(30,39,50)' : props.isFilterApplied ?  '#8EA3BE':'#afafaf'  }
 }
+
 .sweep{
-    background: rgb(204, 80, 55);
-    border: 1px solid rgb(101 23 8);
+    background: ${props => props.theme.name === 'Dark Theme' ? 'rgb(30,39,50)' :'#afafaf' }
 }
+
 .link-ens{
     padding:2.3px 7px;
 }

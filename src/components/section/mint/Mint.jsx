@@ -3,6 +3,7 @@ import { styled } from "@mui/system";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { MintStyleWrapper } from "./Mint.style";
 import CloseIcon from "@mui/icons-material/Close";
+import validate from "../../../assets/images/ValideWhite.png";
 import eth from "../../../assets/images/eth.png";
 import { useEffect, useRef, useState } from "react";
 import ReactLoading from "react-loading";
@@ -12,9 +13,7 @@ const CustomTextField = styled(TextField)({
     color: "rgba(255, 255, 255, 0.8)",
     backgroundColor: "rgb(21, 32, 43)",
     height: "35px",
-    width: "50px",
-    borderRadius: "6px",
-    border: "solid 2px rgb(48, 60, 67)",
+    width: "150px",
   },
 
   "& .MuiInputBase-input": {
@@ -29,18 +28,20 @@ export const Mint = () => {
   const componentRef = useRef(null);
 
   function iOS() {
-    return [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod'
-    ].includes(navigator.platform)
-    // iPad on iOS 13 detection
-    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    return (
+      [
+        "iPad Simulator",
+        "iPhone Simulator",
+        "iPod Simulator",
+        "iPad",
+        "iPhone",
+        "iPod",
+      ].includes(navigator.platform) ||
+      // iPad on iOS 13 detection
+      (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    );
   }
-  
+
   const isIOS = iOS();
 
   useEffect(() => {
@@ -79,46 +80,45 @@ export const Mint = () => {
           <div
             className="contractContainerRow"
             style={{
-              padding: "15px 0px",
+              paddingBottom: "25px",
               width: "100%",
               justifyContent: "space-between",
             }}
           >
             Mint
-            <div
-              style={{
-                display: "flex",
-                width: "40%",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
-              Items
-              <CustomTextField
-                type="tel"
-                hiddenLabel
-                id="filled-hidden-label-small"
-                value={mintCount}
+            <div>
+              <label for="items" style={{fontSize: "16px", marginRight: "12px"}}>Items</label>
+              <input
                 onChange={handleTextFieldChange}
-                variant="filled"
-                size="small"
-                style={{ margin: "0 15px" }}
+                value={mintCount}
+                id="items"
+                style={{
+                  color: "rgba(255, 255, 255, 0.8)",
+                  backgroundColor: "rgb(37 49 63)",
+                  height: "30px",
+                  width: "50px",
+                  border: "none",
+                  borderRadius: "5px",
+                  fontWeight: "bold",
+                  paddingLeft: "15px",
+                }}
               />
-              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
-                <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
-              </IconButton>
             </div>
+            <IconButton onClick={handleClose} style={{ padding: "0px" }}>
+              <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
+            </IconButton>
           </div>
           <div
             className="contractContainerRow"
             style={{
-              padding: "15px",
+              padding: "25px 15px",
               flexDirection: "column",
               justifyContent: "center",
             }}
           >
             Slide to mint more items!
             <Slider
+            style={{marginTop: "15px"}}
               value={mintCount}
               onChange={handleSliderChange}
               min={1}
@@ -130,7 +130,7 @@ export const Mint = () => {
           <div
             style={{
               display: "flex",
-              padding: "15px",
+              padding: "20px 0",
               justifyContent: "space-between",
               alignItems: "center",
             }}
@@ -149,7 +149,7 @@ export const Mint = () => {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               style={{
-                margin: "15px",
+                marginTop: "15px",
                 width: "190px",
                 height: "40px",
                 backgroundColor:
@@ -187,14 +187,17 @@ export const Mint = () => {
                   </p>
                 </>
               ) : state === "success" ? (
-                <p
-                  style={{
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                >
-                  Done
-                </p>
+                <>
+                  <img style={{ width: "16px" }} src={validate} />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Done
+                  </p>
+                </>
               ) : (
                 <p
                   style={{
