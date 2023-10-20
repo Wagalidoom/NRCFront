@@ -43,6 +43,23 @@ export const Sweep = (props) => {
     label: (index + 1).toString(),
   }));
 
+  function iOS() {
+    return (
+      [
+        "iPad Simulator",
+        "iPhone Simulator",
+        "iPod Simulator",
+        "iPad",
+        "iPhone",
+        "iPod",
+      ].includes(navigator.platform) ||
+      // iPad on iOS 13 detection
+      (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    );
+  }
+
+  const isIOS = iOS();
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -75,6 +92,10 @@ export const Sweep = (props) => {
   };
 
   const handleSliderChange = (event, newValue) => {
+    if (isIOS && event.type === "mousedown") {
+      return;
+    }
+
     setSweepCount(newValue);
   };
 
@@ -237,8 +258,8 @@ export const Sweep = (props) => {
                   handleClose();
                 } else {
                   props.market
-                  ? await sweep(collectionId, price)
-                  : await burnSweep(collectionId, price);
+                    ? await sweep(collectionId, price)
+                    : await burnSweep(collectionId, price);
                   setState("success");
                 }
               }}

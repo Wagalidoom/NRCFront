@@ -28,6 +28,21 @@ export const Mint = () => {
   const [state, setState] = useState("");
   const componentRef = useRef(null);
 
+  function iOS() {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  }
+  
+  const isIOS = iOS();
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -47,6 +62,9 @@ export const Mint = () => {
   };
 
   const handleSliderChange = (event, newValue) => {
+    if (isIOS && event.type === "mousedown") {
+      return;
+    }
     setMintCount(newValue);
   };
 
