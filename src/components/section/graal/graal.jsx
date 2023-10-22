@@ -123,7 +123,7 @@ export const Graal = (props) => {
     const fetchMint = async () => {
       let ENSquery = `
       {
-        nfts(first: 300, where: {id_gte: "${props.data.inf}", id_lte: "${props.data.sup}"}) {
+        nfts {
           id
         }
       }
@@ -140,8 +140,13 @@ export const Graal = (props) => {
         console.log(error);
       }
       if (mintCount) {
-        console.log(mintCount);
-        setCount(mintCount.length);
+      const filteredMintCount = mintCount.filter((nft) => {
+        const id = parseInt(nft.id);
+        return id >= props.data.inf && id <= props.data.sup;
+      });
+
+      console.log(filteredMintCount);
+      setCount(filteredMintCount.length);
       }
     };
 
