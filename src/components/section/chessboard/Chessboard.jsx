@@ -50,6 +50,7 @@ export const Chessboard = (props) => {
   const [open, setOpen] = useState(false);
   const { validateKill, userColor, setBurnSweep } = useEthereum();
   const [collection, setCollection] = useState([]);
+  const [filteredCollection, setFilteredCollection] = useState([]);
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
@@ -71,9 +72,9 @@ export const Chessboard = (props) => {
       const filtered = collection.filter((nft) =>
         String(nft.id).includes(searchValue)
       );
-      setCollection(filtered);
+      setFilteredCollection(filtered);
     } else {
-      setCollection(collection);
+      setFilteredCollection(collection);
     }
   }, [searchValue, collection]);
 
@@ -439,14 +440,14 @@ export const Chessboard = (props) => {
         className="container-nft"
         style={{ padding: props.market ? "0px 10px" : "" }}
       >
-        {collection.length === 0 ? (
+        {filteredCollection.length === 0 ? (
           <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
           >
             No NFT to be shown
           </div>
         ) : null}
-        {collection
+        {filteredCollection
           .slice()
           .sort((a, b) => {
             return a.price - b.price;

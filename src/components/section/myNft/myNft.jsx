@@ -93,6 +93,7 @@ export const MyNft = (props) => {
   const [nftOnSale, setNftOnSale] = useState([]);
   const [currentNFTId, setCurrentNFTId] = useState(null);
   const [collection, setCollection] = useState([]);
+  const [filteredCollection, setFilteredCollection] = useState([]);
   const [loadingNFTId, setLoadingNFTId] = useState(null);
   const [loadingFinishedNFTId, setLoadingFinishedNFTId] = useState(null);
   const [ensList, setEnsList] = useState([]);
@@ -445,9 +446,9 @@ export const MyNft = (props) => {
       const filtered = collection.filter((nft) =>
         String(nft.id).includes(searchValue)
       );
-      setCollection(filtered);
+      setFilteredCollection(filtered);
     } else {
-      setCollection(collection);
+      setFilteredCollection(collection);
     }
   }, [searchValue, collection]);
 
@@ -765,14 +766,14 @@ export const MyNft = (props) => {
         className="container-nft"
         style={{ padding: props.market ? "0px 10px" : "" }}
       >
-        {collection.length === 0 ? (
+        {filteredCollection.length === 0 ? (
           <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
           >
             No NFT to be shown
           </div>
         ) : null}
-        {collection
+        {filteredCollection
           .slice()
           .sort((a, b) => {
             if (selected === null) {
