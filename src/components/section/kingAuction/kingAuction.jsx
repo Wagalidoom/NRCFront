@@ -335,7 +335,7 @@ export const KingAuction = (props) => {
                   marginTop: "2px",
                 }}
               />
-              <input type="tel" value={value} onChange={handleChange} />
+              <input type="tel" value={value} style={{paddingLeft: "4px"}} onChange={handleChange} />
             </label>
           </div>
         </div>

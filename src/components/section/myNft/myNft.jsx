@@ -87,10 +87,6 @@ export const MyNft = (props) => {
     listLoading,
     unlistLoading,
   } = useEthereum();
-  const [isMarketFetched, setIsMarketFetched] = useState(false);
-  const [nftOwned, setNftOwned] = useState([]);
-  const [fetchENSIndex, setFetchENSIndex] = useState(0);
-  const [nftOnSale, setNftOnSale] = useState([]);
   const [currentNFTId, setCurrentNFTId] = useState(null);
   const [collection, setCollection] = useState([]);
   const [filteredCollection, setFilteredCollection] = useState([]);
@@ -177,7 +173,8 @@ export const MyNft = (props) => {
   };
 
   useEffect(() => {
-    const fetchNftOnSale = async () => {
+
+    const fetchDataMarket = async () => {
       let NRCquery = `
               {
                 nfts(where: {listed: true}) {
@@ -211,23 +208,19 @@ export const MyNft = (props) => {
           color: element.id % 2 === 0 ? 1 : 2,
         });
       });
-      setNftOnSale(collection);
-      setIsMarketFetched(true);
       if (props.market) {
         setCollection(collection);
       }
     };
 
-    fetchNftOnSale();
-  }, [props.market]);
 
-  useEffect(() => {
     const fetchData = async () => {
       let NRCquery = `
             {
               nfts(where: {owner: "${address}"}) {
                 id
                 owner
+                listed
               }
             }
           `;
@@ -245,11 +238,10 @@ export const MyNft = (props) => {
       let collection = [];
 
       fetchOwned.map((element) => {
-        let isListed = nftOnSale.some((e) => e.id === Number(element.id));
         collection.push({
           id: Number(element.id),
           isStacked: false,
-          isListed: isListed,
+          isListed: element.listed,
           ensName: "",
           price: 0,
           rewards: 0,
@@ -291,13 +283,16 @@ export const MyNft = (props) => {
       setCollection(collection);
     };
 
-    if (address && !props.market && isMarketFetched) {
+    if (address && !props.market) {
       fetchData();
+    }
+
+    if (props.market) {
+      fetchDataMarket();
     }
   }, [
     mintLoading,
     multiMintLoading,
-    isMarketFetched,
     burnLoading,
     stackLoading,
     unstackLoading,

@@ -2083,7 +2083,7 @@ const HomeV1 = () => {
                         <br />
                         If you become the new owner of a digit already used in
                         the collection, you're also the new owner of his Number
-                        Nunner ! <br />
+                        Runner ! <br />
                         <br />
                         The rewards stacked can now be claimed thanks to your
                         digit.

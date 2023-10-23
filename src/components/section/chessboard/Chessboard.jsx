@@ -82,18 +82,6 @@ export const Chessboard = (props) => {
 
   useEffect(() => {
     const fetchChessboard = async () => {
-      // let NRCquery = `
-      //         {
-      //           nfts(where: {ensName: null}) {
-      //             id
-      //             owner
-      //             listed
-      //             unclaimedRewards
-      //             price
-      //             lastTimeStacked
-      //           }
-      //         }
-      //       `;
 
       let NRCquery = `
               {
