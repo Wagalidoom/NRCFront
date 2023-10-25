@@ -41,6 +41,7 @@ import { getNftType, nftTypeToString } from "../../../helper";
 import Axios from "axios";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
+import { ethers } from "ethers";
 const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
@@ -96,17 +97,9 @@ export const MyNft = (props) => {
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
-  const [ensDomains, setEnsDomains] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [currentEnsName, setCurrentEnsName] = useState(null);
-  const [finishFetching, setFinishFetching] = useState(false);
 
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
-  const {
-    data: tokenIdOfNode,
-    isLoading,
-    error: tokenIdOfNodeError,
-  } = useContractRead(contract, "getTokenIdOfNode", [node]);
 
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
@@ -218,7 +211,6 @@ export const MyNft = (props) => {
               nfts(where: {owner: "${address}"}) {
                 id
                 owner
-                ensName
                 share
                 unclaimedRewards
                 listed
@@ -253,11 +245,7 @@ export const MyNft = (props) => {
         console.log(error);
       }
 
-      // const nfts = responseNFT.data.data.nfts;
-      // const nftsById = Object.fromEntries(nfts.map((nft) => [nft.id, nft]));
-
-      const lastGlobalShares =
-        responseGlobalShares.shares;
+      const lastGlobalShares = responseGlobalShares[0].shares;
 
       let collection = [];
 
@@ -280,7 +268,6 @@ export const MyNft = (props) => {
           isListed: element.listed,
           ensName: "",
           price: 0,
-          rewards: 0,
           share: newShare.toNumber(),
           rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
           owner: element.owner,
@@ -308,13 +295,63 @@ export const MyNft = (props) => {
       }
 
       if (fetchENS.length > 0) {
-        const domainNames = fetchENS.map((domain) => {
-          return { hash: namehash.hash(domain.name), name: domain.name };
+        fetchENS.map(async (domain) => {
+          NRCquery = `
+          {
+            nfts(where: {ensName: "${ethers.utils.formatBytes32String(
+              domain.name
+            )}"}) {
+              id
+              owner
+              ensName
+              share
+              unclaimedRewards
+              listed
+            }
+          }
+        `;
+
+          try {
+            await Axios.post(NRCsubgraph, { query: NRCquery }).then(
+              (result) => {
+                fetchOwned = Object.values(result.data.data)[0];
+              }
+            );
+
+            console.log(fetchOwned);
+          } catch (error) {
+            console.log(error);
+          }
+
+          if (fetchOwned.length > 0) {
+            console.log("push", fetchOwned, lastGlobalShares);
+
+            const nftType = getNftType(Number(fetchOwned[0].id));
+            const unclaimedRewards = fetchOwned[0].unclaimedRewards
+              ? new BigNumber(fetchOwned[0].unclaimedRewards)
+              : new BigNumber(0);
+            const nftShare = fetchOwned[0].share
+              ? new BigNumber(fetchOwned[0].share)
+              : new BigNumber(0);
+            const newShare =
+              nftShare.toNumber() > 0
+                ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare)
+                : new BigNumber(0);
+
+            collection.push({
+              id: Number(fetchOwned[0].id),
+              isStacked: true,
+              isListed: false,
+              ensName: domain.name,
+              price: 0,
+              share: newShare.toNumber(),
+              rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
+              owner: fetchOwned[0].owner,
+              type: nftType,
+              color: fetchOwned[0].id % 2 === 0 ? 1 : 2,
+            });
+          }
         });
-        const [currentDomain, ...rest] = domainNames;
-        setNode(currentDomain.hash);
-        setCurrentEnsName(currentDomain.name);
-        setEnsDomains(rest);
       }
 
       setEnsList(fetchENS);
@@ -337,59 +374,6 @@ export const MyNft = (props) => {
     listLoading,
     unlistLoading,
   ]);
-
-  useEffect(() => {
-    if (isLoading === false) {
-      if (
-        ensList.length > 0 &&
-        currentEnsName === ensList[ensList.length - 1].name &&
-        !finishFetching
-      ) {
-        if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
-          const updatedCollection = [
-            ...collection,
-            {
-              id: Number(tokenIdOfNode),
-              isStacked: true,
-              isListed: false,
-              ensName: currentEnsName,
-              price: 0,
-              rewards: 0,
-              owner: address,
-              type: getNftType(Number(tokenIdOfNode)),
-              color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
-            },
-          ];
-
-          setCollection(updatedCollection);
-        }
-        setFinishFetching(true);
-        console.log(collection);
-      } else if (ensDomains.length > 0) {
-        if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
-          const updatedCollection = [
-            ...collection,
-            {
-              id: Number(tokenIdOfNode),
-              isStacked: true,
-              isListed: false,
-              ensName: currentEnsName,
-              price: 0,
-              rewards: 0,
-              owner: address,
-              type: getNftType(Number(tokenIdOfNode)),
-              color: Number(tokenIdOfNode) % 2 === 0 ? 1 : 2,
-            },
-          ];
-          setCollection(updatedCollection);
-        }
-        const [currentDomain, ...rest] = ensDomains;
-        setNode(currentDomain.hash);
-        setCurrentEnsName(currentDomain.name);
-        setEnsDomains(rest);
-      }
-    }
-  }, [tokenIdOfNode]);
 
   useEffect(() => {
     if (searchValue) {
