@@ -99,8 +99,6 @@ export const MyNft = (props) => {
   );
   const [searchValue, setSearchValue] = useState("");
 
-  const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
-
   const openModal = (e, current) => {
     setModalOpen((prevModal) => {
       if (prevModal === current) {
@@ -295,7 +293,7 @@ export const MyNft = (props) => {
       }
 
       if (fetchENS.length > 0) {
-        fetchENS.map(async (domain) => {
+        const promises = fetchENS.map(async (domain) => {
           NRCquery = `
           {
             nfts(where: {ensName: "${ethers.utils.formatBytes32String(
@@ -324,7 +322,7 @@ export const MyNft = (props) => {
           }
 
           if (fetchOwned.length > 0) {
-            console.log("push", fetchOwned, lastGlobalShares);
+            console.log("push", fetchOwned);
 
             const nftType = getNftType(Number(fetchOwned[0].id));
             const unclaimedRewards = fetchOwned[0].unclaimedRewards
@@ -345,13 +343,16 @@ export const MyNft = (props) => {
               ensName: domain.name,
               price: 0,
               share: newShare.toNumber(),
-              rewards: newShare.plus(unclaimedRewards).toNumber() / 10 ** 18,
+              rewards:
+                (newShare.plus(unclaimedRewards).toNumber() * 100000) /
+                10 ** 18,
               owner: fetchOwned[0].owner,
               type: nftType,
               color: fetchOwned[0].id % 2 === 0 ? 1 : 2,
             });
           }
         });
+        await Promise.all(promises);
       }
 
       setEnsList(fetchENS);

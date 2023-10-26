@@ -146,7 +146,7 @@ export const KingAuction = (props) => {
           response.data.data.globalSharesUpdateds[0].shares;
         // Assuming kings share the same rewards
         const kingRewards =
-          BigNumber.from(lastGlobalShares[0]).toNumber() / 10 ** 18;
+          BigNumber.from(lastGlobalShares[0]).toNumber() / 10 ** 18 * 100000;
 
         setWhiteKingReward(kingRewards);
         setBlackKingReward(kingRewards);

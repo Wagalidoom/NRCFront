@@ -1,5 +1,6 @@
 import blackPawn from "../../../assets/images/icon/Icon_Pion_-_Noir_entier.png";
 import whitePawn from "../../../assets/images/icon/Icon_Pion_-_Blanc_entier.png";
+import validate from "../../../assets/images/ValideWhite.png";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { ColorPickerStyleWrapper } from "./ColorPicker.style";
@@ -115,45 +116,45 @@ export const ColorPicker = () => {
             </div>
           </div>
           <Button
-              style={{
-                margin: "15px",
-                width: "190px",
-                height: "40px",
-                backgroundColor:
-                  state === "success"
-                    ? "rgb(138 180 209)"
-                    : "rgb(29, 155, 240)",
-              }}
-              variant="contained"
-              onClick={async () => {
-                if (state === "success") {
-                  handleClose();
-                } else {
-                  await chooseColor(color);
-                  setState("success");
-                }
-              }}
-            >
-              {chooseColorLoading ? (
-                <>
-                  <ReactLoading
-                    className="spin"
-                    type={"spin"}
-                    color={"rgba(255, 255, 255, 0.8)"}
-                    height={22}
-                    width={22}
-                  />
-                  <p
-                    style={{
-                      textTransform: "none",
-                      marginLeft: "12px",
-                      fontSize: "1rem",
-                    }}
-                  >
-                    Loading...
-                  </p>
-                </>
-              ) : state === "success" ? (
+            style={{
+              margin: "15px",
+              width: "190px",
+              height: "40px",
+              backgroundColor:
+                state === "success" ? "rgb(138 180 209)" : "rgb(29, 155, 240)",
+            }}
+            variant="contained"
+            onClick={async () => {
+              if (state === "success") {
+                handleClose();
+              } else {
+                await chooseColor(color);
+                setState("success");
+              }
+            }}
+          >
+            {chooseColorLoading ? (
+              <>
+                <ReactLoading
+                  className="spin"
+                  type={"spin"}
+                  color={"rgba(255, 255, 255, 0.8)"}
+                  height={22}
+                  width={22}
+                />
+                <p
+                  style={{
+                    textTransform: "none",
+                    marginLeft: "12px",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Loading...
+                </p>
+              </>
+            ) : state === "success" ? (
+              <>
+                <img style={{ width: "16px", marginRight: "8px" }} src={validate} />
                 <p
                   style={{
                     textTransform: "none",
@@ -162,40 +163,18 @@ export const ColorPicker = () => {
                 >
                   Done
                 </p>
-              ) : (
-                <p
-                  style={{
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                >
-                  Proceed
-                </p>
-              )}
-            </Button>
-          {/* <Button
-            disabled={color === 0}
-            style={{
-              margin: "15px",
-              width: "190px",
-              height: "40px",
-              backgroundColor:
-                color === 0 ? "rgb(138 180 209)" : "rgb(29, 155, 240)",
-            }}
-            variant="contained"
-            onClick={() => {
-              chooseColor(color);
-            }}
-          >
-            {" "}
-            {chooseColorLoading ? (
-              
-            ) : color === 0 ? (
-              <p>Choose a color</p>
+              </>
             ) : (
-              <p>Proceed</p>
+              <p
+                style={{
+                  textTransform: "none",
+                  fontSize: "1rem",
+                }}
+              >
+                Proceed
+              </p>
             )}
-          </Button> */}
+          </Button>
         </div>
       </div>
     </ColorPickerStyleWrapper>

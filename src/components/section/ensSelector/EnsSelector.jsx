@@ -9,7 +9,7 @@ import { useEthereum } from "../../../context/ethereumProvider";
 import { useState } from "react";
 import { EnsSelectorStyleWrapper } from "./EnsSelector.style";
 import CloseIcon from "@mui/icons-material/Close";
-import eth from "../../../assets/images/eth.png";
+import validate from "../../../assets/images/ValideWhite.png";
 import ReactLoading from "react-loading";
 import { useRef, useEffect } from "react";
 
@@ -145,14 +145,26 @@ export const EnsSelector = (props) => {
             Digit selected
             <div>{ensName}</div>
           </div>
-          <div style={{ fontSize: "14px", padding: "0px 15px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div
+            style={{
+              fontSize: "14px",
+              padding: "0px 15px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             If your number does not appear, please unwrap it on :
             <br />
             <a
               href="https://ens.domains/"
               rel="noreferrer"
               target="_blank"
-              style={{ fontSize: "13px", margin: "8px 0", color: "rgb(29, 155, 240)" }}
+              style={{
+                fontSize: "13px",
+                margin: "8px 0",
+                color: "rgb(29, 155, 240)",
+              }}
             >
               https://ens.domains/
             </a>
@@ -199,14 +211,20 @@ export const EnsSelector = (props) => {
                   </p>
                 </>
               ) : state === "success" ? (
-                <p
-                  style={{
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                >
-                  Done
-                </p>
+                <>
+                  <img
+                    style={{ width: "16px", marginRight: "8px" }}
+                    src={validate}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Done
+                  </p>
+                </>
               ) : (
                 <p
                   style={{

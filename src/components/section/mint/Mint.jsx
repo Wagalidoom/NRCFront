@@ -188,7 +188,7 @@ export const Mint = () => {
                 </>
               ) : state === "success" ? (
                 <>
-                  <img style={{ width: "16px" }} src={validate} />
+                  <img style={{ width: "16px", marginRight: "8px" }} src={validate} />
                   <p
                     style={{
                       textTransform: "none",
