@@ -338,12 +338,12 @@ export function EthereumProvider({ children }) {
 
   const getVolume = async () => {
     const volume = await generalProvider.getBalance(contractAddress);
-    return volume;
+    return volume * 10000;
   };
 
   const getPrizePool = async () => {
     const prizePool = await generalContract.getPrizePool();
-    return prizePool;
+    return prizePool * 100;
   };
 
   const getTokenURI = async (_id) => {

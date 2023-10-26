@@ -2,8 +2,8 @@ import { Button, IconButton, TextField, styled } from "@mui/material";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import validate from "../../../assets/images/ValideWhite.png";
 import eth from "../../../assets/images/eth.png";
-import ethGrey from "../../../assets/images/ethGrey.png";
 import { PriceSelectorStyleWrapper } from "./PriceSelector.style";
 import { useRef } from "react";
 import { useEffect } from "react";
@@ -76,10 +76,10 @@ export const PriceSelector = () => {
             }}
           >
             List : Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
-                <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
-              </IconButton>
-            </div>
+            <IconButton onClick={handleClose} style={{ padding: "0px" }}>
+              <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
+            </IconButton>
+          </div>
           <div
             style={{
               display: "flex",
@@ -163,14 +163,20 @@ export const PriceSelector = () => {
                   </p>
                 </>
               ) : state === "success" ? (
-                <p
-                  style={{
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                >
-                  Done
-                </p>
+                <>
+                  <img
+                    style={{ width: "16px", marginRight: "8px" }}
+                    src={validate}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Done
+                  </p>
+                </>
               ) : (
                 <p
                   style={{
