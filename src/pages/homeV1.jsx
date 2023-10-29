@@ -681,7 +681,7 @@ const HomeV1 = () => {
                     }
                   />
                   <span className="textWhite">
-                    {(Number(prizePool) * 10 ** -18).toFixed(3)}
+                    {(Number(prizePool) * 10 ** -18).toFixed(4)}
                   </span>{" "}
                   Pool{" "}
                 </div>

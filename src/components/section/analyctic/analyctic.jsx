@@ -227,7 +227,7 @@ export const Analyctic = (props) => {
                             : eth
                         }
                       />
-                      {(element.rewards * 100000).toFixed(6)}
+                      {(element.rewards * 10000).toFixed(6)}
                     </div>
                   </div>
                 </li>

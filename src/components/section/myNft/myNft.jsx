@@ -344,7 +344,7 @@ export const MyNft = (props) => {
               price: 0,
               share: newShare.toNumber(),
               rewards:
-                (newShare.plus(unclaimedRewards).toNumber() * 100000) /
+                (newShare.plus(unclaimedRewards).toNumber() * 10000) /
                 10 ** 18,
               owner: fetchOwned[0].owner,
               type: nftType,

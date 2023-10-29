@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.6";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.7";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x681d96df5ED33BCa025f614D80a190e4367EF164";
+export const contractAddress = "0x92D82DcB6fe619C28E577236038cab08848cB043";
 
 const EthereumContext = createContext(null);
 
@@ -341,7 +341,7 @@ export function EthereumProvider({ children }) {
 
   const getPrizePool = async () => {
     const prizePool = await generalContract.getPrizePool();
-    return prizePool * 100;
+    return prizePool * 10000;
   };
 
   const getTokenURI = async (_id) => {
