@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.7";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.91";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x92D82DcB6fe619C28E577236038cab08848cB043";
+export const contractAddress = "0x999e4f4830cE7EB7FcF3EA270edCdc6Bc768EeCB";
 
 const EthereumContext = createContext(null);
 
@@ -219,9 +219,10 @@ export function EthereumProvider({ children }) {
     });
   };
 
-  const king = async (_id, _list) => {
+  const king = async (_ens) => {
+    console.log(kingPrice.toNumber().toFixed(0) + 10);
     await buyKingCall({
-      args: [userColor],
+      args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens)],
       overrides: {
         value: kingPrice.toNumber().toFixed(0) + 10,
       },
@@ -416,6 +417,7 @@ export function EthereumProvider({ children }) {
     setIsBurnOpen,
     burn,
     stack,
+    king,
     setAvatar,
     unstack,
     revealKingHand,

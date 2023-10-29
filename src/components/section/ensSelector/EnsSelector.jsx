@@ -16,6 +16,7 @@ import { useRef, useEffect } from "react";
 export const EnsSelector = (props) => {
   const {
     stack,
+    king,
     ensList,
     selectId,
     setIsEnsSelectorOpen,
@@ -189,7 +190,7 @@ export const EnsSelector = (props) => {
                   handleClose();
                 } else {
                   if (props.king) {
-                    await stack(ensName, selectId);
+                    await king(ensName);
                   } else {
                     setAvatar(ensName, selectId);
                     await stack(ensName, selectId);

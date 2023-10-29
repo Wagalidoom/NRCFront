@@ -94,9 +94,6 @@ export const MyNft = (props) => {
   const [loadingNFTId, setLoadingNFTId] = useState(null);
   const [loadingFinishedNFTId, setLoadingFinishedNFTId] = useState(null);
   const [ensList, setEnsList] = useState([]);
-  const [node, setNode] = useState(
-    "0x0000000000000000000000000000000000000000000000000000000000000000"
-  );
   const [searchValue, setSearchValue] = useState("");
 
   const openModal = (e, current) => {
