@@ -23,6 +23,7 @@ export const EnsSelector = (props) => {
     setIsKingEnsSelectorOpen,
     setAvatar,
     stackLoading,
+    buyKingLoading,
   } = useEthereum();
   const [ensName, setEnsName] = useState("");
   const [state, setState] = useState("");
@@ -199,7 +200,7 @@ export const EnsSelector = (props) => {
                 }
               }}
             >
-              {stackLoading ? (
+              {stackLoading || buyKingLoading ? (
                 <>
                   <ReactLoading
                     className="spin"

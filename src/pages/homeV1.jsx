@@ -178,12 +178,14 @@ const HomeV1 = () => {
         setEnsName(name);
         const url = await getEnsProfilePicture(name);
         const prefix =
-          "eip155:1/erc721:0x4cc0F1816d9fd2b5fd5d0Ec6Cb730791E2D2F697/";
-        if (url.startsWith(prefix)) {
-          const tokenId = url.slice(prefix.length);
-          setEnsUrl(
-            `https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${tokenId}.png`
-          );
+          "eip155:1/erc721:0x999e4f4830cE7EB7FcF3EA270edCdc6Bc768EeCB/";
+        if (url) {
+          if (url.startsWith(prefix)) {
+            const tokenId = url.slice(prefix.length);
+            setEnsUrl(
+              `https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${tokenId}.png`
+            );
+          }
         }
       }
     };
@@ -2089,8 +2091,13 @@ const HomeV1 = () => {
                         <br />
                         The rewards stacked can now be claimed thanks to your
                         digit.
-                        <br /><br />
-                        Note: <i>You can find the rewards of your digit in Market &rarr; Analytics</i>
+                        <br />
+                        <br />
+                        Note:{" "}
+                        <i>
+                          You can find the rewards of your digit in Market
+                          &rarr; Analytics
+                        </i>
                       </div>
                       <div className="contentBanner">
                         <img src={duo2} alt="" />
