@@ -149,7 +149,6 @@ export function EthereumProvider({ children }) {
   const chooseColor = async (_color) => {
     try {
       await chooseColorCall({ args: [_color] });
-      // setIsColorPickerOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -180,20 +179,19 @@ export function EthereumProvider({ children }) {
         ),
       },
     });
-
-    // setIsMintOpen(false);
   };
 
   const sweep = async (_list, _price) => {
-
     await multiBuyCall({
       args: [_list],
       overrides: {
-        value: ethers.utils.parseEther(Number(_price * 10 ** -18).toFixed(5).toString()),
+        value: ethers.utils.parseEther(
+          Number(_price * 10 ** -18)
+            .toFixed(5)
+            .toString()
+        ),
       },
     });
-
-    // setIsSweepOpen(false);
   };
 
   const burnSweep = async (_list, _price) => {
@@ -220,6 +218,15 @@ export function EthereumProvider({ children }) {
     });
   };
 
+  const king = async (_id, _list) => {
+    await buyKingCall({
+      args: [userColor],
+      overrides: {
+        value: kingPrice.toNumber().toFixed(0) + 10,
+      },
+    });
+  };
+
   const setEns = async (_id, _list) => {
     setIsEnsSelectorOpen(true);
     setEnsList(_list);
@@ -242,7 +249,6 @@ export function EthereumProvider({ children }) {
       args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id],
     });
     setSelectId(null);
-    // setIsEnsSelectorOpen(false);
   };
 
   const setAvatar = async (_ens, _id) => {
@@ -264,7 +270,6 @@ export function EthereumProvider({ children }) {
   const burn = async (_id) => {
     await burnCall({ args: [_id] });
     setSelectId(null);
-    // setIsBurnOpen(false);
   };
 
   const revealKingHand = async (_id) => {
@@ -288,10 +293,8 @@ export function EthereumProvider({ children }) {
   };
 
   const listNFT = async (_id, price) => {
-    // await approveCall({ args: [contractAddress, _id] });
     await listCall({ args: [_id, ethers.utils.parseEther(price.toString())] });
     setSelectId(null);
-    // setIsPriceSelectorOpen(false);
   };
 
   const unlistNFT = async (_id) => {
@@ -305,12 +308,6 @@ export function EthereumProvider({ children }) {
       } else {
         setIsKingEnsSelectorOpen(true);
         setEnsList(_list);
-        // await buyKingCall({
-        //   args: [userColor],
-        //   overrides: {
-        //     value: kingPrice.toNumber().toFixed(0) + 10,
-        //   },
-        // });
       }
     }
   };

@@ -3,6 +3,7 @@ import { useEthereum } from "../../../context/ethereumProvider";
 import { BurnValidatorStyleWrapper } from "./BurnValidator.style";
 import { Button, IconButton } from "@mui/material";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
+import validate from "../../../assets/images/ValideWhite.png";
 import { useState, useEffect, useRef } from "react";
 import ReactLoading from "react-loading";
 
@@ -40,11 +41,11 @@ export const BurnValidator = () => {
               justifyContent: "space-between",
             }}
           >
-            Burn : Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
-                <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
-              </IconButton>
-            </div>
+            Burn : {state === "success" ? <></> : "Number Runner #"} {selectId}
+            <IconButton onClick={handleClose} style={{ padding: "0px" }}>
+              <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
+            </IconButton>
+          </div>
           <div
             style={{
               display: "flex",
@@ -54,7 +55,14 @@ export const BurnValidator = () => {
               alignItems: "center",
             }}
           >
-            <ReportGmailerrorredIcon style={{ margin: "10px 0 20px 0", width: "35px", height: "35px", color: "#cc5037" }} />
+            <ReportGmailerrorredIcon
+              style={{
+                margin: "10px 0 20px 0",
+                width: "35px",
+                height: "35px",
+                color: "#cc5037",
+              }}
+            />
             This nft cannot be access anymore!
             <div
               style={{
@@ -64,7 +72,7 @@ export const BurnValidator = () => {
             ></div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button
+            <Button
               style={{
                 margin: "15px",
                 width: "190px",
@@ -104,14 +112,20 @@ export const BurnValidator = () => {
                   </p>
                 </>
               ) : state === "success" ? (
-                <p
-                  style={{
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                >
-                  Done
-                </p>
+                <>
+                  <img
+                    style={{ width: "16px", marginRight: "8px" }}
+                    src={validate}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Done
+                  </p>
+                </>
               ) : (
                 <p
                   style={{

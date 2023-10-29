@@ -16,6 +16,12 @@ const CustomTextField = styled(TextField)({
     width: "90px",
   },
 
+  "& .MuiInputBase-root:hover": {
+    color: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgb(0 0 0)",
+    width: "90px",
+  },
+
   "& .MuiInputBase-input": {
     paddingRight: "0px",
   },
@@ -75,7 +81,7 @@ export const PriceSelector = () => {
               justifyContent: "space-between",
             }}
           >
-            List : Number Runner #{selectId}
+            List : {state === "success" ? <></> : "Number Runner #"}{selectId}
             <IconButton onClick={handleClose} style={{ padding: "0px" }}>
               <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
             </IconButton>

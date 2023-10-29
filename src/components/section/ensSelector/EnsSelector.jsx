@@ -63,7 +63,7 @@ export const EnsSelector = (props) => {
           >
             <div>
               {props.king ? "Buy : " : "Stack : "}
-              Number Runner #{selectId}
+              {state === "success" ? <></> : "Number Runner #"} {selectId}
             </div>
             <IconButton onClick={handleClose} style={{ padding: "0px" }}>
               <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
@@ -185,8 +185,12 @@ export const EnsSelector = (props) => {
                 if (state === "success") {
                   handleClose();
                 } else {
-                  // setAvatar(ensName, selectId);
-                  await stack(ensName, selectId);
+                  if (props.king) {
+                    await stack(ensName, selectId);
+                  } else {
+                    setAvatar(ensName, selectId);
+                    await stack(ensName, selectId);
+                  }
                   setState("success");
                 }
               }}
@@ -232,7 +236,7 @@ export const EnsSelector = (props) => {
                     fontSize: "1rem",
                   }}
                 >
-                  Proceed to stacking
+                  Proceed to {props.king ? "Purchase" : "stacking"}
                 </p>
               )}
             </Button>
