@@ -158,12 +158,7 @@ export const KingAuction = (props) => {
     // Call function to get rewards
     fetchKingRewards();
   }, []);
-
-  const checkboxChange = (e) => {
-    // False is white
-    console.log(checkboxValue ? 1 : 2);
-    setCheckboxValue(checkboxValue ? false : true);
-  };
+  
   return (
     <KingAuctionContainer checkbox={checkboxValue}>
       <div className="countdown-container">

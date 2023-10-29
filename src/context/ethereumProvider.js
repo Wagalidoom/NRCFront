@@ -13,17 +13,18 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.5";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.6";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x9179A6dA94eDE723203Ab4c30d5Bd0afA2c59647";
+export const contractAddress = "0x681d96df5ED33BCa025f614D80a190e4367EF164";
 
 const EthereumContext = createContext(null);
 
 export function EthereumProvider({ children }) {
-  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+  const [isMintColorPickerOpen, setIsMintColorPickerOpen] = useState(false);
+  const [isKingColorPickerOpen, setIsKingColorPickerOpen] = useState(false);
   const [isPriceSelectorOpen, setIsPriceSelectorOpen] = useState(false);
   const [isSweepOpen, setIsSweepOpen] = useState(false);
   const [isBurnSweepOpen, setIsBurnSweepOpen] = useState(false);
@@ -303,11 +304,11 @@ export function EthereumProvider({ children }) {
 
   const buyKing = async (_list) => {
     if (address) {
+      setEnsList(_list);
       if (userColor === 0) {
-        setIsColorPickerOpen(true);
+        setIsKingColorPickerOpen(true);
       } else {
         setIsKingEnsSelectorOpen(true);
-        setEnsList(_list);
       }
     }
   };
@@ -315,7 +316,7 @@ export function EthereumProvider({ children }) {
   const mintPawn = async () => {
     if (address) {
       if (userColor === 0) {
-        setIsColorPickerOpen(true);
+        setIsMintColorPickerOpen(true);
         console.log("display choose color component");
       } else {
         setIsMintOpen(true);
@@ -368,7 +369,8 @@ export function EthereumProvider({ children }) {
   const value = {
     mintPawn,
     chooseColor,
-    isColorPickerOpen,
+    isMintColorPickerOpen,
+    isKingColorPickerOpen,
     isPriceSelectorOpen,
     isSweepOpen,
     isBurnSweepOpen,
@@ -404,7 +406,9 @@ export function EthereumProvider({ children }) {
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
-    setIsColorPickerOpen,
+    setIsKingEnsSelectorOpen,
+    setIsMintColorPickerOpen,
+    setIsKingColorPickerOpen,
     setIsSweepOpen,
     setIsBurnSweepOpen,
     setIsKingHandOpen,

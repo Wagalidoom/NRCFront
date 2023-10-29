@@ -19,6 +19,7 @@ export const EnsSelector = (props) => {
     ensList,
     selectId,
     setIsEnsSelectorOpen,
+    setIsKingEnsSelectorOpen,
     setAvatar,
     stackLoading,
   } = useEthereum();
@@ -43,11 +44,13 @@ export const EnsSelector = (props) => {
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsEnsSelectorOpen(false);
+      setIsKingEnsSelectorOpen(false);
     }
   };
 
   const handleClose = () => {
     setIsEnsSelectorOpen(false);
+    setIsKingEnsSelectorOpen(false);
   };
 
   return (

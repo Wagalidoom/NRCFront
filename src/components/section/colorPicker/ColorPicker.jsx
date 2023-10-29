@@ -8,8 +8,8 @@ import { Button, IconButton } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import ReactLoading from "react-loading";
 
-export const ColorPicker = () => {
-  const { chooseColor, setIsColorPickerOpen, chooseColorLoading } =
+export const ColorPicker = (props) => {
+  const { chooseColor, setIsMintColorPickerOpen, setIsKingColorPickerOpen, setIsKingEnsSelectorOpen, setIsMintOpen, chooseColorLoading } =
     useEthereum();
   const [state, setState] = useState("idle");
   const [color, setColor] = useState(0);
@@ -25,12 +25,14 @@ export const ColorPicker = () => {
 
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
-      setIsColorPickerOpen(false);
+      setIsMintColorPickerOpen(false);
+      setIsKingColorPickerOpen(false);
     }
   };
 
   const handleClose = () => {
-    setIsColorPickerOpen(false);
+    setIsMintColorPickerOpen(false);
+    setIsKingColorPickerOpen(false);
   };
 
   return (
@@ -71,7 +73,7 @@ export const ColorPicker = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-evenly",
-                width: "80%",
+                width: "90%",
                 margin: "15px 0px",
               }}
             >
@@ -127,6 +129,12 @@ export const ColorPicker = () => {
             onClick={async () => {
               if (state === "success") {
                 handleClose();
+                if(props.king) {
+                  setIsKingEnsSelectorOpen(true);
+                }
+                else {
+                  setIsMintOpen(true);
+                }
               } else {
                 await chooseColor(color);
                 setState("success");

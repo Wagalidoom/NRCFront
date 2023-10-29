@@ -119,7 +119,8 @@ const HomeV1 = () => {
   const [hashtag, setHashTag] = useState("Club");
   const currentTheme = useContext(ThemeContext);
   const {
-    isColorPickerOpen,
+    isMintColorPickerOpen,
+    isKingColorPickerOpen,
     isMintOpen,
     isPriceSelectorOpen,
     isSweepOpen,
@@ -316,7 +317,8 @@ const HomeV1 = () => {
     <Layout>
       <GlobalStyles />
       <BannerV1Wrapper ref={scrollRef}>
-        {isColorPickerOpen ? <ColorPicker /> : null}
+        {isMintColorPickerOpen ? <ColorPicker /> : null}
+        {isKingColorPickerOpen ? <ColorPicker king="true" /> : null}
         {isMintOpen ? <Mint /> : null}
         {isPriceSelectorOpen ? <PriceSelector /> : null}
         {isSweepOpen ? <Sweep market="true" /> : null}
