@@ -1,13 +1,15 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { KillValidatorStyleWrapper } from "./KillValidator.style";
+import validate from "../../../assets/images/ValideWhite.png";
 import { Button, IconButton } from "@mui/material";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import { useState, useEffect, useRef } from "react";
 import ReactLoading from "react-loading";
 
 export const KillValidator = () => {
-  const { burnSweep, burnPrice, selectId, setIsKillOpen, multiKillLoading } = useEthereum();
+  const { burnSweep, burnPrice, selectId, setIsKillOpen, multiKillLoading } =
+    useEthereum();
   const [state, setState] = useState("");
   const componentRef = useRef(null);
 
@@ -40,20 +42,10 @@ export const KillValidator = () => {
               justifyContent: "space-between",
             }}
           >
-            Burn
-            <div
-              style={{
-                display: "flex",
-                width: "70%",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
-              Number Runner #{selectId}
-              <IconButton onClick={handleClose} style={{ padding: "0px" }}>
-                <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
-              </IconButton>
-            </div>
+            Burn : {state === "success" ? <></> : "Number Runner #"} {selectId}
+            <IconButton onClick={handleClose} style={{ padding: "0px" }}>
+              <CloseIcon sx={{ color: "rgba(255, 255, 255, 0.8)" }} />
+            </IconButton>
           </div>
           <div
             style={{
@@ -73,10 +65,23 @@ export const KillValidator = () => {
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
-              style={{ margin: "0 15px", width: "190px", height: "40px" }}
+              style={{
+                margin: "15px",
+                width: "190px",
+                height: "40px",
+                backgroundColor:
+                  state === "success"
+                    ? "rgb(138 180 209)"
+                    : "rgb(29, 155, 240)",
+              }}
               variant="contained"
-              onClick={() => {
-                burnSweep(selectId, burnPrice);
+              onClick={async () => {
+                if (state === "success") {
+                  handleClose();
+                } else {
+                  await burnSweep(selectId, burnPrice);
+                  setState("success");
+                }
               }}
             >
               {multiKillLoading ? (
@@ -99,14 +104,20 @@ export const KillValidator = () => {
                   </p>
                 </>
               ) : state === "success" ? (
-                <p
-                  style={{
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                >
-                  Done
-                </p>
+                <>
+                  <img
+                    style={{ width: "16px", marginRight: "8px" }}
+                    src={validate}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Done
+                  </p>
+                </>
               ) : (
                 <p
                   style={{

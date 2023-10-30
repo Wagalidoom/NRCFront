@@ -206,8 +206,6 @@ export function EthereumProvider({ children }) {
         ),
       },
     });
-    setIsBurnSweepOpen(false);
-    setIsKillOpen(false);
   };
 
   const mintSpecial = async (type, stackedId) => {
