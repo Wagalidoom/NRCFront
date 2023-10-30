@@ -32,6 +32,8 @@ export const KingAuction = (props) => {
   const { buyKing, address } = useEthereum();
   const [whiteKingReward, setWhiteKingReward] = useState(0);
   const [blackKingReward, setBlackKingReward] = useState(0);
+  const [blackKingName, setBlackKingName] = useState("");
+  const [whiteKingName, setWhiteKingName] = useState("");
   const [ensList, setEnsList] = useState("");
   const [isLoadingInference, setIsLoadingInference] = useState(true);
   const [isLoadingPrice, setIsLoadingPrice] = useState(true);
@@ -51,6 +53,50 @@ export const KingAuction = (props) => {
       return null;
     }
   };
+
+  useEffect(() => {
+    const fetchNames = async () => {
+      let NRCquery = `
+      {
+        nfts (where: {id: 0}) {
+          ensName
+        }
+      }
+    `;
+
+      let fetchKing;
+
+      try {
+        await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
+          fetchKing = Object.values(result.data.data)[0];
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+
+      NRCquery = `
+      {
+        nfts (where: {id: 1}) {
+          ensName
+        }
+      }
+    `;
+
+      try {
+        await Axios.post(NRCsubgraph, { query: NRCquery }).then((result) => {
+          fetchKing = Object.values(result.data.data)[0];
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+    };
+
+    fetchNames();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -166,6 +212,23 @@ export const KingAuction = (props) => {
       </div>
       <div className="container-nft">
         <div className="myNft">
+          {blackKingName ? (
+            <div
+              style={{
+                position: "absolute",
+                backgroundColor: "rgba(38, 32, 32, 0.7)",
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Owned by : {blackKingName}
+            </div>
+          ) : (
+            <></>
+          )}
           <img alt="" src={blackKing} />
           <div className="toolBar">
             <p
@@ -209,8 +272,24 @@ export const KingAuction = (props) => {
           </div>
         </div>
         <div className="myNft">
+          {whiteKingName ? (
+            <div
+              style={{
+                position: "absolute",
+                backgroundColor: "rgba(38, 32, 32, 0.7)",
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Owned by : {whiteKingName}
+            </div>
+          ) : (
+            <></>
+          )}
           <img alt="" src={whiteKing} />
-
           <div className="toolBar">
             <p
               className="nft-title"

@@ -125,10 +125,11 @@ export function EthereumProvider({ children }) {
     error: unlistError,
   } = useContractWrite(contract, "unlistNFT");
 
-  const { mutateAsync: buyKingCall, isLoading: buyKingLoading, error: buyKingError } = useContractWrite(
-    contract,
-    "buyKing"
-  );
+  const {
+    mutateAsync: buyKingCall,
+    isLoading: buyKingLoading,
+    error: buyKingError,
+  } = useContractWrite(contract, "buyKing");
 
   const { mutateAsync: approveCall, error: approveError } = useContractWrite(
     contract,
@@ -206,6 +207,7 @@ export function EthereumProvider({ children }) {
         ),
       },
     });
+    setSelectId(null);
   };
 
   const mintSpecial = async (type, stackedId) => {
@@ -223,7 +225,7 @@ export function EthereumProvider({ children }) {
       args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens)],
       overrides: {
         value: Number(kingPrice.toNumber().toFixed(0)) + 10,
-        gasLimit: 150000
+        gasLimit: 150000,
       },
     });
   };
@@ -308,8 +310,7 @@ export function EthereumProvider({ children }) {
       if (userColor === 0) {
         setIsKingColorPickerOpen(true);
       } else {
-        if(userColor === 2)
-        setSelectId(1);
+        if (userColor === 2) setSelectId(1);
         setIsKingEnsSelectorOpen(true);
       }
     }

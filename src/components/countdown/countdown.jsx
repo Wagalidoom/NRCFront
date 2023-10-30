@@ -11,9 +11,7 @@ export const Countdown = (props) => {
     seconds: 0,
   });
   const [loading, setLoading] = useState(true);
-
-  console.log(props.theme === "Dark Theme" ? "dark" : "white");
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
       const now = moment().tz("Europe/Paris");
