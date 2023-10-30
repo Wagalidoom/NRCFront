@@ -146,7 +146,7 @@ export const KingAuction = (props) => {
           response.data.data.globalSharesUpdateds[0].shares;
         // Assuming kings share the same rewards
         const kingRewards =
-          BigNumber.from(lastGlobalShares[0]).toNumber() / 10 ** 18 * 10000;
+          (BigNumber.from(lastGlobalShares[0]).toNumber() / 10 ** 18) * 10000;
 
         setWhiteKingReward(kingRewards);
         setBlackKingReward(kingRewards);
@@ -276,7 +276,13 @@ export const KingAuction = (props) => {
         <div className="actions">
           <button
             className="action-btn"
-            onClick={() => buyKing(ensList.map((element) => element.name))}
+            onClick={() =>
+              buyKing(
+                ensList
+                  .map((element) => element.name)
+                  .filter((element) => element.length === 7)
+              )
+            }
           >
             Buy Now
           </button>
@@ -330,7 +336,12 @@ export const KingAuction = (props) => {
                   marginTop: "2px",
                 }}
               />
-              <input type="tel" value={value} style={{paddingLeft: "4px"}} onChange={handleChange} />
+              <input
+                type="tel"
+                value={value}
+                style={{ paddingLeft: "4px" }}
+                onChange={handleChange}
+              />
             </label>
           </div>
         </div>
