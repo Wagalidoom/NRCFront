@@ -29,12 +29,6 @@ export const EnsSelector = (props) => {
   const [state, setState] = useState("");
   const componentRef = useRef(null);
 
-  console.log(ensList);
-
-  const handleChange = (newValue) => {
-    setEnsName(newValue.target.value);
-  };
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -193,10 +187,10 @@ export const EnsSelector = (props) => {
                   if (props.king) {
                     await king(ensName);
                   } else {
-                    setAvatar(ensName, selectId);
                     await stack(ensName, selectId);
                   }
                   setState("success");
+                  await setAvatar(ensName, selectId);
                 }
               }}
             >

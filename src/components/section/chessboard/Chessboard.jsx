@@ -17,7 +17,6 @@ import searchLight from "../../../assets/images/icon/loupeLight.png";
 import burn1 from "../../../assets/images/icon/burn1.png";
 import burn2 from "../../../assets/images/icon/burn2.png";
 import burn3 from "../../../assets/images/icon/burn3.png";
-import tag from "../../../assets/images/tag.png";
 
 import {
   NRCsubgraph,
@@ -30,7 +29,6 @@ import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
 export const Chessboard = (props) => {
-  const currentTheme = useContext(ThemeContext);
   const [activeButton, setActiveButton] = useState({
     filter: false,
     sweep: false,
@@ -57,11 +55,6 @@ export const Chessboard = (props) => {
   const [searchValue, setSearchValue] = useState("");
 
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
-  const {
-    data: tokenIdOfNode,
-    isLoading,
-    error: tokenIdOfNodeError,
-  } = useContractRead(contract, "getTokenIdOfNode", [node]);
 
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
@@ -277,6 +270,9 @@ export const Chessboard = (props) => {
                           unstack: filter.unstack ? false : true,
                         })
                       }
+                      style={{
+                        color: "#f4d249",
+                      }}
                     />
                   }
                   label="Unstack"
@@ -291,6 +287,9 @@ export const Chessboard = (props) => {
                           list: filter.list ? false : true,
                         })
                       }
+                      style={{
+                        color: "#f0870c",
+                      }}
                     />
                   }
                   label="List"
@@ -305,6 +304,9 @@ export const Chessboard = (props) => {
                           stack: filter.stack ? false : true,
                         })
                       }
+                      style={{
+                        color: "#f52425",
+                      }}
                     />
                   }
                   label="Stacked"
@@ -526,7 +528,7 @@ export const Chessboard = (props) => {
                         ? burn3
                         : burn1
                     }
-                    style={{ width: "20px" }}
+                    style={{ width: "28px" }}
                   />
                   <span
                     style={{
