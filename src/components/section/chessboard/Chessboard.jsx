@@ -516,7 +516,7 @@ export const Chessboard = (props) => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    padding: "3px 0",
+                    padding: "8px 0",
                     boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
                   }}
                 >
@@ -528,17 +528,17 @@ export const Chessboard = (props) => {
                         ? burn3
                         : burn1
                     }
-                    style={{ width: "28px" }}
+                    style={{ width: "18px",marginRight: "8px" }}
                   />
                   <span
                     style={{
                       fontWeight: "bold",
                       marginLeft: "4px",
                       color: element.isListed
-                        ? "rgb(245, 158, 11)"
+                        ? "#f0870c"
                         : element.isStacked
-                        ? "rgb(204, 80, 55)"
-                        : "rgb(29, 155, 240)",
+                        ? "#f52425"
+                        : "#f4d249",
                     }}
                   >
                     {Number(element.price).toFixed(2)}
