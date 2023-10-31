@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.91";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.93";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x999e4f4830cE7EB7FcF3EA270edCdc6Bc768EeCB";
+export const contractAddress = "0x4C0F1804C600A5c52f374C6C6dCa9F70dbd37eD2";
 
 const EthereumContext = createContext(null);
 
@@ -225,7 +225,7 @@ export function EthereumProvider({ children }) {
       args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens)],
       overrides: {
         value: Number(kingPrice.toNumber().toFixed(0)) + 10,
-        gasLimit: 150000,
+        gasLimit: 200000,
       },
     });
   };

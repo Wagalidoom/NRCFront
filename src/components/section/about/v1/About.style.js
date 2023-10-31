@@ -287,9 +287,6 @@ font-style: normal;
     width:600px;
     width:inherit;
 }
-.list > li:last-child{
-  padding :12px 14px;
-}
 
 .list > li{
     padding:4px 16px;

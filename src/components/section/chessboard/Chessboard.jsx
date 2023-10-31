@@ -528,9 +528,9 @@ export const Chessboard = (props) => {
                         ? burn3
                         : burn1
                     }
-                    style={{ width: "18px",marginRight: "8px" }}
+                    style={{ width: "18px" }}
                   />
-                  <span
+                  <p
                     style={{
                       fontWeight: "bold",
                       marginLeft: "4px",
@@ -542,7 +542,7 @@ export const Chessboard = (props) => {
                     }}
                   >
                     {Number(element.price).toFixed(2)}
-                  </span>
+                  </p>
                 </div>
               </ToolBar>
             </div>

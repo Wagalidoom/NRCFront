@@ -43,8 +43,7 @@ import NavWrapper from "../components/section/header/v1/Header.style";
 import epingle from "../assets/images/epingle.png";
 import emojiThread from "../assets/images/emojiThread.png";
 import ens from "../assets/images/ens.jpg";
-import groupe from "../assets/images/groupe.png";
-import coffre from "../assets/images/coffre.png";
+import groupe from "../assets/images/groupe.JPEG";
 import retweet from "../assets/images/retweet.png";
 import pawnLogo from "../assets/images/themeSombre/pawn.png";
 import bannerPawn from "../assets/images/banniere/pion.gif";
@@ -178,7 +177,7 @@ const HomeV1 = () => {
         setEnsName(name);
         const url = await getEnsProfilePicture(name);
         const prefix =
-          "eip155:1/erc721:0x999e4f4830cE7EB7FcF3EA270edCdc6Bc768EeCB/";
+          "eip155:1/erc721:0x4C0F1804C600A5c52f374C6C6dCa9F70dbd37eD2/";
         if (url) {
           if (url.startsWith(prefix)) {
             const tokenId = url.slice(prefix.length);
@@ -1558,9 +1557,8 @@ const HomeV1 = () => {
                         - 999Club, 10kClub and 100kClub holders
                         <br />
                         <br />
-                        They share 65% of the transaction fees, but the rate
-                        gradually decreases to 5% once the special NFTs have all
-                        been minted.
+                        They share 100% of the transaction fees, but the rate
+                        gradually decreases to 40% as new categories of NFT has been stacked.
                         <br />
                         <br />
                         - Sales tax: 20% (50% Holders | 50% Pool)
@@ -1625,7 +1623,7 @@ const HomeV1 = () => {
                         - 999Club holders
                         <br />
                         <br />
-                        The two kings share 35% of the transaction fee.
+                        The two kings share 20% of the transaction fee.
                         <br />
                         <br />
                         - Sales tax: 20% (50% Holders | 50% Pool)
@@ -1791,7 +1789,7 @@ const HomeV1 = () => {
                         stack the Knight.
                         <br />
                         <br />
-                        The Knights share 12.5% of the transaction fee.
+                        The Knights share 10% of the transaction fees.
                         <br />
                         <br />
                         - Sales tax: 20% (50% Holders | 50% Pool)
@@ -1856,7 +1854,7 @@ const HomeV1 = () => {
                         palindrome to stack the Rook.
                         <br />
                         <br />
-                        The Rooks share 15% of the transaction fees.
+                        The Rooks share 10% of the transaction fees.
                         <br />
                         <br />
                         - Sales tax: 20% (50% Holders | 50% Pool)
@@ -1921,7 +1919,7 @@ const HomeV1 = () => {
                         Queen.
                         <br />
                         <br />
-                        The Queens share 22.5% of the transaction fees.
+                        The Queens share 10% of the transaction fees.
                         <br />
                         <br />
                         - Sales tax: 20% (50% Holders | 50% Pool)
@@ -2149,22 +2147,24 @@ const HomeV1 = () => {
                         <u>Burning options on chessboard:</u>
                         <br />
                         <br />
+                        <strong>When all NFTS are minted</strong>
+                        <br />
+                        <br />
                         <strong>
-                          - NFT unstacked | When all NFTs are minted:
+                          - NFT unstacked :
                         </strong>
                         <br />
                         0.1eth + 10% of the rewards for the burner
                         <br />
                         <br />
                         <strong>
-                          - NFT listed | When all NFTs are minted:
+                          - NFT listed :
                         </strong>
                         <br /> 0.2eth + 10% of the rewards for the burner
                         <br />
                         <br />
                         <strong>
-                          - NFT stacked with a 100kClub | When all NFTs minted
-                          AND the supply is less than 4000 NFTs:
+                          - NFT stacked with a 100kClub :
                         </strong>
                         <br /> 0.3eth + 10% of the rewards for the burner
                         <br />
@@ -2820,7 +2820,7 @@ const HomeV1 = () => {
                   active={linkProfile === "graal" ? true : false}
                   onClick={() => changePageProfile("graal")}
                 >
-                  Graal
+                  Graals
                   {linkProfile === "graal" && (
                     <div className="barreBleuMarket"></div>
                   )}

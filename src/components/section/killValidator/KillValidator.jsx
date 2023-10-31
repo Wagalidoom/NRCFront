@@ -51,10 +51,19 @@ export const KillValidator = () => {
             style={{
               display: "flex",
               padding: "15px",
+              flexDirection: "column",
+              justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <ReportGmailerrorredIcon style={{ marginRight: "5px" }} />
+            <ReportGmailerrorredIcon
+              style={{
+                margin: "10px 0 20px 0",
+                width: "35px",
+                height: "35px",
+                color: "#cc5037",
+              }}
+            />
             This nft cannot be access anymore!
             <div
               style={{

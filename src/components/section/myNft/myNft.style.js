@@ -301,26 +301,27 @@ export const ToolBar = styled.div`
     background: #1d9bf0;
     border: solid 2px #1d9bf0;
     border-radius: 5px;
+    height: 30px;
     color: white;
-    font-size: 12px;
+    font-size: 14px;
     cursor: default;
     text-transform: none;
-    padding: 3px 3px !important;
     line-height: 16px;
   }
 
   .buy-action:hover {
-    background: none;
-    border: solid 2px #1d9bf0;
+    background: #1d9bf0;
+    border: solid 2px white;
   }
 
   .unlist-action {
     background: #cc5037;
     border: solid 2px #cc5037;
     border-radius: 5px;
+    height: 30px;
     text-transform: none;
     color: white;
-    font-size: 12px;
+    font-size: 14px;
     cursor: default;
     padding: 3px 3px !important;
     line-height: 16px;

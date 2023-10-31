@@ -14,8 +14,7 @@ import { ThemeContext } from "../../../app/App";
 import { useContext, useEffect, useRef, useState } from "react";
 import eth from "../../../assets/images/eth.png";
 import ethDark from "../../../assets/images/ethDark.png";
-import nftDark from "../../../assets/images/icon/nftDark.png";
-import nftLight from "../../../assets/images/icon/nftLight.png";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
 import sweepDark from "../../../assets/images/icon/balaisDark.png";
@@ -341,8 +340,7 @@ export const MyNft = (props) => {
               price: 0,
               share: newShare.toNumber(),
               rewards:
-                (newShare.plus(unclaimedRewards).toNumber() * 10000) /
-                10 ** 18,
+                (newShare.plus(unclaimedRewards).toNumber() * 10000) / 10 ** 18,
               owner: fetchOwned[0].owner,
               type: nftType,
               color: fetchOwned[0].id % 2 === 0 ? 1 : 2,
@@ -774,8 +772,23 @@ export const MyNft = (props) => {
                   alt=""
                   src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
                 />
+
                 {element.isStacked ? (
-                  <p className="ensName">{element.ensName}</p>
+                  <>
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        backgroundColor: "rgb(29, 155, 240)",
+                        borderBottomRightRadius: "8px",
+                        padding: "5px 22px",
+                      }}
+                    >
+                      <AccessAlarmIcon style={{ marginRight: "10px" }} />
+                      100 D
+                    </div>
+                    <p className="ensName">{element.ensName}</p>
+                  </>
                 ) : null}
                 <ToolBar
                   market={props.market}
@@ -911,8 +924,14 @@ export const MyNft = (props) => {
                           alt=""
                           style={{ height: "18px", marginBottom: "2px" }}
                           src={props.theme === "Dark Theme" ? eth : ethDark}
-                        />{" "}
-                        <span>{(element.price / 10 ** 18).toString()}</span>
+                        />
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {(element.price / 10 ** 18).toString()}
+                        </p>
                       </div>
                     ) : (
                       <div>

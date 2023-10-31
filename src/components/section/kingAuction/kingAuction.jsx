@@ -74,7 +74,9 @@ export const KingAuction = (props) => {
         console.log(error);
       }
 
-      setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+      if (fetchKing[0].ensName) {
+        setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+      }
 
       NRCquery = `
       {
@@ -92,7 +94,9 @@ export const KingAuction = (props) => {
         console.log(error);
       }
 
-      setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+      if (fetchKing[0].ensName) {
+        setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+      }
     };
 
     fetchNames();
@@ -418,7 +422,7 @@ export const KingAuction = (props) => {
               <input
                 type="tel"
                 value={value}
-                style={{ paddingLeft: "4px" }}
+                style={{ paddingLeft: "8px" }}
                 onChange={handleChange}
               />
             </label>

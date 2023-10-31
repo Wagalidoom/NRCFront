@@ -99,7 +99,6 @@ export const Mint = () => {
                   width: "50px",
                   border: "none",
                   borderRadius: "5px",
-                  fontWeight: "bold",
                   paddingLeft: "15px",
                 }}
               />

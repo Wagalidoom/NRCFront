@@ -253,7 +253,8 @@ border-bottom-right-radius:5px;
     border: solid 2px #cc5037;
     border-radius:5px;
     color:white;
-    font-size:12px;
+    font-size:14px;
+    height: 30px;
     cursor:default;
     text-transform: none;
     padding:3px 3px!important;
@@ -261,8 +262,8 @@ border-bottom-right-radius:5px;
 }
 
 .buy-action:hover{
-    background: none;
-    border: solid 2px #cc5037;
+    background: #cc5037;
+    border: solid 2px white;
 }
 
 .price{
