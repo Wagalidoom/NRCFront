@@ -110,13 +110,15 @@ export const BannerV1Wrapper = styled.section`
 
   .tw-connected-wallet {
     padding: 0;
-    border: 5px solid
-      ${(props) =>
-        props.theme.name === "Dark Theme" ? "black" : "rgb(239, 243, 244)"};
   }
 
-  .connectionButton .tw-connected-wallet {
-    background-color: rgba(0, 0, 0, 0) !important;
+  .connectionButton.tw-connected-wallet {
+    border: 2px solid;
+    border-color: ${(props) =>
+      props.theme.name === "Light Theme"
+        ? "rgb(21, 32, 43)"
+        : "rgb(83, 100, 113)"};
+    background: none!important;
   }
 
   .tw-connected-wallet__balance {
