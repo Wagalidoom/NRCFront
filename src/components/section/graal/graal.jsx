@@ -11,7 +11,9 @@ import {
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 import Axios from "axios";
-import { isClub, stringToHex } from "../../../helper";
+import { isClub } from "../../../helper";
+import ReactLoading from "react-loading";
+import { Button } from "@mui/material";
 const namehash = require("eth-ens-namehash");
 
 export const Graal = (props) => {
@@ -31,7 +33,9 @@ export const Graal = (props) => {
   const [node, setNode] = useState(
     "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
-  const { address, mintSpecial } = useEthereum();
+  const [state, setState] = useState("");
+  const [active, setActive] = useState("");
+  const { address, mintSpecial, mintLoading } = useEthereum();
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const { data: burnCount, error: burnCountError } = useContractRead(
     contract,
@@ -96,7 +100,6 @@ export const Graal = (props) => {
       try {
         await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
           userOwnedENS = Object.values(result.data.data)[0];
-          // console.log(userOwnedENS);
         });
       } catch (error) {
         console.log(error);
@@ -140,13 +143,11 @@ export const Graal = (props) => {
         console.log(error);
       }
       if (mintCount) {
-      const filteredMintCount = mintCount.filter((nft) => {
-        const id = parseInt(nft.id);
-        return id >= props.data.inf && id <= props.data.sup;
-      });
-
-      console.log(filteredMintCount);
-      setCount(filteredMintCount.length);
+        const filteredMintCount = mintCount.filter((nft) => {
+          const id = parseInt(nft.id);
+          return id >= props.data.inf && id <= props.data.sup;
+        });
+        setCount(filteredMintCount.length);
       }
     };
 
@@ -199,17 +200,34 @@ export const Graal = (props) => {
           {count}/{props.data.supply}
         </div>
         <div className="graal-action">
-          <button
+          <Button
             className="bigButton"
-            onClick={() => {
+            style={{ textTransform: "none" }}
+            onClick={async () => {
               if (stack && burn) {
-                console.log(stackedId);
-                mintSpecial(props.data.type, stackedId);
+                setActive(props.data.name);
+                await mintSpecial(props.data.type, stackedId);
+                setState("success");
               }
             }}
           >
-            Mint
-          </button>
+            {mintLoading && (active == props.data.name) ? (
+              <ReactLoading
+                className="spin"
+                type={"spin"}
+                color={"rgb(29, 155, 240)"}
+                height={22}
+                width={22}
+              />
+            ) : state === "success" && (active == props.data.name) ? (
+              <img
+                style={{ width: "18px", marginRight: "8px" }}
+                src={validate}
+              />
+            ) : (
+              <>Mint</>
+            )}
+          </Button>
         </div>
       </div>
       <div className="graal-desc">
@@ -217,13 +235,13 @@ export const Graal = (props) => {
           <div>
             <img alt="" src={stack ? validate : novalidate} />
           </div>
-          <div style={{wordBreak: "keep-all"}}>{props.data.mint[0].text}</div>
+          <div style={{ wordBreak: "keep-all" }}>{props.data.mint[0].text}</div>
         </div>
         <div className="graal-condition">
           <div>
             <img alt="" src={burn ? validate : novalidate} />
           </div>
-          <div style={{wordBreak: "keep-all"}}>{props.data.mint[1].text}</div>
+          <div style={{ wordBreak: "keep-all" }}>{props.data.mint[1].text}</div>
         </div>
       </div>
     </GraalContainer>

@@ -387,7 +387,7 @@ export const KingAuction = (props) => {
                 height: "28px",
                 border: "2px solid rgb(204, 204, 204)",
                 margin: "14px 0",
-                borderRadius: "0.5em",
+                borderRadius: "5px",
                 width: "200px",
                 display: "flex",
                 justifyContent: "center",
@@ -413,7 +413,6 @@ export const KingAuction = (props) => {
                 src={ethGrey}
                 style={{
                   width: "14px",
-                  zIndex: 30,
                   position: "absolute",
                   marginLeft: "5px",
                   marginTop: "2px",
@@ -422,7 +421,7 @@ export const KingAuction = (props) => {
               <input
                 type="tel"
                 value={value}
-                style={{ paddingLeft: "8px" }}
+                style={{ paddingLeft: "8px", borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
                 onChange={handleChange}
               />
             </label>
