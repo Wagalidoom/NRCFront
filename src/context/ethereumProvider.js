@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { Contract, ethers, providers } from "ethers";
+import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI, RESOLVER_ABI } from "../ressources/abi";
 import {
   useAddress,
@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.93";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.97";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x4C0F1804C600A5c52f374C6C6dCa9F70dbd37eD2";
+export const contractAddress = "0x3608E0F954AdA7298b2581d18774873c2685cd1B";
 
 const EthereumContext = createContext(null);
 
@@ -131,11 +131,6 @@ export function EthereumProvider({ children }) {
     error: buyKingError,
   } = useContractWrite(contract, "buyKing");
 
-  const { mutateAsync: approveCall, error: approveError } = useContractWrite(
-    contract,
-    "approve"
-  );
-
   const {
     mutateAsync: chooseColorCall,
     isLoading: chooseColorLoading,
@@ -174,11 +169,9 @@ export function EthereumProvider({ children }) {
 
   const mint = async (mintCount) => {
     await multiMintCall({
-      args: [mintCount],
+      args: [Number(mintCount)],
       overrides: {
-        value: ethers.utils.parseEther(
-          (mintCount * 0.00002).toFixed(5).toString()
-        ),
+        value: ethers.utils.parseEther(Number(mintCount * 0.00002).toString()),
       },
     });
   };
@@ -247,7 +240,7 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    console.log(_ens, namehash.hash(_ens));
+    console.log(_ens, namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id);
     await stackCall({
       args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id],
     });
@@ -255,7 +248,6 @@ export function EthereumProvider({ children }) {
   };
 
   const setAvatar = async (_ens, _id) => {
-    console.log(contract, resolverContract);
     const avatarRecord = `eip155:1/erc721:${contractAddress}/${selectId}`;
     const tokenURI = await getTokenURI(_id);
     console.log(tokenURI);
@@ -399,6 +391,7 @@ export function EthereumProvider({ children }) {
     multiMintLoading,
     burnLoading,
     stackLoading,
+    setTextLoading,
     unstackLoading,
     listLoading,
     unlistLoading,

@@ -516,7 +516,7 @@ export const Chessboard = (props) => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    padding: "8px 0",
+                    padding: "2px 0",
                     boxShadow: "rgba(0, 0, 0, 0.54) 0px 3px 8px",
                   }}
                 >

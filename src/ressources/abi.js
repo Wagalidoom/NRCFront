@@ -8,6 +8,11 @@ export const NUMBERRUNNERCLUB_ABI = [
 			},
 			{
 				"internalType": "address",
+				"name": "_resolver",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
 				"name": "_baseRegistrar",
 				"type": "address"
 			},
@@ -361,6 +366,12 @@ export const NUMBERRUNNERCLUB_ABI = [
 				"internalType": "bytes32",
 				"name": "ensName",
 				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "expiration",
+				"type": "uint256"
 			}
 		],
 		"name": "NFTStacked",
@@ -551,9 +562,9 @@ export const NUMBERRUNNERCLUB_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint8",
+				"internalType": "uint256",
 				"name": "_n",
-				"type": "uint8"
+				"type": "uint256"
 			}
 		],
 		"name": "multiMint",
@@ -1196,7 +1207,7 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"name": "kingAuction",
 		"outputs": [
 			{
-				"internalType": "contract KingAuction",
+				"internalType": "contract KingAuctionGoerli",
 				"name": "",
 				"type": "address"
 			}
@@ -1335,6 +1346,19 @@ export const NUMBERRUNNERCLUB_ABI = [
 			}
 		],
 		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "resolverAddress",
 		"outputs": [
 			{
 				"internalType": "address",

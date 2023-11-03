@@ -23,6 +23,7 @@ export const EnsSelector = (props) => {
     setIsKingEnsSelectorOpen,
     setAvatar,
     stackLoading,
+    setTextLoading,
     buyKingLoading,
   } = useEthereum();
   const [ensName, setEnsName] = useState("");
@@ -147,7 +148,6 @@ export const EnsSelector = (props) => {
           <div
             style={{
               fontSize: "14px",
-              padding: "0px 15px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -194,7 +194,7 @@ export const EnsSelector = (props) => {
                 }
               }}
             >
-              {stackLoading || buyKingLoading ? (
+              {stackLoading || buyKingLoading || setTextLoading ? (
                 <>
                   <ReactLoading
                     className="spin"
