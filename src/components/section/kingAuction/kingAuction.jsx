@@ -10,7 +10,8 @@ import ethGrey from "../../../assets/images/ethGrey.png";
 import ethDark from "../../../assets/images/ethDark.png";
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { BigNumber, ethers } from "ethers";
+import BigNumber from "bignumber.js";
+import { ethers } from "ethers";
 import {
   contractAddress,
   ETHEREUM_RPC_URL,
@@ -34,6 +35,8 @@ export const KingAuction = (props) => {
   const [blackKingReward, setBlackKingReward] = useState(0);
   const [blackKingName, setBlackKingName] = useState("");
   const [whiteKingName, setWhiteKingName] = useState("");
+  const [blackKingPrice, setBlackKingPrice] = useState(0);
+  const [whiteKingPrice, setWhiteKingPrice] = useState(0);
   const [ensList, setEnsList] = useState("");
   const [isLoadingInference, setIsLoadingInference] = useState(true);
   const [isLoadingPrice, setIsLoadingPrice] = useState(true);
@@ -58,10 +61,14 @@ export const KingAuction = (props) => {
     const fetchNames = async () => {
       let NRCquery = `
       {
-        nfts (where: {id: 0}) {
-          ensName
+        kingBoughts (where: {tokenId: 0}) {
+            id
+            ensName
+            price
+            tokenId
+            blockNumber
+          }
         }
-      }
     `;
 
       let fetchKing;
@@ -74,16 +81,25 @@ export const KingAuction = (props) => {
         console.log(error);
       }
 
-      if (fetchKing[0].ensName) {
+      // if (fetchKing[0].ensName) {
+      //   setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+      // }
+      if (fetchKing.length > 0) {
+        console.log(fetchKing);
+        setBlackKingPrice(fetchKing[0].price);
         setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       }
 
       NRCquery = `
       {
-        nfts (where: {id: 1}) {
-          ensName
+        kingBoughts (where: {tokenId: 1}) {
+            id
+            ensName
+            price
+            tokenId
+            blockNumber
+          }
         }
-      }
     `;
 
       try {
@@ -94,7 +110,11 @@ export const KingAuction = (props) => {
         console.log(error);
       }
 
-      if (fetchKing[0].ensName) {
+      // if (fetchKing[0].ensName) {
+      //   setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+      // }
+      if (fetchKing.length > 0) {
+        setWhiteKingPrice(fetchKing[0].price);
         setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       }
     };
@@ -151,7 +171,6 @@ export const KingAuction = (props) => {
       setStartTime(new Date(block.timestamp * 1000));
       setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
       setIsLoadingInference(false);
-      console.log("ts: ", block.timestamp);
       const contractInstance = new ethers.Contract(
         contractAddress,
         NUMBERRUNNERCLUB_ABI,
@@ -178,28 +197,77 @@ export const KingAuction = (props) => {
 
   useEffect(() => {
     const fetchKingRewards = async () => {
-      const GET_LAST_GLOBAL_SHARES = `
-            {
-                globalSharesUpdateds (first: 1, orderBy: blockNumber, orderDirection: desc) {
-                    id
-                    shares
-                    blockNumber
-                }
+      const GET_TOP_HOLDERS = `
+        {
+            nfts (where: { or: [{share_gt: 0}, {unclaimedRewards_gt: 0}] }) {
+              id
+              share
+              ensName
+              unclaimedRewards
             }
-            `;
+        }
+        `;
+
+      const GET_LAST_GLOBAL_SHARES = `
+        {
+            globalSharesUpdateds (first: 1, orderBy: blockNumber, orderDirection: desc) {
+              id
+              shares
+              blockNumber
+            }
+        }
+        `;
 
       try {
-        const response = await Axios.post(NRCsubgraph, {
+        const responseHolders = await Axios.post(NRCsubgraph, {
+          query: GET_TOP_HOLDERS,
+        });
+        const responseGlobalShares = await Axios.post(NRCsubgraph, {
           query: GET_LAST_GLOBAL_SHARES,
         });
-        const lastGlobalShares =
-          response.data.data.globalSharesUpdateds[0].shares;
-        // Assuming kings share the same rewards
-        const kingRewards =
-          (BigNumber.from(lastGlobalShares[0]).toNumber() / 10 ** 18) * 10000;
 
-        setWhiteKingReward(kingRewards);
-        setBlackKingReward(kingRewards);
+        const topHolders = responseHolders.data.data.nfts;
+        const lastGlobalShares =
+          responseGlobalShares.data.data.globalSharesUpdateds[0].shares;
+
+        topHolders.map((holder) => {
+          if (holder.id === "0") {
+            let unclaimedRewards = holder.unclaimedRewards
+              ? new BigNumber(holder.unclaimedRewards)
+              : new BigNumber(0);
+            let holderSharesTemp = holder.share
+              ? new BigNumber(holder.share)
+              : new BigNumber(0);
+            holder.share =
+              holderSharesTemp.toNumber() > 0
+                ? new BigNumber(lastGlobalShares[0]).minus(holderSharesTemp)
+                : new BigNumber(0);
+
+            setBlackKingReward(
+              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18) * 10000
+            );
+          }
+
+          if (holder.id === "1") {
+            console.log("marge");
+            let unclaimedRewards = holder.unclaimedRewards
+              ? new BigNumber(holder.unclaimedRewards)
+              : new BigNumber(0);
+            let holderSharesTemp = holder.share
+              ? new BigNumber(holder.share)
+              : new BigNumber(0);
+            holder.share =
+              holderSharesTemp.toNumber() > 0
+                ? new BigNumber(lastGlobalShares[0]).minus(holderSharesTemp)
+                : new BigNumber(0);
+
+            setWhiteKingReward(
+              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18) * 10000
+            );
+          }
+
+          console.log(holder);
+        });
       } catch (error) {
         console.error(error);
       }
@@ -216,7 +284,7 @@ export const KingAuction = (props) => {
       </div>
       <div className="container-nft">
         <div className="myNft">
-          {blackKingName ? (
+          {blackKingPrice ? (
             <div
               style={{
                 position: "absolute",
@@ -224,11 +292,16 @@ export const KingAuction = (props) => {
                 width: "100%",
                 height: "100%",
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              Owned by : {blackKingName}
+              <p>Purchased by : {blackKingName}</p>
+              <p>
+                <img style={{ width: "14px", marginRight: "4px" }} src={eth} />
+                {blackKingName}
+              </p>
             </div>
           ) : (
             <></>
@@ -276,7 +349,7 @@ export const KingAuction = (props) => {
           </div>
         </div>
         <div className="myNft">
-          {whiteKingName ? (
+          {whiteKingPrice ? (
             <div
               style={{
                 position: "absolute",
@@ -284,11 +357,16 @@ export const KingAuction = (props) => {
                 width: "100%",
                 height: "100%",
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              Owned by : {whiteKingName}
+              <p>Purchased by : {whiteKingName}</p>
+              <p>
+                <img style={{ width: "14px", marginRight: "4px" }} src={eth} />
+                {whiteKingPrice}
+              </p>
             </div>
           ) : (
             <></>
@@ -421,7 +499,11 @@ export const KingAuction = (props) => {
               <input
                 type="tel"
                 value={value}
-                style={{ paddingLeft: "8px", borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+                style={{
+                  paddingLeft: "8px",
+                  borderTopLeftRadius: 0,
+                  borderBottomLeftRadius: 0,
+                }}
                 onChange={handleChange}
               />
             </label>

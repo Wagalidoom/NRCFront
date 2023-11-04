@@ -176,8 +176,7 @@ const HomeV1 = () => {
       if (name) {
         setEnsName(name);
         const url = await getEnsProfilePicture(name);
-        const prefix =
-          "eip155:1/erc721:0x3608E0F954AdA7298b2581d18774873c2685cd1B/";
+        const prefix = "eip155:1/erc721:" + contractAddress + "/";
         if (url) {
           if (url.startsWith(prefix)) {
             const tokenId = url.slice(prefix.length);
@@ -1558,7 +1557,8 @@ const HomeV1 = () => {
                         <br />
                         <br />
                         They share 100% of the transaction fees, but the rate
-                        gradually decreases to 40% as new categories of NFT has been stacked.
+                        gradually decreases to 40% as new categories of NFT has
+                        been stacked.
                         <br />
                         <br />
                         - Sales tax: 20% (50% Holders | 50% Pool)
@@ -1721,7 +1721,8 @@ const HomeV1 = () => {
                         <strong>How do you stack a Bishop ?</strong>
                         <br />
                         <br />
-                        Have a domain name available of 999Club or 10kClub to stack the Bishop.
+                        Have a domain name available of 999Club or 10kClub to
+                        stack the Bishop.
                         <br />
                         <br />
                         The Bishops share 10% of the transaction fees.
@@ -1933,12 +1934,6 @@ const HomeV1 = () => {
               )}
               {thread !== "open" && faq !== "open" && (
                 <div className="text-content">
-                  <div>
-                    <div className="retweet">
-                      <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong>Number Runner Club has reposted</strong>
-                    </div>
-                  </div>
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">
@@ -1993,12 +1988,6 @@ const HomeV1 = () => {
               )}
               {thread !== "open" && faq !== "open" && (
                 <div className="text-content">
-                  <div>
-                    <div className="retweet">
-                      <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong>Number Runner Club has reposted</strong>
-                    </div>
-                  </div>
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">
@@ -2045,12 +2034,6 @@ const HomeV1 = () => {
               )}
               {thread !== "open" && faq !== "open" && (
                 <div className="text-content">
-                  <div>
-                    <div className="retweet">
-                      <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong>Number Runner Club has reposted</strong>
-                    </div>
-                  </div>
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">
@@ -2105,12 +2088,6 @@ const HomeV1 = () => {
               )}
               {thread !== "open" && faq !== "open" && (
                 <div className="text-content">
-                  <div>
-                    <div className="retweet">
-                      <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong>Number Runner Club has reposted</strong>
-                    </div>
-                  </div>
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">
@@ -2149,22 +2126,16 @@ const HomeV1 = () => {
                         <strong>When all NFTS are minted;</strong>
                         <br />
                         <br />
-                        <strong>
-                          - NFT unstacked:
-                        </strong>
+                        <strong>- NFT unstacked:</strong>
                         <br />
                         0.1eth + 10% of the rewards for the burner
                         <br />
                         <br />
-                        <strong>
-                          - NFT listed:
-                        </strong>
+                        <strong>- NFT listed:</strong>
                         <br /> 0.2eth + 10% of the rewards for the burner
                         <br />
                         <br />
-                        <strong>
-                          - NFT stacked with a 100kClub:
-                        </strong>
+                        <strong>- NFT stacked with a 100kClub:</strong>
                         <br /> 0.3eth + 10% of the rewards for the burner
                         <br />
                         <br />
@@ -2184,12 +2155,6 @@ const HomeV1 = () => {
               )}
               {thread !== "open" && faq !== "open" && (
                 <div className="text-content">
-                  <div>
-                    <div className="retweet">
-                      <img src={retweet} className="retweetImg" alt="" />{" "}
-                      <strong>Number Runner Club has reposted</strong>
-                    </div>
-                  </div>
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">

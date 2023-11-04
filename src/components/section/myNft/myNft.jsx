@@ -919,7 +919,7 @@ export const MyNft = (props) => {
                     }}
                   >
                     {props.market ? (
-                      <div>
+                      <>
                         <img
                           alt=""
                           style={{ height: "18px", marginBottom: "2px" }}
@@ -932,9 +932,9 @@ export const MyNft = (props) => {
                         >
                           {(element.price / 10 ** 18).toString()}
                         </p>
-                      </div>
+                      </>
                     ) : (
-                      <div>
+                      <>
                         <img
                           style={{ height: "14px", marginBottom: "2px" }}
                           src={
@@ -948,7 +948,7 @@ export const MyNft = (props) => {
                             ? element.rewards
                             : element.rewards.toFixed(5)}
                         </span>
-                      </div>
+                      </>
                     )}
                   </div>
                   {modalOpen === index + 1 && isOpen && (

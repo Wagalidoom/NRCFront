@@ -13,12 +13,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.4.97";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.02";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x3608E0F954AdA7298b2581d18774873c2685cd1B";
+export const contractAddress = "0x68Eaa5ecF7015bD2E7a5fb12378edE64Bf5f760B";
 
 const EthereumContext = createContext(null);
 
@@ -171,7 +171,7 @@ export function EthereumProvider({ children }) {
     await multiMintCall({
       args: [Number(mintCount)],
       overrides: {
-        value: ethers.utils.parseEther(Number(mintCount * 0.00002).toString()),
+        value: ethers.utils.parseEther(Number(mintCount * 0.00002).toFixed(5).toString()),
       },
     });
   };
@@ -274,7 +274,7 @@ export function EthereumProvider({ children }) {
     const reveal = await revealKingHandCall({
       args: [_id],
       overrides: {
-        value: ethers.utils.parseEther("0.01"),
+        value: ethers.utils.parseEther("0.0000001"),
       },
     });
     if (
