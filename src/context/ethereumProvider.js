@@ -10,15 +10,16 @@ import {
 const namehash = require("eth-ens-namehash");
 
 export const ETHEREUM_RPC_URL =
-  "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
+  "https://eth-mainnet.g.alchemy.com/v2/vewv4I9vmHpc6yMtiIuZCywz2wpER6qj";
+// "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.02";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.0.0";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x68Eaa5ecF7015bD2E7a5fb12378edE64Bf5f760B";
+export const contractAddress = "";
 
 const EthereumContext = createContext(null);
 
@@ -41,11 +42,13 @@ export function EthereumProvider({ children }) {
   const [isKingHand, setIsKingHand] = useState(false);
 
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
-  const generalContract = new ethers.Contract(
-    contractAddress,
-    NUMBERRUNNERCLUB_ABI,
-    generalProvider
-  );
+  const generalContract = contractAddress
+    ? new ethers.Contract(
+        contractAddress,
+        NUMBERRUNNERCLUB_ABI,
+        generalProvider
+      )
+    : null;
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const { contract: resolverContract } = useContract(
     "0xd7a4F6473f32aC2Af804B3686AE8F1932bC35750",
@@ -168,12 +171,18 @@ export function EthereumProvider({ children }) {
   };
 
   const mint = async (mintCount) => {
-    await multiMintCall({
-      args: [Number(mintCount)],
-      overrides: {
-        value: ethers.utils.parseEther(Number(mintCount * 0.00002).toFixed(5).toString()),
-      },
-    });
+    if (contractAddress) {
+      await multiMintCall({
+        args: [Number(mintCount)],
+        overrides: {
+          value: ethers.utils.parseEther(
+            Number(mintCount * 0.0000005)
+              .toFixed(5)
+              .toString()
+          ),
+        },
+      });
+    }
   };
 
   const sweep = async (_list, _price) => {
@@ -207,7 +216,7 @@ export function EthereumProvider({ children }) {
     await mintCall({
       args: [type, stackedId],
       overrides: {
-        value: ethers.utils.parseEther("0.00002"),
+        value: ethers.utils.parseEther("0.0000005"),
       },
     });
   };
@@ -240,9 +249,15 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    console.log(_ens, namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id);
+    console.log(
+      _ens,
+      namehash.hash(_ens),
+      ethers.BigNumber.from(ethers.utils.namehash(_ens)).toString(),
+      ethers.utils.formatBytes32String(_ens),
+      _id
+    );
     await stackCall({
-      args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens), _id],
+      args: [ethers.utils.formatBytes32String(_ens.replace(".eth", "")), _id],
     });
     setSelectId(null);
   };
@@ -274,7 +289,7 @@ export function EthereumProvider({ children }) {
     const reveal = await revealKingHandCall({
       args: [_id],
       overrides: {
-        value: ethers.utils.parseEther("0.0000001"),
+        value: ethers.utils.parseEther("0.00000001"),
       },
     });
     if (
@@ -297,45 +312,66 @@ export function EthereumProvider({ children }) {
   };
 
   const buyKing = async (_list) => {
-    if (address) {
-      setEnsList(_list);
-      if (userColor === 0) {
-        setIsKingColorPickerOpen(true);
-      } else {
-        if (userColor === 2) setSelectId(1);
-        setIsKingEnsSelectorOpen(true);
+    if (contractAddress) {
+      if (address) {
+        setEnsList(_list);
+        if (userColor === 0) {
+          setIsKingColorPickerOpen(true);
+        } else {
+          if (userColor === 2) setSelectId(1);
+          setIsKingEnsSelectorOpen(true);
+        }
       }
     }
   };
 
   const mintPawn = async () => {
-    if (address) {
-      if (userColor === 0) {
-        setIsMintColorPickerOpen(true);
-        console.log("display choose color component");
-      } else {
-        setIsMintOpen(true);
+    if (contractAddress) {
+      if (address) {
+        if (userColor === 0) {
+          setIsMintColorPickerOpen(true);
+          console.log("display choose color component");
+        } else {
+          setIsMintOpen(true);
+        }
       }
     }
   };
 
   const getTotalMinted = async () => {
-    const total = await generalContract.getTotalMinted();
+    let total = 0;
+    try {
+      total = await generalContract.getTotalMinted();
+    } catch (e) {
+      console.log(e);
+    }
     return total;
   };
 
   const getCurrentSupply = async () => {
-    const currentSupply = await generalContract.getCurrentSupply();
+    let currentSupply = 0;
+    try {
+      currentSupply = await generalContract.getCurrentSupply();
+    } catch (e) {
+      console.log(e);
+    }
     return currentSupply;
   };
 
   const getVolume = async () => {
-    const volume = await generalProvider.getBalance(contractAddress);
+    const volume = contract
+      ? await generalProvider.getBalance(contractAddress)
+      : 0;
     return volume * 10000;
   };
 
   const getPrizePool = async () => {
-    const prizePool = await generalContract.getPrizePool();
+    let prizePool = 0;
+    try {
+      prizePool = await generalContract.getPrizePool();
+    } catch (e) {
+      console.log(e);
+    }
     return prizePool * 10000;
   };
 

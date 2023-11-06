@@ -68,7 +68,6 @@ export const MyNft = (props) => {
   const [selected, setSelected] = useState(true);
   const [open, setOpen] = useState(false);
   const {
-    mintPawn,
     validateBurn,
     unstack,
     unlistNFT,
@@ -298,6 +297,7 @@ export const MyNft = (props) => {
               id
               owner
               ensName
+              expiration
               share
               unclaimedRewards
               listed
@@ -337,6 +337,7 @@ export const MyNft = (props) => {
               isStacked: true,
               isListed: false,
               ensName: domain.name,
+              expiration: fetchOwned[0].expiration,
               price: 0,
               share: newShare.toNumber(),
               rewards:
@@ -785,7 +786,7 @@ export const MyNft = (props) => {
                       }}
                     >
                       <AccessAlarmIcon style={{ marginRight: "10px" }} />
-                      100 D
+                      {element.expiration} D
                     </div>
                     <p className="ensName">{element.ensName}</p>
                   </>

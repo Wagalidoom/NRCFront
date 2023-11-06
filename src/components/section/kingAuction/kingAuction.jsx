@@ -84,7 +84,7 @@ export const KingAuction = (props) => {
       // if (fetchKing[0].ensName) {
       //   setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       // }
-      if (fetchKing.length > 0) {
+      if (fetchKing) {
         console.log(fetchKing);
         setBlackKingPrice(fetchKing[0].price);
         setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
@@ -113,7 +113,7 @@ export const KingAuction = (props) => {
       // if (fetchKing[0].ensName) {
       //   setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       // }
-      if (fetchKing.length > 0) {
+      if (fetchKing > 0) {
         setWhiteKingPrice(fetchKing[0].price);
         setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       }
@@ -167,23 +167,33 @@ export const KingAuction = (props) => {
       const transaction = await provider.getTransaction(
         "0x5c701b641e0ffa580537b15fcfb7032dbf9f4a4c9799bdb255af2d2659e5da84"
       );
-      const block = await provider.getBlock(transaction.blockNumber);
-      setStartTime(new Date(block.timestamp * 1000));
-      setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
+      if(transaction){
+        const block = await provider.getBlock(transaction.blockNumber);
+        setStartTime(new Date(block.timestamp * 1000));
+        setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
+      }
+      else {
+        setStartTime(new Date());
+        setEndTime(new Date());
+      }
       setIsLoadingInference(false);
       const contractInstance = new ethers.Contract(
         contractAddress,
         NUMBERRUNNERCLUB_ABI,
         provider
       );
+      if(contractAddress){
       const priceToPayBigNumber = ethers.BigNumber.from(
         await contractInstance.getCurrentPrice()
       );
-
       const priceToPay = priceToPayBigNumber.toString();
-
       setPrice(priceToPay);
+      }
+      else {
+        setPrice(20000);
+      }
       setIsLoadingPrice(false);
+
     };
 
     const interval = setInterval(() => {
@@ -244,7 +254,8 @@ export const KingAuction = (props) => {
                 : new BigNumber(0);
 
             setBlackKingReward(
-              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18) * 10000
+              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18) *
+                10000
             );
           }
 
@@ -262,7 +273,8 @@ export const KingAuction = (props) => {
                 : new BigNumber(0);
 
             setWhiteKingReward(
-              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18) * 10000
+              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18) *
+                10000
             );
           }
 
@@ -273,7 +285,6 @@ export const KingAuction = (props) => {
       }
     };
 
-    // Call function to get rewards
     fetchKingRewards();
   }, []);
 
@@ -501,6 +512,7 @@ export const KingAuction = (props) => {
                 value={value}
                 style={{
                   paddingLeft: "8px",
+                  width: "170px",
                   borderTopLeftRadius: 0,
                   borderBottomLeftRadius: 0,
                 }}

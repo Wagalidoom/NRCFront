@@ -29,7 +29,7 @@ function App() {
         rpcUrl: ETHEREUM_RPC_URL,
         chainId: 5,
       },
-    }} activeChain={{...Goerli}} supportedChains={[Goerli]} supportedWallets={[
+    }} activeChain={{...Ethereum}} supportedChains={[Ethereum]} supportedWallets={[
         metamaskWallet(),
         coinbaseWallet(),
         walletConnect({

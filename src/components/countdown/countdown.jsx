@@ -5,7 +5,7 @@ import { HashLoader } from "react-spinners";
 
 export const Countdown = (props) => {
   const [countdown, setCountdown] = useState({
-    days: 0,
+    days: 21,
     hours: 0,
     minutes: 0,
     seconds: 0,
@@ -19,7 +19,7 @@ export const Countdown = (props) => {
       if (now.isAfter(targetDate)) {
         clearInterval(interval);
         setCountdown({
-          days: 0,
+          days: 21,
           hours: 0,
           minutes: 0,
           seconds: 0,
@@ -39,7 +39,7 @@ export const Countdown = (props) => {
           !isNaN(minutes) &&
           !isNaN(seconds)
         ) {
-          setCountdown({ days, hours, minutes, seconds });
+          setCountdown({ days: 21, hours, minutes, seconds });
           setLoading(false);
         }
       }

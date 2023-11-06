@@ -66,7 +66,6 @@ import duo2 from "../assets/images/duo2.png";
 import horloge from "../assets/images/horloge.png";
 import faqGif from "../assets/images/faq.png";
 import contrat from "../assets/images/contrat.png";
-import discord from "../assets/images/discord.jpg";
 import tag from "../assets/images/tag.png";
 import pawn5185 from "../assets/images/5185.png";
 import soldat from "../assets/images/soldat.png";
@@ -113,7 +112,6 @@ const HomeV1 = () => {
   const [linkProfile, changePageLinkProfile] = useState(true);
   const [thread, threadLink] = useState(true);
   const [faq, faqLink] = useState(true);
-  const [mobile, changeMobile] = useState(true);
   const [gasPrice, setGasPrice] = useState(0);
   const [hashtag, setHashTag] = useState("Club");
   const currentTheme = useContext(ThemeContext);
@@ -200,7 +198,9 @@ const HomeV1 = () => {
     const tokenId = Number(tokenIdOfNode);
     const nftType = getNftType(tokenId);
     const club = nftTypeToString(nftType);
-    setHashTag("@NR" + club);
+    console.log(tokenId);
+    tokenId ? setHashTag("@NR" + club) : setHashTag("@TheNRClub");
+    
   }, [tokenIdOfNode]);
 
   useEffect(() => {
@@ -282,22 +282,6 @@ const HomeV1 = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const m = (v1, v2) => {
-    if (
-      navigator.userAgent.match(/iPhone/i) ||
-      navigator.userAgent.match(/webOS/i) ||
-      navigator.userAgent.match(/Android/i) ||
-      navigator.userAgent.match(/iPad/i) ||
-      navigator.userAgent.match(/iPod/i) ||
-      navigator.userAgent.match(/BlackBerry/i) ||
-      navigator.userAgent.match(/Windows Phone/i)
-    ) {
-      changeMobile(v1);
-    } else {
-      changeMobile(v2);
-    }
-  };
-
   const openMore = (value, position) => {
     setPosScroll(position);
     setMore(value);
@@ -336,7 +320,6 @@ const HomeV1 = () => {
           theme={currentTheme.theme.name}
         />
         <div
-          onLoad={() => m("yes", "no")}
           style={{
             position: "fixed",
             bottom:
@@ -599,7 +582,7 @@ const HomeV1 = () => {
                   | No Royalties* |
                 </div>
                 <div className="text" style={{ position: "relative" }}>
-                  Join the NFTYChat{" "}
+                  For more information{" "}
                   <img
                     src={emojiDoigt}
                     style={{
@@ -626,10 +609,10 @@ const HomeV1 = () => {
                     alt=""
                   />
                   <a
-                    href="https://nftychat.xyz/"
+                    href=""
                     style={{ color: "rgb(29, 155, 240)" }}
                   >
-                    nftychat.xyz
+                    available soon
                   </a>
                   <div style={{ marginTop: "14px" }}>
                     <img
@@ -2372,10 +2355,10 @@ const HomeV1 = () => {
                             </strong>
                             <br />
                             <br />
-                            The mint of a Number Runner is at 0,2 eth :<br />
-                            - 0.1 eth is redistributed to holders (50% Holders |
+                            The mint of a Number Runner is at 0,1 eth :<br />
+                            - 0.05 eth is redistributed to holders (50% Holders |
                             50% Pool)
-                            <br />- 0.1 eth for the team
+                            <br />- 0.05 eth for the team
                           </div>
                         </div>
                       </div>
@@ -2524,7 +2507,7 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="text-content paddingOpensea">
+                <div className="text-content" style={{marginBottom: "20px"}}>
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">
@@ -2567,7 +2550,7 @@ const HomeV1 = () => {
                       </div>
                       <div className="contentBannerWithText">
                         <a
-                          href="https://opensea.io/fr"
+                          href="https://github.com/"
                           rel="noreferrer"
                           target="_blank"
                         >
@@ -2581,7 +2564,7 @@ const HomeV1 = () => {
                                 fontSize: "14px",
                               }}
                             >
-                              https://opensea.io/fr
+                              https://github.com/
                             </div>
                             <div
                               style={{
@@ -2592,95 +2575,7 @@ const HomeV1 = () => {
                                 fontSize: "14px",
                               }}
                             >
-                              OpenSea, the largest NFT marketplace
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {thread !== "open" && faq !== "open" && (
-                <div className="text-content">
-                  <div className="flex">
-                    <div className="contentLogo">
-                      <div className="logo">
-                        <img
-                          src={
-                            currentTheme.theme.name === "Light Theme"
-                              ? logoDark
-                              : logo
-                          }
-                          className="logoImg"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="title">
-                        Number Runner Club{" "}
-                        <div
-                          style={{ display: "inline-flex", alignItems: "top" }}
-                        >
-                          <img
-                            alt="twitter tag"
-                            style={{ width: "18px" }}
-                            src={tag}
-                          />
-                        </div>{" "}
-                        <span className="account">@TheNRClub</span>
-                      </div>
-                      <div className="description">
-                        <strong>
-                          An alternative to Discord, simpler, more confidential,
-                          more secure
-                        </strong>
-                        <br />
-                        <br />
-                        Together, we have the opportunity to forge the strongest
-                        Web 3.0 community on Ethereum Name Service. Let's meet
-                        on NFTYChat and start building our environment.
-                        <br />
-                        <br />
-                        Compared to Discord, NFTYChat is an alternative of
-                        choice. Simple to use, it does not require a user name
-                        and even less a password. Everything is at stake with
-                        your Wallet. One last point: only Number Runner Club
-                        holders will be able to access the various salons on
-                        offer.
-                      </div>
-                      <div
-                        className="contentBannerWithText"
-                        style={{ marginBottom: "30px" }}
-                      >
-                        <a
-                          href="https://nftychat.xyz/"
-                          rel="noreferrer"
-                          target="_blank"
-                        >
-                          <div>
-                            <img src={discord} alt="" />
-                          </div>
-                          <div className="TextcontentBanner">
-                            <div
-                              style={{
-                                color: "rgb(139,152,165)",
-                                fontSize: "14px",
-                              }}
-                            >
-                              https://nftychat.xyz/
-                            </div>
-                            <div
-                              style={{
-                                color:
-                                  currentTheme.theme.name === "Dark Theme"
-                                    ? "white"
-                                    : "rgb(15, 20, 25)",
-                                fontSize: "14px",
-                              }}
-                            >
-                              The best way to connect with your web3 frens
+                              Let's build from here · GitHub
                             </div>
                           </div>
                         </a>
