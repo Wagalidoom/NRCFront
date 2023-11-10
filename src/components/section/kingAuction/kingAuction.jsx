@@ -84,10 +84,10 @@ export const KingAuction = (props) => {
       // if (fetchKing[0].ensName) {
       //   setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       // }
-      if (fetchKing) {
+      if (fetchKing.length) {
         console.log(fetchKing);
         setBlackKingPrice(fetchKing[0].price);
-        setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+        setBlackKingName(fetchKing[0].ensName);
       }
 
       NRCquery = `
@@ -113,9 +113,9 @@ export const KingAuction = (props) => {
       // if (fetchKing[0].ensName) {
       //   setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       // }
-      if (fetchKing > 0) {
+      if (fetchKing.length > 0) {
         setWhiteKingPrice(fetchKing[0].price);
-        setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
+        setWhiteKingName(fetchKing[0].ensName);
       }
     };
 
