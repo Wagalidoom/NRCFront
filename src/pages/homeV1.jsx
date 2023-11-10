@@ -162,10 +162,10 @@ const HomeV1 = () => {
 
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
 
-  const { data: tokenIdOfNode } = useContractRead(
+  const { data: tokenIdOfName } = useContractRead(
     contract,
-    "getTokenIdOfNode",
-    [namehash.hash(ensName)]
+    "getTokenIdOfName",
+    [ensName]
   );
 
   useEffect(() => {
@@ -195,13 +195,13 @@ const HomeV1 = () => {
   }, [address, getEnsName, getEnsProfilePicture]);
 
   useEffect(() => {
-    const tokenId = Number(tokenIdOfNode);
+    const tokenId = Number(tokenIdOfName);
     const nftType = getNftType(tokenId);
     const club = nftTypeToString(nftType);
     console.log(tokenId);
     tokenId ? setHashTag("@NR" + club) : setHashTag("@TheNRClub");
     
-  }, [tokenIdOfNode]);
+  }, [tokenIdOfName]);
 
   useEffect(() => {
     if (

@@ -30,8 +30,8 @@ export const Graal = (props) => {
   const [burn, setBurn] = useState(false);
   const [stack, setStack] = useState(false);
   const [count, setCount] = useState(0);
-  const [node, setNode] = useState(
-    "0x0000000000000000000000000000000000000000000000000000000000000000"
+  const [name, setName] = useState(
+    ""
   );
   const [state, setState] = useState("");
   const [active, setActive] = useState("");
@@ -46,10 +46,10 @@ export const Graal = (props) => {
     useContractRead(contract, "getBurnedCounterCount", [address]);
 
   const {
-    data: tokenIdOfNode,
+    data: tokenIdOfName,
     isLoading,
-    error: tokenIdOfNodeError,
-  } = useContractRead(contract, "getTokenIdOfNode", [node]);
+    error: tokenIdOfNameError,
+  } = useContractRead(contract, "getTokenIdOfName", [name]);
 
   useEffect(() => {
     props.data.mint[1].type == "burn"
@@ -157,35 +157,35 @@ export const Graal = (props) => {
   useEffect(() => {
     if (ensDomains.length > 0) {
       const [currentDomain, ...rest] = ensDomains;
-      setNode(currentDomain.hash);
+      setName(currentDomain.name);
       setCurrentEnsName(currentDomain.name);
       setEnsDomains(rest);
     }
   }, [ensDomains]);
 
   useEffect(() => {
-    if (tokenIdOfNode && Number(tokenIdOfNode) !== 0) {
+    if (tokenIdOfName && Number(tokenIdOfName) !== 0) {
       if (!has100k) {
         setHas100k(isClub(currentEnsName, 9));
-        setId100k(Number(tokenIdOfNode));
+        setId100k(Number(tokenIdOfName));
       }
       if (!has10k) {
         setHas10k(isClub(currentEnsName, 8));
-        setId10k(Number(tokenIdOfNode));
+        setId10k(Number(tokenIdOfName));
       }
       if (!has999) {
         setHas999(isClub(currentEnsName, 7));
-        setId999(Number(tokenIdOfNode));
+        setId999(Number(tokenIdOfName));
       }
       console.log(
         currentEnsName,
-        Number(tokenIdOfNode),
+        Number(tokenIdOfName),
         has999,
         has10k,
         has100k
       );
     }
-  }, [tokenIdOfNode, currentEnsName]);
+  }, [tokenIdOfName, currentEnsName]);
 
   return (
     <GraalContainer>

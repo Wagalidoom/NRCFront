@@ -10,16 +10,16 @@ import {
 const namehash = require("eth-ens-namehash");
 
 export const ETHEREUM_RPC_URL =
-  "https://eth-mainnet.g.alchemy.com/v2/vewv4I9vmHpc6yMtiIuZCywz2wpER6qj";
-// "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
+  // "https://eth-mainnet.g.alchemy.com/v2/vewv4I9vmHpc6yMtiIuZCywz2wpER6qj";
+"https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.0.0";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.07";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "";
+export const contractAddress = "0x675EFDc19979451eD08C207B0498b07c4f0620b4";
 
 const EthereumContext = createContext(null);
 
@@ -176,7 +176,7 @@ export function EthereumProvider({ children }) {
         args: [Number(mintCount)],
         overrides: {
           value: ethers.utils.parseEther(
-            Number(mintCount * 0.0000005)
+            Number(mintCount * 0.00001)
               .toFixed(5)
               .toString()
           ),
@@ -216,7 +216,7 @@ export function EthereumProvider({ children }) {
     await mintCall({
       args: [type, stackedId],
       overrides: {
-        value: ethers.utils.parseEther("0.0000005"),
+        value: ethers.utils.parseEther("0.00001"),
       },
     });
   };
@@ -249,15 +249,8 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    console.log(
-      _ens,
-      namehash.hash(_ens),
-      ethers.BigNumber.from(ethers.utils.namehash(_ens)).toString(),
-      ethers.utils.formatBytes32String(_ens),
-      _id
-    );
     await stackCall({
-      args: [ethers.utils.formatBytes32String(_ens.replace(".eth", "")), _id],
+      args: [_ens.replace(".eth", ""), _id],
     });
     setSelectId(null);
   };

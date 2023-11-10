@@ -118,9 +118,7 @@ export const Analyctic = (props) => {
               stringEnsName = "WhiteKing";
             }
             if (holder.ensName) {
-              stringEnsName = Buffer.from(holder.ensName.slice(2), "hex")
-                .toString("ascii")
-                .replace(/\0/g, "");
+              stringEnsName = holder.ensName + ".eth";
             }
             holder.ensNameString = stringEnsName;
             // console.log(holder.share, lastGlobalShares[nftType]);

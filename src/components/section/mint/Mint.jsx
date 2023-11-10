@@ -142,7 +142,7 @@ export const Mint = () => {
                 style={{ height: "20px", marginBottom: "2px" }}
                 src={eth}
               />
-              {(0.2 * mintCount).toFixed(2)}
+              {(0.1 * mintCount).toFixed(2)}
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>

@@ -45,7 +45,6 @@ const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
   const currentTheme = useContext(ThemeContext);
-  const [ensDomainsLoading, setEnsDomainsLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [activeButton, setActiveButton] = useState({
@@ -291,9 +290,7 @@ export const MyNft = (props) => {
         const promises = fetchENS.map(async (domain) => {
           NRCquery = `
           {
-            nfts(where: {ensName: "${ethers.utils.formatBytes32String(
-              domain.name
-            )}"}) {
+            nfts(where: {ensName: "${domain.name.replace(".eth", "")}"}) {
               id
               owner
               ensName
@@ -318,7 +315,6 @@ export const MyNft = (props) => {
           }
 
           if (fetchOwned.length > 0) {
-            console.log("push", fetchOwned);
 
             const nftType = getNftType(Number(fetchOwned[0].id));
             const unclaimedRewards = fetchOwned[0].unclaimedRewards
@@ -786,7 +782,7 @@ export const MyNft = (props) => {
                       }}
                     >
                       <AccessAlarmIcon style={{ marginRight: "10px" }} />
-                      {element.expiration} D
+                      {Math.round((new Date(element.expiration * 1000) - Date.now()) / (1000 * 60 * 60 * 24))} D
                     </div>
                     <p className="ensName">{element.ensName}</p>
                   </>
