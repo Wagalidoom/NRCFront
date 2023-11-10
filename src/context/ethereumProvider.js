@@ -14,12 +14,12 @@ export const ETHEREUM_RPC_URL =
 "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.07";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.09";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x675EFDc19979451eD08C207B0498b07c4f0620b4";
+export const contractAddress = "0x75fae3274cF7eeC509DA0F901360F4Fc80664fc9";
 
 const EthereumContext = createContext(null);
 
@@ -85,6 +85,12 @@ export function EthereumProvider({ children }) {
     isLoading: multiMintLoading,
     error: multiMintError,
   } = useContractWrite(contract, "multiMint");
+
+  const {
+    mutateAsync: updateExpirationCall,
+    isLoading: updateExpirationLoading,
+    error: updateExpirationError,
+  } = useContractWrite(contract, "updateExpiration");
 
   const {
     mutateAsync: multiBuyCall,
@@ -184,6 +190,12 @@ export function EthereumProvider({ children }) {
       });
     }
   };
+
+  const updateExpiration = async (_id) => {
+    if(contractAddress) {
+      await updateExpirationCall({ args: [_id] });
+    }
+  }
 
   const sweep = async (_list, _price) => {
     await multiBuyCall({
@@ -412,6 +424,7 @@ export function EthereumProvider({ children }) {
     userColor,
     validateKill,
     validateBurn,
+    updateExpiration,
     mint,
     sweep,
     burnSweep,

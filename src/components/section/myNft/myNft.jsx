@@ -75,6 +75,7 @@ export const MyNft = (props) => {
     setPrice,
     setEns,
     setSweep,
+    updateExpiration,
     address,
     mintLoading,
     multiMintLoading,
@@ -776,9 +777,15 @@ export const MyNft = (props) => {
                       style={{
                         position: "absolute",
                         top: 0,
+                        borderBottom: "3px solid rgb(36 135 201)",
                         backgroundColor: "rgb(29, 155, 240)",
                         borderBottomRightRadius: "8px",
                         padding: "5px 22px",
+                        cursor: "pointer"
+                      }}
+
+                      onClick={() => {
+                        updateExpiration(element.id.toString());
                       }}
                     >
                       <AccessAlarmIcon style={{ marginRight: "10px" }} />
