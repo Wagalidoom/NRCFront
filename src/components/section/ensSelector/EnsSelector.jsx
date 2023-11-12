@@ -45,6 +45,10 @@ export const EnsSelector = (props) => {
     }
   };
 
+  useEffect(() => {
+    console.log(setTextLoading);
+  }, [setTextLoading]);
+
   const handleClose = () => {
     setIsEnsSelectorOpen(false);
     setIsKingEnsSelectorOpen(false);
@@ -189,8 +193,8 @@ export const EnsSelector = (props) => {
                   } else {
                     await stack(ensName, selectId);
                   }
-                  setState("success");
                   await setAvatar(ensName, selectId);
+                  setState("success");
                 }
               }}
             >

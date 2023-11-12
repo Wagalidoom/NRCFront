@@ -52,13 +52,13 @@ export const Graal = (props) => {
   } = useContractRead(contract, "getTokenIdOfName", [name]);
 
   useEffect(() => {
-    props.data.mint[1].type == "burn"
+    props.data.mint[1].type === "burn"
       ? setBurn(burnCount >= props.data.mint[1].value)
       : setBurn(burnCounterCount >= props.data.mint[1].value);
   }, [burnCount, burnCounterCount]);
 
   useEffect(() => {
-    if (props.data.mint[0].value == 0) {
+    if (props.data.mint[0].value === 0) {
       setStack(has999 || has10k || has100k);
       if (has100k) {
         setStackedId(id100k);
@@ -70,7 +70,7 @@ export const Graal = (props) => {
         setStackedId(id999);
       }
     }
-    if (props.data.mint[0].value == 1) {
+    if (props.data.mint[0].value === 1) {
       setStack(has999 || has10k);
       if (has10k) {
         setStackedId(id10k);
@@ -79,7 +79,7 @@ export const Graal = (props) => {
         setStackedId(id999);
       }
     }
-    if (props.data.mint[0].value == 2) {
+    if (props.data.mint[0].value === 2) {
       setStack(has999);
       setStackedId(id999);
     }
@@ -157,7 +157,7 @@ export const Graal = (props) => {
   useEffect(() => {
     if (ensDomains.length > 0) {
       const [currentDomain, ...rest] = ensDomains;
-      setName(currentDomain.name);
+      setName(currentDomain.name.replace(".eth", ""));
       setCurrentEnsName(currentDomain.name);
       setEnsDomains(rest);
     }
@@ -211,7 +211,7 @@ export const Graal = (props) => {
               }
             }}
           >
-            {mintLoading && (active == props.data.name) ? (
+            {mintLoading && (active === props.data.name) ? (
               <ReactLoading
                 className="spin"
                 type={"spin"}
@@ -219,7 +219,7 @@ export const Graal = (props) => {
                 height={22}
                 width={22}
               />
-            ) : state === "success" && (active == props.data.name) ? (
+            ) : state === "success" && (active === props.data.name) ? (
               <img
                 style={{ width: "18px", marginRight: "8px" }}
                 src={validate}

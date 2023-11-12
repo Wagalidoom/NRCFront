@@ -172,7 +172,7 @@ const HomeV1 = () => {
     const fetchEns = async () => {
       const name = await getEnsName();
       if (name) {
-        setEnsName(name);
+        setEnsName(name.replace(".eth", ""));
         const url = await getEnsProfilePicture(name);
         const prefix = "eip155:1/erc721:" + contractAddress + "/";
         if (url) {
