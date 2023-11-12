@@ -30,11 +30,6 @@ export const PriceSelectorStyleWrapper = styled.section`
   max-width: 480px;
 }
 
-.spin{
-  display: flex;
-  align-items: center;
-}
-
   .contractContainerRow{
     display: flex;
     align-items: center;

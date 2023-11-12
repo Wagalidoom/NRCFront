@@ -36,11 +36,6 @@ export const EnsSelectorStyleWrapper = styled.section`
     border-bottom: 2px solid ${(props) => props.theme.colors.border};
   }
 
-  .spin{
-    display: flex;
-    align-items: center;
-  }
-
   * {
     scrollbar-width: thin;
     scrollbar-color: #32323e #161618;
