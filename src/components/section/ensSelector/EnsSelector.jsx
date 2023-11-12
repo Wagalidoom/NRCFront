@@ -96,7 +96,7 @@ export const EnsSelector = (props) => {
               {ensList.map((element, index) => {
                 if (index % 2) {
                   return (
-                    <div
+                    <div key={index}
                       onClick={() => {
                         setEnsName(element);
                       }}
@@ -116,7 +116,7 @@ export const EnsSelector = (props) => {
                   );
                 } else {
                   return (
-                    <div
+                    <div key={index}
                       onClick={() => {
                         setEnsName(element);
                       }}
@@ -157,7 +157,7 @@ export const EnsSelector = (props) => {
               alignItems: "center",
             }}
           >
-            If your number does not appear, please unwrap it on :
+            If your number not appear, please unwrap it on :
             <br />
             <a
               href="https://ens.domains/"
@@ -239,7 +239,7 @@ export const EnsSelector = (props) => {
                     fontSize: "1rem",
                   }}
                 >
-                  Proceed to {props.king ? "Purchase" : "stacking"}
+                  Proceed to {props.king ? "purchase" : "stacking"}
                 </p>
               )}
             </Button>

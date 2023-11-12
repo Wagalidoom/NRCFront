@@ -780,7 +780,7 @@ export const MyNft = (props) => {
                         borderBottom: "3px solid rgb(36 135 201)",
                         backgroundColor: "rgb(29, 155, 240)",
                         borderBottomRightRadius: "8px",
-                        padding: "5px 22px",
+                        padding: "2px 22px",
                         cursor: "pointer"
                       }}
 

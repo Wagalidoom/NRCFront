@@ -563,7 +563,7 @@ const HomeV1 = () => {
                       </div>
                     </>
                   ) : (
-                    ensName
+                    ensName+".eth"
                   )}
                 </div>
                 <div className="pieces">

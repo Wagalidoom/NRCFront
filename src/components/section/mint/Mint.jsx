@@ -87,7 +87,7 @@ export const Mint = () => {
           >
             Mint
             <div>
-              <label for="items" style={{fontSize: "16px", marginRight: "12px"}}>Items</label>
+              <label htmlFor="items" style={{fontSize: "16px", marginRight: "12px"}}>Items</label>
               <input
                 onChange={handleTextFieldChange}
                 value={mintCount}
