@@ -14,12 +14,12 @@ export const ETHEREUM_RPC_URL =
 "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.09";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.11";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x75fae3274cF7eeC509DA0F901360F4Fc80664fc9";
+export const contractAddress = "0xF3Fe6e44574e43a7a4D5d12431424cB8d8736Bc8";
 
 const EthereumContext = createContext(null);
 
@@ -34,6 +34,7 @@ export function EthereumProvider({ children }) {
   const [isBurnOpen, setIsBurnOpen] = useState(false);
   const [isKillOpen, setIsKillOpen] = useState(false);
   const [selectId, setSelectId] = useState(0);
+  const [freeMint, setFreeMint] = useState(0);
   const [burnPrice, setBurnPrice] = useState(0);
   const [ensList, setEnsList] = useState("");
   const [collection, setCollection] = useState([]);
@@ -156,7 +157,7 @@ export function EthereumProvider({ children }) {
     try {
       await chooseColorCall({ args: [_color] });
     } catch (error) {
-      console.log(error);
+      console.log(error, chooseColorError);
     }
   };
 
@@ -182,12 +183,13 @@ export function EthereumProvider({ children }) {
         args: [Number(mintCount)],
         overrides: {
           value: ethers.utils.parseEther(
-            Number(mintCount * 0.00001)
+            Number(mintCount * 0.00001 - freeMint)
               .toFixed(5)
               .toString()
           ),
         },
       });
+      setFreeMint(0);
     }
   };
 
@@ -236,7 +238,7 @@ export function EthereumProvider({ children }) {
   const king = async (_ens) => {
     console.log(kingPrice.toNumber().toFixed(0) + 10);
     await buyKingCall({
-      args: [namehash.hash(_ens), ethers.utils.formatBytes32String(_ens)],
+      args: [_ens.replace(".eth", "")],
       overrides: {
         value: Number(kingPrice.toNumber().toFixed(0)) + 10,
         gasLimit: 200000,
@@ -419,6 +421,7 @@ export function EthereumProvider({ children }) {
     isKingHandOpen,
     selectId,
     burnPrice,
+    freeMint,
     ensList,
     collection,
     userColor,
@@ -463,6 +466,7 @@ export function EthereumProvider({ children }) {
     listNFT,
     unlistNFT,
     setPrice,
+    setFreeMint,
     setEns,
     setSweep,
     setBurnSweep,

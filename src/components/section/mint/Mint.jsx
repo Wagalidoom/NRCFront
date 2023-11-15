@@ -1,4 +1,4 @@
-import { Button, IconButton, Slider, TextField } from "@mui/material";
+import { Button, Checkbox, IconButton, Slider, TextField } from "@mui/material";
 import { styled } from "@mui/system";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { MintStyleWrapper } from "./Mint.style";
@@ -22,7 +22,8 @@ const CustomTextField = styled(TextField)({
 });
 
 export const Mint = () => {
-  const { mint, setIsMintOpen, multiMintLoading } = useEthereum();
+  const { mint, setIsMintOpen, multiMintLoading, freeMint, setFreeMint } =
+    useEthereum();
   const [mintCount, setMintCount] = useState(1);
   const [state, setState] = useState("");
   const componentRef = useRef(null);
@@ -69,6 +70,14 @@ export const Mint = () => {
     setMintCount(newValue);
   };
 
+  const handleChange = () => {
+    if (!freeMint) {
+      setFreeMint(0.00001);
+    } else {
+      setFreeMint(0);
+    }
+  };
+
   const handleTextFieldChange = (event) => {
     setMintCount(Number(event.target.value));
   };
@@ -87,7 +96,12 @@ export const Mint = () => {
           >
             Mint
             <div>
-              <label htmlFor="items" style={{fontSize: "16px", marginRight: "12px"}}>Items</label>
+              <label
+                htmlFor="items"
+                style={{ fontSize: "16px", marginRight: "12px" }}
+              >
+                Items
+              </label>
               <input
                 onChange={handleTextFieldChange}
                 value={mintCount}
@@ -117,7 +131,7 @@ export const Mint = () => {
           >
             Slide to mint more items!
             <Slider
-            style={{marginTop: "15px"}}
+              style={{ marginTop: "15px" }}
               value={mintCount}
               onChange={handleSliderChange}
               min={1}
@@ -125,6 +139,18 @@ export const Mint = () => {
               aria-label="Default"
               valueLabelDisplay="auto"
             />
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Checkbox
+              onChange={handleChange}
+              inputProps={{ "aria-label": "controlled" }}
+              sx={{
+                color: "rgb(29, 155, 240)",
+              }}
+            />
+            <p style={{ fontSize: "14px" }}>
+              Your first nft for free (limited one per wallet)
+            </p>
           </div>
           <div
             style={{
@@ -135,14 +161,28 @@ export const Mint = () => {
             }}
           >
             Total Cost
-            <div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {!freeMint ? (
+                <p>{(0.1 * mintCount).toFixed(2)}</p>
+              ) : (
+                <>
+                  <p
+                    style={{
+                      textDecoration: "line-through",
+                      marginRight: "8px",
+                    }}
+                  >
+                    {(0.1 * mintCount).toFixed(2)}
+                  </p>
+                  {(0.1 * mintCount - 0.1).toFixed(2)}
+                </>
+              )}
               <img
                 alt=""
                 className="leftText"
-                style={{ height: "20px", marginBottom: "2px" }}
+                style={{ height: "20px" }}
                 src={eth}
               />
-              {(0.1 * mintCount).toFixed(2)}
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -187,7 +227,10 @@ export const Mint = () => {
                 </>
               ) : state === "success" ? (
                 <>
-                  <img style={{ width: "16px", marginRight: "8px" }} src={validate} />
+                  <img
+                    style={{ width: "16px", marginRight: "8px" }}
+                    src={validate}
+                  />
                   <p
                     style={{
                       textTransform: "none",
