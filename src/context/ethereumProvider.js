@@ -296,7 +296,7 @@ export function EthereumProvider({ children }) {
     const reveal = await revealKingHandCall({
       args: [_id],
       overrides: {
-        value: ethers.utils.parseEther("0.00000001"),
+        value: ethers.utils.parseEther("0.000001"),
       },
     });
     if (
