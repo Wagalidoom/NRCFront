@@ -7,6 +7,7 @@ import {
   useContractRead,
   useContractWrite,
 } from "@thirdweb-dev/react-core";
+import { useAccount } from "wagmi";
 const namehash = require("eth-ens-namehash");
 
 export const ETHEREUM_RPC_URL =
@@ -14,12 +15,12 @@ export const ETHEREUM_RPC_URL =
 "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.11";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.12";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0xF3Fe6e44574e43a7a4D5d12431424cB8d8736Bc8";
+export const contractAddress = "0x974a305A3Cf85495a52B96995AB3B4816E79a052";
 
 const EthereumContext = createContext(null);
 
@@ -57,6 +58,7 @@ export function EthereumProvider({ children }) {
   );
 
   const address = useAddress();
+  const account = useAccount();
 
   const {
     mutateAsync: setTextCall,
@@ -478,6 +480,7 @@ export function EthereumProvider({ children }) {
     getEnsProfilePicture,
     getGasPrice,
     address,
+    account
   };
 
   return (

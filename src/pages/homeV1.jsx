@@ -133,6 +133,7 @@ const HomeV1 = () => {
     getVolume,
     getPrizePool,
     address,
+    account,
     getEnsName,
     getEnsProfilePicture,
     getGasPrice,
@@ -185,6 +186,8 @@ const HomeV1 = () => {
         }
       }
     };
+    
+    console.log(account);
 
     if (address) {
       fetchEns();
@@ -192,7 +195,7 @@ const HomeV1 = () => {
       setEnsName("");
       setEnsUrl("");
     }
-  }, [address, getEnsName, getEnsProfilePicture]);
+  }, [address, account, getEnsName, getEnsProfilePicture]); 
 
   useEffect(() => {
     const tokenId = Number(tokenIdOfName);
@@ -461,6 +464,7 @@ const HomeV1 = () => {
             </NavLink>
           </SectionNav>
           <SectionNav style={{ padding: "0" }}>
+          <w3m-button className="connectWallet" balance="hide" />
             <ConnectWallet
               modalTitle="Connect a wallet"
               className="connectionButtonSideMenu"
