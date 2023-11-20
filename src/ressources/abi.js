@@ -1,22 +1,6 @@
 export const NUMBERRUNNERCLUB_ABI = [
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_baseRegistrar",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_vrfCoordinator",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_link",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -662,6 +646,19 @@ export const NUMBERRUNNERCLUB_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "freeMintCounter",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -902,6 +899,25 @@ export const NUMBERRUNNERCLUB_ABI = [
 				"internalType": "uint8",
 				"name": "",
 				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "hasClaimedFreeMint",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -1228,7 +1244,7 @@ export const NUMBERRUNNERCLUB_ABI = [
 			},
 			{
 				"internalType": "bytes",
-				"name": "data",
+				"name": "_data",
 				"type": "bytes"
 			}
 		],

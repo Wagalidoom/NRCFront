@@ -22,10 +22,9 @@ const CustomTextField = styled(TextField)({
 });
 
 export const Mint = () => {
-  const { mint, setIsMintOpen, multiMintLoading, freeMint, setFreeMint } =
+  const { mint, state, setState, setIsMintOpen, multiMintLoading, freeMint, setFreeMint } =
     useEthereum();
   const [mintCount, setMintCount] = useState(1);
-  const [state, setState] = useState("");
   const componentRef = useRef(null);
 
   function iOS() {
@@ -56,11 +55,13 @@ export const Mint = () => {
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsMintOpen(false);
+      setState("");
     }
   };
 
   const handleClose = () => {
     setIsMintOpen(false);
+    setState("");
   };
 
   const handleSliderChange = (event, newValue) => {
@@ -201,8 +202,7 @@ export const Mint = () => {
                 if (state === "success") {
                   handleClose();
                 } else {
-                  await mint(mintCount);
-                  setState("success");
+                  mint(mintCount);
                 }
               }}
             >

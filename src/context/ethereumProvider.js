@@ -1,18 +1,19 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI, RESOLVER_ABI } from "../ressources/abi";
+import { useAddress, useContract } from "@thirdweb-dev/react-core";
 import {
-  useAddress,
-  useContract,
+  useAccount,
   useContractRead,
   useContractWrite,
-} from "@thirdweb-dev/react-core";
-import { useAccount } from "wagmi";
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 const namehash = require("eth-ens-namehash");
 
 export const ETHEREUM_RPC_URL =
   // "https://eth-mainnet.g.alchemy.com/v2/vewv4I9vmHpc6yMtiIuZCywz2wpER6qj";
-"https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
+  "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
   "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.12";
@@ -42,6 +43,7 @@ export function EthereumProvider({ children }) {
   const [isMintOpen, setIsMintOpen] = useState(false);
   const [isKingHandOpen, setIsKingHandOpen] = useState(false);
   const [isKingHand, setIsKingHand] = useState(false);
+  const [state, setState] = useState("");
 
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
   const generalContract = contractAddress
@@ -60,108 +62,155 @@ export function EthereumProvider({ children }) {
   const address = useAddress();
   const account = useAccount();
 
+  // const {
+  //   mutateAsync: setTextCall,
+  //   isLoading: setTextLoading,
+  //   error: setTextError,
+  // } = useContractWrite(resolverContract, "setText");
+
+  const { data: userColor, error: userColorError } = useContractRead({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "getUserColor",
+    args: [account.address],
+  });
+
+  const { data: kingPrice, error: kingPriceError } = useContractRead({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "getCurrentPrice",
+  });
+
+  // const {
+  //   mutateAsync: mintCall,
+  //   isLoading: mintLoading,
+  //   error: mintError,
+  // } = useContractWrite(contract, "mint");
+
+  const { config: mintConfig } = usePrepareContractWrite({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "mint",
+    account: account.address,
+  });
   const {
-    mutateAsync: setTextCall,
-    isLoading: setTextLoading,
-    error: setTextError,
-  } = useContractWrite(resolverContract, "setText");
-
-  const { data: userColor, error: userColorError } = useContractRead(
-    contract,
-    "getUserColor",
-    [address]
-  );
-
-  const { data: kingPrice, error: kingPriceError } = useContractRead(
-    contract,
-    "getCurrentPrice"
-  );
-
-  const {
-    mutateAsync: mintCall,
+    data: mintCall,
     isLoading: mintLoading,
-    error: mintError,
-  } = useContractWrite(contract, "mint");
+    write: writeMint,
+  } = useContractWrite(mintConfig);
+
+  // const {
+  //   mutateAsync: multiMintCall,
+  //   isLoading: multiMintLoading,
+  //   error: multiMintError,
+  // } = useContractWrite(contract, "multiMint");
 
   const {
-    mutateAsync: multiMintCall,
+    data: multiMintCall,
+    write: writeMultiMint,
+  } = useContractWrite({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "multiMint",
+  });
+
+  const {
     isLoading: multiMintLoading,
-    error: multiMintError,
-  } = useContractWrite(contract, "multiMint");
+  } = useWaitForTransaction({ confirmations: 1, hash: multiMintCall?.hash, onSuccess(){
+    console.log("set success");
+    setState("success");
+  } });
 
-  const {
-    mutateAsync: updateExpirationCall,
-    isLoading: updateExpirationLoading,
-    error: updateExpirationError,
-  } = useContractWrite(contract, "updateExpiration");
+  // const { config: multiMintConfig, error: multiMintError } = usePrepareContractWrite({
+  //   address: contractAddress,
+  //   abi: NUMBERRUNNERCLUB_ABI,
+  //   functionName: "multiMint",
+  //   args: [5],
+  //   value: ethers.utils.parseEther(
+  //     Number(mintCountConfig * 0.00001 - freeMint)
+  //       .toFixed(5)
+  //       .toString()
+  //   ),
+  // });
+  // const {
+  //   data: multiMintCall,
+  //   isLoading: multiMintLoading,
+  //   write: writeMultiMint,
+  // } = useContractWrite(multiMintConfig);
 
-  const {
-    mutateAsync: multiBuyCall,
-    isLoading: multiBuyLoading,
-    error: multiBuyError,
-  } = useContractWrite(contract, "multiBuy");
+  // const {
+  //   mutateAsync: updateExpirationCall,
+  //   isLoading: updateExpirationLoading,
+  //   error: updateExpirationError,
+  // } = useContractWrite(contract, "updateExpiration");
 
-  const {
-    mutateAsync: multiKillCall,
-    isLoading: multiKillLoading,
-    error: multiKillError,
-  } = useContractWrite(contract, "multiKill");
+  // const {
+  //   mutateAsync: multiBuyCall,
+  //   isLoading: multiBuyLoading,
+  //   error: multiBuyError,
+  // } = useContractWrite(contract, "multiBuy");
 
-  const {
-    mutateAsync: stackCall,
-    isLoading: stackLoading,
-    error: stackError,
-  } = useContractWrite(contract, "stack");
+  // const {
+  //   mutateAsync: multiKillCall,
+  //   isLoading: multiKillLoading,
+  //   error: multiKillError,
+  // } = useContractWrite(contract, "multiKill");
 
-  const {
-    mutateAsync: unstackCall,
-    isLoading: unstackLoading,
-    error: unstackError,
-  } = useContractWrite(contract, "unstack");
+  // const {
+  //   mutateAsync: stackCall,
+  //   isLoading: stackLoading,
+  //   error: stackError,
+  // } = useContractWrite(contract, "stack");
 
-  const {
-    mutateAsync: burnCall,
-    isLoading: burnLoading,
-    error: burnError,
-  } = useContractWrite(contract, "burn");
+  // const {
+  //   mutateAsync: unstackCall,
+  //   isLoading: unstackLoading,
+  //   error: unstackError,
+  // } = useContractWrite(contract, "unstack");
 
-  const {
-    mutateAsync: listCall,
-    isLoading: listLoading,
-    error: listError,
-  } = useContractWrite(contract, "listNFT");
+  // const {
+  //   mutateAsync: burnCall,
+  //   isLoading: burnLoading,
+  //   error: burnError,
+  // } = useContractWrite(contract, "burn");
 
-  const {
-    mutateAsync: unlistCall,
-    isLoading: unlistLoading,
-    error: unlistError,
-  } = useContractWrite(contract, "unlistNFT");
+  // const {
+  //   mutateAsync: listCall,
+  //   isLoading: listLoading,
+  //   error: listError,
+  // } = useContractWrite(contract, "listNFT");
 
-  const {
-    mutateAsync: buyKingCall,
-    isLoading: buyKingLoading,
-    error: buyKingError,
-  } = useContractWrite(contract, "buyKing");
+  // const {
+  //   mutateAsync: unlistCall,
+  //   isLoading: unlistLoading,
+  //   error: unlistError,
+  // } = useContractWrite(contract, "unlistNFT");
 
-  const {
-    mutateAsync: chooseColorCall,
-    isLoading: chooseColorLoading,
-    error: chooseColorError,
-  } = useContractWrite(contract, "chooseColor");
+  // const {
+  //   mutateAsync: buyKingCall,
+  //   isLoading: buyKingLoading,
+  //   error: buyKingError,
+  // } = useContractWrite(contract, "buyKing");
 
-  const {
-    mutateAsync: revealKingHandCall,
-    isLoading: revealKingHandLoading,
-    error: revealKingHandError,
-  } = useContractWrite(contract, "revealKingHand");
+  // const {
+  //   mutateAsync: chooseColorCall,
+  //   isLoading: chooseColorLoading,
+  //   error: chooseColorError,
+  // } = useContractWrite(contract, "chooseColor");
 
-  const chooseColor = async (_color) => {
-    try {
-      await chooseColorCall({ args: [_color] });
-    } catch (error) {
-      console.log(error, chooseColorError);
-    }
-  };
+  // const {
+  //   mutateAsync: revealKingHandCall,
+  //   isLoading: revealKingHandLoading,
+  //   error: revealKingHandError,
+  // } = useContractWrite(contract, "revealKingHand");
+
+  // const chooseColor = async (_color) => {
+  //   try {
+  //     await chooseColorCall({ args: [_color] });
+  //   } catch (error) {
+  //     console.log(error, chooseColorError);
+  //   }
+  // };
 
   const validateKill = async (_id, price) => {
     setSelectId(_id);
@@ -181,71 +230,68 @@ export function EthereumProvider({ children }) {
 
   const mint = async (mintCount) => {
     if (contractAddress) {
-      await multiMintCall({
-        args: [Number(mintCount)],
-        overrides: {
-          value: ethers.utils.parseEther(
-            Number(mintCount * 0.00001 - freeMint)
-              .toFixed(5)
-              .toString()
-          ),
-        },
+      writeMultiMint({
+        args: [mintCount],
+        value: ethers.utils.parseEther(
+          Number(mintCount * 0.00001 - freeMint)
+            .toFixed(5)
+            .toString()
+        ),
       });
       setFreeMint(0);
     }
   };
 
   const updateExpiration = async (_id) => {
-    if(contractAddress) {
-      await updateExpirationCall({ args: [_id] });
+    if (contractAddress) {
+      // await updateExpirationCall({ args: [_id] });
     }
-  }
+  };
 
   const sweep = async (_list, _price) => {
-    await multiBuyCall({
-      args: [_list],
-      overrides: {
-        value: ethers.utils.parseEther(
-          Number(_price * 10 ** -18)
-            .toFixed(5)
-            .toString()
-        ),
-      },
-    });
+    // await multiBuyCall({
+    //   args: [_list],
+    //   overrides: {
+    //     value: ethers.utils.parseEther(
+    //       Number(_price * 10 ** -18)
+    //         .toFixed(5)
+    //         .toString()
+    //     ),
+    //   },
+    // });
   };
 
   const burnSweep = async (_list, _price) => {
-    await multiKillCall({
-      args: [_list],
-      overrides: {
-        value: ethers.utils.parseEther(
-          Number(_price * 10 ** -3)
-            .toFixed(5)
-            .toString()
-        ),
-      },
-    });
+    // await multiKillCall({
+    //   args: [_list],
+    //   overrides: {
+    //     value: ethers.utils.parseEther(
+    //       Number(_price * 10 ** -3)
+    //         .toFixed(5)
+    //         .toString()
+    //     ),
+    //   },
+    // });
     setSelectId(null);
   };
 
   const mintSpecial = async (type, stackedId) => {
-    await mintCall({
-      args: [type, stackedId],
-      overrides: {
-        value: ethers.utils.parseEther("0.00001"),
-      },
-    });
+    // await mintCall({
+    //   args: [type, stackedId],
+    //   overrides: {
+    //     value: ethers.utils.parseEther("0.00001"),
+    //   },
+    // });
   };
 
   const king = async (_ens) => {
-    console.log(kingPrice.toNumber().toFixed(0) + 10);
-    await buyKingCall({
-      args: [_ens.replace(".eth", "")],
-      overrides: {
-        value: Number(kingPrice.toNumber().toFixed(0)) + 10,
-        gasLimit: 200000,
-      },
-    });
+    // await buyKingCall({
+    //   args: [_ens.replace(".eth", "")],
+    //   overrides: {
+    //     value: Number(kingPrice.toNumber().toFixed(0)) + 10,
+    //     gasLimit: 200000,
+    //   },
+    // });
   };
 
   const setEns = async (_id, _list) => {
@@ -265,9 +311,9 @@ export function EthereumProvider({ children }) {
   };
 
   const stack = async (_ens, _id) => {
-    await stackCall({
-      args: [_ens.replace(".eth", ""), _id],
-    });
+    // await stackCall({
+    //   args: [_ens.replace(".eth", ""), _id],
+    // });
     setSelectId(null);
   };
 
@@ -275,19 +321,17 @@ export function EthereumProvider({ children }) {
     const avatarRecord = `eip155:1/erc721:${contractAddress}/${selectId}`;
     const tokenURI = await getTokenURI(_id);
     console.log(tokenURI);
-    const res = await setTextCall({
-      args: [namehash.hash(_ens), "avatar", avatarRecord],
-    });
-
-    console.log(res);
+    // const res = await setTextCall({
+    //   args: [namehash.hash(_ens), "avatar", avatarRecord],
+    // });
   };
 
   const unstack = async (_id) => {
-    await unstackCall({ args: [_id] });
+    // await unstackCall({ args: [_id] });
   };
 
   const burn = async (_id) => {
-    await burnCall({ args: [_id] });
+    // await burnCall({ args: [_id] });
     setSelectId(null);
   };
 
@@ -295,29 +339,29 @@ export function EthereumProvider({ children }) {
     setIsKingHandOpen(true);
     setIsKingHand(false);
     setSelectId(_id);
-    const reveal = await revealKingHandCall({
-      args: [_id],
-      overrides: {
-        value: ethers.utils.parseEther("0.000001"),
-      },
-    });
-    if (
-      reveal.receipt.logs[0].data ===
-      0x0000000000000000000000000000000000000000000000000000000000000000
-    ) {
-      setIsKingHand(true);
-    } else {
-      setIsKingHand(false);
-    }
+    // const reveal = await revealKingHandCall({
+    //   args: [_id],
+    //   overrides: {
+    //     value: ethers.utils.parseEther("0.000001"),
+    //   },
+    // });
+    // if (
+    //   reveal.receipt.logs[0].data ===
+    //   0x0000000000000000000000000000000000000000000000000000000000000000
+    // ) {
+    //   setIsKingHand(true);
+    // } else {
+    //   setIsKingHand(false);
+    // }
   };
 
   const listNFT = async (_id, price) => {
-    await listCall({ args: [_id, ethers.utils.parseEther(price.toString())] });
+    // await listCall({ args: [_id, ethers.utils.parseEther(price.toString())] });
     setSelectId(null);
   };
 
   const unlistNFT = async (_id) => {
-    await unlistCall({ args: [_id] });
+    // await unlistCall({ args: [_id] });
   };
 
   const buyKing = async (_list) => {
@@ -336,7 +380,7 @@ export function EthereumProvider({ children }) {
 
   const mintPawn = async () => {
     if (contractAddress) {
-      if (address) {
+      if (account.address) {
         if (userColor === 0) {
           setIsMintColorPickerOpen(true);
           console.log("display choose color component");
@@ -408,7 +452,7 @@ export function EthereumProvider({ children }) {
 
   const value = {
     mintPawn,
-    chooseColor,
+    // chooseColor,
     isMintColorPickerOpen,
     isKingColorPickerOpen,
     isPriceSelectorOpen,
@@ -426,7 +470,7 @@ export function EthereumProvider({ children }) {
     freeMint,
     ensList,
     collection,
-    userColor,
+    state,
     validateKill,
     validateBurn,
     updateExpiration,
@@ -434,19 +478,19 @@ export function EthereumProvider({ children }) {
     sweep,
     burnSweep,
     mintSpecial,
-    mintLoading,
+    // mintLoading,
     multiMintLoading,
-    burnLoading,
-    stackLoading,
-    setTextLoading,
-    unstackLoading,
-    listLoading,
-    unlistLoading,
-    chooseColorLoading,
-    multiBuyLoading,
-    buyKingLoading,
-    multiKillLoading,
-    revealKingHandLoading,
+    // burnLoading,
+    // stackLoading,
+    // setTextLoading,
+    // unstackLoading,
+    // listLoading,
+    // unlistLoading,
+    // chooseColorLoading,
+    // multiBuyLoading,
+    // buyKingLoading,
+    // multiKillLoading,
+    // revealKingHandLoading,
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
@@ -458,6 +502,7 @@ export function EthereumProvider({ children }) {
     setIsKingHandOpen,
     setIsKillOpen,
     setIsBurnOpen,
+    setState,
     burn,
     stack,
     king,
@@ -480,7 +525,7 @@ export function EthereumProvider({ children }) {
     getEnsProfilePicture,
     getGasPrice,
     address,
-    account
+    account,
   };
 
   return (

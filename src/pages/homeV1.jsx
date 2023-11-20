@@ -186,8 +186,6 @@ const HomeV1 = () => {
         }
       }
     };
-    
-    console.log(account);
 
     if (address) {
       fetchEns();
