@@ -34,7 +34,7 @@ export const Graal = (props) => {
     ""
   );
   const [active, setActive] = useState("");
-  const { address, shortState, mintSpecial, mintLoading } = useEthereum();
+  const { address, shortState, setShortState, mintSpecial, mintLoading } = useEthereum();
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const { data: burnCount, error: burnCountError } = useContractRead(
     contract,
@@ -49,6 +49,14 @@ export const Graal = (props) => {
     isLoading,
     error: tokenIdOfNameError,
   } = useContractRead(contract, "getTokenIdOfName", [name]);
+
+  useEffect(() => {
+    if(shortState === "success") {
+      setTimeout(() => {
+        setShortState("false");
+      }, 3000);
+    }
+  }, [shortState]);
 
   useEffect(() => {
     props.data.mint[1].type === "burn"

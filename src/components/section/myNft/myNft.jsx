@@ -64,7 +64,7 @@ export const MyNft = (props) => {
     unstack,
     unlistNFT,
     sweep,
-    revealKingHand,
+    validateReveal,
     setPrice,
     setEns,
     setSweep,
@@ -1005,7 +1005,7 @@ export const MyNft = (props) => {
                             {element.type === 5 && (
                               <li
                                 className="option"
-                                onClick={() => revealKingHand(element.id)}
+                                onClick={() => validateReveal(element.id)}
                               >
                                 Reveal
                               </li>

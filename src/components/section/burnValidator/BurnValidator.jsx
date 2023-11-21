@@ -4,12 +4,11 @@ import { BurnValidatorStyleWrapper } from "./BurnValidator.style";
 import { Button, IconButton } from "@mui/material";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import validate from "../../../assets/images/ValideWhite.png";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import ReactLoading from "react-loading";
 
 export const BurnValidator = () => {
-  const { burn, selectId, setIsBurnOpen, burnLoading } = useEthereum();
-  const [state, setState] = useState("");
+  const { burn, state, setState, selectId, setIsBurnOpen, burnLoading } = useEthereum();
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -23,11 +22,13 @@ export const BurnValidator = () => {
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsBurnOpen(false);
+      setState("");
     }
   };
 
   const handleClose = () => {
     setIsBurnOpen(false);
+    setState("");
   };
 
   return (
@@ -83,12 +84,11 @@ export const BurnValidator = () => {
                     : "rgb(29, 155, 240)",
               }}
               variant="contained"
-              onClick={async () => {
+              onClick={() => {
                 if (state === "success") {
                   handleClose();
                 } else {
-                  await burn(selectId);
-                  setState("success");
+                  burn(selectId);
                 }
               }}
             >

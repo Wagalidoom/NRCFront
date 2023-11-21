@@ -2,20 +2,36 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { RevealKingHandStyleWrapper } from "./RevealKingHand.style";
 import { Button, IconButton } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import validate from "../../../assets/images/ValideWhite.png";
 import ReactLoading from "react-loading";
 
-export const RevealKingHand = (props) => {
-  const [state, setState] = useState("");
-  const { selectId, setIsKingHandOpen, isKingHand, revealKingHandLoading } =
-    useEthereum();
+export const RevealKingHand = () => {
+  const {
+    selectId,
+    state,
+    setState,
+    setIsKingHandOpen,
+    revealKingHand,
+    revealKingHandLoading,
+    revealKingHandResponse,
+  } = useEthereum();
+  const [isKingHand, setIsKingHand] = useState(false);
   const componentRef = useRef(null);
 
   useEffect(() => {
-    if (!revealKingHandLoading) {
-      setState("success");
+    if (revealKingHandResponse) {
+      console.log(revealKingHandResponse.logs[0].data);
+      if (
+        revealKingHandResponse.logs[0].data ==
+        0x0000000000000000000000000000000000000000000000000000000000000000
+      ) {
+        setIsKingHand(false);
+      } else {
+        setIsKingHand(true);
+      }
     }
-  }, [revealKingHandLoading]);
+  }, [revealKingHandResponse]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -28,11 +44,13 @@ export const RevealKingHand = (props) => {
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsKingHandOpen(false);
+      setState("");
     }
   };
 
   const handleClose = () => {
     setIsKingHandOpen(false);
+    setState("");
   };
 
   return (
@@ -64,6 +82,7 @@ export const RevealKingHand = (props) => {
                 style={{
                   display: "flex",
                   margin: "25px 0",
+                  height: "50px",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -85,54 +104,98 @@ export const RevealKingHand = (props) => {
                   Loading...
                 </p>
               </div>
-            ) : isKingHand === true ? (
-              <p
-                style={{
-                  display: "flex",
-                  textAlign: "center",
-                  margin: "25px 0",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                Congratulation, this nft is a King Hand!<br />
-                It will be update when reach the end of the collection.
-              </p>
+            ) : state === "success" ? (
+              isKingHand === true ? (
+                <p
+                  style={{
+                    display: "flex",
+                    textAlign: "center",
+                    margin: "25px 0",
+                    height: "50px",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Congratulation, this nft is a King Hand!
+                  <br />
+                  It will be update when reach the end of the collection.
+                </p>
+              ) : (
+                <p
+                  style={{
+                    display: "flex",
+                    textAlign: "center",
+                    margin: "25px 0",
+                    height: "50px",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  This nft is not a King Hand...
+                  <br />
+                  Try again with another Pawn!
+                </p>
+              )
             ) : (
               <p
                 style={{
                   display: "flex",
                   textAlign: "center",
                   margin: "25px 0",
+                  height: "50px",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                This nft is not a King Hand...
-                <br />
-                Try again with another Pawn!
+                Proceed the transaction in order to reveal your Pawn!
               </p>
             )}
             <Button
-              disabled={state === "success" ? false : true}
               style={{
                 width: "100px",
                 height: "40px",
                 backgroundColor:
                   state === "success"
-                    ? "rgb(29, 155, 240)"
-                    : "rgb(138 180 209)",
+                    ? "rgb(138 180 209)"
+                    : "rgb(29, 155, 240)",
               }}
               variant="contained"
               onClick={async () => {
                 if (state === "success") {
                   handleClose();
+                } else {
+                  revealKingHand();
                 }
               }}
             >
-              OK
+              {state === "success" ? (
+                <>
+                  <img
+                    style={{ width: "16px", marginRight: "8px" }}
+                    src={validate}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Done
+                  </p>
+                </>
+              ) : (
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Reveal
+                </p>
+              )}
             </Button>
           </div>
         </div>

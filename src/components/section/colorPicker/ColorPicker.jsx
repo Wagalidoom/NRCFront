@@ -9,9 +9,8 @@ import { useState, useEffect, useRef } from "react";
 import ReactLoading from "react-loading";
 
 export const ColorPicker = (props) => {
-  const { chooseColor, setIsMintColorPickerOpen, setIsKingColorPickerOpen, setIsKingEnsSelectorOpen, setIsMintOpen, chooseColorLoading } =
+  const { chooseColor, state, setState, setIsMintColorPickerOpen, setIsKingColorPickerOpen, setIsKingEnsSelectorOpen, setIsMintOpen, chooseColorLoading } =
     useEthereum();
-  const [state, setState] = useState("idle");
   const [color, setColor] = useState(0);
   const componentRef = useRef(null);
 
@@ -27,12 +26,14 @@ export const ColorPicker = (props) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsMintColorPickerOpen(false);
       setIsKingColorPickerOpen(false);
+      setState("");
     }
   };
 
   const handleClose = () => {
     setIsMintColorPickerOpen(false);
     setIsKingColorPickerOpen(false);
+    setState("");
   };
 
   return (
@@ -126,7 +127,7 @@ export const ColorPicker = (props) => {
                 state === "success" ? "rgb(138 180 209)" : "rgb(29, 155, 240)",
             }}
             variant="contained"
-            onClick={async () => {
+            onClick={ () => {
               if (state === "success") {
                 handleClose();
                 if(props.king) {
@@ -136,8 +137,7 @@ export const ColorPicker = (props) => {
                   setIsMintOpen(true);
                 }
               } else {
-                await chooseColor(color);
-                setState("success");
+                chooseColor(color);
               }
             }}
           >

@@ -41,7 +41,6 @@ export function EthereumProvider({ children }) {
   const [collection, setCollection] = useState([]);
   const [isMintOpen, setIsMintOpen] = useState(false);
   const [isKingHandOpen, setIsKingHandOpen] = useState(false);
-  const [isKingHand, setIsKingHand] = useState(false);
   const [state, setState] = useState("");
   const [shortState, setShortState] = useState("");
 
@@ -166,7 +165,6 @@ export function EthereumProvider({ children }) {
     confirmations: 1,
     hash: stackCall?.hash,
     onSuccess() {
-      console.log("succes stack")
       setState("successHalf");
     },
   });
@@ -182,49 +180,95 @@ export function EthereumProvider({ children }) {
     hash: unstackCall?.hash,
   });
 
-  // const {
-  //   mutateAsync: burnCall,
-  //   isLoading: burnLoading,
-  //   error: burnError,
-  // } = useContractWrite(contract, "burn");
+  const { data: burnCall, write: writeBurn } = useContractWrite({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "burn",
+  });
 
-  // const {
-  //   mutateAsync: listCall,
-  //   isLoading: listLoading,
-  //   error: listError,
-  // } = useContractWrite(contract, "listNFT");
+  const { isLoading: burnLoading } = useWaitForTransaction({
+    confirmations: 1,
+    hash: burnCall?.hash,
+    onSuccess() {
+      setState("success");
+    },
+  });
 
-  // const {
-  //   mutateAsync: unlistCall,
-  //   isLoading: unlistLoading,
-  //   error: unlistError,
-  // } = useContractWrite(contract, "unlistNFT");
+  const { data: listCall, write: writeList } = useContractWrite({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "list",
+  });
 
-  // const {
-  //   mutateAsync: buyKingCall,
-  //   isLoading: buyKingLoading,
-  //   error: buyKingError,
-  // } = useContractWrite(contract, "buyKing");
+  const { isLoading: listLoading } = useWaitForTransaction({
+    confirmations: 1,
+    hash: listCall?.hash,
+    onSuccess() {
+      setState("success");
+    },
+  });
 
-  // const {
-  //   mutateAsync: chooseColorCall,
-  //   isLoading: chooseColorLoading,
-  //   error: chooseColorError,
-  // } = useContractWrite(contract, "chooseColor");
+  const { data: unlistCall, write: writeUnlist } = useContractWrite({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "unlist",
+  });
 
-  // const {
-  //   mutateAsync: revealKingHandCall,
-  //   isLoading: revealKingHandLoading,
-  //   error: revealKingHandError,
-  // } = useContractWrite(contract, "revealKingHand");
+  const { isLoading: unlistLoading } = useWaitForTransaction({
+    confirmations: 1,
+    hash: unlistCall?.hash,
+  });
 
-  // const chooseColor = async (_color) => {
-  //   try {
-  //     await chooseColorCall({ args: [_color] });
-  //   } catch (error) {
-  //     console.log(error, chooseColorError);
-  //   }
-  // };
+  const { data: buyKingCall, write: writeBuyKing } = useContractWrite({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "buyKing",
+  });
+
+  const { isLoading: buyKingLoading } = useWaitForTransaction({
+    confirmations: 1,
+    hash: buyKingCall?.hash,
+    onSuccess() {
+      setState("successHalf");
+    },
+  });
+
+  const { data: chooseColorCall, write: writeChooseColor } = useContractWrite({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "chooseColor",
+  });
+
+  const { isLoading: chooseColorLoading } = useWaitForTransaction({
+    confirmations: 1,
+    hash: chooseColorCall?.hash,
+    onSuccess() {
+      setState("success");
+    },
+  });
+
+  const { data: revealKingHandCall, write: writeRevealKingHand } =
+    useContractWrite({
+      address: contractAddress,
+      abi: NUMBERRUNNERCLUB_ABI,
+      functionName: "revealKingHand",
+    });
+
+  const { data: revealKingHandResponse, isLoading: revealKingHandLoading } = useWaitForTransaction({
+    confirmations: 1,
+    hash: revealKingHandCall?.hash,
+    onSuccess() {
+      setState("success");
+    },
+  });
+
+  const chooseColor = (_color) => {
+    try {
+      writeChooseColor({ args: [_color] });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const validateKill = (_id, price) => {
     setSelectId(_id);
@@ -293,13 +337,11 @@ export function EthereumProvider({ children }) {
   };
 
   const king = async (_ens) => {
-    // await buyKingCall({
-    //   args: [_ens.replace(".eth", "")],
-    //   overrides: {
-    //     value: Number(kingPrice.toNumber().toFixed(0)) + 10,
-    //     gasLimit: 200000,
-    //   },
-    // });
+    writeBuyKing({
+      args: [_ens.replace(".eth", "")],
+      value: Number(kingPrice.toNumber().toFixed(0)) + 10,
+      gasLimit: 200000,
+    });
   };
 
   const setEns = (_id, _list) => {
@@ -338,38 +380,28 @@ export function EthereumProvider({ children }) {
     writeUnstack({ args: [_id] });
   };
 
-  const burn = async (_id) => {
-    // await burnCall({ args: [_id] });
-    setSelectId(null);
+  const burn = (_id) => {
+    writeBurn({ args: [_id] });
   };
 
-  const revealKingHand = async (_id) => {
+  const validateReveal = (_id) => {
     setIsKingHandOpen(true);
-    setIsKingHand(false);
     setSelectId(_id);
-    // const reveal = await revealKingHandCall({
-    //   args: [_id],
-    //   overrides: {
-    //     value: ethers.utils.parseEther("0.000001"),
-    //   },
-    // });
-    // if (
-    //   reveal.receipt.logs[0].data ===
-    //   0x0000000000000000000000000000000000000000000000000000000000000000
-    // ) {
-    //   setIsKingHand(true);
-    // } else {
-    //   setIsKingHand(false);
-    // }
   };
 
-  const listNFT = async (_id, price) => {
-    // await listCall({ args: [_id, ethers.utils.parseEther(price.toString())] });
-    setSelectId(null);
+  const revealKingHand = () => {
+    writeRevealKingHand({
+      args: [selectId],
+      value: ethers.utils.parseEther("0.000001"),
+    });
   };
 
-  const unlistNFT = async (_id) => {
-    // await unlistCall({ args: [_id] });
+  const listNFT = (_id, price) => {
+    writeList({ args: [_id, ethers.utils.parseEther(price.toString())] });
+  };
+
+  const unlistNFT = (_id) => {
+    writeUnlist({ args: [_id] });
   };
 
   const buyKing = async (_list) => {
@@ -460,7 +492,7 @@ export function EthereumProvider({ children }) {
 
   const value = {
     mintPawn,
-    // chooseColor,
+    chooseColor,
     isMintColorPickerOpen,
     isKingColorPickerOpen,
     isPriceSelectorOpen,
@@ -471,7 +503,6 @@ export function EthereumProvider({ children }) {
     isMintOpen,
     isKillOpen,
     isBurnOpen,
-    isKingHand,
     isKingHandOpen,
     selectId,
     burnPrice,
@@ -489,18 +520,19 @@ export function EthereumProvider({ children }) {
     mintSpecial,
     mintLoading,
     multiMintLoading,
-    // burnLoading,
+    burnLoading,
     stackLoading,
     setTextLoading,
     updateExpirationLoading,
     unstackLoading,
-    // listLoading,
-    // unlistLoading,
-    // chooseColorLoading,
+    listLoading,
+    unlistLoading,
+    chooseColorLoading,
     multiBuyLoading,
-    // buyKingLoading,
+    buyKingLoading,
     multiKillLoading,
-    // revealKingHandLoading,
+    revealKingHandLoading,
+    revealKingHandResponse,
     setIsMintOpen,
     setIsPriceSelectorOpen,
     setIsEnsSelectorOpen,
@@ -519,6 +551,7 @@ export function EthereumProvider({ children }) {
     king,
     setAvatar,
     unstack,
+    validateReveal,
     revealKingHand,
     buyKing,
     listNFT,

@@ -28,9 +28,8 @@ const CustomTextField = styled(TextField)({
 });
 
 export const PriceSelector = () => {
-  const { listNFT, selectId, setIsPriceSelectorOpen, listLoading } =
+  const { listNFT, state, setState, selectId, setIsPriceSelectorOpen, listLoading } =
     useEthereum();
-  const [state, setState] = useState("");
   const [price, setPrice] = useState(1);
 
   const componentRef = useRef(null);
@@ -46,11 +45,13 @@ export const PriceSelector = () => {
   const handleClickOutside = (event) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsPriceSelectorOpen(false);
+      setState("");
     }
   };
 
   const handleClose = () => {
     setIsPriceSelectorOpen(false);
+    setState("");
   };
 
   const handleTextFieldChange = (event) => {
@@ -145,7 +146,6 @@ export const PriceSelector = () => {
                   handleClose();
                 } else {
                   await listNFT(selectId, price);
-                  setState("success");
                 }
               }}
             >
