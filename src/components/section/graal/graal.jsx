@@ -33,9 +33,8 @@ export const Graal = (props) => {
   const [name, setName] = useState(
     ""
   );
-  const [state, setState] = useState("");
   const [active, setActive] = useState("");
-  const { address, mintSpecial, mintLoading } = useEthereum();
+  const { address, shortState, mintSpecial, mintLoading } = useEthereum();
   const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
   const { data: burnCount, error: burnCountError } = useContractRead(
     contract,
@@ -206,8 +205,7 @@ export const Graal = (props) => {
             onClick={async () => {
               if (stack && burn) {
                 setActive(props.data.name);
-                await mintSpecial(props.data.type, stackedId);
-                setState("success");
+                mintSpecial(props.data.type, stackedId);
               }
             }}
           >
@@ -219,7 +217,7 @@ export const Graal = (props) => {
                 height={22}
                 width={22}
               />
-            ) : state === "success" && (active === props.data.name) ? (
+            ) : shortState === "success" && (active === props.data.name) ? (
               <img
                 style={{ width: "18px", marginRight: "8px" }}
                 src={validate}

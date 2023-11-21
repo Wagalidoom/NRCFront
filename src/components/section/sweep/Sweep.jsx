@@ -1,5 +1,4 @@
-import { Button, IconButton, Slider, TextField } from "@mui/material";
-import { styled } from "@mui/system";
+import { Button, IconButton, Slider } from "@mui/material";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { SweepStyleWrapper } from "./Sweep.style";
 import CloseIcon from "@mui/icons-material/Close";
@@ -7,25 +6,12 @@ import eth from "../../../assets/images/eth.png";
 import { useEffect, useRef, useState } from "react";
 import ReactLoading from "react-loading";
 
-const CustomTextField = styled(TextField)({
-  "& .MuiInputBase-root": {
-    color: "rgba(255, 255, 255, 0.8)",
-    backgroundColor: "rgb(21, 32, 43)",
-    height: "35px",
-    width: "50px",
-    borderRadius: "25%",
-    border: "solid 2px rgb(48, 60, 67)",
-  },
-
-  "& .MuiInputBase-input": {
-    paddingRight: "0px",
-  },
-});
-
 export const Sweep = (props) => {
   const {
     collection,
     sweep,
+    state,
+    setState,
     burnSweep,
     setIsSweepOpen,
     setIsBurnSweepOpen,
@@ -35,7 +21,6 @@ export const Sweep = (props) => {
   const [sweepCount, setSweepCount] = useState(1);
   const [price, setPrice] = useState(0);
   const [collectionId, setCollectionId] = useState([]);
-  const [state, setState] = useState("");
   const componentRef = useRef(null);
 
   const marks = collection.map((item, index) => ({
@@ -60,6 +45,14 @@ export const Sweep = (props) => {
 
   const isIOS = iOS();
 
+  const handleClickOutside = (event) => {
+    if (componentRef.current && !componentRef.current.contains(event.target)) {
+      setIsSweepOpen(false);
+      setIsBurnSweepOpen(false);
+      setState("");
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -79,16 +72,10 @@ export const Sweep = (props) => {
     setCollectionId(collectionId);
   }, [sweepCount]);
 
-  const handleClickOutside = (event) => {
-    if (componentRef.current && !componentRef.current.contains(event.target)) {
-      setIsSweepOpen(false);
-      setIsBurnSweepOpen(false);
-    }
-  };
-
   const handleClose = () => {
     setIsSweepOpen(false);
     setIsBurnSweepOpen(false);
+    setState("");
   };
 
   const handleSliderChange = (event, newValue) => {
@@ -260,9 +247,8 @@ export const Sweep = (props) => {
                   handleClose();
                 } else {
                   props.market
-                    ? await sweep(collectionId, price)
-                    : await burnSweep(collectionId, price);
-                  setState("success");
+                    ? sweep(collectionId, price)
+                    : burnSweep(collectionId, price);
                 }
               }}
             >

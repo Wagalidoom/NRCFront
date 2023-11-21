@@ -5,7 +5,6 @@ import {
   FormControlLabel,
   FormGroup,
   IconButton,
-  TextField,
 } from "@mui/material";
 import DotLight from "../../../assets/images/icon/three-dot-light.svg";
 import validate from "../../../assets/images/ValideWhite.png";
@@ -21,7 +20,6 @@ import sweepDark from "../../../assets/images/icon/balaisDark.png";
 import sweepLight from "../../../assets/images/icon/balaisLight.png";
 import searchDark from "../../../assets/images/icon/loupeDark.png";
 import searchLight from "../../../assets/images/icon/loupeLight.png";
-import ensvision from "../../../assets/images/icon/ensvision.png";
 import arrowDown from "../../../assets/images/icon/arrow-down.png";
 import arrowDownLight from "../../../assets/images/icon/arrow-down-light.png";
 import tirelire from "../../../assets/images/icon/tirelire.png";
@@ -34,14 +32,9 @@ import {
   NRCsubgraph,
   ENSsubgraph,
   useEthereum,
-  contractAddress,
 } from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
 import Axios from "axios";
-import { useContract, useContractRead } from "@thirdweb-dev/react";
-import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
-import { ethers } from "ethers";
-const namehash = require("eth-ens-namehash");
 
 export const MyNft = (props) => {
   const currentTheme = useContext(ThemeContext);
@@ -77,7 +70,6 @@ export const MyNft = (props) => {
     setSweep,
     updateExpiration,
     address,
-    mintLoading,
     multiMintLoading,
     burnLoading,
     multiBuyLoading,
@@ -309,8 +301,6 @@ export const MyNft = (props) => {
                 fetchOwned = Object.values(result.data.data)[0];
               }
             );
-
-            console.log(fetchOwned);
           } catch (error) {
             console.log(error);
           }
@@ -360,7 +350,6 @@ export const MyNft = (props) => {
       fetchDataMarket();
     }
   }, [
-    mintLoading,
     multiMintLoading,
     burnLoading,
     stackLoading,

@@ -1,10 +1,4 @@
-import {
-  Button,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { useState } from "react";
 import { EnsSelectorStyleWrapper } from "./EnsSelector.style";
@@ -18,6 +12,8 @@ export const EnsSelector = (props) => {
     stack,
     king,
     ensList,
+    state,
+    setState,
     selectId,
     setIsEnsSelectorOpen,
     setIsKingEnsSelectorOpen,
@@ -27,7 +23,6 @@ export const EnsSelector = (props) => {
     buyKingLoading,
   } = useEthereum();
   const [ensName, setEnsName] = useState("");
-  const [state, setState] = useState("");
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -42,6 +37,7 @@ export const EnsSelector = (props) => {
     if (componentRef.current && !componentRef.current.contains(event.target)) {
       setIsEnsSelectorOpen(false);
       setIsKingEnsSelectorOpen(false);
+      setState("");
     }
   };
 
@@ -52,7 +48,14 @@ export const EnsSelector = (props) => {
   const handleClose = () => {
     setIsEnsSelectorOpen(false);
     setIsKingEnsSelectorOpen(false);
+    setState("");
   };
+
+  useEffect(() => {
+    if (state == "successHalf") {
+      setAvatar(ensName, selectId);
+    }
+  }, [state]);
 
   return (
     <EnsSelectorStyleWrapper>
@@ -96,7 +99,8 @@ export const EnsSelector = (props) => {
               {ensList.map((element, index) => {
                 if (index % 2) {
                   return (
-                    <div key={index}
+                    <div
+                      key={index}
                       onClick={() => {
                         setEnsName(element);
                       }}
@@ -116,7 +120,8 @@ export const EnsSelector = (props) => {
                   );
                 } else {
                   return (
-                    <div key={index}
+                    <div
+                      key={index}
                       onClick={() => {
                         setEnsName(element);
                       }}
@@ -189,12 +194,10 @@ export const EnsSelector = (props) => {
                   handleClose();
                 } else {
                   if (props.king) {
-                    await king(ensName);
+                    king(ensName);
                   } else {
-                    await stack(ensName, selectId);
+                    stack(ensName, selectId);
                   }
-                  await setAvatar(ensName, selectId);
-                  setState("success");
                 }
               }}
             >
@@ -232,7 +235,16 @@ export const EnsSelector = (props) => {
                     Done
                   </p>
                 </>
-              ) : (
+              ) : state === "successHalf" ? (
+                <p
+                  style={{
+                    textTransform: "none",
+                    fontSize: "1rem",
+                  }}
+                >
+                  1/2
+                </p>
+              ) :  (
                 <p
                   style={{
                     textTransform: "none",
