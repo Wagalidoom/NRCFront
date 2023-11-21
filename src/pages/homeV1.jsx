@@ -88,11 +88,6 @@ import emojiDoigt from "../assets/images/icon/emojiDoigt.png";
 import { contractAddress, useEthereum } from "../context/ethereumProvider";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
-import {
-  ConnectWallet,
-  useContract,
-  useContractRead,
-} from "@thirdweb-dev/react";
 import { ColorPicker } from "../components/section/colorPicker/ColorPicker";
 import { Mint } from "../components/section/mint/Mint";
 import { PriceSelector } from "../components/section/priceSelector/PriceSelector";
@@ -104,7 +99,7 @@ import { BurnValidator } from "../components/section/burnValidator/BurnValidator
 import { RevealKingHand } from "../components/section/RevealKingHand/RevealKingHand";
 import { Chessboard } from "../components/section/chessboard/Chessboard";
 import { KillValidator } from "../components/section/killValidator/KillValidator";
-const namehash = require("eth-ens-namehash");
+import { useContractRead } from "wagmi";
 
 const HomeV1 = () => {
   const [link, changePageLink] = useState(true);
@@ -161,13 +156,12 @@ const HomeV1 = () => {
     }
   };
 
-  const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
-
-  const { data: tokenIdOfName } = useContractRead(
-    contract,
-    "getTokenIdOfName",
-    [ensName]
-  );
+  const { data: tokenIdOfName } = useContractRead({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "getTokenIdOfName",
+    args: [ensName],
+  });
 
   useEffect(() => {
     const fetchEns = async () => {
@@ -193,7 +187,7 @@ const HomeV1 = () => {
       setEnsName("");
       setEnsUrl("");
     }
-  }, [address, account, getEnsName, getEnsProfilePicture]); 
+  }, [address, account, getEnsName, getEnsProfilePicture]);
 
   useEffect(() => {
     const tokenId = Number(tokenIdOfName);
@@ -201,7 +195,6 @@ const HomeV1 = () => {
     const club = nftTypeToString(nftType);
     console.log(tokenId);
     tokenId ? setHashTag("@NR" + club) : setHashTag("@TheNRClub");
-    
   }, [tokenIdOfName]);
 
   useEffect(() => {
@@ -462,18 +455,16 @@ const HomeV1 = () => {
             </NavLink>
           </SectionNav>
           <SectionNav style={{ padding: "0" }}>
-          <w3m-button className="connectWallet" balance="hide" />
-            <ConnectWallet
-              modalTitle="Connect a wallet"
+            <w3m-button
               className="connectionButtonSideMenu"
-              modalTitleIconUrl={""}
               style={{
                 width: "170px",
                 backgroundColor: "rgb(29, 155, 240)",
                 color: "white",
                 height: "43px",
                 fontSize: "22px !important",
-              }}
+              }}  
+              balance="hide"
             />
           </SectionNav>
         </div>
@@ -542,12 +533,7 @@ const HomeV1 = () => {
                 >
                   Mint
                 </button>
-                <ConnectWallet
-                  modalTitle="Connect a wallet"
-                  modalTitleIconUrl={""}
-                  className="connectionButton"
-                  btnTitle="Connect"
-                />
+                <w3m-button className="connectionButton" label="Connect" balance="hide" />
               </div>
               <div className="description">
                 <div id="name" className="name">
@@ -565,7 +551,7 @@ const HomeV1 = () => {
                       </div>
                     </>
                   ) : (
-                    ensName+".eth"
+                    ensName + ".eth"
                   )}
                 </div>
                 <div className="pieces">
@@ -610,10 +596,7 @@ const HomeV1 = () => {
                     style={{ marginRight: "5px" }}
                     alt=""
                   />
-                  <a
-                    href=""
-                    style={{ color: "rgb(29, 155, 240)" }}
-                  >
+                  <a href="" style={{ color: "rgb(29, 155, 240)" }}>
                     available soon
                   </a>
                   <div style={{ marginTop: "14px" }}>
@@ -2358,8 +2341,8 @@ const HomeV1 = () => {
                             <br />
                             <br />
                             The mint of a Number Runner is at 0,1 eth :<br />
-                            - 0.05 eth is redistributed to holders (50% Holders |
-                            50% Pool)
+                            - 0.05 eth is redistributed to holders (50% Holders
+                            | 50% Pool)
                             <br />- 0.05 eth for the team
                           </div>
                         </div>
@@ -2509,7 +2492,7 @@ const HomeV1 = () => {
                 </div>
               )}
               {thread !== "open" && faq !== "open" && (
-                <div className="text-content" style={{marginBottom: "20px"}}>
+                <div className="text-content" style={{ marginBottom: "20px" }}>
                   <div className="flex">
                     <div className="contentLogo">
                       <div className="logo">

@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI, RESOLVER_ABI } from "../ressources/abi";
-import { useContract } from "@thirdweb-dev/react-core";
 import {
   useAccount,
   useContractRead,
@@ -52,7 +51,6 @@ export function EthereumProvider({ children }) {
         generalProvider
       )
     : null;
-  const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
 
   const address = useAccount().address;
   const account = useAccount();
@@ -452,7 +450,7 @@ export function EthereumProvider({ children }) {
   };
 
   const getVolume = async () => {
-    const volume = contract
+    const volume = contractAddress
       ? await generalProvider.getBalance(contractAddress)
       : 0;
     return volume * 10000;
