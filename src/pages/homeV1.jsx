@@ -127,7 +127,6 @@ const HomeV1 = () => {
     getCurrentSupply,
     getVolume,
     getPrizePool,
-    address,
     account,
     getEnsName,
     getEnsProfilePicture,
@@ -181,13 +180,13 @@ const HomeV1 = () => {
       }
     };
 
-    if (address) {
+    if (account.address) {
       fetchEns();
     } else {
       setEnsName("");
       setEnsUrl("");
     }
-  }, [address, account, getEnsName, getEnsProfilePicture]);
+  }, [account, getEnsName, getEnsProfilePicture]);
 
   useEffect(() => {
     const tokenId = Number(tokenIdOfName);
@@ -555,7 +554,7 @@ const HomeV1 = () => {
                   )}
                 </div>
                 <div className="pieces">
-                  {address === undefined ? <>@TheNRClub</> : hashtag}
+                  {account === undefined ? <>@TheNRClub</> : hashtag}
                 </div>
                 <div className="text">
                   Number Runner Club is a deflationary collection of 10.000 PFP

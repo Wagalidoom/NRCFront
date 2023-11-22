@@ -8,12 +8,12 @@ import {
   contractAddress,
   useEthereum,
 } from "../../../context/ethereumProvider";
-import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 import Axios from "axios";
 import { isClub } from "../../../helper";
 import ReactLoading from "react-loading";
 import { Button } from "@mui/material";
+import { useContractRead } from "wagmi";
 const namehash = require("eth-ens-namehash");
 
 export const Graal = (props) => {
@@ -35,20 +35,27 @@ export const Graal = (props) => {
   );
   const [active, setActive] = useState("");
   const { address, shortState, setShortState, mintSpecial, mintLoading } = useEthereum();
-  const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
-  const { data: burnCount, error: burnCountError } = useContractRead(
-    contract,
-    "getBurnedCount",
-    [address]
-  );
-  const { data: burnCounterCount, error: burnCounterCountError } =
-    useContractRead(contract, "getBurnedCounterCount", [address]);
 
-  const {
-    data: tokenIdOfName,
-    isLoading,
-    error: tokenIdOfNameError,
-  } = useContractRead(contract, "getTokenIdOfName", [name]);
+  const { data: burnCount } = useContractRead({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "getBurnedCount",
+    args: [address],    
+  });
+
+    const { data: burnCounterCount } = useContractRead({
+      address: contractAddress,
+      abi: NUMBERRUNNERCLUB_ABI,
+      functionName: "getBurnedCounterCount",
+      args: [address],    
+    });
+
+  const { data: tokenIdOfName } = useContractRead({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "getTokenIdOfName",
+    args: [name],    
+  });
 
   useEffect(() => {
     if(shortState === "success") {

@@ -52,8 +52,8 @@ export function EthereumProvider({ children }) {
       )
     : null;
 
-  const address = useAccount().address;
   const account = useAccount();
+  const address = account.address;
 
   const { data: setTextCall, write: writeSetText } = useContractWrite({
     address: "0xd7a4F6473f32aC2Af804B3686AE8F1932bC35750",
@@ -195,7 +195,7 @@ export function EthereumProvider({ children }) {
   const { data: listCall, write: writeList } = useContractWrite({
     address: contractAddress,
     abi: NUMBERRUNNERCLUB_ABI,
-    functionName: "list",
+    functionName: "listNFT",
   });
 
   const { isLoading: listLoading } = useWaitForTransaction({
@@ -209,7 +209,7 @@ export function EthereumProvider({ children }) {
   const { data: unlistCall, write: writeUnlist } = useContractWrite({
     address: contractAddress,
     abi: NUMBERRUNNERCLUB_ABI,
-    functionName: "unlist",
+    functionName: "unlistNFT",
   });
 
   const { isLoading: unlistLoading } = useWaitForTransaction({
@@ -404,7 +404,7 @@ export function EthereumProvider({ children }) {
 
   const buyKing = async (_list) => {
     if (contractAddress) {
-      if (address) {
+      if (account.address) {
         setEnsList(_list);
         if (userColor === 0) {
           setIsKingColorPickerOpen(true);
@@ -472,7 +472,7 @@ export function EthereumProvider({ children }) {
   };
 
   const getEnsName = async () => {
-    const name = await generalProvider.lookupAddress(address);
+    const name = await generalProvider.lookupAddress(account.address);
     return name;
   };
 

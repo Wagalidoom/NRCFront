@@ -28,7 +28,6 @@ export const KingAuction = (props) => {
   const [calculatedDate, setCalculatedDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [checkboxValue, setCheckboxValue] = useState(false);
   const [price, setPrice] = useState(0);
   const { buyKing, address } = useEthereum();
   const [whiteKingReward, setWhiteKingReward] = useState(0);
@@ -289,7 +288,7 @@ export const KingAuction = (props) => {
   }, []);
 
   return (
-    <KingAuctionContainer checkbox={checkboxValue}>
+    <KingAuctionContainer>
       <div className="countdown-container">
         {<Countdown theme={props.theme} endTime={endTime} />}
       </div>
