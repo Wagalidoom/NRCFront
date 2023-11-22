@@ -337,7 +337,7 @@ export function EthereumProvider({ children }) {
   const king = async (_ens) => {
     writeBuyKing({
       args: [_ens.replace(".eth", "")],
-      value: Number(kingPrice.toNumber().toFixed(0)) + 10,
+      value: Number(kingPrice) + 10,
       gasLimit: 200000,
     });
   };
