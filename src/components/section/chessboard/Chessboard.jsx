@@ -24,7 +24,6 @@ import {
 } from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
 import Axios from "axios";
-import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
 export const Chessboard = (props) => {
   const [activeButton, setActiveButton] = useState({
@@ -95,6 +94,7 @@ export const Chessboard = (props) => {
       }
 
       fetchChessboard = fetchChessboard.slice(2);
+      console.log(userColor);
       if (userColor === 1) {
         fetchChessboard = fetchChessboard.filter(
           (element) => element.id % 2 == 1

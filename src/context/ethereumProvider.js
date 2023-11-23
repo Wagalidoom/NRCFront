@@ -488,6 +488,7 @@ export function EthereumProvider({ children }) {
   };
 
   const value = {
+    userColor,
     mintPawn,
     chooseColor,
     isMintColorPickerOpen,
