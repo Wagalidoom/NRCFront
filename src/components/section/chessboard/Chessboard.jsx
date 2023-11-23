@@ -6,8 +6,7 @@ import {
   FormGroup,
   IconButton,
 } from "@mui/material";
-import { ThemeContext } from "../../../app/App";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import filterDark from "../../../assets/images/icon/filterDark.png";
 import filterLight from "../../../assets/images/icon/filterLight.png";
 import sweepRed from "../../../assets/images/icon/balaisRed.png";
@@ -25,7 +24,6 @@ import {
 } from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
 import Axios from "axios";
-import { useContract, useContractRead } from "@thirdweb-dev/react";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
 export const Chessboard = (props) => {
@@ -49,12 +47,7 @@ export const Chessboard = (props) => {
   const { validateKill, userColor, setBurnSweep } = useEthereum();
   const [collection, setCollection] = useState([]);
   const [filteredCollection, setFilteredCollection] = useState([]);
-  const [node, setNode] = useState(
-    "0x0000000000000000000000000000000000000000000000000000000000000000"
-  );
   const [searchValue, setSearchValue] = useState("");
-
-  const { contract } = useContract(contractAddress, NUMBERRUNNERCLUB_ABI);
 
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);

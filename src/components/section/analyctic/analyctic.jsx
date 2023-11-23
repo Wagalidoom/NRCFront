@@ -134,7 +134,6 @@ export const Analyctic = (props) => {
             holder.type = nftType;
             holder.rewards =
               holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18;
-            console.log(holder.rewards);
             if (holder.rewards > 0) {
               return holder;
             }

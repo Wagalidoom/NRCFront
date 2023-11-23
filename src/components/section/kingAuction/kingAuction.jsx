@@ -310,7 +310,7 @@ export const KingAuction = (props) => {
               <p>Purchased by : {blackKingName}</p>
               <p>
                 <img style={{ width: "14px", marginRight: "4px" }} src={eth} />
-                {blackKingName}
+                {blackKingPrice}
               </p>
             </div>
           ) : (

@@ -14,12 +14,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.12";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.13";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x974a305A3Cf85495a52B96995AB3B4816E79a052";
+export const contractAddress = "0x13A2DEAF12273C81348F513bf9B22d7971671Eb1";
 
 const EthereumContext = createContext(null);
 
@@ -479,7 +479,6 @@ export function EthereumProvider({ children }) {
   const getEnsProfilePicture = async (ensName) => {
     const resolver = await generalProvider.getResolver(ensName);
     const imageUrl = await resolver.getText("avatar");
-    console.log(imageUrl);
     return imageUrl;
   };
 

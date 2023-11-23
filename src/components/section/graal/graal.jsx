@@ -17,9 +17,7 @@ import { useContractRead } from "wagmi";
 const namehash = require("eth-ens-namehash");
 
 export const Graal = (props) => {
-  const [ensList, setEnsList] = useState("");
-  const [ensDomains, setEnsDomains] = useState([]);
-  const [currentEnsName, setCurrentEnsName] = useState(null);
+  const [ensNames, setEnsNames] = useState([]);
   const [has999, setHas999] = useState(false);
   const [has10k, setHas10k] = useState(false);
   const [has100k, setHas100k] = useState(false);
@@ -30,35 +28,26 @@ export const Graal = (props) => {
   const [burn, setBurn] = useState(false);
   const [stack, setStack] = useState(false);
   const [count, setCount] = useState(0);
-  const [name, setName] = useState(
-    ""
-  );
   const [active, setActive] = useState("");
-  const { address, shortState, setShortState, mintSpecial, mintLoading } = useEthereum();
+  const { address, shortState, setShortState, mintSpecial, mintLoading } =
+    useEthereum();
 
   const { data: burnCount } = useContractRead({
     address: contractAddress,
     abi: NUMBERRUNNERCLUB_ABI,
     functionName: "getBurnedCount",
-    args: [address],    
+    args: [address],
   });
 
-    const { data: burnCounterCount } = useContractRead({
-      address: contractAddress,
-      abi: NUMBERRUNNERCLUB_ABI,
-      functionName: "getBurnedCounterCount",
-      args: [address],    
-    });
-
-  const { data: tokenIdOfName } = useContractRead({
+  const { data: burnCounterCount } = useContractRead({
     address: contractAddress,
     abi: NUMBERRUNNERCLUB_ABI,
-    functionName: "getTokenIdOfName",
-    args: [name],    
+    functionName: "getBurnedCounterCount",
+    args: [address],
   });
 
   useEffect(() => {
-    if(shortState === "success") {
+    if (shortState === "success") {
       setTimeout(() => {
         setShortState("false");
       }, 3000);
@@ -72,6 +61,7 @@ export const Graal = (props) => {
   }, [burnCount, burnCounterCount]);
 
   useEffect(() => {
+    console.log(has999);
     if (props.data.mint[0].value === 0) {
       setStack(has999 || has10k || has100k);
       if (has100k) {
@@ -109,32 +99,55 @@ export const Graal = (props) => {
     }
       `;
 
-      let userOwnedENS;
+      let fetchENS;
 
       try {
         await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
-          userOwnedENS = Object.values(result.data.data)[0];
+          fetchENS = Object.values(result.data.data)[0];
         });
       } catch (error) {
         console.log(error);
       }
 
-      setEnsList(userOwnedENS);
+      if (fetchENS.length > 0) {
+        let fetchOwned;
+        let ensList = [];
+        const promises = fetchENS.map(async (domain) => {
+          let NRCquery = `
+          {
+            nfts(where: {ensName: "${domain.name.replace(".eth", "")}"}) {
+              id
+              ensName
+            }
+          }
+        `;
+
+          try {
+            await Axios.post(NRCsubgraph, { query: NRCquery }).then(
+              (result) => {
+                fetchOwned = Object.values(result.data.data)[0];
+              }
+            );
+          } catch (error) {
+            console.log(error);
+          }
+
+          if (fetchOwned.length > 0) {
+            ensList.push({
+              id: fetchOwned[0].id,
+              ensName: fetchOwned[0].ensName,
+            });
+          }
+        });
+        await Promise.all(promises);
+        setEnsNames(ensList);
+      }
     };
 
     if (address) {
       fetchEnsName();
     }
   }, [address]);
-
-  useEffect(() => {
-    if (ensList.length > 0) {
-      const domainNames = ensList.map((domain) => {
-        return { hash: namehash.hash(domain.name), name: domain.name };
-      });
-      setEnsDomains(domainNames);
-    }
-  }, [ensList]);
 
   useEffect(() => {
     const fetchMint = async () => {
@@ -151,7 +164,6 @@ export const Graal = (props) => {
       try {
         await Axios.post(NRCsubgraph, { query: ENSquery }).then((result) => {
           mintCount = Object.values(result.data.data)[0];
-          console.log(result);
         });
       } catch (error) {
         console.log(error);
@@ -169,37 +181,23 @@ export const Graal = (props) => {
   }, []);
 
   useEffect(() => {
-    if (ensDomains.length > 0) {
-      const [currentDomain, ...rest] = ensDomains;
-      setName(currentDomain.name.replace(".eth", ""));
-      setCurrentEnsName(currentDomain.name);
-      setEnsDomains(rest);
-    }
-  }, [ensDomains]);
-
-  useEffect(() => {
-    if (tokenIdOfName && Number(tokenIdOfName) !== 0) {
+    ensNames.map((ensName) => {
+      console.log(ensName);
       if (!has100k) {
-        setHas100k(isClub(currentEnsName, 9));
-        setId100k(Number(tokenIdOfName));
+        setHas100k(isClub(ensName.ensName, 5));
+        setId100k(ensName.id);
       }
       if (!has10k) {
-        setHas10k(isClub(currentEnsName, 8));
-        setId10k(Number(tokenIdOfName));
+        setHas10k(isClub(ensName.ensName, 4));
+        setId10k(ensName.id);
       }
       if (!has999) {
-        setHas999(isClub(currentEnsName, 7));
-        setId999(Number(tokenIdOfName));
+        console.log("999", ensName.ensName, isClub(ensName.ensName, 3));
+        setHas999(isClub(ensName.ensName, 3));
+        setId999(ensName.id);
       }
-      console.log(
-        currentEnsName,
-        Number(tokenIdOfName),
-        has999,
-        has10k,
-        has100k
-      );
-    }
-  }, [tokenIdOfName, currentEnsName]);
+    })
+  }, [ensNames]);
 
   return (
     <GraalContainer>
@@ -224,7 +222,7 @@ export const Graal = (props) => {
               }
             }}
           >
-            {mintLoading && (active === props.data.name) ? (
+            {mintLoading && active === props.data.name ? (
               <ReactLoading
                 className="spin"
                 type={"spin"}
@@ -232,7 +230,7 @@ export const Graal = (props) => {
                 height={22}
                 width={22}
               />
-            ) : shortState === "success" && (active === props.data.name) ? (
+            ) : shortState === "success" && active === props.data.name ? (
               <img
                 style={{ width: "18px", marginRight: "8px" }}
                 src={validate}

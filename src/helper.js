@@ -1,5 +1,5 @@
 export function getNftType(nftId) {
-  nftId = Number(nftId)
+  nftId = Number(nftId);
   if (nftId >= 0 && nftId < 2) {
     return 0;
   } else if (nftId >= 2 && nftId < 12) {
@@ -35,21 +35,12 @@ export function nftTypeToString(type) {
 }
 
 export function isClub(name, length) {
-  if (length > 32 || length < 5) return false;
-
-  // Check if the last part is ".eth"
-  if (
-    name[length - 4] !== '.' ||
-    name[length - 3] !== 'e' ||
-    name[length - 2] !== 't' ||
-    name[length - 1] !== 'h'
-  )
-    return false;
+  if (length > 5 || length < 3 || name.length !== length) return false;
 
   // Check if the first part is a number
-  for (let i = 0; i < length - 4; i++) {
+  for (let i = 0; i < length; i++) {
     const b = name[i];
-    if (b < '0' || b > '9') return false;
+    if (b < 0 || b > 9) return false;
   }
 
   return true;
