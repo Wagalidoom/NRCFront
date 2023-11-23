@@ -769,7 +769,7 @@ export const MyNft = (props) => {
                         borderBottom: "3px solid rgb(36 135 201)",
                         backgroundColor: "rgb(29, 155, 240)",
                         borderBottomRightRadius: "8px",
-                        padding: "2px 22px",
+                        padding: "2px 8px",
                         cursor: "pointer"
                       }}
 
@@ -777,7 +777,7 @@ export const MyNft = (props) => {
                         updateExpiration(element.id.toString());
                       }}
                     >
-                      <AccessAlarmIcon style={{ marginRight: "10px" }} />
+                      <AccessAlarmIcon style={{ marginRight: "8px" }} />
                       {Math.round((new Date(element.expiration * 1000) - Date.now()) / (1000 * 60 * 60 * 24))} D
                     </div>
                     <p className="ensName">{element.ensName}</p>
