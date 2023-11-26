@@ -2,6 +2,7 @@ import { Button, IconButton, Slider } from "@mui/material";
 import { useEthereum } from "../../../context/ethereumProvider";
 import { SweepStyleWrapper } from "./Sweep.style";
 import CloseIcon from "@mui/icons-material/Close";
+import validate from "../../../assets/images/ValideWhite.png";
 import eth from "../../../assets/images/eth.png";
 import { useEffect, useRef, useState } from "react";
 import ReactLoading from "react-loading";
@@ -234,6 +235,7 @@ export const Sweep = (props) => {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               style={{
+                marginTop: "15px",
                 width: "190px",
                 height: "40px",
                 backgroundColor:
@@ -254,13 +256,15 @@ export const Sweep = (props) => {
             >
               {multiBuyLoading || multiKillLoading ? (
                 <>
-                  <ReactLoading
-                    className="spin"
-                    type={"spin"}
-                    color={"rgba(255, 255, 255, 0.8)"}
-                    height={22}
-                    width={22}
-                  />
+                  <div style={{ position: "relative", top: "-2px" }}>
+                    <ReactLoading
+                      className="spin"
+                      type={"spin"}
+                      color={"rgba(255, 255, 255, 0.8)"}
+                      height={22}
+                      width={22}
+                    />
+                  </div>
                   <p
                     style={{
                       textTransform: "none",
@@ -272,14 +276,20 @@ export const Sweep = (props) => {
                   </p>
                 </>
               ) : state === "success" ? (
-                <p
-                  style={{
-                    textTransform: "none",
-                    fontSize: "1rem",
-                  }}
-                >
-                  Done
-                </p>
+                <>
+                  <img
+                    style={{ width: "16px", marginRight: "8px" }}
+                    src={validate}
+                  />
+                  <p
+                    style={{
+                      textTransform: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    Done
+                  </p>
+                </>
               ) : (
                 <p
                   style={{

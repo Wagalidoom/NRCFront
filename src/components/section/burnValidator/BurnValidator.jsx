@@ -8,7 +8,8 @@ import { useEffect, useRef } from "react";
 import ReactLoading from "react-loading";
 
 export const BurnValidator = () => {
-  const { burn, state, setState, selectId, setIsBurnOpen, burnLoading } = useEthereum();
+  const { burn, state, setState, selectId, setIsBurnOpen, burnLoading } =
+    useEthereum();
   const componentRef = useRef(null);
 
   useEffect(() => {
@@ -94,13 +95,15 @@ export const BurnValidator = () => {
             >
               {burnLoading ? (
                 <>
-                  <ReactLoading
-                    className="spin"
-                    type={"spin"}
-                    color={"rgba(255, 255, 255, 0.8)"}
-                    height={22}
-                    width={22}
-                  />
+                  <div style={{ position: "relative", top: "-2px" }}>
+                    <ReactLoading
+                      className="spin"
+                      type={"spin"}
+                      color={"rgba(255, 255, 255, 0.8)"}
+                      height={22}
+                      width={22}
+                    />
+                  </div>
                   <p
                     style={{
                       textTransform: "none",

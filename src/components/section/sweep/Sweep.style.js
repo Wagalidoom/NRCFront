@@ -40,11 +40,6 @@ export const SweepStyleWrapper = styled.section`
     display: none;
   }
 
-  .spin{
-    display: flex;
-    align-items: center;
-  }
-
   * {
   scrollbar-width: thin;
   scrollbar-color: #32323e #161618;

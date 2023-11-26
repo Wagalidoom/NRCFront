@@ -22,8 +22,15 @@ const CustomTextField = styled(TextField)({
 });
 
 export const Mint = () => {
-  const { mint, state, setState, setIsMintOpen, multiMintLoading, freeMint, setFreeMint } =
-    useEthereum();
+  const {
+    mint,
+    state,
+    setState,
+    setIsMintOpen,
+    multiMintLoading,
+    freeMint,
+    setFreeMint,
+  } = useEthereum();
   const [mintCount, setMintCount] = useState(1);
   const componentRef = useRef(null);
 
@@ -208,13 +215,15 @@ export const Mint = () => {
             >
               {multiMintLoading ? (
                 <>
-                  <ReactLoading
-                    className="spin"
-                    type={"spin"}
-                    color={"rgba(255, 255, 255, 0.8)"}
-                    height={22}
-                    width={22}
-                  />
+                  <div style={{ position: "relative", top: "-2px" }}>
+                    <ReactLoading
+                      className="spin"
+                      type={"spin"}
+                      color={"rgba(255, 255, 255, 0.8)"}
+                      height={22}
+                      width={22}
+                    />
+                  </div>
                   <p
                     style={{
                       textTransform: "none",
