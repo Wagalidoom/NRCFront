@@ -5,7 +5,7 @@ import moment from "moment";
 import Axios from "axios";
 import ethGreen from "../../../assets/images/icon/iconeethvert.png";
 import ethBlue from "../../../assets/images/icon/iconeethbleu.png";
-import { getNftType } from "../../../helper";
+import { formatAddress, getNftType } from "../../../helper";
 
 const typeNames = {
   0: "King",
@@ -129,15 +129,6 @@ export const Activity = (props) => {
     // Appeler la fonction pour obtenir les NFTs
     fetchNfts();
   }, []);
-
-  function formatAddress(address) {
-    if (address && address.length >= 10) {
-      const start = address.substring(0, 6);
-      const end = address.substring(address.length - 4);
-      return `${start}...${end}`;
-    }
-    return address; // Si l'adresse n'est pas valide, retournez-la telle quelle
-  }
 
   const changeFilter = (value) => {
     if (arrayFilters.includes(value) && filter !== value) {

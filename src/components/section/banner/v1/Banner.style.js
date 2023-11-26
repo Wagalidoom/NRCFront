@@ -352,19 +352,17 @@ export const BannerV1Wrapper = styled.section`
       props.theme.name === "Dark Theme" ? "rgb(239, 243, 244)" : "black"};
   }
 
-  w3m-button wui-connect-button button {
-    width: 170px;
-  }
-
   .connectionButtonSideMenu {
-    min-width: 100px !important;
     border-radius: 50px;
     font-size: 16px;
     width: 170px;
+    fontSize: 22px;
+    height: 43px;
     color: white;
     font-weight: 700;
     display: flex;
     justify-content: center;
+    align-items: center;
     border: none;
   }
 

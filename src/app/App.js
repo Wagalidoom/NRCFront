@@ -30,9 +30,6 @@ createWeb3Modal({
   wagmiConfig,
   projectId,
   chains,
-  themeVariables: {
-    "--w3m-accent": "rgb(29, 155, 240)",
-  },
 });
 
 function App() {

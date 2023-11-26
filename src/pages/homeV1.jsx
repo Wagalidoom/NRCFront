@@ -93,9 +93,10 @@ import { Mint } from "../components/section/mint/Mint";
 import { PriceSelector } from "../components/section/priceSelector/PriceSelector";
 import { EnsSelector } from "../components/section/ensSelector/EnsSelector";
 import { NUMBERRUNNERCLUB_ABI } from "../ressources/abi";
-import { getNftType, nftTypeToString } from "../helper";
+import { formatAddress, getNftType, nftTypeToString } from "../helper";
 import { Sweep } from "../components/section/sweep/Sweep";
 import { BurnValidator } from "../components/section/burnValidator/BurnValidator";
+import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
 import { RevealKingHand } from "../components/section/RevealKingHand/RevealKingHand";
 import { Chessboard } from "../components/section/chessboard/Chessboard";
 import { KillValidator } from "../components/section/killValidator/KillValidator";
@@ -108,7 +109,7 @@ const HomeV1 = () => {
   const [thread, threadLink] = useState(true);
   const [faq, faqLink] = useState(true);
   const [gasPrice, setGasPrice] = useState(0);
-  const [hashtag, setHashTag] = useState("Club");
+  // const [hashtag, setHashTag] = useState("Club");
   const currentTheme = useContext(ThemeContext);
   const {
     isMintColorPickerOpen,
@@ -128,16 +129,16 @@ const HomeV1 = () => {
     getVolume,
     getPrizePool,
     account,
-    getEnsName,
-    getEnsProfilePicture,
+    // getEnsName,
+    // getEnsProfilePicture,
     getGasPrice,
   } = useEthereum();
   const [totalMinted, setTotalMinted] = useState(0);
   const [currentSupply, setCurrentSupply] = useState(0);
   const [volume, setVolume] = useState(0);
   const [prizePool, setPrizePool] = useState(0);
-  const [ensName, setEnsName] = useState("");
-  const [ensUrl, setEnsUrl] = useState("");
+  // const [ensName, setEnsName] = useState("");
+  // const [ensUrl, setEnsUrl] = useState("");
   const [more, setMore] = useState({
     topHolders: false,
     activity: false,
@@ -155,46 +156,50 @@ const HomeV1 = () => {
     }
   };
 
-  const { data: tokenIdOfName } = useContractRead({
-    address: contractAddress,
-    abi: NUMBERRUNNERCLUB_ABI,
-    functionName: "getTokenIdOfName",
-    args: [ensName],
-  });
+  const { open } = useWeb3Modal();
+  const { open: modalOpen } = useWeb3ModalState();
+  
 
-  useEffect(() => {
-    const fetchEns = async () => {
-      const name = await getEnsName();
-      if (name) {
-        setEnsName(name.replace(".eth", ""));
-        const url = await getEnsProfilePicture(name);
-        const prefix = "eip155:1/erc721:" + contractAddress + "/";
-        if (url) {
-          if (url.startsWith(prefix)) {
-            const tokenId = url.slice(prefix.length);
-            setEnsUrl(
-              `https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${tokenId}.png`
-            );
-          }
-        }
-      }
-    };
+  // const { data: tokenIdOfName } = useContractRead({
+  //   address: contractAddress,
+  //   abi: NUMBERRUNNERCLUB_ABI,
+  //   functionName: "getTokenIdOfName",
+  //   args: [ensName],
+  // });
 
-    if (account.address) {
-      fetchEns();
-    } else {
-      setEnsName("");
-      setEnsUrl("");
-    }
-  }, [account, getEnsName, getEnsProfilePicture]);
+  // useEffect(() => {
+  //   const fetchEns = async () => {
+  //     const name = await getEnsName();
+  //     if (name) {
+  //       setEnsName(name.replace(".eth", ""));
+  //       const url = await getEnsProfilePicture(name);
+  //       const prefix = "eip155:1/erc721:" + contractAddress + "/";
+  //       if (url) {
+  //         if (url.startsWith(prefix)) {
+  //           const tokenId = url.slice(prefix.length);
+  //           setEnsUrl(
+  //             `https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${tokenId}.png`
+  //           );
+  //         }
+  //       }
+  //     }
+  //   };
 
-  useEffect(() => {
-    const tokenId = Number(tokenIdOfName);
-    const nftType = getNftType(tokenId);
-    const club = nftTypeToString(nftType);
-    console.log(tokenId);
-    tokenId ? setHashTag("@NR" + club) : setHashTag("@TheNRClub");
-  }, [tokenIdOfName]);
+  //   if (account.address) {
+  //     fetchEns();
+  //   } else {
+  //     setEnsName("");
+  //     setEnsUrl("");
+  //   }
+  // }, [account, getEnsName, getEnsProfilePicture]);
+
+  // useEffect(() => {
+  //   const tokenId = Number(tokenIdOfName);
+  //   const nftType = getNftType(tokenId);
+  //   const club = nftTypeToString(nftType);
+  //   console.log(tokenId);
+  //   tokenId ? setHashTag("@NR" + club) : setHashTag("@TheNRClub");
+  // }, [tokenIdOfName]);
 
   useEffect(() => {
     if (
@@ -453,18 +458,19 @@ const HomeV1 = () => {
               <NavSpan>Profile</NavSpan>
             </NavLink>
           </SectionNav>
-          <SectionNav style={{ padding: "0" }}>
-            <w3m-button
+          <SectionNav
+            style={{ padding: "0"}}
+          >
+            <div
               className="connectionButtonSideMenu"
               style={{
-                width: "170px",
                 backgroundColor: "rgb(29, 155, 240)",
                 color: "white",
-                height: "43px",
-                fontSize: "22px !important",
-              }}  
-              balance="hide"
-            />
+              }}
+              onClick={() => account.address ? open({ view: "Account" }) : open({ view: "Connect" })}
+            >
+              {account.address ? formatAddress(account.address) : <>Connect Wallet</>}
+            </div>
           </SectionNav>
         </div>
         {thread !== "open" &&
@@ -487,7 +493,17 @@ const HomeV1 = () => {
                   </div>
                 </div>
                 <div className="logo" id="logo">
-                  {ensUrl === "" ? (
+                  <img
+                    src={
+                      currentTheme.theme.name === "Light Theme"
+                        ? logoDark
+                        : logo
+                    }
+                    className="logoImg"
+                    id="logoImg"
+                    alt=""
+                  />
+                  {/* {ensUrl === "" ? (
                     <>
                       <img
                         src={
@@ -502,7 +518,7 @@ const HomeV1 = () => {
                     </>
                   ) : (
                     <img className="ensImg" src={ensUrl} alt="" />
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="contentButton">
@@ -532,11 +548,23 @@ const HomeV1 = () => {
                 >
                   Mint
                 </button>
-                <w3m-button className="connectionButton" label="Connect" balance="hide" />
+                <w3m-button
+                  className="connectionButton"
+                  label="Connect"
+                  balance="hide"
+                />
               </div>
               <div className="description">
                 <div id="name" className="name">
-                  {ensName === "" ? (
+                  <strong>Number Runner Club</strong>{" "}
+                  <div style={{ display: "inline-flex", alignItems: "top" }}>
+                    <img
+                      alt="twitter tag"
+                      style={{ width: "18px" }}
+                      src={tag}
+                    />
+                  </div>
+                  {/* {ensName === "" ? (
                     <>
                       <strong>Number Runner Club</strong>{" "}
                       <div
@@ -551,10 +579,11 @@ const HomeV1 = () => {
                     </>
                   ) : (
                     ensName + ".eth"
-                  )}
+                  )} */}
                 </div>
                 <div className="pieces">
-                  {account === undefined ? <>@TheNRClub</> : hashtag}
+                  @TheNRClub
+                  {/* {account === undefined ? <>@TheNRClub</> : hashtag} */}
                 </div>
                 <div className="text">
                   Number Runner Club is a deflationary collection of 10.000 PFP

@@ -45,3 +45,12 @@ export function isClub(name, length) {
 
   return true;
 }
+
+export function formatAddress(address) {
+  if (address && address.length >= 10) {
+    const start = address.substring(0, 6);
+    const end = address.substring(address.length - 4);
+    return `${start}...${end}`;
+  }
+  return address; // Si l'adresse n'est pas valide, retournez-la telle quelle
+}
