@@ -251,7 +251,7 @@ export const EnsSelector = (props) => {
                     fontSize: "1rem",
                   }}
                 >
-                  {props.king ? "purchase" : "stacking"}
+                  {props.king ? "Purchase" : "Stacking"}
                 </p>
               )}
             </Button>

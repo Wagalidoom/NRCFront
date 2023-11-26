@@ -558,7 +558,7 @@ const HomeV1 = () => {
                   style={{
                     background: account.address ? "none" : "",
                     color: account.address ? currentTheme.theme.name === "Dark Theme" ? "rgb(239, 243, 244)" : " rgb(15, 20, 25)" : currentTheme.theme.name === "Dark Theme" ? " rgb(15, 20, 25)" : "rgb(239, 243, 244)",
-                    border: account.address ? currentTheme.theme.name === "Dark Theme" ? "2px solid rgb(239, 243, 244)" : "2px solid black" : "",
+                    border: account.address ? currentTheme.theme.name === "Dark Theme" ? "2px solid rgb(83,100,113)" : "2px solid black" : "",
                   }}
                   onClick={() =>
                     account.address
