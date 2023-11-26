@@ -158,7 +158,6 @@ const HomeV1 = () => {
 
   const { open } = useWeb3Modal();
   const { open: modalOpen } = useWeb3ModalState();
-  
 
   // const { data: tokenIdOfName } = useContractRead({
   //   address: contractAddress,
@@ -458,18 +457,24 @@ const HomeV1 = () => {
               <NavSpan>Profile</NavSpan>
             </NavLink>
           </SectionNav>
-          <SectionNav
-            style={{ padding: "0"}}
-          >
+          <SectionNav style={{ padding: "0" }}>
             <div
               className="connectionButtonSideMenu"
               style={{
                 backgroundColor: "rgb(29, 155, 240)",
                 color: "white",
               }}
-              onClick={() => account.address ? open({ view: "Account" }) : open({ view: "Connect" })}
+              onClick={() =>
+                account.address
+                  ? open({ view: "Account" })
+                  : open({ view: "Connect" })
+              }
             >
-              {account.address ? formatAddress(account.address) : <>Connect Wallet</>}
+              {account.address ? (
+                formatAddress(account.address)
+              ) : (
+                <>Connect Wallet</>
+              )}
             </div>
           </SectionNav>
         </div>
@@ -548,11 +553,25 @@ const HomeV1 = () => {
                 >
                   Mint
                 </button>
-                <w3m-button
+                <button
                   className="connectionButton"
-                  label="Connect"
-                  balance="hide"
-                />
+                  style={{
+                    background: account.address ? "none" : "",
+                    color: account.address ? currentTheme.theme.name === "Dark Theme" ? "rgb(239, 243, 244)" : " rgb(15, 20, 25)" : currentTheme.theme.name === "Dark Theme" ? " rgb(15, 20, 25)" : "rgb(239, 243, 244)",
+                    border: account.address ? currentTheme.theme.name === "Dark Theme" ? "2px solid rgb(239, 243, 244)" : "2px solid black" : "",
+                  }}
+                  onClick={() =>
+                    account.address
+                      ? open({ view: "Account" })
+                      : open({ view: "Connect" })
+                  }
+                >
+                  {account.address ? (
+                    formatAddress(account.address)
+                  ) : (
+                    <>Connect</>
+                  )}
+                </button>
               </div>
               <div className="description">
                 <div id="name" className="name">

@@ -331,25 +331,17 @@ export const BannerV1Wrapper = styled.section`
   }
 
   .connectionButton {
-    min-width: 120px !important;
+    min-width: 90px;
     background-color: ${(props) =>
       props.theme.name === "Dark Theme" ? "rgb(239, 243, 244)" : "black"};
     border-radius: 50px;
     font-size: 14px;
-    color: ${(props) =>
-      props.theme.name === "Dark Theme"
-        ? "rgb(15, 20, 25)"
-        : "rgb(239, 243, 244)"};
     font-weight: 700;
     display: flex;
     height: 40px;
+    align-items: center;
     justify-content: center;
     border: none;
-  }
-
-  .connectionButton:hover {
-    background-color: ${(props) =>
-      props.theme.name === "Dark Theme" ? "rgb(239, 243, 244)" : "black"};
   }
 
   .connectionButtonSideMenu {
