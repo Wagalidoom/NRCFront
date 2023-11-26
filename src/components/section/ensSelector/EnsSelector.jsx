@@ -244,14 +244,14 @@ export const EnsSelector = (props) => {
                 >
                   1/2
                 </p>
-              ) :  (
+              ) : (
                 <p
                   style={{
                     textTransform: "none",
                     fontSize: "1rem",
                   }}
                 >
-                  Proceed to {props.king ? "purchase" : "stacking"}
+                  {props.king ? "purchase" : "stacking"}
                 </p>
               )}
             </Button>

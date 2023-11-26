@@ -14,22 +14,14 @@ import { isClub } from "../../../helper";
 import ReactLoading from "react-loading";
 import { Button } from "@mui/material";
 import { useContractRead } from "wagmi";
-const namehash = require("eth-ens-namehash");
 
 export const Graal = (props) => {
-  const [ensNames, setEnsNames] = useState([]);
-  const [has999, setHas999] = useState(false);
-  const [has10k, setHas10k] = useState(false);
-  const [has100k, setHas100k] = useState(false);
-  const [id999, setId999] = useState(-1);
-  const [id10k, setId10k] = useState(-1);
-  const [id100k, setId100k] = useState(-1);
   const [stackedId, setStackedId] = useState(-1);
   const [burn, setBurn] = useState(false);
   const [stack, setStack] = useState(false);
   const [count, setCount] = useState(0);
   const [active, setActive] = useState("");
-  const { address, shortState, setShortState, mintSpecial, mintLoading } =
+  const { address, shortState, setShortState, mintSpecial, mintLoading, has10k, has999, id10k, id999 } =
     useEthereum();
 
   const { data: burnCount } = useContractRead({
@@ -62,18 +54,6 @@ export const Graal = (props) => {
 
   useEffect(() => {
     console.log(has999);
-    if (props.data.mint[0].value === 0) {
-      setStack(has999 || has10k || has100k);
-      if (has100k) {
-        setStackedId(id100k);
-      }
-      if (has10k) {
-        setStackedId(id10k);
-      }
-      if (has999) {
-        setStackedId(id999);
-      }
-    }
     if (props.data.mint[0].value === 1) {
       setStack(has999 || has10k);
       if (has10k) {
@@ -87,67 +67,7 @@ export const Graal = (props) => {
       setStack(has999);
       setStackedId(id999);
     }
-  }, [has999, has10k, has100k]);
-
-  useEffect(() => {
-    const fetchEnsName = async () => {
-      let ENSquery = `
-    {
-      domains(where: {registrant: "${address.toLowerCase()}"}) {
-        name
-      }
-    }
-      `;
-
-      let fetchENS;
-
-      try {
-        await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
-          fetchENS = Object.values(result.data.data)[0];
-        });
-      } catch (error) {
-        console.log(error);
-      }
-
-      if (fetchENS.length > 0) {
-        let fetchOwned;
-        let ensList = [];
-        const promises = fetchENS.map(async (domain) => {
-          let NRCquery = `
-          {
-            nfts(where: {ensName: "${domain.name.replace(".eth", "")}"}) {
-              id
-              ensName
-            }
-          }
-        `;
-
-          try {
-            await Axios.post(NRCsubgraph, { query: NRCquery }).then(
-              (result) => {
-                fetchOwned = Object.values(result.data.data)[0];
-              }
-            );
-          } catch (error) {
-            console.log(error);
-          }
-
-          if (fetchOwned.length > 0) {
-            ensList.push({
-              id: fetchOwned[0].id,
-              ensName: fetchOwned[0].ensName,
-            });
-          }
-        });
-        await Promise.all(promises);
-        setEnsNames(ensList);
-      }
-    };
-
-    if (address) {
-      fetchEnsName();
-    }
-  }, [address]);
+  }, []);
 
   useEffect(() => {
     const fetchMint = async () => {
@@ -179,25 +99,6 @@ export const Graal = (props) => {
 
     fetchMint();
   }, []);
-
-  useEffect(() => {
-    ensNames.map((ensName) => {
-      console.log(ensName);
-      if (!has100k) {
-        setHas100k(isClub(ensName.ensName, 5));
-        setId100k(ensName.id);
-      }
-      if (!has10k) {
-        setHas10k(isClub(ensName.ensName, 4));
-        setId10k(ensName.id);
-      }
-      if (!has999) {
-        console.log("999", ensName.ensName, isClub(ensName.ensName, 3));
-        setHas999(isClub(ensName.ensName, 3));
-        setId999(ensName.id);
-      }
-    })
-  }, [ensNames]);
 
   return (
     <GraalContainer>

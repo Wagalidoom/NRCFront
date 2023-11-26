@@ -2701,8 +2701,8 @@ const HomeV1 = () => {
                     mint: [
                       {
                         type: "stack",
-                        value: 0,
-                        text: "Have already Stacked an NFT of the collection with an address of 999Club, 10kClub or 100kClub",
+                        value: 1,
+                        text: "Have already Stacked an NFT of the collection with an address of 999Club, 10kClub",
                       },
                       {
                         type: "burn",

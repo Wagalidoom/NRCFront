@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ethers, providers } from "ethers";
 import { NUMBERRUNNERCLUB_ABI, RESOLVER_ABI } from "../ressources/abi";
 import {
@@ -7,6 +7,8 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import Axios from "axios";
+import { isClub } from "../helper";
 const namehash = require("eth-ens-namehash");
 
 export const ETHEREUM_RPC_URL =
@@ -42,6 +44,11 @@ export function EthereumProvider({ children }) {
   const [isKingHandOpen, setIsKingHandOpen] = useState(false);
   const [state, setState] = useState("");
   const [shortState, setShortState] = useState("");
+  const [ensNames, setEnsNames] = useState([]);
+  const [has999, setHas999] = useState(false);
+  const [has10k, setHas10k] = useState(false);
+  const [id999, setId999] = useState(-1);
+  const [id10k, setId10k] = useState(-1);
 
   const generalProvider = new providers.StaticJsonRpcProvider(ETHEREUM_RPC_URL);
   const generalContract = contractAddress
@@ -487,6 +494,89 @@ export function EthereumProvider({ children }) {
     return gasPrice;
   };
 
+  useEffect(() => {
+    const fetchEnsName = async () => {
+      let ENSquery = `
+    {
+      domains(where: {registrant: "${address.toLowerCase()}"}) {
+        name
+      }
+    }
+      `;
+
+      let fetchENS;
+
+      try {
+        await Axios.post(ENSsubgraph, { query: ENSquery }).then((result) => {
+          fetchENS = Object.values(result.data.data)[0];
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      if (fetchENS.length > 0) {
+        let fetchOwned;
+        let ensList = [];
+        const promises = fetchENS.map(async (domain) => {
+          let NRCquery = `
+          {
+            nfts(where: {ensName: "${domain.name.replace(".eth", "")}"}) {
+              id
+              ensName
+            }
+          }
+        `;
+
+          try {
+            await Axios.post(NRCsubgraph, { query: NRCquery }).then(
+              (result) => {
+                fetchOwned = Object.values(result.data.data)[0];
+              }
+            );
+          } catch (error) {
+            console.log(error);
+          }
+
+          if (fetchOwned.length > 0) {
+            ensList.push({
+              id: fetchOwned[0].id,
+              ensName: fetchOwned[0].ensName,
+            });
+          }
+        });
+        await Promise.all(promises);
+        setEnsNames(ensList);
+      }
+    };
+
+    if (address) {
+      fetchEnsName();
+    }
+  }, [address]);
+
+  
+
+  useEffect(() => {
+    let _has10k = false;
+    let _has999 = false;
+    ensNames.map((ensName) => {
+      console.log(ensName, isClub(ensName.ensName, 3))
+      if (!_has10k) {
+        setHas10k(isClub(ensName.ensName, 4));
+        setId10k(ensName.id);_has10k = true;
+      }
+      if (!_has999) {
+        setHas999(isClub(ensName.ensName, 3));
+        setId999(ensName.id);
+        _has999 = true;
+      }
+    })
+  }, [ensNames]);
+
+  useEffect(() => {
+    console.log(has999)
+  }, [has999]);
+
   const value = {
     userColor,
     mintPawn,
@@ -568,6 +658,10 @@ export function EthereumProvider({ children }) {
     getGasPrice,
     address,
     account,
+    has10k,
+    has999,
+    id10k,
+    id999
   };
 
   return (
