@@ -9,8 +9,16 @@ import { useState, useEffect, useRef } from "react";
 import ReactLoading from "react-loading";
 
 export const ColorPicker = (props) => {
-  const { chooseColor, state, setState, setIsMintColorPickerOpen, setIsKingColorPickerOpen, setIsKingEnsSelectorOpen, setIsMintOpen, chooseColorLoading } =
-    useEthereum();
+  const {
+    chooseColor,
+    state,
+    setState,
+    setIsMintColorPickerOpen,
+    setIsKingColorPickerOpen,
+    setIsKingEnsSelectorOpen,
+    setIsMintOpen,
+    chooseColorLoading,
+  } = useEthereum();
   const [color, setColor] = useState(0);
   const componentRef = useRef(null);
 
@@ -127,13 +135,12 @@ export const ColorPicker = (props) => {
                 state === "success" ? "rgb(138 180 209)" : "rgb(29, 155, 240)",
             }}
             variant="contained"
-            onClick={ () => {
+            onClick={() => {
               if (state === "success") {
                 handleClose();
-                if(props.king) {
+                if (props.king) {
                   setIsKingEnsSelectorOpen(true);
-                }
-                else {
+                } else {
                   setIsMintOpen(true);
                 }
               } else {
@@ -143,13 +150,15 @@ export const ColorPicker = (props) => {
           >
             {chooseColorLoading ? (
               <>
-                <ReactLoading
-                  className="spin"
-                  type={"spin"}
-                  color={"rgba(255, 255, 255, 0.8)"}
-                  height={22}
-                  width={22}
-                />
+                <div style={{ position: "relative", top: "-2px" }}>
+                  <ReactLoading
+                    className="spin"
+                    type={"spin"}
+                    color={"rgba(255, 255, 255, 0.8)"}
+                    height={22}
+                    width={22}
+                  />
+                </div>
                 <p
                   style={{
                     textTransform: "none",
@@ -162,7 +171,10 @@ export const ColorPicker = (props) => {
               </>
             ) : state === "success" ? (
               <>
-                <img style={{ width: "16px", marginRight: "8px" }} src={validate} />
+                <img
+                  style={{ width: "16px", marginRight: "8px" }}
+                  src={validate}
+                />
                 <p
                   style={{
                     textTransform: "none",

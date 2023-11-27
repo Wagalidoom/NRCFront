@@ -95,13 +95,15 @@ export const KillValidator = () => {
             >
               {multiKillLoading ? (
                 <>
-                  <ReactLoading
-                    className="spin"
-                    type={"spin"}
-                    color={"rgba(255, 255, 255, 0.8)"}
-                    height={22}
-                    width={22}
-                  />
+                  <div style={{ position: "relative", top: "-2px" }}>
+                    <ReactLoading
+                      className="spin"
+                      type={"spin"}
+                      color={"rgba(255, 255, 255, 0.8)"}
+                      height={22}
+                      width={22}
+                    />
+                  </div>
                   <p
                     style={{
                       textTransform: "none",

@@ -203,6 +203,7 @@ export const EnsSelector = (props) => {
             >
               {stackLoading || buyKingLoading || setTextLoading ? (
                 <>
+                <div style={{ position: "relative", top: "-2px" }}>
                   <ReactLoading
                     className="spin"
                     type={"spin"}
@@ -210,6 +211,7 @@ export const EnsSelector = (props) => {
                     height={22}
                     width={22}
                   />
+                  </div>
                   <p
                     style={{
                       textTransform: "none",

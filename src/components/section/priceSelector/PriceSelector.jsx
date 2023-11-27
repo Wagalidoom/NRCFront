@@ -151,6 +151,7 @@ export const PriceSelector = () => {
             >
               {listLoading ? (
                 <>
+                <div style={{ position: "relative", top: "-2px" }}>
                   <ReactLoading
                     className="spin"
                     type={"spin"}
@@ -158,6 +159,7 @@ export const PriceSelector = () => {
                     height={22}
                     width={22}
                   />
+                  </div>
                   <p
                     style={{
                       textTransform: "none",
