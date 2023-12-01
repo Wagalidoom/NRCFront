@@ -101,6 +101,7 @@ import { RevealKingHand } from "../components/section/RevealKingHand/RevealKingH
 import { Chessboard } from "../components/section/chessboard/Chessboard";
 import { KillValidator } from "../components/section/killValidator/KillValidator";
 import { useContractRead } from "wagmi";
+import { ClaimValidator } from "../components/section/claimValidator/ClaimValidator";
 
 const HomeV1 = () => {
   const [link, changePageLink] = useState(true);
@@ -122,6 +123,7 @@ const HomeV1 = () => {
     isKingEnsSelectorOpen,
     isKillOpen,
     isBurnOpen,
+    isClaimOpen,
     isKingHandOpen,
     mintPawn,
     getTotalMinted,
@@ -308,6 +310,7 @@ const HomeV1 = () => {
         {isKingEnsSelectorOpen ? <EnsSelector king="true" /> : null}
         {isKillOpen ? <KillValidator /> : null}
         {isBurnOpen ? <BurnValidator /> : null}
+        {isClaimOpen ? <ClaimValidator /> : null}
         {isKingHandOpen ? <RevealKingHand /> : null}
         <RightSection
           more={more}

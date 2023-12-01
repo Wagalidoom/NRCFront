@@ -61,6 +61,7 @@ export const MyNft = (props) => {
   const [open, setOpen] = useState(false);
   const {
     validateBurn,
+    validateClaim,
     unstack,
     unlistNFT,
     sweep,
@@ -306,7 +307,6 @@ export const MyNft = (props) => {
           }
 
           if (fetchOwned.length > 0) {
-
             const nftType = getNftType(Number(fetchOwned[0].id));
             const unclaimedRewards = fetchOwned[0].unclaimedRewards
               ? new BigNumber(fetchOwned[0].unclaimedRewards)
@@ -770,15 +770,18 @@ export const MyNft = (props) => {
                         backgroundColor: "rgb(29, 155, 240)",
                         borderBottomRightRadius: "8px",
                         padding: "2px 8px",
-                        cursor: "pointer"
+                        cursor: "pointer",
                       }}
-
                       onClick={() => {
                         updateExpiration(element.id.toString());
                       }}
                     >
                       <AccessAlarmIcon style={{ marginRight: "8px" }} />
-                      {Math.round((new Date(element.expiration * 1000) - Date.now()) / (1000 * 60 * 60 * 24))} D
+                      {Math.round(
+                        (new Date(element.expiration * 1000) - Date.now()) /
+                          (1000 * 60 * 60 * 24)
+                      )}{" "}
+                      D
                     </div>
                     <p className="ensName">{element.ensName}</p>
                   </>
@@ -948,12 +951,20 @@ export const MyNft = (props) => {
                     <div ref={modalRef} className="modal-option">
                       <ul>
                         {element.isStacked ? (
-                          <li
-                            className="option"
-                            onClick={() => unstack(element.id)}
-                          >
-                            Unstack
-                          </li>
+                          <>
+                            <li
+                              className="option"
+                              onClick={() => unstack(element.id)}
+                            >
+                              Unstack
+                            </li>
+                            <li
+                              className="option"
+                              onClick={() => validateClaim(element.id)}
+                            >
+                              Claim
+                            </li>
+                          </>
                         ) : (
                           <li
                             className="option"

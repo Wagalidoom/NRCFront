@@ -16,12 +16,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.13";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.22";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x13A2DEAF12273C81348F513bf9B22d7971671Eb1";
+export const contractAddress = "0xcB32e290D657dD7df371A615FE9aC0dfeaa4DB12";
 
 const EthereumContext = createContext(null);
 
@@ -34,6 +34,7 @@ export function EthereumProvider({ children }) {
   const [isEnsSelectorOpen, setIsEnsSelectorOpen] = useState(false);
   const [isKingEnsSelectorOpen, setIsKingEnsSelectorOpen] = useState(false);
   const [isBurnOpen, setIsBurnOpen] = useState(false);
+  const [isClaimOpen, setIsClaimOpen] = useState(false);
   const [isKillOpen, setIsKillOpen] = useState(false);
   const [selectId, setSelectId] = useState(0);
   const [freeMint, setFreeMint] = useState(0);
@@ -199,6 +200,20 @@ export function EthereumProvider({ children }) {
     },
   });
 
+  const { data: claimCall, write: writeClaim } = useContractWrite({
+    address: contractAddress,
+    abi: NUMBERRUNNERCLUB_ABI,
+    functionName: "claimPrizePool",
+  });
+
+  const { isLoading: claimLoading } = useWaitForTransaction({
+    confirmations: 1,
+    hash: claimCall?.hash,
+    onSuccess() {
+      setState("success");
+    },
+  });
+
   const { data: listCall, write: writeList } = useContractWrite({
     address: contractAddress,
     abi: NUMBERRUNNERCLUB_ABI,
@@ -290,6 +305,11 @@ export function EthereumProvider({ children }) {
     setSelectId(_id);
     setIsBurnOpen(true);
   };
+
+  const validateClaim = (_id) => {
+    setSelectId(_id);
+    setIsClaimOpen(true);
+  }
 
   const mint = (mintCount) => {
     if (contractAddress) {
@@ -387,6 +407,10 @@ export function EthereumProvider({ children }) {
 
   const burn = (_id) => {
     writeBurn({ args: [_id] });
+  };
+
+  const claim = (_id) => {
+    writeClaim({ args: [_id] });
   };
 
   const validateReveal = (_id) => {
@@ -591,6 +615,7 @@ export function EthereumProvider({ children }) {
     isMintOpen,
     isKillOpen,
     isBurnOpen,
+    isClaimOpen,
     isKingHandOpen,
     selectId,
     burnPrice,
@@ -601,6 +626,7 @@ export function EthereumProvider({ children }) {
     shortState,
     validateKill,
     validateBurn,
+    validateClaim,
     updateExpiration,
     mint,
     sweep,
@@ -609,6 +635,7 @@ export function EthereumProvider({ children }) {
     mintLoading,
     multiMintLoading,
     burnLoading,
+    claimLoading,
     stackLoading,
     setTextLoading,
     updateExpirationLoading,
@@ -632,9 +659,11 @@ export function EthereumProvider({ children }) {
     setIsKingHandOpen,
     setIsKillOpen,
     setIsBurnOpen,
+    setIsClaimOpen,
     setState,
     setShortState,
     burn,
+    claim,
     stack,
     king,
     setAvatar,
