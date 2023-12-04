@@ -67,7 +67,6 @@ export const Chessboard = (props) => {
 
   useEffect(() => {
     const fetchChessboard = async () => {
-
       let NRCquery = `
               {
                 nfts {
@@ -103,6 +102,7 @@ export const Chessboard = (props) => {
         fetchChessboard = fetchChessboard.filter(
           (element) => element.id % 2 == 0
         );
+        console.log(fetchChessboard);
       }
       fetchChessboard = fetchChessboard.filter(
         (element) =>
@@ -111,28 +111,20 @@ export const Chessboard = (props) => {
 
       let collection = [];
       fetchChessboard.map((element) => {
-        let ensName = element.ensName
-          ? Buffer.from(element.ensName.slice(2), "hex")
-              .toString("ascii")
-              .replace(/\0/g, "")
-          : "";
+        let ensName = element.ensName ? element.ensName : "";
         if (
           Math.round(
             (today.getTime() -
               new Date(element.lastTimeStacked * 1000).getTime()) /
               (1000 * 3600 * 24)
           ) >= 0 &&
-          (ensName === "" || ensName.length === 9)
+          (ensName === "" || ensName.length === 5)
         ) {
           collection.push({
             id: Number(element.id),
             isStacked: element.ensName ? true : false,
             isListed: element.listed,
-            ensName: element.ensName
-              ? Buffer.from(element.ensName.slice(2), "hex")
-                  .toString("ascii")
-                  .replace(/\0/g, "")
-              : "",
+            ensName: element.ensName ? element.ensName : "",
             price: element.listed
               ? 0.15 + element.unclaimedRewards
               : element.ensName

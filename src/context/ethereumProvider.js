@@ -16,12 +16,13 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.22";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.27";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0xcB32e290D657dD7df371A615FE9aC0dfeaa4DB12";
+export const contractAddress = "0x5b87A7120994a83A1D8AC2FEBDa849B45DB0FE0F";
+// export const contractAddress = "";
 
 const EthereumContext = createContext(null);
 
@@ -274,13 +275,14 @@ export function EthereumProvider({ children }) {
       functionName: "revealKingHand",
     });
 
-  const { data: revealKingHandResponse, isLoading: revealKingHandLoading } = useWaitForTransaction({
-    confirmations: 1,
-    hash: revealKingHandCall?.hash,
-    onSuccess() {
-      setState("success");
-    },
-  });
+  const { data: revealKingHandResponse, isLoading: revealKingHandLoading } =
+    useWaitForTransaction({
+      confirmations: 1,
+      hash: revealKingHandCall?.hash,
+      onSuccess() {
+        setState("success");
+      },
+    });
 
   const chooseColor = (_color) => {
     try {
@@ -309,7 +311,7 @@ export function EthereumProvider({ children }) {
   const validateClaim = (_id) => {
     setSelectId(_id);
     setIsClaimOpen(true);
-  }
+  };
 
   const mint = (mintCount) => {
     if (contractAddress) {
@@ -573,32 +575,31 @@ export function EthereumProvider({ children }) {
       }
     };
 
-    if (address) {
+    if (address && contractAddress) {
       fetchEnsName();
     }
   }, [address]);
-
-  
 
   useEffect(() => {
     let _has10k = false;
     let _has999 = false;
     ensNames.map((ensName) => {
-      console.log(ensName, isClub(ensName.ensName, 3))
+      console.log(ensName, isClub(ensName.ensName, 3));
       if (!_has10k) {
         setHas10k(isClub(ensName.ensName, 4));
-        setId10k(ensName.id);_has10k = true;
+        setId10k(ensName.id);
+        _has10k = true;
       }
       if (!_has999) {
         setHas999(isClub(ensName.ensName, 3));
         setId999(ensName.id);
         _has999 = true;
       }
-    })
+    });
   }, [ensNames]);
 
   useEffect(() => {
-    console.log(has999)
+    console.log(has999);
   }, [has999]);
 
   const value = {
@@ -690,7 +691,7 @@ export function EthereumProvider({ children }) {
     has10k,
     has999,
     id10k,
-    id999
+    id999,
   };
 
   return (
