@@ -164,7 +164,7 @@ export const KingAuction = (props) => {
       setIsLoadingPrice(true);
       const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
       const transaction = await provider.getTransaction(
-        "0x5c701b641e0ffa580537b15fcfb7032dbf9f4a4c9799bdb255af2d2659e5da84"
+        "0xf8aa4f87bb1c6d1e2f056e8f0c66f0c6a7ec8c490fdebab3747c8c86bb5ebedc"
       );
       if(transaction){
         const block = await provider.getBlock(transaction.blockNumber);
@@ -253,8 +253,7 @@ export const KingAuction = (props) => {
                 : new BigNumber(0);
 
             setBlackKingReward(
-              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18) *
-                10000
+              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18)
             );
           }
 
@@ -272,8 +271,7 @@ export const KingAuction = (props) => {
                 : new BigNumber(0);
 
             setWhiteKingReward(
-              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18) *
-                10000
+              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18)
             );
           }
 

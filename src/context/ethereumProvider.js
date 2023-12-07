@@ -16,12 +16,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.27";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.29";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x5b87A7120994a83A1D8AC2FEBDa849B45DB0FE0F";
+export const contractAddress = "0x227BC40f70c1D452Ae8CB3B9e7F6e4A1702B3bBA";
 // export const contractAddress = "";
 
 const EthereumContext = createContext(null);
@@ -318,7 +318,7 @@ export function EthereumProvider({ children }) {
       writeMultiMint({
         args: [mintCount],
         value: ethers.utils.parseEther(
-          Number(mintCount * 0.00001 - freeMint)
+          Number(mintCount * 0.05 - freeMint)
             .toFixed(5)
             .toString()
         ),
@@ -359,7 +359,7 @@ export function EthereumProvider({ children }) {
   const mintSpecial = async (type, stackedId) => {
     writeMint({
       args: [type, stackedId],
-      value: ethers.utils.parseEther("0.00001"),
+      value: ethers.utils.parseEther("0.05"),
     });
   };
 
@@ -423,7 +423,7 @@ export function EthereumProvider({ children }) {
   const revealKingHand = () => {
     writeRevealKingHand({
       args: [selectId],
-      value: ethers.utils.parseEther("0.000001"),
+      value: ethers.utils.parseEther("0.01"),
     });
   };
 
