@@ -21,11 +21,7 @@ import {
 } from "../../../context/ethereumProvider";
 import { NUMBERRUNNERCLUB_ABI } from "../../../ressources/abi";
 
-const MAX_AUCTION_PRICE = 20000;
-const MIN_AUCTION_PRICE = 2;
-
 export const KingAuction = (props) => {
-  const [calculatedDate, setCalculatedDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [price, setPrice] = useState(0);
@@ -37,24 +33,67 @@ export const KingAuction = (props) => {
   const [blackKingPrice, setBlackKingPrice] = useState(0);
   const [whiteKingPrice, setWhiteKingPrice] = useState(0);
   const [ensList, setEnsList] = useState("");
-  const [isLoadingInference, setIsLoadingInference] = useState(true);
   const [isLoadingPrice, setIsLoadingPrice] = useState(true);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(2);
 
   const calculateDate = (priceInEth) => {
     if (startTime) {
       priceInEth = Number(priceInEth);
-      const estimatedDays =
-        -3 * (Math.log(priceInEth / 10000) / Math.log(2) - 1);
-      console.log(estimatedDays);
-      const date = new Date(
-        startTime.getTime() + estimatedDays * 60 * 60 * 24 * 1000
-      );
-      return date;
+      const r = Math.log(2 / 20000) / 21;
+      const t = Math.log(priceInEth / 20000) / r;
+      const date = new Date(startTime.getTime() + t * 24 * 60 * 60 * 1000);
+      return date.toLocaleString();
     } else {
       return null;
     }
   };
+  
+
+  useEffect(() => {
+    const fetchPrice = async () => {
+      setIsLoadingPrice(true);
+      const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
+      const contractInstance = new ethers.Contract(
+        contractAddress,
+        NUMBERRUNNERCLUB_ABI,
+        provider
+      );
+
+      try {
+        const transaction = await provider.getTransaction(
+          "0x6739378f0c0f1ed502e7110480b51bae71c1771f7d8cebcfbe6bfe9c42982b38"
+        );
+        if (transaction) {
+          const block = await provider.getBlock(transaction.blockNumber);
+          setStartTime(new Date(block.timestamp * 1000));
+          setEndTime(
+            new Date(block.timestamp * 1000 + 21 * 24 * 60 * 60 * 1000)
+          );
+        } else {
+          setStartTime(new Date());
+          setEndTime(new Date());
+        }
+        const priceToPayBigNumber = ethers.BigNumber.from(
+          await contractInstance.getCurrentPrice()
+        );
+        const priceToPay = ethers.utils.formatEther(priceToPayBigNumber);
+        setPrice(priceToPay);
+      } catch (error) {
+        console.error("Error fetching price:", error);
+        setPrice("Error");
+      }
+
+      setIsLoadingPrice(false);
+    };
+
+    fetchPrice();
+
+    const interval = setInterval(() => {
+      fetchPrice();
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [contractAddress]);
 
   useEffect(() => {
     const fetchNames = async () => {
@@ -149,60 +188,15 @@ export const KingAuction = (props) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!isLoadingInference && value) {
-      setCalculatedDate(calculateDate(value));
-    }
-  }, [value, isLoadingInference, startTime]);
-
   const handleChange = (event) => {
-    setValue(event.target.value);
+    if (event.target.value < 2) {
+      setValue(2);
+    } else if (event.target.value > 20000) {
+      setValue(20000);
+    } else {
+      setValue(event.target.value);
+    }
   };
-
-  useEffect(() => {
-    const fetchPrice = async () => {
-      setIsLoadingPrice(true);
-      const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_RPC_URL);
-      const transaction = await provider.getTransaction(
-        "0xf8aa4f87bb1c6d1e2f056e8f0c66f0c6a7ec8c490fdebab3747c8c86bb5ebedc"
-      );
-      if(transaction){
-        const block = await provider.getBlock(transaction.blockNumber);
-        setStartTime(new Date(block.timestamp * 1000));
-        setEndTime(new Date(block.timestamp * 1000 + 30 * 24 * 60 * 60 * 1000));
-      }
-      else {
-        setStartTime(new Date());
-        setEndTime(new Date());
-      }
-      setIsLoadingInference(false);
-      const contractInstance = new ethers.Contract(
-        contractAddress,
-        NUMBERRUNNERCLUB_ABI,
-        provider
-      );
-      if(contractAddress){
-      const priceToPayBigNumber = ethers.BigNumber.from(
-        await contractInstance.getCurrentPrice()
-      );
-      const priceToPay = priceToPayBigNumber.toString();
-      setPrice(priceToPay);
-      }
-      else {
-        setPrice(20000);
-      }
-      setIsLoadingPrice(false);
-
-    };
-
-    const interval = setInterval(() => {
-      fetchPrice();
-    }, 10000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [contractAddress]);
 
   useEffect(() => {
     const fetchKingRewards = async () => {
@@ -253,12 +247,11 @@ export const KingAuction = (props) => {
                 : new BigNumber(0);
 
             setBlackKingReward(
-              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18)
+              holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18
             );
           }
 
           if (holder.id === "1") {
-            console.log("marge");
             let unclaimedRewards = holder.unclaimedRewards
               ? new BigNumber(holder.unclaimedRewards)
               : new BigNumber(0);
@@ -271,11 +264,9 @@ export const KingAuction = (props) => {
                 : new BigNumber(0);
 
             setWhiteKingReward(
-              (holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18)
+              holder.share.plus(unclaimedRewards).toNumber() / 10 ** 18
             );
           }
-
-          console.log(holder);
         });
       } catch (error) {
         console.error(error);
@@ -479,7 +470,7 @@ export const KingAuction = (props) => {
                 justifyContent: "center",
               }}
             >
-              {calculatedDate ? calculatedDate.toLocaleString() : "Loading..."}
+              {calculateDate(value)}
             </div>
           </div>
           <div

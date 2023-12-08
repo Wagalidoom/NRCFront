@@ -319,6 +319,8 @@ export const MyNft = (props) => {
                 ? new BigNumber(lastGlobalShares[nftType]).minus(nftShare)
                 : new BigNumber(0);
 
+                console.log(unclaimedRewards)
+
             collection.push({
               id: Number(fetchOwned[0].id),
               isStacked: true,

@@ -171,7 +171,7 @@ export const Mint = () => {
             Total Cost
             <div style={{ display: "flex", alignItems: "center" }}>
               {!freeMint ? (
-                <p>{(0.1 * mintCount).toFixed(2)}</p>
+                <p>{(0.05 * mintCount).toFixed(2)}</p>
               ) : (
                 <>
                   <p
@@ -180,9 +180,9 @@ export const Mint = () => {
                       marginRight: "8px",
                     }}
                   >
-                    {(0.1 * mintCount).toFixed(2)}
+                    {(0.05 * mintCount).toFixed(2)}
                   </p>
-                  {(0.1 * mintCount - 0.1).toFixed(2)}
+                  {(0.05 * mintCount - 0.05).toFixed(2)}
                 </>
               )}
               <img

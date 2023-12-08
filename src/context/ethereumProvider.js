@@ -21,7 +21,7 @@ export const NRCsubgraph =
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x227BC40f70c1D452Ae8CB3B9e7F6e4A1702B3bBA";
+export const contractAddress = "0x73d24Cf2c11bc597684B5ff8Fb7EB5A50Bf92dfa";
 // export const contractAddress = "";
 
 const EthereumContext = createContext(null);
@@ -348,7 +348,7 @@ export function EthereumProvider({ children }) {
     writeMultiKill({
       args: [_list],
       value: ethers.utils.parseEther(
-        Number(_price * 10 ** -3)
+        Number(_price)
           .toFixed(5)
           .toString()
       ),
@@ -486,7 +486,7 @@ export function EthereumProvider({ children }) {
     const volume = contractAddress
       ? await generalProvider.getBalance(contractAddress)
       : 0;
-    return volume * 10000;
+    return volume;
   };
 
   const getPrizePool = async () => {
@@ -496,7 +496,7 @@ export function EthereumProvider({ children }) {
     } catch (e) {
       console.log(e);
     }
-    return prizePool * 10000;
+    return prizePool;
   };
 
   const getTokenURI = async (_id) => {
