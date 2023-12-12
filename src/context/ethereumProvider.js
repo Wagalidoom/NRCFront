@@ -16,12 +16,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.29";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.30";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x73d24Cf2c11bc597684B5ff8Fb7EB5A50Bf92dfa";
+export const contractAddress = "0x67A554af3c8D9De7698B3096Abab76411C59CED5";
 // export const contractAddress = "";
 
 const EthereumContext = createContext(null);
@@ -347,11 +347,7 @@ export function EthereumProvider({ children }) {
   const burnSweep = (_list, _price) => {
     writeMultiKill({
       args: [_list],
-      value: ethers.utils.parseEther(
-        Number(_price)
-          .toFixed(5)
-          .toString()
-      ),
+      value: ethers.utils.parseEther(Number(_price).toFixed(5).toString()),
     });
     setSelectId(null);
   };
@@ -366,7 +362,7 @@ export function EthereumProvider({ children }) {
   const king = async (_ens) => {
     writeBuyKing({
       args: [_ens.replace(".eth", "")],
-      value: Number(kingPrice) + 10,
+      value: ethers.utils.parseEther(kingPrice.toString()),
       gasLimit: 200000,
     });
   };

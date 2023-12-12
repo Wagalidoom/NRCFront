@@ -35,19 +35,73 @@ export const KingAuction = (props) => {
   const [ensList, setEnsList] = useState("");
   const [isLoadingPrice, setIsLoadingPrice] = useState(true);
   const [value, setValue] = useState(2);
+  const [targetTime, setTargetTime] = useState(0);
 
-  const calculateDate = (priceInEth) => {
-    if (startTime) {
-      priceInEth = Number(priceInEth);
-      const r = Math.log(2 / 20000) / 21;
-      const t = Math.log(priceInEth / 20000) / r;
-      const date = new Date(startTime.getTime() + t * 24 * 60 * 60 * 1000);
-      return date.toLocaleString();
-    } else {
-      return null;
-    }
-  };
-  
+  useEffect(() => {
+    if (!startTime) return;
+
+    const calculateTargetDate = () => {
+      const START_PRICE = parseFloat(ethers.utils.formatEther("20000"));
+      const END_PRICE = parseFloat(ethers.utils.formatEther("2"));
+      const AUCTION_DURATION = 21 * 24 * 60 * 60 * 1000; // 21 jours en millisecondes
+      const PRECISION = 1e18;
+      const MINUTE_IN_MS = 60 * 1000; // 1 minute en millisecondes
+      const bits = [
+        999989423469314432,
+        999978847050491904,
+        999957694548431104,
+        999915390886613504,
+        999830788931929088,
+        999661606496243712,
+        999323327502650752,
+        998647112890970240,
+        997296056085470080,
+        994599423483633152,
+        989228013193975424,
+        978572062087700096,
+        957603280698573696,
+        917004043204671232,
+        840896415253714560,
+        707106781186547584,
+      ];
+
+      let targetPriceInWei = parseFloat(
+        ethers.utils.formatEther(value.toString())
+      );
+
+      let elapsedTime = 0;
+      let currentPrice = START_PRICE;
+
+      while (
+        currentPrice > targetPriceInWei &&
+        elapsedTime < AUCTION_DURATION
+      ) {
+        elapsedTime += MINUTE_IN_MS;
+        let daysPast = (elapsedTime * PRECISION) / (24 * 60 * 60 * 1000);
+        let intDays = Math.floor(daysPast / PRECISION);
+
+        let premium = START_PRICE / Math.pow(2, intDays);
+        let partDay = daysPast - intDays * PRECISION;
+        let fraction = Math.floor((partDay * 2 ** 16) / PRECISION);
+
+        currentPrice = premium;
+        for (let i = 0; i < bits.length; i++) {
+          if ((fraction & (1 << i)) > 0) {
+            currentPrice = (currentPrice * bits[i]) / PRECISION;
+          }
+        }
+      }
+
+      if (currentPrice < END_PRICE) {
+        currentPrice = END_PRICE;
+      }
+
+      return new Date(startTime.getTime() + elapsedTime).toLocaleString();
+    };
+
+    const targetDate = calculateTargetDate();
+    setTargetTime(targetDate);
+  }, [value, startTime]);
 
   useEffect(() => {
     const fetchPrice = async () => {
@@ -61,7 +115,7 @@ export const KingAuction = (props) => {
 
       try {
         const transaction = await provider.getTransaction(
-          "0x6739378f0c0f1ed502e7110480b51bae71c1771f7d8cebcfbe6bfe9c42982b38"
+          "0xa4f7888c6c796d616f4f0138f62e036b4becce7ee0f27886868dd2c2ef1ce976"
         );
         if (transaction) {
           const block = await provider.getBlock(transaction.blockNumber);
@@ -76,6 +130,7 @@ export const KingAuction = (props) => {
         const priceToPayBigNumber = ethers.BigNumber.from(
           await contractInstance.getCurrentPrice()
         );
+        console.log(priceToPayBigNumber);
         const priceToPay = ethers.utils.formatEther(priceToPayBigNumber);
         setPrice(priceToPay);
       } catch (error) {
@@ -470,7 +525,7 @@ export const KingAuction = (props) => {
                 justifyContent: "center",
               }}
             >
-              {calculateDate(value)}
+              {targetTime}
             </div>
           </div>
           <div
