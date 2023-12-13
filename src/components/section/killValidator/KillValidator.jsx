@@ -89,7 +89,6 @@ export const KillValidator = () => {
                   handleClose();
                 } else {
                   await burnSweep(selectId, burnPrice);
-                  setState("success");
                 }
               }}
             >
