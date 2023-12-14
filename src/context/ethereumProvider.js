@@ -16,13 +16,12 @@ export const ETHEREUM_RPC_URL =
   "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.30";
+  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.32";
 
 export const ENSsubgraph =
   "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
 
-export const contractAddress = "0x67A554af3c8D9De7698B3096Abab76411C59CED5";
-// export const contractAddress = "";
+export const contractAddress = "0xC6dBA6ae00C18472ad1b2fB3615C08231AF1c90a";
 
 const EthereumContext = createContext(null);
 
