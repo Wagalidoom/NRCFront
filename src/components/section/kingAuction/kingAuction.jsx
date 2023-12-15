@@ -129,8 +129,7 @@ export const KingAuction = (props) => {
       //   setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       // }
       if (fetchKing.length) {
-        console.log(fetchKing);
-        setBlackKingPrice(fetchKing[0].price);
+        setBlackKingPrice(Number(ethers.utils.formatEther(fetchKing[0].price)).toFixed(2));
         setBlackKingName(fetchKing[0].ensName);
       }
 
@@ -158,7 +157,7 @@ export const KingAuction = (props) => {
       //   setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       // }
       if (fetchKing.length > 0) {
-        setWhiteKingPrice(fetchKing[0].price);
+        setWhiteKingPrice(Number(ethers.utils.formatEther(fetchKing[0].price)).toFixed(2));
         setWhiteKingName(fetchKing[0].ensName);
       }
     };
