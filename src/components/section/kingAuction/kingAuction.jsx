@@ -82,7 +82,6 @@ export const KingAuction = (props) => {
         const priceToPayBigNumber = ethers.BigNumber.from(
           await contractInstance.getCurrentPrice()
         );
-        console.log(priceToPayBigNumber);
         const priceToPay = ethers.utils.formatEther(priceToPayBigNumber);
         setPrice(priceToPay);
       } catch (error) {
