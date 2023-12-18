@@ -185,7 +185,7 @@ export const Sweep = (props) => {
                   >
                     <img
                       style={{ width: "55px", borderRadius: "8px" }}
-                      src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
+                      src={`https://ipfs.io/ipfs/QmRe3MbYXLhLBsyXSZoaXjMSueTdwQWxRdyUehC2d6rHgC/${element.id.toString()}.png`}
                     />
                     <div
                       style={{

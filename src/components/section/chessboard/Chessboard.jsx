@@ -453,7 +453,7 @@ export const Chessboard = (props) => {
             <div className="myNft" key={index}>
               <img
                 alt=""
-                src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
+                src={`https://ipfs.io/ipfs/QmRe3MbYXLhLBsyXSZoaXjMSueTdwQWxRdyUehC2d6rHgC/${element.id.toString()}.png`}
               />
               <ToolBar market={props.market}>
                 <p

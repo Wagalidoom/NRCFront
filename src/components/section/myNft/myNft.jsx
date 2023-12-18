@@ -759,7 +759,7 @@ export const MyNft = (props) => {
               >
                 <img
                   alt=""
-                  src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${element.id.toString()}.png`}
+                  src={`https://ipfs.io/ipfs/QmRe3MbYXLhLBsyXSZoaXjMSueTdwQWxRdyUehC2d6rHgC/${element.id.toString()}.png`}
                 />
 
                 {element.isStacked ? (

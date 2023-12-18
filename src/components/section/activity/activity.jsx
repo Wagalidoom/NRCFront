@@ -240,7 +240,7 @@ export const Activity = (props) => {
                   <div className="activity-card">
                     <img
                       alt=""
-                      src={`https://ipfs.io/ipfs/QmSFBCFdM6wrd7ZDoojNC8wUVxpXRYXvxTAqpiHPWudz1F/${nft.tokenId}.png`}
+                      src={`https://ipfs.io/ipfs/QmRe3MbYXLhLBsyXSZoaXjMSueTdwQWxRdyUehC2d6rHgC/${nft.tokenId}.png`}
                     />
                     <div className="toolBar">
                       <p
