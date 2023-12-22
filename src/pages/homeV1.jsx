@@ -2159,10 +2159,6 @@ const HomeV1 = () => {
                         <br />
                         The owner of the NFT burn will be taxed 15% of his
                         rewards.
-                        <br />
-                        <br />
-                        The burn taxes will be refund for holder of the last 999
-                        NFTs.
                       </div>
                       <div className="contentBanner">
                         <img src={duo1} alt="" />

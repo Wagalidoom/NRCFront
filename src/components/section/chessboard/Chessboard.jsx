@@ -126,10 +126,10 @@ export const Chessboard = (props) => {
             isListed: element.listed,
             ensName: element.ensName ? element.ensName : "",
             price: element.listed
-              ? 0.02 + element.unclaimedRewards
+              ? 0.1 + element.unclaimedRewards
               : element.ensName
-              ? 0.03 + element.unclaimedRewards + element.share
-              : 0.01 + element.unclaimedRewards,
+              ? 0.15 + element.unclaimedRewards + element.share
+              : 0.05 + element.unclaimedRewards,
             owner: element.owner,
             type: getNftType(element.id),
             color: element.id % 2 === 0 ? 1 : 2,
