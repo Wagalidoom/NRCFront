@@ -560,8 +560,18 @@ const HomeV1 = () => {
                   className="connectionButton"
                   style={{
                     background: account.address ? "none" : "",
-                    color: account.address ? currentTheme.theme.name === "Dark Theme" ? "rgb(239, 243, 244)" : " rgb(15, 20, 25)" : currentTheme.theme.name === "Dark Theme" ? " rgb(15, 20, 25)" : "rgb(239, 243, 244)",
-                    border: account.address ? currentTheme.theme.name === "Dark Theme" ? "2px solid rgb(83,100,113)" : "2px solid black" : "",
+                    color: account.address
+                      ? currentTheme.theme.name === "Dark Theme"
+                        ? "rgb(239, 243, 244)"
+                        : " rgb(15, 20, 25)"
+                      : currentTheme.theme.name === "Dark Theme"
+                      ? " rgb(15, 20, 25)"
+                      : "rgb(239, 243, 244)",
+                    border: account.address
+                      ? currentTheme.theme.name === "Dark Theme"
+                        ? "2px solid rgb(83,100,113)"
+                        : "2px solid black"
+                      : "",
                   }}
                   onClick={() =>
                     account.address
@@ -646,8 +656,11 @@ const HomeV1 = () => {
                     style={{ marginRight: "5px" }}
                     alt=""
                   />
-                  <a href="" style={{ color: "rgb(29, 155, 240)" }}>
-                    available soon
+                  <a
+                    href="https://github.com/NumberRunnerClub/number-runner-club/blob/main/documentation/NumberRunnerClub.md"
+                    style={{ color: "rgb(29, 155, 240)" }}
+                  >
+                    https://github.com/NRC/
                   </a>
                   <div style={{ marginTop: "14px" }}>
                     <img
@@ -2146,15 +2159,15 @@ const HomeV1 = () => {
                         <br />
                         <strong>- NFT unstacked:</strong>
                         <br />
-                        0.1eth + 10% of the rewards for the burner
+                        0.05eth + 10% of the rewards for the burner
                         <br />
                         <br />
                         <strong>- NFT listed:</strong>
-                        <br /> 0.2eth + 10% of the rewards for the burner
+                        <br /> 0.1eth + 10% of the rewards for the burner
                         <br />
                         <br />
                         <strong>- NFT stacked with a 100kClub:</strong>
-                        <br /> 0.3eth + 10% of the rewards for the burner
+                        <br /> 0.15eth + 10% of the rewards for the burner
                         <br />
                         <br />
                         The owner of the NFT burn will be taxed 15% of his
@@ -2581,7 +2594,7 @@ const HomeV1 = () => {
                       </div>
                       <div className="contentBannerWithText">
                         <a
-                          href="https://github.com/"
+                          href="https://github.com/NumberRunnerClub/number-runner-club/blob/main/documentation/NumberRunnerClub.md"
                           rel="noreferrer"
                           target="_blank"
                         >
@@ -2595,7 +2608,7 @@ const HomeV1 = () => {
                                 fontSize: "14px",
                               }}
                             >
-                              https://github.com/
+                              https://github.com/NumberRunnerClub/
                             </div>
                             <div
                               style={{
@@ -2606,7 +2619,7 @@ const HomeV1 = () => {
                                 fontSize: "14px",
                               }}
                             >
-                              Let's build from here · GitHub
+                              Number Runner Club · GitHub
                             </div>
                           </div>
                         </a>
