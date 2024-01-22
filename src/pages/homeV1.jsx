@@ -2608,7 +2608,7 @@ const HomeV1 = () => {
                                 fontSize: "14px",
                               }}
                             >
-                              https://github.com/NumberRunnerClub/
+                              https://github.com/NRC/
                             </div>
                             <div
                               style={{
