@@ -67,7 +67,7 @@ export const KingAuction = (props) => {
 
       try {
         const transaction = await provider.getTransaction(
-          "0xb797296f8f4971d23f9e018196ccaa8dae66001370dbe075de10fbbf36e6ff5e"
+          "0x8fbefb5f36fa876f6a470c7f46929629bfbef4b00b964793c80cee0e9d70a37a"
         );
         if (transaction) {
           const block = await provider.getBlock(transaction.blockNumber);
@@ -129,7 +129,9 @@ export const KingAuction = (props) => {
       //   setBlackKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       // }
       if (fetchKing.length) {
-        setBlackKingPrice(Number(ethers.utils.formatEther(fetchKing[0].price)).toFixed(2));
+        setBlackKingPrice(
+          Number(ethers.utils.formatEther(fetchKing[0].price)).toFixed(2)
+        );
         setBlackKingName(fetchKing[0].ensName);
       }
 
@@ -157,7 +159,9 @@ export const KingAuction = (props) => {
       //   setWhiteKingName(ethers.utils.parseBytes32String(fetchKing[0].ensName));
       // }
       if (fetchKing.length > 0) {
-        setWhiteKingPrice(Number(ethers.utils.formatEther(fetchKing[0].price)).toFixed(2));
+        setWhiteKingPrice(
+          Number(ethers.utils.formatEther(fetchKing[0].price)).toFixed(2)
+        );
         setWhiteKingName(fetchKing[0].ensName);
       }
     };
@@ -194,9 +198,7 @@ export const KingAuction = (props) => {
   }, []);
 
   const handleChange = (event) => {
-    if (event.target.value < 2) {
-      setValue(2);
-    } else if (event.target.value > 20000) {
+    if (event.target.value > 20000) {
       setValue(20000);
     } else {
       setValue(event.target.value);
