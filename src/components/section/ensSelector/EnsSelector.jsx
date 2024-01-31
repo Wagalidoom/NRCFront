@@ -41,10 +41,6 @@ export const EnsSelector = (props) => {
     }
   };
 
-  useEffect(() => {
-    console.log(setTextLoading);
-  }, [setTextLoading]);
-
   const handleClose = () => {
     setIsEnsSelectorOpen(false);
     setIsKingEnsSelectorOpen(false);
@@ -53,7 +49,11 @@ export const EnsSelector = (props) => {
 
   useEffect(() => {
     if (state == "successHalf") {
-      setAvatar(ensName, selectId);
+      if (props.king) {
+        king(ensName);
+      } else {
+        stack(ensName, selectId);
+      }
     }
   }, [state]);
 
@@ -193,24 +193,20 @@ export const EnsSelector = (props) => {
                 if (state === "success") {
                   handleClose();
                 } else {
-                  if (props.king) {
-                    king(ensName);
-                  } else {
-                    stack(ensName, selectId);
-                  }
+                  setAvatar(ensName, selectId);
                 }
               }}
             >
               {stackLoading || buyKingLoading || setTextLoading ? (
                 <>
-                <div style={{ position: "relative", top: "-2px" }}>
-                  <ReactLoading
-                    className="spin"
-                    type={"spin"}
-                    color={"rgba(255, 255, 255, 0.8)"}
-                    height={22}
-                    width={22}
-                  />
+                  <div style={{ position: "relative", top: "-2px" }}>
+                    <ReactLoading
+                      className="spin"
+                      type={"spin"}
+                      color={"rgba(255, 255, 255, 0.8)"}
+                      height={22}
+                      width={22}
+                    />
                   </div>
                   <p
                     style={{

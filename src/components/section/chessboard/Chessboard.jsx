@@ -19,8 +19,7 @@ import burn3 from "../../../assets/images/icon/burn3.png";
 
 import {
   NRCsubgraph,
-  useEthereum,
-  contractAddress,
+  useEthereum
 } from "../../../context/ethereumProvider";
 import { getNftType, nftTypeToString } from "../../../helper";
 import Axios from "axios";
@@ -152,7 +151,8 @@ export const Chessboard = (props) => {
       sweep={activeButton.sweep}
       openSelect={open}
     >
-      <div className="filter-group">
+      Come back after all NFTs are minted :)
+      {/* <div className="filter-group">
         <div className="filter-search">
           {!props.market && (
             <div className="button-group">
@@ -532,7 +532,7 @@ export const Chessboard = (props) => {
               </ToolBar>
             </div>
           ))}
-      </div>
+      </div> */}
     </ChessboardContainer>
   );
 };

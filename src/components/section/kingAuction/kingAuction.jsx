@@ -67,7 +67,7 @@ export const KingAuction = (props) => {
 
       try {
         const transaction = await provider.getTransaction(
-          "0x8fbefb5f36fa876f6a470c7f46929629bfbef4b00b964793c80cee0e9d70a37a"
+          "0xdeb6c7093142584f98105ca895f453235e24bc4f1e7289f4e8db426abcbf2abb"
         );
         if (transaction) {
           const block = await provider.getBlock(transaction.blockNumber);

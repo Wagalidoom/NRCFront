@@ -80,7 +80,7 @@ export const Mint = () => {
 
   const handleChange = () => {
     if (!freeMint) {
-      setFreeMint(0.00001);
+      setFreeMint(0.05);
     } else {
       setFreeMint(0);
     }

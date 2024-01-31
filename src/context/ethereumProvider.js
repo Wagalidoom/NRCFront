@@ -12,16 +12,16 @@ import { isClub } from "../helper";
 const namehash = require("eth-ens-namehash");
 
 export const ETHEREUM_RPC_URL =
-  // "https://eth-mainnet.g.alchemy.com/v2/vewv4I9vmHpc6yMtiIuZCywz2wpER6qj";
-  "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
+  "https://eth-mainnet.g.alchemy.com/v2/vewv4I9vmHpc6yMtiIuZCywz2wpER6qj";
+  // "https://eth-goerli.g.alchemy.com/v2/MGGlH-80oFX2RUjT-9F8pd6h6d3AG0hj";
 
 export const NRCsubgraph =
-  "https://api.studio.thegraph.com/query/48701/nrctestnet/0.5.34";
+  "https://api.studio.thegraph.com/query/48701/numberrunnerclub/1.0.0";
 
 export const ENSsubgraph =
-  "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli";
+  "https://api.thegraph.com/subgraphs/name/ensdomains/ens";
 
-export const contractAddress = "0x60568CdcdFe363edF0575D4dF27d63E3Cd8B11ca";
+export const contractAddress = "0x94EBDeD762150b46D943Bb626893fBE0C2dD2889";
 
 const EthereumContext = createContext(null);
 
@@ -64,7 +64,7 @@ export function EthereumProvider({ children }) {
   const address = account.address;
 
   const { data: setTextCall, write: writeSetText } = useContractWrite({
-    address: "0xd7a4F6473f32aC2Af804B3686AE8F1932bC35750",
+    address: "0x231b0Ee14048e9dCcD1d247744d114a4EB5E8E63",
     abi: RESOLVER_ABI,
     functionName: "setText",
   });
@@ -73,7 +73,7 @@ export function EthereumProvider({ children }) {
     confirmations: 1,
     hash: setTextCall?.hash,
     onSuccess() {
-      setState("success");
+      setState("successHalf");
     },
   });
 
@@ -171,7 +171,7 @@ export function EthereumProvider({ children }) {
     confirmations: 1,
     hash: stackCall?.hash,
     onSuccess() {
-      setState("successHalf");
+      setState("success");
     },
   });
 
@@ -249,7 +249,7 @@ export function EthereumProvider({ children }) {
     confirmations: 1,
     hash: buyKingCall?.hash,
     onSuccess() {
-      setState("successHalf");
+      setState("success");
     },
   });
 
@@ -592,10 +592,6 @@ export function EthereumProvider({ children }) {
       }
     });
   }, [ensNames]);
-
-  useEffect(() => {
-    console.log(has999);
-  }, [has999]);
 
   const value = {
     userColor,

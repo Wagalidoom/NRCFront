@@ -2399,10 +2399,10 @@ const HomeV1 = () => {
                             </strong>
                             <br />
                             <br />
-                            The mint of a Number Runner is at 0,1 eth :<br />
-                            - 0.05 eth is redistributed to holders (50% Holders
+                            The mint of a Number Runner is at 0,05 eth :<br />
+                            - 0.025 eth is redistributed to holders (50% Holders
                             | 50% Pool)
-                            <br />- 0.05 eth for the team
+                            <br />- 0.025 eth for the team
                           </div>
                         </div>
                       </div>
